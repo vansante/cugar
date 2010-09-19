@@ -1,0 +1,129 @@
+<html><head>
+<title>WL300g Web Manager</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/css" href="Main_List_data/style.css" media="screen">
+<script language="JavaScript" type="text/javascript" src="Title_data/overlib.js"></script>
+<script language="JavaScript" type="text/javascript" src="Title_data/general.js"></script>
+</head><body onload="load_body()" onunload="return unload_body();"><div id="overDiv" style="position: absolute; visibility: hidden; z-index: 1000;"></div>
+
+<form method="GET" name="form" action="apply.cgi">
+<!-- Table for the conntent page -->
+<table border="0" cellpadding="0" cellspacing="0" width="666">
+<input name="current_page" value="Advanced_ACL_Content.asp" type="hidden"><input name="next_page" value="Advanced_WSecurity_Content.asp" type="hidden"><input name="next_host" value="192.168.1.2" type="hidden"><input name="sid_list" value="DeviceSecurity11a;" type="hidden"><input name="group_id" value="" type="hidden"><input name="modified" value="0" type="hidden"><input name="action_mode" value="" type="hidden"><input name="first_time" value="" type="hidden"><input name="action_script" value="" type="hidden">
+<tbody><tr>
+<td>
+<table border="1" bordercolor="#e0e0e0" cellpadding="0" cellspacing="0" width="666">
+<tbody><tr class="content_header_tr">
+<td class="content_header_td_title" colspan="2">Wireless - Access Control</td>
+</tr>
+<tr>
+<td class="content_desc_td" colspan="2">Access Control allows you to 
+block the access from certain wireless stations or to bypass access from
+ certain wireless stations only. In Accept mode, WL300g will only accept
+ wireless access from stations with MAC address in the control list. In 
+Reject mode, WL300g will reject wireless access from stations with MAC 
+address in the control list.
+</td>
+</tr>
+<tr>
+<td class="content_header_td">MAC Access Mode:
+</td><td class="content_input_td"><select name="wl_macmode" class="content_input_fd" onchange="return change_common(this, 'DeviceSecurity11a', 'wl_macmode')"><option class="content_input_fd" value="disabled" selected="selected">Disable</option><option class="content_input_fd" value="allow">Accept</option><option class="content_input_fd" value="deny">Reject</option></select></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<tr>
+<td>
+<table border="2" bordercolor="#e0e0e0" cellpadding="0" cellspacing="0" width="666">
+<tbody><tr class="content_list_header_tr">
+<td class="content_list_header_td" id="ACLList" width="60%">Access Control List
+<input name="wl_macnum_x_0" value="0" readonly="1" type="hidden"></td><td width="10%">
+<div align="center">
+<input style="background-color: rgb(192, 192, 192);" class="inputSubmit" onmouseout="buttonOut(this)" onmouseover="buttonOver(this)" onclick="return markGroup(this, 'ACLList', 64, ' Add ');" name="ACLList" value="Add" size="12" type="submit">
+</div>
+</td><td width="10%">
+<div align="center">
+<input class="inputSubmit" onmouseout="buttonOut(this)" onmouseover="buttonOver(this)" onclick="return markGroup(this, 'ACLList', 64, ' Del ');" name="ACLList" value="Del" size="12" type="submit">
+</div>
+</td><td width="5%"></td>
+</tr>
+</tbody></table><table class="content_list_table" border="0" cellpadding="0" cellspacing="0" width="640">
+<tbody><tr>
+<td colspan="3" height="10"></td>
+</tr>
+<tr>
+<td colspan="3">
+<div align="center">
+<table class="content_list_value_table" border="1" cellpadding="0" cellspacing="0">
+<tbody><tr>
+<td></td><td class="content_list_field_header_td" colspan="">MAC Address
+</td><td></td>
+</tr>
+<tr>
+<td></td><td class="content_list_input_td" colspan=""><input maxlength="12" class="content_input_list_fd" size="32" name="wl_maclist_x_0" onkeypress="return is_hwaddr()" type="text"></td>
+</tr>
+<tr>
+<td></td><td colspan="10"><select size="8" name="ACLList_s" multiple="true" style="font-family: 'fixedsys';">
+<option value="-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</option>
+</select></td>
+</tr>
+</tbody></table>
+</div>
+</td>
+</tr>
+<tr>
+<td colspan="3" height="10"></td>
+</tr>
+</tbody></table>
+</td></tr></tbody></table>
+
+
+
+
+<table border="2" bordercolor="#e0e0e0" cellpadding="0" cellspacing="0" width="666"></table>
+
+
+
+
+<table border="1" bordercolor="#b0b0b0" cellpadding="0" cellspacing="0" width="666">
+<tbody><tr bgcolor="#cccccc"><td colspan="3"><font face="arial" size="2"><b>&nbsp;</b></font></td></tr>
+<tr bgcolor="#ffffff">
+<td id="Confirm" height="25" width="34%">
+<div align="center"><font face="Arial"> <input class="inputSubmit" onmouseout="buttonOut(this)" onmouseover="buttonOver(this)" onclick="onSubmitCtrl(this, ' Restore ')" value=" Restore " name="action" type="submit"></font></div>
+</td>
+<td height="25" width="33%">
+<div align="center"><font face="Arial"> <input class="inputSubmit" onmouseout="buttonOut(this)" onmouseover="buttonOver(this)" onclick="onSubmitCtrl(this, ' Finish ')" value=" Finish " name="action" type="submit"></font></div>
+</td>
+<td height="25" width="33%">
+<div align="center"><font face="Arial"> <input class="inputSubmit" onmouseout="buttonOut(this)" onmouseover="buttonOver(this)" onclick="onSubmitCtrl(this, ' Apply ')" value=" Apply " name="action" type="submit"></font></div>
+</td>
+</tr>
+</tbody></table>
+
+
+
+
+<table border="1" bordercolor="#b0b0b0" cellpadding="0" cellspacing="0" width="666">
+<tbody><tr>
+<td colspan="2" bgcolor="#ffbb00" height="25" width="616"></td>
+</tr>
+<tr bgcolor="#ffffff">
+<td class="content_header_td_15" align="left">Restore: </td>
+<td class="content_input_td_padding" align="left">Clear the above settings and restore the settings in effect.</td>
+</tr>
+<tr bgcolor="#ffffff">
+<td class="content_header_td_15" align="left">Finish: </td>
+<td class="content_input_td_padding" align="left">Confirm all settings and restart WL300g now.</td>
+</tr>
+<tr bgcolor="#ffffff">
+<td class="content_header_td_15" align="left">Apply: </td>
+<td class="content_input_td_padding" align="left">Confirm above settings and continue.</td>
+</tr>
+</tbody></table>
+
+
+
+</form>
+</body></html>
