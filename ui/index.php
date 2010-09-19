@@ -145,6 +145,16 @@ if (empty($_SESSION['uid'])) {
             'name' => 'Interfaces',
             'key' => 'interfaces',
             'pages' => array(
+                'wireless' => array(
+                    'name' => 'Wireless',
+                    'key' => 'wlan',
+                    'tabs' => array(
+                        'wlan' => array(
+                            'name' => 'Wireless',
+                            'key' => 'wlan',
+                        )
+                    )
+                ),
                 'lan' => array(
                     'name' => 'LAN',
                     'key' => 'lan',
