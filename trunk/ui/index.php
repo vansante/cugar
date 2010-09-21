@@ -54,28 +54,6 @@ if (empty($_SESSION['uid'])) {
                         'lan' => array(
                             'name' => 'LAN',
                             'key' => 'lan'
-                        ),
-                        'ext' => array(
-                            'name' => 'EXT',
-                            'key' => 'ext'
-                        )
-                    )
-                ),
-                'traffic' => array(
-                    'name' => 'Traffic',
-                    'key' => 'traffic',
-                    'tabs' => array(
-                        'wan' => array(
-                            'name' => 'WAN',
-                            'key' => 'wan'
-                        ),
-                        'lan' => array(
-                            'name' => 'LAN',
-                            'key' => 'lan'
-                        ),
-                        'ext' => array(
-                            'name' => 'EXT',
-                            'key' => 'ext'
                         )
                     )
                 )
@@ -116,16 +94,6 @@ if (empty($_SESSION['uid'])) {
                         'reboot' => array(
                             'name' => 'Reboot',
                             'key' => 'reboot',
-                        )
-                    )
-                ),
-                'reset' => array(
-                    'name' => 'Reset',
-                    'key' => 'reset',
-                    'tabs' => array(
-                        'reset' => array(
-                            'name' => 'Reset',
-                            'key' => 'reset',
                         )
                     )
                 ),
