@@ -32,13 +32,6 @@ ident		GENERIC
 #
 # env		"GENERIC.env"
 
-options		CPU_GEODE
-options		CPU_SOEKRIS
-options		NO_SWAPPING
-
-options		crypto
-device		pf
-
 makeoptions	DEBUG=-g		# Build kernel with gdb(1) debug symbols
 
 options 	SCHED_ULE		# ULE scheduler
@@ -46,18 +39,10 @@ options 	PREEMPTION		# Enable kernel thread preemption
 options 	INET			# InterNETworking
 options 	INET6			# IPv6 communications protocols
 options 	SCTP			# Stream Control Transmission Protocol
-options 	FFS			# Berkeley Fast Filesystem
-options 	SOFTUPDATES		# Enable FFS soft updates support
 options 	UFS_ACL			# Support for access control lists
 options 	UFS_DIRHASH		# Improve performance on big directories
 options 	UFS_GJOURNAL		# Enable gjournal-based UFS journaling
 options 	MD_ROOT			# MD is a potential root device
-options 	NFSCLIENT		# Network Filesystem Client
-options 	NFSSERVER		# Network Filesystem Server
-options 	NFSLOCKD		# Network Lock Manager
-options 	NFS_ROOT		# NFS usable as /, requires NFSCLIENT
-options 	PROCFS			# Process filesystem (requires PSEUDOFS)
-options 	PSEUDOFS		# Pseudo-filesystem framework
 options 	GEOM_PART_GPT		# GUID Partition Tables.
 options 	GEOM_LABEL		# Provides labelization
 options 	COMPAT_43TTY		# BSD 4.3 TTY compat (sgtty)
@@ -78,16 +63,14 @@ options		FLOWTABLE		# per-cpu routing cache
 #options 	KDTRACE_HOOKS		# Kernel DTrace hooks
 options 	INCLUDE_CONFIG_FILE     # Include this file in kernel
 
-# To make an SMP kernel, the next two lines are needed
-options 	SMP			# Symmetric MultiProcessor Kernel
-device		apic			# I/O APIC
+device crypto
+device cryptodev
+device hifn
 
 # CPU frequency control
 device		cpufreq
 
 # Bus support.
-device		acpi
-device		eisa
 device		pci
 
 # ATA and ATAPI devices
@@ -108,13 +91,10 @@ device		kbdmux		# keyboard multiplexer
 # syscons is the default console driver, resembling an SCO console
 device		sc
 
-device		agp		# support several AGP chipsets
-
-# PCCARD (PCMCIA) support
-# PCMCIA and cardbus bridge support
-device		cbb		# cardbus (yenta) bridge
-device		pccard		# PC Card (16-bit) bus
-device		cardbus		# CardBus (32-bit) bus
+# Power management support (see NOTES for more options)
+#device		apm
+# Add suspend/resume support for the i8254.
+device		pmtimer
 
 # Serial (COM) ports
 device		uart		# Generic UART driver
@@ -222,24 +202,3 @@ device		firmware	# firmware assist module
 # Be aware of the administrative consequences of enabling this!
 # Note that 'bpf' is required for DHCP.
 device		bpf		# Berkeley packet filter
-
-# USB support
-options 	USB_DEBUG	# enable debug msgs
-device		uhci		# UHCI PCI->USB interface
-device		ohci		# OHCI PCI->USB interface
-device		ehci		# EHCI PCI->USB interface (USB 2.0)
-device		usb		# USB Bus (required)
-#device		udbp		# USB Double Bulk Pipe devices
-device		uhid		# "Human Interface Devices"
-device		ukbd		# Keyboard
-device		ulpt		# Printer
-device		umass		# Disks/Mass storage - Requires scbus and da
-device		ums		# Mouse
-# USB Serial devices
-device		u3g		# USB-based 3G modems (Option, Huawei, Sierra)
-device		uark		# Technologies ARK3116 based serial adapters
-device		ubsa		# Belkin F5U103 and compatible serial adapters
-device		uftdi		# For FTDI usb serial adapters
-device		uipaq		# Some WinCE based devices
-device		uplcom		# Prolific PL-2303 serial adapters
-device		uslcom		# SI Labs CP2101/CP2102 serial adapters
