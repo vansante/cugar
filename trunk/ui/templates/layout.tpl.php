@@ -20,7 +20,7 @@
     </head>
     <body>
         <div id="layout_header">
-            <a href="index.php"><img src="./images/cugar.png" alt="logo" /></a>
+            <a href="index.php"><img src="./images/logo_small.png" alt="logo" /></a>
         </div>
         <div id="layout_left">
             <?php include $this->template('menu.tpl.php'); ?>
