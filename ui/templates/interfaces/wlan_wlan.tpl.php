@@ -1,4 +1,4 @@
-<h2 class="help_anchor"><a class="open_all_help" rel="cp_interfaces_wwlan_wwlan"></a>Wireless</h2>
+<h2 class="help_anchor"><a class="open_all_help" rel="cp_interfaces_wlan_wlan"></a>Wireless</h2>
 
 <p class="intro"></p>
 
@@ -39,26 +39,15 @@
         <dt><label for="interfaces_wlan_encryption">Wireless encryption</label></dt>
         <dd>
             <select name="interfaces_wlan_encryption" id="interfaces_wlan_encryption">
-                <option value="wep">WEP</option>
                 <option value="wpa">WPA</option>
                 <option value="wpa2">WPA2</option>
                 <option value="none">None</option>
             </select>
         </dd>
 
-        <dt><label for="interfaces_wlan_pskey">Wireless encryption</label></dt>
+        <dt><label for="interfaces_wlan_pskey">Passphrase</label></dt>
         <dd>
             <input name="interfaces_wlan_pskey" type="text" id="interfaces_wlan_pskey" />
-        </dd>
-
-        <dt><label for="interfaces_wlan_subnetmask">Subnet mask</label></dt>
-        <dd>
-            <input name="interfaces_wlan_subnetmask" type="text" size="12" id="interfaces_wlan_subnetmask" />
-        </dd>
-
-        <dt><label for="interfaces_wlan_mtu">MTU</label></dt>
-        <dd>
-            <input name="interfaces_wlan_mtu" type="text" size="4" id="interfaces_wlan_mtu" />
         </dd>
 
         <dt><input type="submit" value="Save" id="interfaces_wlan_submit" class="submitbutton"/></dt>

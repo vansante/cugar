@@ -6,9 +6,7 @@
 </div>
 
 <dl class="form">
-    <div class="note">
-        lalalaldfmksf
-    </div>
+
     <dt>Name</dt>
     <dd>
         <span id="status_system_name"></span>
