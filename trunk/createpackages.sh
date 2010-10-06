@@ -5,6 +5,6 @@ PORTSDIR=/usr/ports/
 while read inputline
 do
 	cd ${PORTSDIR}${inputline}
-	make clean
+	make deinstall	
 	make package	
 done < /home/cugar/packages.list 

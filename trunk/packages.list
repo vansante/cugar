@@ -13,7 +13,7 @@ lang/php52
 ftp/php52-curl
 devel/gettext
 textproc/php52-dom
-security/php5-hash
+security/php52-hash
 devel/php52-pcre
 www/php52-session
 textproc/php52-simplexml
