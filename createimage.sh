@@ -9,6 +9,6 @@ cp -r /home/cugar/configfiles/* /home/cugar/Files/etc/
 rm -rf /usr/src/tools/tools/nanobsd/Files
 # copy over new files
 cp -r /home/cugar/Files /usr/src/tools/tools/nanobsd/
-chmod -r +x /usr/src/tools/tools/nanobsd/Files 
+chmod -R +x /usr/src/tools/tools/nanobsd/Files 
 # create image
 sh /usr/src/tools/tools/nanobsd/nanobsd.sh -w -c /home/cugar/cugar-nano.conf
