@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/csh
+setenv CFG_ROOT_PASSWORD toor
+ 
 cd /home/cugar
 svn update
 # copy over debug config files while we're not parsing configurations
@@ -7,6 +9,6 @@ cp -r /home/cugar/configfiles/* /home/cugar/Files/etc/
 rm -rf /usr/src/tools/tools/nanobsd/Files
 # copy over new files
 cp -r /home/cugar/Files /usr/src/tools/tools/nanobsd/
-
+chmod -r +x /usr/src/tools/tools/nanobsd/Files 
 # create image
 sh /usr/src/tools/tools/nanobsd/nanobsd.sh -w -c /home/cugar/cugar-nano.conf
