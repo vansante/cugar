@@ -6,6 +6,7 @@
         <title>CUGAR</title>
 
         <style type="text/css" media="screen">
+            @import url(css/jquery-ui.css);
             @import url(css/main.css);
         </style>
 
