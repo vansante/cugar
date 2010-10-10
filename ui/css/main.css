@@ -446,7 +446,7 @@ body{
 ul.menu_submenu,
 ul.menu_submenu li{
     display:block;
-    margin:0;
+    margin:0 0 1px 0;
     padding:0;
     list-style:none;
 }
@@ -460,26 +460,14 @@ ul.menu_submenu li a{
     -webkit-border-radius:4px;
 }
 ul.menu_submenu li a:hover{
-/*    border:1px solid #AED0EA;*/
     background:#DEEDF7;
 }
 ul.menu_submenu li a.active{
     border:1px solid #AED0EA;
     background:#DEEDF7;
 }
-a.icon_add{
-    padding:3px 10px;
-    background:#3BAAE3 url(../images/jquery-ui/ui-bg_glass_30_cc0000_1x400.png) repeat-x scroll center;
-    color:#fff;
-    border:1px solid #DEEDF7;
-    -moz-border-radius:4px;
-    -webkit-border-radius:4px;
-    border-radius:4px;
-    text-decoration:none;
-}
-a.icon_add:hover{
-    border:1px solid #DEEDF7;
-    text-decoration:underline;
+.ui-button {
+    margin:10px 0;
 }
 .contentpart table{
     margin:10px 0;

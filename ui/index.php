@@ -79,7 +79,27 @@ if (empty($_SESSION['uid'])) {
                     'tabs' => array(
                         'wlan' => array(
                             'name' => 'Wireless',
-                            'key' => 'wlan',
+                            'key' => 'wlan'
+                        )
+                    )
+                )
+            )
+        ),
+        array(
+            'name' => 'Advanced',
+            'key' => 'advanced',
+            'pages' => array(
+                array(
+                    'name' => 'Captive portal',
+                    'key' => 'captivep',
+                    'tabs' => array(
+                        array(
+                            'name' => 'Settings',
+                            'key' => 'settings'
+                        ),
+                        array(
+                            'name' => 'Whitelist',
+                            'key' => 'whitelist'
                         )
                     )
                 )
@@ -95,11 +115,11 @@ if (empty($_SESSION['uid'])) {
                     'tabs' => array(
                         array(
                             'name' => 'Automatic',
-                            'key' => 'auto',
+                            'key' => 'auto'
                         ),
                         array(
                             'name' => 'Manual',
-                            'key' => 'manual',
+                            'key' => 'manual'
                         )
                     )
                 ),
@@ -109,7 +129,7 @@ if (empty($_SESSION['uid'])) {
                     'tabs' => array(
                         array(
                             'name' => 'Reboot',
-                            'key' => 'reboot',
+                            'key' => 'reboot'
                         )
                     )
                 ),
@@ -119,7 +139,7 @@ if (empty($_SESSION['uid'])) {
                     'tabs' => array(
                         array(
                             'name' => 'Backup / restore',
-                            'key' => 'backrest',
+                            'key' => 'backrest'
                         )
                     )
                 ),

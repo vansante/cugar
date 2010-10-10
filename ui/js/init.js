@@ -112,9 +112,10 @@ $(function() {
             }
         });
         return false;
-    })
-    // Hide arrow for logout option...
-    .prev('.ui-icon-triangle-1-e').hide();
+    });
+
+    // Turn all a buttons and submit buttons into pretty ones
+    $("a.button, input:submit").button();
     
     if (cg.system && cg.system.update && cg.system.update.auto) {
         cg.system.update.auto.checkUpdates(true);
@@ -437,7 +438,6 @@ cg.rebootCountDown = function() {
 }
 
 cg.showAjaxLoader = function(el_id) {
-    console.log(el_id)
     if ($.isArray(el_id)) {
         $.each(el_id, function(i, el){
             cg.showAjaxLoader(el);
