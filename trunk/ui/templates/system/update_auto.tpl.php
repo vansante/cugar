@@ -6,7 +6,7 @@
 </div>
 
 <p>
-    <a class="icon_add" id="system_update_auto_check_link" href="#system_update">Check for updates</a>
+    <a class="button" id="system_update_auto_check_link" href="#system_update">Check for updates</a>
 </p>
 
 <div class="note" id="system_update_auto_no_update">
