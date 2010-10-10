@@ -17,7 +17,7 @@
     </head>
     <body>
         <div id="layout_header">
-            <a href="index.php"><img src="./images/genericproxy.png" alt="logo" /></a>
+            <a href="index.php"><img src="./images/logo_small.png" alt="logo" /></a>
         </div>
         <div id="layout_login" class="ui-widget">
             <div class="ui-widget-content ui-helper-clearfix ui-corner-all">
