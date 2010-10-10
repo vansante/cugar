@@ -437,6 +437,7 @@ cg.rebootCountDown = function() {
 }
 
 cg.showAjaxLoader = function(el_id) {
+    console.log(el_id)
     if ($.isArray(el_id)) {
         $.each(el_id, function(i, el){
             cg.showAjaxLoader(el);

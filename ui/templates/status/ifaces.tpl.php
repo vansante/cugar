@@ -11,17 +11,14 @@
             page: 'getstatus',
             error_element: [
                 $('#status_ifaces_wan_error'),
-                $('#status_ifaces_lan_error'),
-                $('#status_ifaces_ext_error')
+                $('#status_ifaces_lan_error')
             ],
-            content_id: ['cp_status_ifaces_wan', 'cp_status_ifaces_lan', 'cp_status_ifaces_ext'],
+            content_id: ['cp_status_ifaces_wan', 'cp_status_ifaces_lan'],
             successFn: function(json) {
                 $('#status_ifaces_wan_device').html(json.interfaces.wan.device);
                 $('#status_ifaces_wan').html('<pre>'+json.interfaces.wan.status+'</pre>');
                 $('#status_ifaces_lan_device').html(json.interfaces.lan.device);
                 $('#status_ifaces_lan').html('<pre>'+json.interfaces.lan.status+'</pre>');
-                $('#status_ifaces_ext_device').html(json.interfaces.ext.device);
-                $('#status_ifaces_ext').html('<pre>'+json.interfaces.ext.status+'</pre>');
             }
         });
     };

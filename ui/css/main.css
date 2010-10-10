@@ -440,6 +440,9 @@ body{
 .dialog, .module .page{
     display:none;
 }
+#menu {
+    padding:4px;
+}
 ul.menu_submenu,
 ul.menu_submenu li{
     display:block;
@@ -452,14 +455,17 @@ ul.menu_submenu li a{
     padding:1px 3px 1px 20px;
     text-decoration:none;
     border-radius:4px;
+    border:1px solid transparent;
     -moz-border-radius:4px;
     -webkit-border-radius:4px;
 }
 ul.menu_submenu li a:hover{
-    background:#f9f9f9;
+/*    border:1px solid #AED0EA;*/
+    background:#DEEDF7;
 }
 ul.menu_submenu li a.active{
-    background:#f9f9f9;
+    border:1px solid #AED0EA;
+    background:#DEEDF7;
 }
 a.icon_add{
     padding:3px 10px;
@@ -602,7 +608,10 @@ form dl.form_sub dd, dl.form dl.form_sub dd {
     margin-left:-24px;
     cursor: pointer;
 }
-.help_pool { position:absolute; display: none; }
+.help_pool {
+    position:absolute;
+    display: none;
+}
 .help {
     display:none;
     position: relative;

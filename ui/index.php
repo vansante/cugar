@@ -29,29 +29,29 @@ if (empty($_SESSION['uid'])) {
     }
 } else {
     $menu = array (
-        'status' => array(
+        array(
             'name' => 'Status',
             'key' => 'status',
             'pages' => array(
-                'system' => array(
+                array(
                     'name' => 'System',
                     'key' => 'system',
                     'tabs' => array(
-                        'system' => array(
+                        array(
                             'name' => 'System',
                             'key' => 'system'
                         )
                     )
                 ),
-                'ifaces' => array(
+                array(
                     'name' => 'Interfaces',
                     'key' => 'ifaces',
                     'tabs' => array(
-                        'wan' => array(
+                        array(
                             'name' => 'WAN',
                             'key' => 'wan'
                         ),
-                        'lan' => array(
+                        array(
                             'name' => 'LAN',
                             'key' => 'lan'
                         )
@@ -59,61 +59,21 @@ if (empty($_SESSION['uid'])) {
                 )
             )
         ),
-        'system' => array(
-            'name' => 'System',
-            'key' => 'system',
+        array(
+            'name' => 'Basic',
+            'key' => 'basic',
             'pages' => array(
-                'genset' => array(
-                    'name' => 'General settings',
-                    'key' => 'genset',
+                array(
+                    'name' => 'Settings',
+                    'key' => 'settings',
                     'tabs' => array(
-                        'genset' => array(
-                            'name' => 'General settings',
-                            'key' => 'genset',
+                        array(
+                            'name' => 'Settings',
+                            'key' => 'settings'
                         )
                     )
                 ),
-                'update' => array(
-                    'name' => 'Firmware update',
-                    'key' => 'update',
-                    'tabs' => array(
-                        'auto' => array(
-                            'name' => 'Automatic',
-                            'key' => 'auto',
-                        ),
-                        'manual' => array(
-                            'name' => 'Manual',
-                            'key' => 'manual',
-                        )
-                    )
-                ),
-                'reboot' => array(
-                    'name' => 'Reboot',
-                    'key' => 'reboot',
-                    'tabs' => array(
-                        'reboot' => array(
-                            'name' => 'Reboot',
-                            'key' => 'reboot',
-                        )
-                    )
-                ),
-                'backrest' => array(
-                    'name' => 'Backup / restore',
-                    'key' => 'backrest',
-                    'tabs' => array(
-                        'backrest' => array(
-                            'name' => 'Backup / restore',
-                            'key' => 'backrest',
-                        )
-                    )
-                ),
-            )
-        ),
-        'interfaces' => array(
-            'name' => 'Interfaces',
-            'key' => 'interfaces',
-            'pages' => array(
-                'wireless' => array(
+                array(
                     'name' => 'Wireless',
                     'key' => 'wlan',
                     'tabs' => array(
@@ -122,27 +82,47 @@ if (empty($_SESSION['uid'])) {
                             'key' => 'wlan',
                         )
                     )
-                ),
-                'lan' => array(
-                    'name' => 'LAN',
-                    'key' => 'lan',
-                    'tabs' => array(
-                        'lan' => array(
-                            'name' => 'LAN',
-                            'key' => 'lan',
-                        )
-                    )
-                ),
-                'wan' => array(
-                    'name' => 'WAN',
-                    'key' => 'wan',
-                    'tabs' => array(
-                        'wan' => array(
-                            'name' => 'WAN',
-                            'key' => 'wan',
-                        )
-                    )
                 )
+            )
+        ),
+        array(
+            'name' => 'System',
+            'key' => 'system',
+            'pages' => array(
+                array(
+                    'name' => 'Firmware update',
+                    'key' => 'update',
+                    'tabs' => array(
+                        array(
+                            'name' => 'Automatic',
+                            'key' => 'auto',
+                        ),
+                        array(
+                            'name' => 'Manual',
+                            'key' => 'manual',
+                        )
+                    )
+                ),
+                array(
+                    'name' => 'Reboot',
+                    'key' => 'reboot',
+                    'tabs' => array(
+                        array(
+                            'name' => 'Reboot',
+                            'key' => 'reboot',
+                        )
+                    )
+                ),
+                array(
+                    'name' => 'Backup / restore',
+                    'key' => 'backrest',
+                    'tabs' => array(
+                        array(
+                            'name' => 'Backup / restore',
+                            'key' => 'backrest',
+                        )
+                    )
+                ),
             )
         )
     );

@@ -4,9 +4,9 @@
  */
 ?>
 
-<div id="menu">
+<div id="menu" class="ui-corner-all ui-widget-content ui-widget">
     <?php foreach ($this->modules as $module): ?>
-    <h2 id="<?=$module['key']?>"><a href="#"><?= $module['name']?></a></h2>
+    <h2 id="<?=$module['key']?>"><?= $module['name']?></h2>
     <div>
         <?php foreach ($module['pages'] as $page): ?>
         <ul class="menu_submenu">
