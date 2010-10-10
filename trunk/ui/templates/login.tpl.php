@@ -6,6 +6,7 @@
         <title>Generic Proxy - Login</title>
 
         <style type="text/css" media="screen">
+            @import url(css/jquery-ui.css);
             @import url(css/main.css);
         </style>
         <script type="text/javascript">
