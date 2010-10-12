@@ -48,7 +48,7 @@
                         type: 'POST',
                         data: $('#login_form').serialize(),
                         error: function(request, textStatus) {
-                            cg.hideFormLoader('login_form');
+                            cg.hideAjaxLoader('login_form');
                             cg.displayError(textStatus, 'Server unreachable', $('#login_form_error'));
                         },
                         success: function(data) {
