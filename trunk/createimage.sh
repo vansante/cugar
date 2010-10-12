@@ -11,4 +11,4 @@ rm -rf /usr/src/tools/tools/nanobsd/Files
 cp -r /home/cugar/Files /usr/src/tools/tools/nanobsd/
 chmod -R +x /usr/src/tools/tools/nanobsd/Files 
 # create image
-sh /usr/src/tools/tools/nanobsd/nanobsd.sh -w -c /home/cugar/cugar-nano.conf
+sh /usr/src/tools/tools/nanobsd/nanobsd.sh -b -c /home/cugar/cugar-nano.conf
