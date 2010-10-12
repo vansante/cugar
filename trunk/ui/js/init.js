@@ -10,23 +10,21 @@ $(function() {
     $('.tabset').tabs();
 
     //Initialize the click handlers to make the menu work.
-    $('.menu_submenu li a').click(function() {
+    $('#menu li.page_link a').click(function() {
         // Open the right panel
-        $('.module').hide();
         $('.page').hide();
         $('a.active').removeClass('active');
         var contentpart = $('#cp_'+$(this).attr('id'));
         $(this).addClass('active');
         // Initialize a hook method
-        var url_str = $(this).attr('rel').split('->');
 
         // Show the right panel
         contentpart.show();
         contentpart.parent().show();
 
-        //Module = urlStr[0], Page = urlStr[1]
-        if (cg[url_str[0]] && cg[url_str[0]][url_str[1]] && cg[url_str[0]][url_str[1]].clickHandler) {
-            cg[url_str[0]][url_str[1]].clickHandler();
+        var url = $(this).attr('rel');
+        if (cg[url] && cg[url].clickHandler) {
+            cg[url].clickHandler();
         }
     });
 
@@ -38,11 +36,12 @@ $(function() {
             var contentpart = $('#cp_'+anchor.attr('id'));
             $(anchor).addClass('active');
             // Initialize a hook method
-            var urlStr = anchor.attr('rel').split('->');
+
+            var url = anchor.attr('rel');
 
             //Module = urlStr[0], Pagina = urlStr[1]
-            if (cg[urlStr[0]] && cg[urlStr[0]][urlStr[1]] && cg[urlStr[0]][urlStr[1]].clickHandler) {
-                cg[urlStr[0]][urlStr[1]].clickHandler();
+            if (cg[url] && cg[url].clickHandler) {
+                cg[url].clickHandler();
             }
 
             //Toon het paneel
@@ -124,10 +123,10 @@ $(function() {
 
 cg.showHomepage = function() {
     // Show default homepage: System status
-    var cp = $('#cp_status_system');
+    var cp = $('#cp_status');
     cp.show();
     cp.parent().show();
-    $('#status_system').addClass('active');
+    $('#status').addClass('active');
     cg.status.system.clickHandler();
 };
 

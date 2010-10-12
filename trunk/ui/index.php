@@ -28,139 +28,72 @@ if (empty($_SESSION['uid'])) {
         $_SESSION['group'] = 'ROOT';
     }
 } else {
-    $menu = array (
+    $menu = array(
         array(
             'name' => 'Status',
             'key' => 'status',
-            'pages' => array(
+            'tabs' => array(
                 array(
                     'name' => 'System',
-                    'key' => 'system',
-                    'tabs' => array(
-                        array(
-                            'name' => 'System',
-                            'key' => 'system'
-                        )
-                    )
-                ),
-                array(
-                    'name' => 'Interfaces',
-                    'key' => 'ifaces',
-                    'tabs' => array(
-                        array(
-                            'name' => 'WAN',
-                            'key' => 'wan'
-                        ),
-                        array(
-                            'name' => 'LAN',
-                            'key' => 'lan'
-                        )
-                    )
+                    'key' => 'system'
                 )
             )
         ),
         array(
-            'name' => 'Basic',
+            'name' => 'Basic settings',
             'key' => 'basic',
-            'pages' => array(
+            'tabs' => array(
                 array(
-                    'name' => 'Settings',
-                    'key' => 'settings',
-                    'tabs' => array(
-                        array(
-                            'name' => 'Settings',
-                            'key' => 'settings'
-                        )
-                    )
+                    'name' => 'Basic settings',
+                    'key' => 'settings'
+                )
+            )
+        ),
+        array(
+            'name' => 'Mode settings',
+            'key' => 'mode',
+            'tabs' => array(
+                array(
+                    'name' => 'Mode selection',
+                    'key' => 'selection'
                 ),
                 array(
                     'name' => 'Wireless',
-                    'key' => 'wlan',
-                    'tabs' => array(
-                        'wlan' => array(
-                            'name' => 'Wireless',
-                            'key' => 'wlan'
-                        )
-                    )
-                )
-            )
-        ),
-        array(
-            'name' => 'Advanced',
-            'key' => 'advanced',
-            'pages' => array(
+                    'key' => 'mode1'
+                ),
                 array(
                     'name' => 'Captive portal',
-                    'key' => 'captivep',
-                    'tabs' => array(
-                        array(
-                            'name' => 'Settings',
-                            'key' => 'settings'
-                        ),
-                        array(
-                            'name' => 'Whitelist',
-                            'key' => 'whitelist'
-                        )
-                    )
+                    'key' => 'mode2'
+                ),
+                array(
+                    'name' => 'Central server',
+                    'key' => 'mode3'
                 )
             )
         ),
         array(
-            'name' => 'System',
-            'key' => 'system',
-            'pages' => array(
+            'name' => 'Firmware update',
+            'key' => 'update',
+            'tabs' => array(
                 array(
-                    'name' => 'Firmware update',
-                    'key' => 'update',
-                    'tabs' => array(
-                        array(
-                            'name' => 'Automatic',
-                            'key' => 'auto'
-                        ),
-                        array(
-                            'name' => 'Manual',
-                            'key' => 'manual'
-                        )
-                    )
-                ),
-                array(
-                    'name' => 'Reboot',
-                    'key' => 'reboot',
-                    'tabs' => array(
-                        array(
-                            'name' => 'Reboot',
-                            'key' => 'reboot'
-                        )
-                    )
-                ),
-                array(
-                    'name' => 'Backup / restore',
-                    'key' => 'backrest',
-                    'tabs' => array(
-                        array(
-                            'name' => 'Backup / restore',
-                            'key' => 'backrest'
-                        )
-                    )
-                ),
+                    'name' => 'Manual',
+                    'key' => 'manual'
+                )
             )
         )
     );
     
     //Build the javascript namespace based on menu structure
     $data = array();
-    foreach ($menu as $mod) {
-        $data[$mod['key']] = array();
-        foreach ($mod['pages'] as $page) {
-            $data[$mod['key']][$page['key']] = array();
-            foreach ($page['tabs'] as $tab) {
-                $data[$mod['key']][$page['key']][$tab['key']] = array();
-            }
+    foreach ($menu as $page) {
+        $data[$page['key']] = array();
+        foreach ($page['tabs'] as $tab) {
+            $data[$page['key']][$tab['key']] = array();
         }
     }
     //Space for xml objects
     $data['data'] = array();
-    $tpl->modules = $menu;
+    $tpl->pages = $menu;
     $tpl->namespace = json_encode_custom($data, true);
     $tpl->debug = $debug;
 
