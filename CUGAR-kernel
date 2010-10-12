@@ -47,6 +47,8 @@ options 	GEOM_PART_GPT		# GUID Partition Tables.
 options 	GEOM_LABEL		# Provides labelization
 options 	COMPAT_43TTY		# BSD 4.3 TTY compat (sgtty)
 options 	COMPAT_FREEBSD7		# Compatible with FreeBSD7
+options         PROCFS                  # Process filesystem (requires PSEUDOFS)
+options         PSEUDOFS                # Pseudo-filesystem framework
 options 	KTRACE			# ktrace(1) support
 options 	STACK			# stack(9) support
 options 	SYSVSHM			# SYSV-style shared memory
@@ -88,8 +90,13 @@ device		atkbd		# AT keyboard
 
 device		kbdmux		# keyboard multiplexer
 
+device		vga		# VGA video card driver
+device		splash		# Splash screen and screen saver support
+
 # syscons is the default console driver, resembling an SCO console
 device		sc
+
+device		agp		# support several AGP chipsets
 
 # Power management support (see NOTES for more options)
 #device		apm
