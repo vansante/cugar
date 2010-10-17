@@ -47,7 +47,7 @@ $(function() {
         }
     });
 
-    var type = $("#mode_selection_form input[name='mode_selection_mode']:checked").val().toLowerCase();
+    var type = $('#mode_selection_form input[name=mode_selection_mode]:checked').val();
     switch(type) {
         case '1':
             $('#tabs_mode').tabs('option', 'disabled', [2, 3]);

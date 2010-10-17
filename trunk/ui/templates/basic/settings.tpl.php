@@ -95,17 +95,16 @@ $(function() {
             $('.basic_settings_subform_dhcp').slideDown();
             $('.basic_settings_subform_dhcp input').removeAttr('disabled');
             $('.basic_settings_subform_static input').attr('disabled', 'disabled');
-
         }
     });
 
     var type = $("#basic_settings_form input[name='basic_settings_type']:checked").val();
     if (type != 'static') {
-        $('.basic_settings_subform_static').slideUp();
+        $('.basic_settings_subform_static').hide();
         $('.basic_settings_subform_static input').attr('disabled', 'disabled');
     }
     if (type != 'dhcp') {
-        $('.basic_settings_subform_dhcp').slideUp();
+        $('.basic_settings_subform_dhcp').hide();
         $('.basic_settings_subform_dhcp input').attr('disabled', 'disabled');
     }
 });
