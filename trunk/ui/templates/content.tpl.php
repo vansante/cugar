@@ -7,7 +7,7 @@
         }
         ?>
         <?php if ($page['tabs']): ?>
-            <div class="tabset">
+            <div class="tabset" id="tabs_<?=$page['key']?>">
                 <ul>
                     <?php foreach ($page['tabs'] as $tab): ?>
                         <li><a href="#cp_<?=$page['key'].'_'.$tab['key']?>"><?=$tab['name']?></a></li>

@@ -28,9 +28,9 @@
             <label for="basic_settings_type_static">Specify an IP address</label>
         </dd>
 
-        <dt>DHCP configuration</dt>
-        <dd>
-            <dl class="form_sub" id="basic_settings_subform_dhcp">
+        <dt class="basic_settings_subform_dhcp">DHCP configuration</dt>
+        <dd class="basic_settings_subform_dhcp">
+            <dl class="form_sub">
                 <dt><label for="basic_settings_dhcp_hostname">Client hostname</label></dt>
                 <dd>
                     <input name="basic_settings_dhcp_hostname" type="text" id="basic_settings_dhcp_hostname" />
@@ -38,9 +38,9 @@
             </dl>
         </dd>
 
-        <dt>Static IP configuration</dt>
-        <dd>
-            <dl class="form_sub" id="basic_settings_subform_static">
+        <dt class="basic_settings_subform_static">Static IP configuration</dt>
+        <dd class="basic_settings_subform_static">
+            <dl class="form_sub">
                 <dt><label for="basic_settings_static_ipaddr">IP address</label></dt>
                 <dd>
                     <input name="basic_settings_static_ipaddr" type="text" size="12" id="basic_settings_static_ipaddr" />
@@ -63,7 +63,6 @@
                 </dd>
             </dl>
         </dd>
-        
 
         
         <dt><input type="submit" value="Save" id="basic_settings_submit" class="submitbutton"/></dt>
@@ -85,15 +84,30 @@
 
 <script type="text/javascript">
 $(function() {
-    $('input[name=basic_settings_type]').click(function() {
+    $('#basic_settings_form input[name=basic_settings_type]').click(function() {
         if (this.value.toLowerCase() == 'static') {
-            $('#basic_settings_subform_dhcp input').attr('disabled', 'disabled');
-            $('#basic_settings_subform_static input').removeAttr('disabled');
+            $('.basic_settings_subform_static').slideDown();
+            $('.basic_settings_subform_dhcp').slideUp();
+            $('.basic_settings_subform_dhcp input').attr('disabled', 'disabled');
+            $('.basic_settings_subform_static input').removeAttr('disabled');
         } else {
-            $('#basic_settings_subform_dhcp input').removeAttr('disabled');
-            $('#basic_settings_subform_static input').attr('disabled', 'disabled');
+            $('.basic_settings_subform_static').slideUp();
+            $('.basic_settings_subform_dhcp').slideDown();
+            $('.basic_settings_subform_dhcp input').removeAttr('disabled');
+            $('.basic_settings_subform_static input').attr('disabled', 'disabled');
+
         }
     });
+
+    var type = $("#basic_settings_form input[name='basic_settings_type']:checked").val();
+    if (type != 'static') {
+        $('.basic_settings_subform_static').slideUp();
+        $('.basic_settings_subform_static input').attr('disabled', 'disabled');
+    }
+    if (type != 'dhcp') {
+        $('.basic_settings_subform_dhcp').slideUp();
+        $('.basic_settings_subform_dhcp input').attr('disabled', 'disabled');
+    }
 });
 </script>
 
