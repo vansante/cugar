@@ -1,7 +1,6 @@
-<h2 class="help_anchor"><a class="open_all_help" rel="cp_mode_mode1_wlan"></a>Wireless</h2>
+<h2 class="help_anchor"><a class="open_all_help" rel="cp_mode_mode1_wlan"></a>Wireless settings</h2>
 
-<p class="intro"></p>
-
+<p class="intro">You can define the basic wireless settings here.</p>
 
 <form id="mode_mode1_form" action="ajaxserver.php" method="post">
     <div class="form-error" id="mode_mode1_form_error">

@@ -1,9 +1,9 @@
-<h2 class="help_anchor"><a class="open_all_help" rel="cp_mode_selection"></a>Wireless</h2>
+<h2 class="help_anchor"><a class="open_all_help" rel="cp_mode_selection"></a>Device mode selection</h2>
 
-<p class="intro"></p>
+<p class="intro">You can select the device mode here.</p>
 
 <form id="mode_selection_form" action="ajaxserver.php" method="post">
-    <div class="form-error" id="mode_zelection_form_error">
+    <div class="form-error" id="mode_selection_form_error">
     </div>
 
     <input type="hidden" name="module" value="wlan"/>
