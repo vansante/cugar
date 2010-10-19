@@ -1,4 +1,6 @@
-<h2 class="help_anchor"><a class="open_all_help" rel="cp_mode_mode3"></a>Basic settings</h2>
+<h2 class="help_anchor"><a class="open_all_help" rel="cp_mode_mode3"></a>Central server settings</h2>
+
+<p class="intro">You can define the central server address here.</p>
 
 <form id="advanced_captivep_form" action="ajaxserver.php" method="post">
     <div class="form-error" id="advanced_captivep_form_error">

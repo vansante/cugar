@@ -1,5 +1,8 @@
-<h2 class="help_anchor"><a class="open_all_help" rel="cp_mode_mode2_website"></a>Website whitelist</h2>
+<h2 class="help_anchor"><a class="open_all_help" rel="cp_mode_mode2_website"></a>Captive portal settings</h2>
 
+<p class="intro">You can define the settings for the captive portal here.</p>
+
+<h3>Website whitelist</h3>
 
 <div class="form-error" id="mode_mode2_website_table_error">
 </div>
