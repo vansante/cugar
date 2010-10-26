@@ -58,7 +58,7 @@ if (empty($_SESSION['uid'])) {
                     'key' => 'selection'
                 ),
                 array(
-                    'name' => 'Wireless',
+                    'name' => 'Basic accesspoint',
                     'key' => 'mode1'
                 ),
                 array(

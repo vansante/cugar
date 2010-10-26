@@ -6,20 +6,26 @@
     <div class="form-error" id="mode_selection_form_error">
     </div>
 
-    <input type="hidden" name="module" value="wlan"/>
+    <input type="hidden" name="module" value="ModeSelection"/>
     <input type="hidden" name="page" value="save" id="mode_selection_form_page"/>
 
     <dl>
         <dt><label for="mode_selection_mode">Device mode</label></dt>
         <dd>
             <input name="mode_selection_mode" type="radio" id="mode_selection_mode_1" value="1"/>
-            <label for="mode_selection_mode_1">Mode 1 (Basic accesspoint)</label>
+            <label for="mode_selection_mode_1">Basic accesspoint</label>
             <br/>
             <input name="mode_selection_mode" type="radio" id="mode_selection_mode_2" value="2"/>
-            <label for="mode_selection_mode_2">Mode 2 (Accesspoint with captive portal)</label>
+            <label for="mode_selection_mode_2">Accesspoint with captive portal</label>
             <br/>
             <input name="mode_selection_mode" type="radio" id="mode_selection_mode_3" value="3"/>
-            <label for="mode_selection_mode_3">Mode 3 (Central server configuration with login using 802.1x)</label>
+            <label for="mode_selection_mode_3">Central server configuration</label>
+            <br/>
+            <input name="mode_selection_mode" type="radio" id="mode_selection_mode_1_2" value="1_2"/>
+            <label for="mode_selection_mode_1_2">Basic accesspoint and a secondary with captive portal</label>
+            <br/>
+            <input name="mode_selection_mode" type="radio" id="mode_selection_mode_1_3" value="1_3"/>
+            <label for="mode_selection_mode_1_3">Basic accesspoint and a secondary with central server configuration</label>
         </dd>
 
         <dt><input type="submit" value="Save" id="mode_selection_submit" class="submitbutton"/></dt>
@@ -38,11 +44,16 @@ $(function() {
                 $('#tabs_mode').tabs('option', 'disabled', [2, 3]);
                 break
             case '2':
-                $('#tabs_mode').tabs('option', 'disabled', [3]);
+                $('#tabs_mode').tabs('option', 'disabled', [1, 3]);
                 break;
-
             case '3':
                 $('#tabs_mode').tabs('option', 'disabled', [1, 2]);
+                break;
+            case '1_2':
+                $('#tabs_mode').tabs('option', 'disabled', [3]);
+                break;
+            case '1_3':
+                $('#tabs_mode').tabs('option', 'disabled', [2]);
                 break;
         }
     });
@@ -53,9 +64,8 @@ $(function() {
             $('#tabs_mode').tabs('option', 'disabled', [2, 3]);
             break
         case '2':
-            $('#tabs_mode').tabs('option', 'disabled', [3]);
+            $('#tabs_mode').tabs('option', 'disabled', [1, 3]);
             break;
-
         case '3':
             $('#tabs_mode').tabs('option', 'disabled', [1, 2]);
             break;

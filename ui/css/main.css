@@ -121,7 +121,7 @@ ul.menu_submenu, ul.menu_submenu li{
 form dl dt, dl.form dt{
     float:left;
     clear:left;
-    width:30%;
+    width: 25%;
     padding-right:5px;
     border-top:1px solid #DEEDF7;
 }
@@ -133,7 +133,7 @@ form dl dt, dl.form dt{
 }
 form dl dd, dl.form dd{
     float:left;
-    width:60%;
+    width:65%;
     padding-left:5px;
 }
 form dl dd dl.form_sub, dl.form dd dl.form_sub{
