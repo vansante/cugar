@@ -1,8 +1,67 @@
-<h2 class="help_anchor"><a class="open_all_help" rel="cp_mode_mode2_website"></a>Captive portal settings</h2>
+<h2 class="help_anchor"><a class="open_all_help" rel="cp_mode_mode2_website"></a>Captive portal</h2>
 
-<p class="intro">You can define the settings for the captive portal here.</p>
+<p class="intro">You can define the settings here.</p>
 
-<h3>Website whitelist</h3>
+<form id="mode_mode1_form" action="ajaxserver.php" method="post">
+    <div class="form-error" id="mode_mode1_form_error">
+    </div>
+
+    <input type="hidden" name="module" value="Mode2"/>
+    <input type="hidden" name="page" value="save" id="mode_mode1_form_page"/>
+
+    <h3>Wireless settings</h3>
+    
+    <dl>
+        <dt><label for="mode_mode1_ssid">SSID</label></dt>
+        <dd>
+            <input name="mode_mode1_ssid" type="text" id="mode_mode1_ssid" />
+        </dd>
+
+        <dt><label for="mode_mode1_channel">Interface</label></dt>
+        <dd>
+            <select name="mode_mode1_channel" id="mode_mode1_channel">
+                <option value="auto">Auto</option>
+                <?php for ($i = 0; $i < 14; $i++) : ?>
+                <option value="<?=$i?>"><?=$i?></option>
+                <?php endfor ?>
+            </select>
+        </dd>
+
+        <dt><label for="mode_mode1_mode">Wireless mode</label></dt>
+        <dd>
+            <select name="mode_mode1_mode" id="mode_mode1_mode">
+                <option value="b_g_n">Wireless B/G/N</option>
+                <option value="b">Wireless B</option>
+                <option value="g">Wireless G</option>
+                <option value="n">Wireless N</option>
+            </select>
+        </dd>
+
+        <dt><label for="mode_mode1_encryption">Wireless encryption</label></dt>
+        <dd>
+            <select name="mode_mode1_encryption" id="mode_mode1_encryption">
+                <option value="wpa">WPA</option>
+                <option value="wpa2">WPA2</option>
+                <option value="none">None</option>
+            </select>
+        </dd>
+
+        <dt><label for="mode_mode1_pskey">Passphrase</label></dt>
+        <dd>
+            <input name="mode_mode1_pskey" type="text" id="mode_mode1_pskey" />
+        </dd>
+    </dl>
+
+    <p style="clear: both;"></p>
+
+    <h3>Captive portal settings</h3>
+
+    <dl>
+        <dt><input type="submit" value="Save" id="mode_mode1_submit" class="submitbutton"/></dt>
+    </dl>
+
+</form>
+
 
 <div class="form-error" id="mode_mode2_website_table_error">
 </div>
@@ -37,7 +96,7 @@
         <dd>
             <input type="text" name="mode_mode2_website_website" id="mode_mode2_website_website"/>
         </dd>
-        
+
         <dt><input type="submit" value="Add website" id="mode_mode2_website_submit" class="submitbutton"/></dt>
     </dl>
 </form>

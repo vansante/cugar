@@ -13,12 +13,6 @@
             <input type="text" size="40" name="basic_settings_hostname" id="basic_settings_hostname"/>
         </dd>
 
-        <dt><label for="basic_settings_domain">Domain name</label></dt>
-        <dd>
-            <input type="text" size="25" name="basic_settings_domain" id="basic_settings_domain"/>
-        </dd>
-
-
         <dt><label for="basic_settings_type">Internet configuration</label></dt>
         <dd>
             <input name="basic_settings_type" type="radio" id="basic_settings_type_dhcp" value="dhcp"/>
@@ -26,16 +20,6 @@
             <br/>
             <input name="basic_settings_type" type="radio" id="basic_settings_type_static" value="static"/>
             <label for="basic_settings_type_static">Specify an IP address</label>
-        </dd>
-
-        <dt class="basic_settings_subform_dhcp">DHCP configuration</dt>
-        <dd class="basic_settings_subform_dhcp">
-            <dl class="form_sub">
-                <dt><label for="basic_settings_dhcp_hostname">Client hostname</label></dt>
-                <dd>
-                    <input name="basic_settings_dhcp_hostname" type="text" id="basic_settings_dhcp_hostname" />
-                </dd>
-            </dl>
         </dd>
 
         <dt class="basic_settings_subform_static">Static IP configuration</dt>
@@ -79,7 +63,6 @@
     <div class="help" id="help_basic_settings_static_subnetmask">Enter the subnet mask of the interface in the following format: xxx.xxx.xxx.xxx</div>
     <div class="help" id="help_basic_settings_static_ipaddr">Enter the IP address of the interface in the following format: xxx.xxx.xxx.xxx</div>
     <div class="help" id="help_basic_settings_static_gateway">Enter the IP address of the default gateway in the following format: xxx.xxx.xxx.xxx</div>
-    <div class="help" id="help_basic_settings_dhcp_hostname">The value in this field is sent as the DHCP client identifier and hostname when requesting a DHCP lease. Some ISPs may require this (for client identification).</div>
 </div>
 
 <script type="text/javascript">
@@ -87,13 +70,9 @@ $(function() {
     $('#basic_settings_form input[name=basic_settings_type]').click(function() {
         if (this.value.toLowerCase() == 'static') {
             $('.basic_settings_subform_static').slideDown();
-            $('.basic_settings_subform_dhcp').slideUp();
-            $('.basic_settings_subform_dhcp input').attr('disabled', 'disabled');
             $('.basic_settings_subform_static input').removeAttr('disabled');
         } else {
             $('.basic_settings_subform_static').slideUp();
-            $('.basic_settings_subform_dhcp').slideDown();
-            $('.basic_settings_subform_dhcp input').removeAttr('disabled');
             $('.basic_settings_subform_static input').attr('disabled', 'disabled');
         }
     });
@@ -102,10 +81,6 @@ $(function() {
     if (type != 'static') {
         $('.basic_settings_subform_static').hide();
         $('.basic_settings_subform_static input').attr('disabled', 'disabled');
-    }
-    if (type != 'dhcp') {
-        $('.basic_settings_subform_dhcp').hide();
-        $('.basic_settings_subform_dhcp input').attr('disabled', 'disabled');
     }
 });
 </script>
@@ -167,22 +142,6 @@ $(function() {
                 }
             });
             return false;
-        });
-
-        $('#basic_settings_username').val('admin');
-        $('#basic_settings_username').attr('disabled', 'disabled');
-        $('#basic_settings_password1').attr('disabled', 'disabled');
-        $('#basic_settings_password2').attr('disabled', 'disabled');
-        $('#basic_settings_change_user').click(function(){
-            if (this.checked) {
-                $('#basic_settings_username').removeAttr('disabled');
-                $('#basic_settings_password1').removeAttr('disabled');
-                $('#basic_settings_password2').removeAttr('disabled');
-            } else {
-                $('#basic_settings_username').attr('disabled', 'disabled');
-                $('#basic_settings_password1').attr('disabled', 'disabled');
-                $('#basic_settings_password2').attr('disabled', 'disabled');
-            }
         });
     });
 </script>

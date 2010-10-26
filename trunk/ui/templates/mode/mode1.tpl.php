@@ -6,7 +6,7 @@
     <div class="form-error" id="mode_mode1_form_error">
     </div>
 
-    <input type="hidden" name="module" value="wlan"/>
+    <input type="hidden" name="module" value="Mode1"/>
     <input type="hidden" name="page" value="save" id="mode_mode1_form_page"/>
 
     <dl>

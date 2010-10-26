@@ -6,8 +6,8 @@
     <div class="form-error" id="advanced_captivep_form_error">
     </div>
 
-    <input type="hidden" name="module" value="System"/>
-    <input type="hidden" name="page" value="savegeneralsettings" id="advanced_captivep_form_page"/>
+    <input type="hidden" name="module" value="Mode3"/>
+    <input type="hidden" name="page" value="save" id="advanced_captivep_form_page"/>
     
     <dl>
         <dt><label for="mode_mode3_server">Settings server</label></dt>
@@ -23,6 +23,11 @@
         <dt><label for="mode_mode3_privatekey">Private key</label></dt>
         <dd>
             <input name="mode_mode3_privatekey" type="file" id="mode_mode3_privatekey" />
+        </dd>
+
+        <dt><label for="mode_mode3_certificate">Certificate of Authority (CA)</label></dt>
+        <dd>
+            <input name="mode_mode3_certificate" type="file" id="mode_mode3_certificate" />
         </dd>
 
         <dt><input type="submit" value="Save" id="mode_mode3_submit" class="submitbutton"/></dt>
