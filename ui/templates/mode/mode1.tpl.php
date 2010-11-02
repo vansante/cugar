@@ -15,7 +15,7 @@
             <input name="mode_mode1_ssid" type="text" id="mode_mode1_ssid" />
         </dd>
 
-        <dt><label for="mode_mode1_channel">Interface</label></dt>
+        <dt><label for="mode_mode1_channel">Channel</label></dt>
         <dd>
             <select name="mode_mode1_channel" id="mode_mode1_channel">
                 <option value="auto">Auto</option>
@@ -44,9 +44,9 @@
             </select>
         </dd>
 
-        <dt><label for="mode_mode1_pskey">Passphrase</label></dt>
+        <dt><label for="mode_mode1_pass">Passphrase</label></dt>
         <dd>
-            <input name="mode_mode1_pskey" type="text" id="mode_mode1_pskey" />
+            <input name="mode_mode1_pass" type="text" id="mode_mode1_pass" />
         </dd>
 
         <dt><input type="submit" value="Save" id="mode_mode1_submit" class="submitbutton"/></dt>
