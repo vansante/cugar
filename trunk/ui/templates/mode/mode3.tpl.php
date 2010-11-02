@@ -1,6 +1,6 @@
 <h2 class="help_anchor"><a class="open_all_help" rel="cp_mode_mode3"></a>Central server settings</h2>
 
-<p class="intro">You can define the central server address here.</p>
+<p class="intro">You can define the configuration server address here.</p>
 
 <form id="advanced_captivep_form" action="ajaxserver.php" method="post">
     <div class="form-error" id="advanced_captivep_form_error">
@@ -10,7 +10,7 @@
     <input type="hidden" name="page" value="save" id="advanced_captivep_form_page"/>
     
     <dl>
-        <dt><label for="mode_mode3_server">Settings server</label></dt>
+        <dt><label for="mode_mode3_server">Configuration server</label></dt>
         <dd>
             <input type="text" size="40" name="mode_mode3_server" id="mode_mode3_server"/>
         </dd>

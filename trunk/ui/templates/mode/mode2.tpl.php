@@ -1,6 +1,6 @@
 <h2 class="help_anchor"><a class="open_all_help" rel="cp_mode_mode2_website"></a>Captive portal</h2>
 
-<p class="intro">You can define the settings here.</p>
+<p class="intro">You can define the captive portal settings here.</p>
 
 <form id="mode_mode1_form" action="ajaxserver.php" method="post">
     <div class="form-error" id="mode_mode1_form_error">
@@ -12,14 +12,14 @@
     <h3>Wireless settings</h3>
     
     <dl>
-        <dt><label for="mode_mode1_ssid">SSID</label></dt>
+        <dt><label for="mode_mode2_ssid">SSID</label></dt>
         <dd>
-            <input name="mode_mode1_ssid" type="text" id="mode_mode1_ssid" />
+            <input name="mode_mode2_ssid" type="text" id="mode_mode2_ssid" />
         </dd>
 
-        <dt><label for="mode_mode1_channel">Interface</label></dt>
+        <dt><label for="mode_mode2_channel">Channel</label></dt>
         <dd>
-            <select name="mode_mode1_channel" id="mode_mode1_channel">
+            <select name="mode_mode2_channel" id="mode_mode2_channel">
                 <option value="auto">Auto</option>
                 <?php for ($i = 0; $i < 14; $i++) : ?>
                 <option value="<?=$i?>"><?=$i?></option>
@@ -27,9 +27,9 @@
             </select>
         </dd>
 
-        <dt><label for="mode_mode1_mode">Wireless mode</label></dt>
+        <dt><label for="mode_mode2_mode">Wireless mode</label></dt>
         <dd>
-            <select name="mode_mode1_mode" id="mode_mode1_mode">
+            <select name="mode_mode2_mode" id="mode_mode2_mode">
                 <option value="b_g_n">Wireless B/G/N</option>
                 <option value="b">Wireless B</option>
                 <option value="g">Wireless G</option>
@@ -37,18 +37,18 @@
             </select>
         </dd>
 
-        <dt><label for="mode_mode1_encryption">Wireless encryption</label></dt>
+        <dt><label for="mode_mode2_encryption">Wireless encryption</label></dt>
         <dd>
-            <select name="mode_mode1_encryption" id="mode_mode1_encryption">
+            <select name="mode_mode2_encryption" id="mode_mode2_encryption">
                 <option value="wpa">WPA</option>
                 <option value="wpa2">WPA2</option>
                 <option value="none">None</option>
             </select>
         </dd>
 
-        <dt><label for="mode_mode1_pskey">Passphrase</label></dt>
+        <dt><label for="mode_mode2_pass">Passphrase</label></dt>
         <dd>
-            <input name="mode_mode1_pskey" type="text" id="mode_mode1_pskey" />
+            <input name="mode_mode2_pass" type="text" id="mode_mode2_pass" />
         </dd>
     </dl>
 
@@ -57,11 +57,33 @@
     <h3>Captive portal settings</h3>
 
     <dl>
-        <dt><input type="submit" value="Save" id="mode_mode1_submit" class="submitbutton"/></dt>
+        <dt>Portal page mode</dt>
+        <dd>
+            <input name="mode_mode2_portalmode" type="radio" id="mode_mode2_portalmode_url" value="url"/>
+            <label for="mode_mode2_portalmode_url">URL on external server</label>
+            <br/>
+            <input name="mode_mode2_portalmode" type="radio" id="mode_mode2_portalmode_local" value="local"/>
+            <label for="mode_mode2_portalmode_local">HTML on local device</label>
+        </dd>
+
+        <dt class="mode_mode2_url"><label for="mode_mode2_url">Portal url</label></dt>
+        <dd class="mode_mode2_url">
+            <input name="mode_mode2_url" type="text" size="40" id="mode_mode2_url" />
+        </dd>
+
+        <dt class="mode_mode2_html"><label for="mode_mode2_html">HTML page</label></dt>
+        <dd class="mode_mode2_html">
+            <input name="mode_mode2_html" type="file" id="mode_mode2_html" />
+        </dd>
+
+        <dt><input type="submit" value="Save" id="mode_mode2_submit" class="submitbutton"/></dt>
     </dl>
 
 </form>
 
+<p style="clear: both;"></p>
+
+<h3>Website whitelist</h3>
 
 <div class="form-error" id="mode_mode2_website_table_error">
 </div>
@@ -94,19 +116,45 @@
     <dl>
         <dt><label for="mode_mode2_website_website">Website</label></dt>
         <dd>
-            <input type="text" name="mode_mode2_website_website" id="mode_mode2_website_website"/>
+            <input type="text" name="mode_mode2_website_website" size="40" id="mode_mode2_website_website"/>
         </dd>
 
         <dt><input type="submit" value="Add website" id="mode_mode2_website_submit" class="submitbutton"/></dt>
     </dl>
 </form>
 
-
 <div class="help_pool">
     
 </div>
 
 <script type="text/javascript">
+$(function() {
+    $('#mode_mode1_form input[name=mode_mode2_portalmode]').click(function() {
+        if (this.value.toLowerCase() == 'url') {
+            $('.mode_mode2_url').slideDown();
+            $('.mode_mode2_url input').removeAttr('disabled');
+            $('.mode_mode2_html').slideUp();
+            $('.mode_mode2_html input').attr('disabled', 'disabled');
+        } else {
+            $('.mode_mode2_html').slideDown();
+            $('.mode_mode2_html input').removeAttr('disabled');
+            $('.mode_mode2_url').slideUp();
+            $('.mode_mode2_url input').attr('disabled', 'disabled');
+        }
+    });
+
+    var type = $("#basic_settings_form input[name='basic_settings_type']:checked").val();
+    if (type != 'url') {
+        $('.mode_mode2_url').hide();
+        $('.mode_mode2_url input').attr('disabled', 'disabled');
+    }
+    if (type != 'html') {
+        $('.mode_mode2_html').hide();
+        $('.mode_mode2_html input').attr('disabled', 'disabled');
+    }
+});
+
+
     //Build the rules table
     cg.mode.mode2.whitelist = {};
     cg.mode.mode2.whitelist.buildTable = function() {

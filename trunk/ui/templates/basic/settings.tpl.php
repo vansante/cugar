@@ -13,7 +13,7 @@
             <input type="text" size="40" name="basic_settings_hostname" id="basic_settings_hostname"/>
         </dd>
 
-        <dt><label for="basic_settings_type">Internet configuration</label></dt>
+        <dt>Internet configuration</dt>
         <dd>
             <input name="basic_settings_type" type="radio" id="basic_settings_type_dhcp" value="dhcp"/>
             <label for="basic_settings_type_dhcp">Get an IP address automaticly (DHCP)</label>
@@ -83,10 +83,8 @@ $(function() {
         $('.basic_settings_subform_static input').attr('disabled', 'disabled');
     }
 });
-</script>
 
-<script type="text/javascript">
-    cg.basic.settings.clickHandler = function() {
+cg.basic.settings.clickHandler = function() {
         cg.basic.settings.load();
     };
 
