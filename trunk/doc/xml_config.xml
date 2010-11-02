@@ -85,6 +85,16 @@
 					<interface>eth1</interface>
 				</pre_auth_interfaces>
 			</wpa>
+			<dhcp_relay>
+				<servers>
+					<server>x.x.x.x</server>
+					<server>x.x.x.x</server>
+				</servers>
+				<interfaces>
+					<interface>eth0</interface>
+					<interface>eth1</interface>
+				</interfaces>
+			</dhcp_relay>
 		</ssid>
 	</hostap>
 	<openvpn>
@@ -95,14 +105,4 @@
 			<compression>true/false</compression>
 		</tunnel>
 	</openvpn>
-	<dhcp_relay>
-		<servers>
-			<server>x.x.x.x</server>
-			<server>x.x.x.x</server>
-		</servers>
-		<interfaces>
-			<interface>eth0</interface>
-			<interface>eth1</interface>
-		</interfaces>
-	</dhcp_relay>
 </config>
