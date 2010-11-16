@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reply action="ok">
+    <basic_settings>
+        <hostname>AP</hostname>
+        <type>static</type>
+        <static>
+            <ipaddr>192.168.1.1</ipaddr>
+            <subnet_mask>255.255.255.0</subnet_mask>
+            <default_gateway>192.168.1.0</default_gateway>
+            <dns_server_1>192.168.1.0</dns_server_1>
+            <dns_server_2>192.168.1.0</dns_server_2>
+        </static>
+    </basic_settings>
+</reply>
