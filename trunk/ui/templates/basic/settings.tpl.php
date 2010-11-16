@@ -4,8 +4,8 @@
     <div class="form-error" id="basic_settings_form_error">
     </div>
 
-    <input type="hidden" name="module" value="System"/>
-    <input type="hidden" name="page" value="savegeneralsettings" id="basic_settings_form_page"/>
+    <input type="hidden" name="module" value="settings"/>
+    <input type="hidden" name="page" value="save" id="basic_settings_form_page"/>
     
     <dl>
         <dt><label for="basic_settings_hostname">Hostname</label></dt>
@@ -30,20 +30,20 @@
                     <input name="basic_settings_static_ipaddr" type="text" size="12" id="basic_settings_static_ipaddr" />
                 </dd>
 
-                <dt><label for="basic_settings_static_subnetmask">Subnet mask</label></dt>
+                <dt><label for="basic_settings_static_subnet_mask">Subnet mask</label></dt>
                 <dd>
-                    <input name="basic_settings_static_subnetmask" type="text" size="12" id="basic_settings_static_subnetmask" />
+                    <input name="basic_settings_static_subnet_mask" type="text" size="12" id="basic_settings_static_subnet_mask" />
                 </dd>
 
-                <dt><label for="basic_settings_static_gateway">Default gateway</label></dt>
+                <dt><label for="basic_settings_static_default_gateway">Default gateway</label></dt>
                 <dd>
-                    <input name="basic_settings_static_gateway" type="text" size="12" id="basic_settings_static_gateway" />
+                    <input name="basic_settings_static_default_gateway" type="text" size="12" id="basic_settings_static_default_gateway" />
                 </dd>
 
-                <dt><label for="basic_settings_dns1">DNS servers</label></dt>
+                <dt><label for="basic_settings_static_dns_server_1">DNS servers</label></dt>
                 <dd>
-                    <input name="basic_settings_dns1" type="text" size="12" id="basic_settings_dns1"/><br/>
-                    <input name="basic_settings_dns2" type="text" size="12" id="basic_settings_dns2"/>
+                    <input name="basic_settings_static_dns_server_1" type="text" size="12" id="basic_settings_static_dns_server_1"/><br/>
+                    <input name="basic_settings_static_dns_server_2" type="text" size="12" id="basic_settings_static_dns_server_2"/>
                 </dd>
             </dl>
         </dd>
@@ -76,70 +76,69 @@ $(function() {
             $('.basic_settings_subform_static input').attr('disabled', 'disabled');
         }
     });
-
-    var type = $("#basic_settings_form input[name='basic_settings_type']:checked").val();
-    if (type != 'static') {
-        $('.basic_settings_subform_static').hide();
-        $('.basic_settings_subform_static input').attr('disabled', 'disabled');
-    }
 });
 
-cg.basic.settings.clickHandler = function() {
-        cg.basic.settings.load();
-    };
+cg.basic.clickHandler = function() {
+    cg.basic.settings.load();
+};
 
-    //XML Module: System
-    cg.basic.settings.load = function() {
-        cg.data.system = {};
+//XML Module: System
+cg.basic.settings.load = function() {
+    cg.data.basic_settings = {};
 
-        //Handle XML loading
-        cg.doAction({
-            url: 'testxml/system.xml',
-            module: 'System',
-            page: 'getconfig',
+    //Handle XML loading
+    cg.doAction({
+        url: 'test_xml/basic_settings.xml',
+        module: 'settings',
+        page: 'get',
+        error_element: $('#basic_settings_form_error'),
+        content_id: 'cp_basic_settings_settings',
+        successFn: function(json) {
+            cg.data.basic_settings = json.basic_settings;
+
+            cg.basic.settings.loadForm();
+        }
+    });
+};
+
+cg.basic.settings.loadForm = function() {
+    var data = cg.data.basic_settings;
+    cg.resetForm('basic_settings_form');
+
+    $('#basic_settings_hostname').val(data.hostname);
+
+    if (data.type.toLowerCase() == 'dhcp') {
+        $('#basic_settings_type_dhcp').attr('checked', 'checked');
+
+        $('.basic_settings_subform_static').slideUp();
+        $('.basic_settings_subform_static input').attr('disabled', 'disabled');
+    } else {
+        $('#basic_settings_type_static').attr('checked', 'checked');
+
+        $('.basic_settings_subform_static').slideDown();
+        $('.basic_settings_subform_static input').removeAttr('disabled');
+
+        $('#basic_settings_static_ipaddr').val(data['static'].ipaddr);
+        $('#basic_settings_static_subnet_mask').val(data['static'].subnet_mask);
+        $('#basic_settings_static_default_gateway').val(data['static'].default_gateway);
+        $('#basic_settings_static_dns_server_1').val(data['static'].dns_server_1);
+        $('#basic_settings_static_dns_server_2').val(data['static'].dns_server_2);
+    }
+};
+
+$(function(){
+    //Handler for submitting the form
+    $('#basic_settings_form').submit(function() {
+        cg.doFormAction({
+            url: 'test_xml/basic_settings.xml',
+            form_id: 'basic_settings_form',
             error_element: $('#basic_settings_form_error'),
-            content_id: 'cp_basic_settings_settings',
             successFn: function(json) {
-                cg.data.system = json.system;
-
+                cg.data.basic_settings = json.basic_settings;
                 cg.basic.settings.loadForm();
             }
         });
-    };
-
-    cg.basic.settings.loadForm = function() {
-        var data = cg.data.system;
-        cg.resetForm('basic_settings_form');
-
-        $('#basic_settings_hostname').val(data.hostname);
-        $('#basic_settings_domain').val(data.domain);
-        if (data.dnsservers.dnsserver) {
-            if ($.isArray(data.dnsservers.dnsserver)) {
-                $.each(data.dnsservers.dnsserver, function(i, dns) {
-                    if (i <= 2) {
-                        $('#basic_settings_dns'+(i+1)).val(dns.ip);
-                    }
-                });
-            } else {
-                $('#basic_settings_dns1').val(data.dnsservers.dnsserver.ip);
-            }
-        }
-        $('#basic_settings_dnsoverride').attr('checked', data.dnsoverride.toLowerCase() == 'allow');
-    };
-
-    $(function(){
-        //Handler for submitting the form
-        $('#basic_settings_form').submit(function() {
-            cg.doFormAction({
-                url: 'testxml/system.xml',
-                form_id: 'basic_settings_form',
-                error_element: $('#basic_settings_form_error'),
-                successFn: function(json) {
-                    cg.data.system = json.system;
-                    cg.basic.settings.loadForm();
-                }
-            });
-            return false;
-        });
+        return false;
     });
+});
 </script>

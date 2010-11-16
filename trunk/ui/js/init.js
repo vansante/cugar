@@ -39,15 +39,14 @@ $(function() {
 
             var url = anchor.attr('rel');
 
-            //Module = urlStr[0], Pagina = urlStr[1]
-            if (cg[url] && cg[url].clickHandler) {
-                cg[url].clickHandler();
-            }
-
             //Toon het paneel
             contentpart.show();
             contentpart.parent().show();
 
+            //Module = urlStr[0], Pagina = urlStr[1]
+            if (cg[url] && cg[url].clickHandler) {
+                cg[url].clickHandler();
+            }
         } else if (cg.status) {
             cg.showHomepage();
         }
@@ -450,21 +449,24 @@ cg.showAjaxLoader = function(el_id) {
         loader = $('<div class="ajax-form-loader" id="'+el_id+'_loader"><img src="images/loader.gif" alt="loader"/> Loading..</div>');
         element.append(loader);
     }
-    var top = element.position().top;
-    var left = element.position().left;
-    if (element.hasClass('dialog')) {
-        top = element.height() / 2 - (32 / 2);
-        left = element.width() / 2 - (120 / 2);
-    } else if (top == 0 && left == 0) {
-        top = 60;
-        left = 352;
-    } else {
-        top = top + (element.height() / 2 - (32 / 2));
-        left = left + (element.width() / 2 - (120 / 2));
+    var position = element.position();
+    if (position) {
+        var top = position.top;
+        var left = position.left;
+        if (element.hasClass('dialog')) {
+            top = element.height() / 2 - (32 / 2);
+            left = element.width() / 2 - (120 / 2);
+        } else if (top == 0 && left == 0) {
+            top = 60;
+            left = 352;
+        } else {
+            top = top + (element.height() / 2 - (32 / 2));
+            left = left + (element.width() / 2 - (120 / 2));
+        }
+        loader.css('top', top);
+        loader.css('left', left);
+        loader.show();
     }
-    loader.css('top', top);
-    loader.css('left', left);
-    loader.show();
 };
 
 cg.hideAjaxLoader = function(el_id) {
