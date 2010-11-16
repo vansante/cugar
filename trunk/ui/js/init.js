@@ -43,7 +43,6 @@ $(function() {
             contentpart.show();
             contentpart.parent().show();
 
-            //Module = urlStr[0], Pagina = urlStr[1]
             if (cg[url] && cg[url].clickHandler) {
                 cg[url].clickHandler();
             }

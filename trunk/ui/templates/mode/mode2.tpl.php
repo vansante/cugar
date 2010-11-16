@@ -1,13 +1,13 @@
-<h2 class="help_anchor"><a class="open_all_help" rel="cp_mode_mode2_website"></a>Captive portal</h2>
+<h2 class="help_anchor"><a class="open_all_help" rel="cp_mode_mode2"></a>Captive portal</h2>
 
 <p class="intro">You can define the captive portal settings here.</p>
 
-<form id="mode_mode1_form" action="ajaxserver.php" method="post">
-    <div class="form-error" id="mode_mode1_form_error">
+<form id="mode_mode2_form" action="ajaxserver.php" method="post">
+    <div class="form-error" id="mode_mode2_form_error">
     </div>
 
     <input type="hidden" name="module" value="Mode2"/>
-    <input type="hidden" name="page" value="save" id="mode_mode1_form_page"/>
+    <input type="hidden" name="page" value="save" id="mode_mode2_form_page"/>
 
     <h3>Wireless settings</h3>
     
@@ -46,9 +46,9 @@
             </select>
         </dd>
 
-        <dt><label for="mode_mode2_pass">Passphrase</label></dt>
+        <dt><label for="mode_mode2_passphrase">Passphrase</label></dt>
         <dd>
-            <input name="mode_mode2_pass" type="text" id="mode_mode2_pass" />
+            <input name="mode_mode2_passphrase" type="text" id="mode_mode2_passphrase" />
         </dd>
     </dl>
 
@@ -71,9 +71,9 @@
             <input name="mode_mode2_url" type="text" size="40" id="mode_mode2_url" />
         </dd>
 
-        <dt class="mode_mode2_html"><label for="mode_mode2_html">HTML page</label></dt>
-        <dd class="mode_mode2_html">
-            <input name="mode_mode2_html" type="file" id="mode_mode2_html" />
+        <dt class="mode_mode2_local"><label for="mode_mode2_localfile">HTML page(s) (in ZIP file)</label></dt>
+        <dd class="mode_mode2_local">
+            <input name="mode_mode2_localfile" type="file" id="mode_mode2_localfile" />
         </dd>
 
         <dt><input type="submit" value="Save" id="mode_mode2_submit" class="submitbutton"/></dt>
@@ -83,43 +83,43 @@
 
 <p style="clear: both;"></p>
 
-<h3>Website whitelist</h3>
+<h3>Whitelist</h3>
 
-<div class="form-error" id="mode_mode2_website_table_error">
+<div class="form-error" id="mode_mode2_whitelist_table_error">
 </div>
 
-<table id="mode_mode2_website_table">
+<table id="mode_mode2_whitelist_table">
     <thead>
         <tr>
-            <th>Website</th>
+            <th>Item</th>
             <th width="16">&nbsp;</th>
             <th width="16">&nbsp;</th>
         </tr>
     </thead>
-    <tbody id="mode_mode2_website_tbody">
+    <tbody id="mode_mode2_whitelist_tbody">
 
     </tbody>
 </table>
 
 <p>
-    <a class="button" href="#advanced_captivep" id="mode_mode2_website_add_link">Add new website</a>
+    <a class="button" href="#" id="mode_mode2_whitelist_add_link">Add new whitelist item</a>
 </p>
 
-<form id="mode_mode2_website_form" action="ajaxserver.php" method="post" class="dialog" title="Add new website">
-    <div class="form-error" id="mode_mode2_website_form_error">
+<form id="mode_mode2_whitelist_form" action="ajaxserver.php" method="post" class="dialog" title="Add new whitelist item">
+    <div class="form-error" id="mode_mode2_whitelist_form_error">
     </div>
 
-    <input type="hidden" name="module" value="CaptivePortal"/>
-    <input type="hidden" name="page" value="add_website" id="mode_mode2_website_form_page"/>
-    <input type="hidden" name="mode_mode2_website_id" value="" id="mode_mode2_website_id"/>
+    <input type="hidden" name="module" value="Mode2"/>
+    <input type="hidden" name="page" value="add_whitelist_item" id="mode_mode2_whitelist_form_page"/>
+    <input type="hidden" name="mode_mode2_whitelist_id" value="" id="mode_mode2_whitelist_id"/>
 
     <dl>
-        <dt><label for="mode_mode2_website_website">Website</label></dt>
+        <dt><label for="mode_mode2_whitelist_item">Item (IP/subnet/URL)</label></dt>
         <dd>
-            <input type="text" name="mode_mode2_website_website" size="40" id="mode_mode2_website_website"/>
+            <input type="text" name="mode_mode2_whitelist_item" size="40" id="mode_mode2_whitelist_item"/>
         </dd>
 
-        <dt><input type="submit" value="Add website" id="mode_mode2_website_submit" class="submitbutton"/></dt>
+        <dt><input type="submit" value="Add item" id="mode_mode2_whitelist_submit" class="submitbutton"/></dt>
     </dl>
 </form>
 
@@ -129,116 +129,155 @@
 
 <script type="text/javascript">
 $(function() {
-    $('#mode_mode1_form input[name=mode_mode2_portalmode]').click(function() {
+    $('#mode_mode2_form input[name=mode_mode2_portalmode]').click(function() {
         if (this.value.toLowerCase() == 'url') {
             $('.mode_mode2_url').slideDown();
             $('.mode_mode2_url input').removeAttr('disabled');
-            $('.mode_mode2_html').slideUp();
-            $('.mode_mode2_html input').attr('disabled', 'disabled');
+            $('.mode_mode2_local').hide();
+            $('.mode_mode2_local input').attr('disabled', 'disabled');
         } else {
-            $('.mode_mode2_html').slideDown();
-            $('.mode_mode2_html input').removeAttr('disabled');
-            $('.mode_mode2_url').slideUp();
+            $('.mode_mode2_local').slideDown();
+            $('.mode_mode2_local input').removeAttr('disabled');
+            $('.mode_mode2_url').hide();
             $('.mode_mode2_url input').attr('disabled', 'disabled');
         }
     });
+});
 
-    var type = $("#basic_settings_form input[name='basic_settings_type']:checked").val();
-    if (type != 'url') {
+cg.mode.mode2.loadForm = function() {
+    var data = cg.data.mode2;
+    cg.resetForm('mode_mode2_form');
+
+    $('#mode_mode2_ssid').val(data.ssid_name);
+    $('#mode_mode2_mode').val(data.mode);
+    $('#mode_mode2_channel').val(data.channel);
+    $('#mode_mode2_encryption').val(data.wpa.mode);
+    $('#mode_mode2_passphrase').val(data.wpa.passphrase);
+    
+    if (data.portal.mode == 'url') {
+        $('#mode_mode2_portalmode_url').attr('checked', 'checked');
+
+        $('.mode_mode2_url').slideDown();
+        $('.mode_mode2_url input').removeAttr('disabled');
+        $('.mode_mode2_local').hide();
+        $('.mode_mode2_local input').attr('disabled', 'disabled');
+        
+        $('#mode_mode2_url').val(data.portal.url);
+    } else {
+        $('#mode_mode2_portalmode_local').attr('checked', 'checked');
+        
+        $('.mode_mode2_local').slideDown();
+        $('.mode_mode2_local input').removeAttr('disabled');
         $('.mode_mode2_url').hide();
         $('.mode_mode2_url input').attr('disabled', 'disabled');
     }
-    if (type != 'html') {
-        $('.mode_mode2_html').hide();
-        $('.mode_mode2_html input').attr('disabled', 'disabled');
-    }
-});
+};
 
+cg.mode.mode2.whitelist = {};
 
-    //Build the rules table
-    cg.mode.mode2.whitelist = {};
-    cg.mode.mode2.whitelist.buildTable = function() {
-
-    };
-
-    //Add a rule to the table
-    cg.mode.mode2.whitelist.addRule = function(rule) {
-        
-    };
-
-    cg.mode.mode2.whitelist.resetForm = function() {
-        cg.resetForm('mode_mode2_website_form');
-    };
-
-    //Load a rule into firewall rules form
-    cg.mode.mode2.whitelist.formLoadRule = function(rule) {
-        
-    };
-
-    $(function() {
-        $('#mode_mode2_website_form').dialog({
-            autoOpen: false,
-            resizable: false,
-            width: 400,
-            minHeight: 100,
-            modal: true
-        });
-
-        //Click handler for adding
-        $('#mode_mode2_website_add_link').click(function() {
-            cg.mode.mode2.whitelist.resetForm();
-            $('#mode_mode2_website_form_page').val('add_website');
-            $('#mode_mode2_website_id').val(false);
-            $('#mode_mode2_website_submit').val('Add website');
-            $('#mode_mode2_website_form').dialog('option', 'title', 'Add new website');
-            $('#mode_mode2_website_form').dialog('open');
-            return false;
-        });
-
-        //Click handler(s) for editing
-        //Live handler because edit button doesn't exist on document.ready
-        $('.edit_mode2_website').live('click', function() {
-            var rule = cg.data.proxy_ports[$(this).attr('rel')];
-            cg.mode.mode2.whitelist.formLoadRule(rule);
-            $('#mode_mode2_website_form').dialog('open');
-            return false;
-        });
-
-        //Click handler for deleting rule
-        $('.delete_mode2_website').live('click', function() {
-            var id = $(this).attr('rel');
-            cg.confirm("Are you sure?", "Are you sure you want to delete this website?", function() {
-//                cg.doAction({
-//                    url: 'testxml/reply.xml',
-//                    module: 'Proxy',
-//                    page: 'deleteport',
-//                    params: {
-//                        portid: id
-//                    },
-//                    error_element: $('#mode_mode2_website_table_error'),
-//                    content_id: 'cp_mode_mode2_websites',
-//                    successFn: function(json) {
-//                        delete cg.data.proxy_ports[id];
-//                        cg.mode.mode2.whitelist.buildTable();
-//                    }
-//                });
-            });
-            return false;
-        });
-
-        //Handler for submitting the form
-        $('#mode_mode2_website_form').submit(function() {
-//            cg.doFormAction({
-//                url: 'testxml/',
-//                form_id: 'mode_mode2_website_form',
-//                error_element: $('#mode_mode2_website_form_error'),
-//                successFn: function(json) {
-//                    cg.data.proxy_ports[json.proxy.ports.port.id] = json.proxy.ports.port;
-//                    cg.mode.mode2.whitelist.buildTable();
-//                    $('#mode_mode2_website_form').dialog('close');
-//                }
-//            });
-            return false;
-        });
+//Load the whitelist table
+cg.mode.mode2.whitelist.loadTable = function() {
+    //Clear the current table data to (re)load it
+    $('#mode_mode2_whitelist_tbody').empty();
+    $.each(cg.data.mode2_whitelist, function(i, item) {
+        cg.mode.mode2.whitelist.addItem(item);
     });
+};
+
+//Add an item to the table
+cg.mode.mode2.whitelist.addItem = function(item) {
+    var tblstring = '<tr>'+
+        '<td>'+item+'</td>'+
+        '<td><a href="#" rel="'+item+'" class="edit_mode2_whitelist_item" title="Edit whitelist item"><img src="images/icons/edit.png" alt="Edit item"/></a></td>'+
+        '<td><a href="#" rel="'+item+'" class="delete_mode2_whitelist_item" title="Delete whitelist item"><img src="images/icons/delete.png" alt="Delete item"/></a></td>'+
+        '</tr>';
+    $('#mode_mode2_whitelist_tbody').append(tblstring);
+};
+
+//Load a rule into firewall rules form
+cg.mode.mode2.whitelist.formLoadItem = function(item) {
+    cg.resetForm('mode_mode2_whitelist_form');
+
+    $('#mode_mode2_whitelist_page').val('edit_whitelist_item');
+    $('#mode_mode2_whitelist_id').val(item);
+    $('#mode_mode2_whitelist_submit').val('Edit whitelist item');
+    $('#mode_mode2_whitelist_form').dialog('option', 'title', 'Edit whitelist item');
+
+    $('#mode_mode2_whitelist_item').val(item);
+};
+
+$(function() {
+    $('#mode_mode2_whitelist_form').dialog({
+        autoOpen: false,
+        resizable: false,
+        width: 600,
+        minHeight: 100,
+        modal: true
+    });
+
+    //Click handler for adding
+    $('#mode_mode2_whitelist_add_link').click(function() {
+        cg.resetForm('mode_mode2_whitelist_form');
+        
+        $('#mode_mode2_whitelist_form_page').val('add_whitelist_item');
+        $('#mode_mode2_whitelist_id').val();
+        $('#mode_mode2_whitelist_submit').val('Add whitelist item');
+        $('#mode_mode2_whitelist_form').dialog('option', 'title', 'Add new whitelist item');
+        $('#mode_mode2_whitelist_form').dialog('open');
+        return false;
+    });
+
+    //Click handler(s) for editing
+    //Live handler because edit button doesn't exist on document.ready
+    $('.edit_mode2_whitelist_item').live('click', function() {
+        var item = cg.data.mode2_whitelist[$(this).attr('rel')];
+        cg.mode.mode2.whitelist.formLoadItem(item);
+        $('#mode_mode2_whitelist_form').dialog('open');
+        return false;
+    });
+
+    //Click handler for deleting rule
+    $('.delete_mode2_whitelist_item').live('click', function() {
+        var item = $(this).attr('rel');
+        cg.confirm("Are you sure?", "Are you sure you want to delete this whitelist item?", function() {
+            cg.doAction({
+                url: 'test_xml/reply_ok.xml',
+                module: 'Mode2',
+                page: 'whitelist_delete_item',
+                params: {
+                    item: item
+                },
+                error_element: $('#mode_mode2_whitelist_table_error'),
+                content_id: 'cp_mode_mode2_whitelist',
+                successFn: function(json) {
+                    delete cg.data.mode2_whitelist[item];
+                    cg.mode.mode2.whitelist.loadTable();
+                }
+            });
+        });
+        return false;
+    });
+
+    //Handler for submitting the form
+    $('#mode_mode2_whitelist_form').submit(function() {
+        cg.doFormAction({
+            url: 'test_xml/reply_ok.xml',
+            form_id: 'mode_mode2_whitelist_form',
+            error_element: $('#mode_mode2_whitelist_form_error'),
+            successFn: function(json) {
+                var item = $('#mode_mode2_whitelist_item').val();
+                var id = $('#mode_mode2_whitelist_id').val();
+
+                if (id.length) {
+                    delete cg.data.mode2_whitelist[id];
+                }
+                cg.data.mode2_whitelist[item] = item;
+                
+                cg.mode.mode2.whitelist.loadTable();
+                $('#mode_mode2_whitelist_form').dialog('close');
+            }
+        });
+        return false;
+    });
+});
 </script>

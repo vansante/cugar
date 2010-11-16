@@ -6,8 +6,8 @@
     <div class="form-error" id="mode_selection_form_error">
     </div>
 
-    <input type="hidden" name="module" value="ModeSelection"/>
-    <input type="hidden" name="page" value="save" id="mode_selection_form_page"/>
+    <input type="hidden" name="module" value="Mode"/>
+    <input type="hidden" name="page" value="saveselection" id="mode_selection_form_page"/>
 
     <dl>
         <dt><label for="mode_selection_mode">Device mode</label></dt>
@@ -39,7 +39,7 @@ $(function() {
     $('#tabs_mode').tabs('option', 'disabled', [1, 2, 3]);
 
     $('#mode_selection_form input[name=mode_selection_mode]').click(function() {
-        switch(this.value.toLowerCase()) {
+        switch(this.value) {
             case '1':
                 $('#tabs_mode').tabs('option', 'disabled', [2, 3]);
                 break
@@ -57,9 +57,14 @@ $(function() {
                 break;
         }
     });
+});
 
-    var type = $('#mode_selection_form input[name=mode_selection_mode]:checked').val();
-    switch(type) {
+cg.mode.selection.loadForm = function() {
+    var data = cg.data.mode_selection;
+    cg.resetForm('mode_selection_form');
+
+    $('#mode_selection_mode_'+data.mode_selection).attr('checked', 'checked');
+    switch(data.mode_selection) {
         case '1':
             $('#tabs_mode').tabs('option', 'disabled', [2, 3]);
             break
@@ -69,6 +74,32 @@ $(function() {
         case '3':
             $('#tabs_mode').tabs('option', 'disabled', [1, 2]);
             break;
+        case '1_2':
+            $('#tabs_mode').tabs('option', 'disabled', [3]);
+            break;
+        case '1_3':
+            $('#tabs_mode').tabs('option', 'disabled', [2]);
+            break;
     }
+};
+
+$(function(){
+    //Handler for submitting the form
+    $('#mode_selection_form').submit(function() {
+        cg.doFormAction({
+            url: 'test_xml/modes.xml',
+            form_id: 'basic_settings_form',
+            error_element: $('#basic_settings_form_error'),
+            successFn: function(json) {
+                cg.data.mode_selection = json.modes;
+                cg.data.mode1 = json.modes.mode1;
+                cg.data.mode2 = json.modes.mode2;
+                cg.data.mode3 = json.modes.mode3;
+
+                cg.mode.loadAllForms();
+            }
+        });
+        return false;
+    });
 });
 </script>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<reply action="ok">
+    <modes>
+        <mode_selection>1_2</mode_selection>
+
+        <mode1>
+            <ssid_name>test mode 1</ssid_name>
+            <mode>n</mode>
+            <channel>0</channel>
+            <wpa mode="wpa/wpa2/off">
+                <passphrase>lalalala</passphrase>
+            </wpa>
+        </mode1>
+
+        <mode2>
+            <ssid_name>test mode 2</ssid_name>
+            <mode>b_g_n</mode>
+            <channel>11</channel>
+            <wpa mode="wpa/wpa2/off">
+                <passphrase>lalalala2</passphrase>
+            </wpa>
+            <portal>
+                <mode>url</mode>
+                <url>http://www.google.nl</url>
+                <whitelist>
+                    <item value="http://www.google.com"/>
+                    <item value="http://www.gmail.com"/>
+                    <item value="http://www.vianode.net"/>
+                </whitelist>
+            </portal>
+        </mode2>
+
+        <mode3>
+            <server>http://www.configurationserver.net</server>
+            <public_key>pub.cert</public_key>
+            <private_key>priv.key</private_key>
+            <certificate>cert.ca.cert</certificate>
+        </mode3>
+    </modes>
+</reply>

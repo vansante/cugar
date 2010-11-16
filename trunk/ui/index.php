@@ -29,16 +29,16 @@ if (empty($_SESSION['uid'])) {
     }
 } else {
     $menu = array(
-        array(
-            'name' => 'Status',
-            'key' => 'status',
-            'tabs' => array(
-                array(
-                    'name' => 'System',
-                    'key' => 'system'
-                )
-            )
-        ),
+//        array(
+//            'name' => 'Status',
+//            'key' => 'status',
+//            'tabs' => array(
+//                array(
+//                    'name' => 'System',
+//                    'key' => 'system'
+//                )
+//            )
+//        ),
         array(
             'name' => 'Basic settings',
             'key' => 'basic',

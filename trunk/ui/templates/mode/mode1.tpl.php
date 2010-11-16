@@ -25,7 +25,7 @@
             </select>
         </dd>
 
-        <dt><label for="mode_mode1_mode">Wireless mode</label></dt>
+        <dt><label for="mode_mode1_wireless_mode">Wireless mode</label></dt>
         <dd>
             <select name="mode_mode1_mode" id="mode_mode1_mode">
                 <option value="b_g_n">Wireless B/G/N</option>
@@ -44,9 +44,9 @@
             </select>
         </dd>
 
-        <dt><label for="mode_mode1_pass">Passphrase</label></dt>
+        <dt><label for="mode_mode1_passphrase">Passphrase</label></dt>
         <dd>
-            <input name="mode_mode1_pass" type="text" id="mode_mode1_pass" />
+            <input name="mode_mode1_passphrase" type="text" id="mode_mode1_passphrase" />
         </dd>
 
         <dt><input type="submit" value="Save" id="mode_mode1_submit" class="submitbutton"/></dt>
@@ -54,3 +54,33 @@
 
     <p style="clear: both;"></p>
 </form>
+
+<script type="text/javascript">
+cg.mode.mode1.loadForm = function() {
+    var data = cg.data.mode1;
+    cg.resetForm('mode_mode1_form');
+
+    $('#mode_mode1_ssid').val(data.ssid_name);
+    $('#mode_mode1_mode').val(data.mode);
+    $('#mode_mode1_channel').val(data.channel);
+    $('#mode_mode1_encryption').val(data.wpa.mode);
+    $('#mode_mode1_passphrase').val(data.wpa.passphrase);
+};
+
+$(function(){
+    //Handler for submitting the form
+    $('#mode_mode1_form').submit(function() {
+       cg.doFormAction({
+            url: 'test_xml/modes.xml',
+            form_id: 'mode_mode1',
+            error_element: $('#mode_mode1_form_error'),
+            successFn: function(json) {
+                cg.data.mode1 = json.modes.mode1;
+
+                cg.mode.mode1.loadForm();
+            }
+        });
+        return false;
+    });
+});
+</script>
