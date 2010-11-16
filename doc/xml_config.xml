@@ -9,13 +9,13 @@
 		<vlan enable="false">
 			<vlan_id>666</vlan_id>
 		</vlan>
-		<wpa>
+		<wpa mode="wpa/wpa2/off">
 			<group_rekey_interval>600</group_rekey_interval>
 			<strict_rekey>true/false</strict_rekey>
 			<pre_auth>true/false</pre_auth>
 			<pre_auth_interfaces>
-			<interface>eth0</interface>
-			<interface>eth1</interface>
+				<interface>eth0</interface>
+				<interface>eth1</interface>
 			</pre_auth_interfaces>
 			<passphrase>lalalala</passphrase>
 		</wpa>
@@ -28,7 +28,7 @@
 		<vlan enable="false">
 			<vlan_id>666</vlan_id>
 		</vlan>
-		<wpa>
+		<wpa mode="wpa/wpa2/off">
 			<group_rekey_interval>600</group_rekey_interval>
 			<strict_rekey>true/false</strict_rekey>
 			<pre_auth>true/false</pre_auth>
@@ -38,13 +38,18 @@
 			</pre_auth_interfaces>
 			<passphrase>lalalala</passphrase>
 		</wpa>
-		<radius enable="true"></radius>
+		<radius enable="false"></radius>
 		<portal>
 			<mode>url/local</mode>
 			<url>http://google.nl</url>
 			<local_files>
 				<file name="file.html">dataaa</file>
 			</local_files>
+			<whitelist>
+				<item value="http://www.google.com"/>
+				<item value="http://www.gmail.com"/>
+				<item value="http://www.vianode.net"/>
+			</whitelist>
 		</portal>
 	</ssid>
 	<ssid mode="2">
@@ -71,7 +76,7 @@
 			</acct_server>
 			<retry_interval>60</retry_interval>
 		</radius>
-		<wpa>
+		<wpa mode="wpa/wpa2/off">
 			<group_rekey_interval>600</group_rekey_interval>
 			<strict_rekey>true/false</strict_rekey>
 			<pre_auth>true/false</pre_auth>
