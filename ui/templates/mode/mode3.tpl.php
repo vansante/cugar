@@ -15,14 +15,14 @@
             <input type="text" size="40" name="mode_mode3_server" id="mode_mode3_server"/>
         </dd>
 
-        <dt><label for="mode_mode3_publickey">Public key</label></dt>
+        <dt><label for="mode_mode3_public_key">Public key</label></dt>
         <dd>
-            <input name="mode_mode3_publickey" type="file" id="mode_mode3_publickey" />
+            <input name="mode_mode3_public_key" type="file" id="mode_mode3_public_key" />
         </dd>
 
-        <dt><label for="mode_mode3_privatekey">Private key</label></dt>
+        <dt><label for="mode_mode3_private_key">Private key</label></dt>
         <dd>
-            <input name="mode_mode3_privatekey" type="file" id="mode_mode3_privatekey" />
+            <input name="mode_mode3_private_key" type="file" id="mode_mode3_private_key" />
         </dd>
 
         <dt><label for="mode_mode3_certificate">Certificate of Authority (CA)</label></dt>
@@ -39,3 +39,29 @@
 <div class="help_pool">
     
 </div>
+
+<script type="text/javascript">
+cg.mode.mode3.loadForm = function() {
+    var data = cg.data.mode3;
+    cg.resetForm('mode_mode3_form');
+
+    $('#mode_mode3_server').val(data.server);
+};
+
+$(function(){
+    //Handler for submitting the form
+    $('#mode_mode3_form').submit(function() {
+       cg.doFormAction({
+            url: 'test_xml/modes.xml',
+            form_id: 'mode_mode3',
+            error_element: $('#mode_mode3_form_error'),
+            successFn: function(json) {
+                cg.data.mode3 = json.modes.mode3;
+
+                cg.mode.mode3.loadForm();
+            }
+        });
+        return false;
+    });
+});
+</script>
