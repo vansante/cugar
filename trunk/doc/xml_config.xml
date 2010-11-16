@@ -1,108 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-	<updateserver></updateserver>
-	<hostap>
-		<ssid mode="1">
-			<ssid_name>Basic ssid</ssid_name>
-			<mode>b/g/n</mode>
-			<channel>0</channel>
-			<broadcast_ssid>true/false</broadcast_ssid>
-			<radius enable="false"></radius>
-			<vlan>
-				<dynamic_vlan>disabled</dynamic_vlan>
-				<vlan_id>id</vlan_id>
-			</vlan>
-			<wpa>
-				<group_rekey_interval>600</group_rekey_interval>
-				<strict_rekey>true/false</strict_rekey>
-				<pre_auth>true/false</pre_auth>
-				<pre_auth_interfaces>
-					<interface>eth0</interface>
-					<interface>eth1</interface>
-				</pre_auth_interfaces>
-				<passphrase>lalalala</passphrase>
-			</wpa>
-		</ssid>
-		<ssid mode="2">
-			<ssid_name>Captive portal</ssid_name>
-			<mode>b/g/n</mode>
-			<channel>0</channel>
-			<broadcast_ssid>true/false</broadcast_ssid>
-			<radius enable="false"></radius>
-			<vlan>
-				<dynamic_vlan>disabled</dynamic_vlan>
-				<vlan_id>id</vlan_id>
-			</vlan>
-			<wpa>
-				<group_rekey_interval>600</group_rekey_interval>
-				<strict_rekey>true/false</strict_rekey>
-				<pre_auth>true/false</pre_auth>
-				<pre_auth_interfaces>
-					<interface>eth0</interface>
-					<interface>eth1</interface>
-				</pre_auth_interfaces>
-				<passphrase>lalalala</passphrase>
-			</wpa>
-			<portal>
-				<mode>url/local</mode>
-				<url>http://google.nl</url>
-				<local_files>
-					<file name="file.html">dataaa</file>
-				</local_files>
-			</portal>
-		</ssid>
-		<ssid mode="3">
-			<ssid_name>Radius</ssid_name>
-			<mode>b/g/n</mode>
-			<channel>0</channel>
-			<broadcast_ssid>true/false</broadcast_ssid>
-			<radius enable="true/false">
-				<own_ip>x.x.x.x</own_ip>
-				<nas_identifier>??????</nas_identifier>
-				<auth_server>
-					<ip>x.x.x.x</ip>
-					<port>??</port>
-					<shared_secret>??????</shared_secret>
-				</auth_server>
-				<acct_server>
-					<ip>x.x.x.x</ip>
-					<port>??</port>
-					<shared_secret>??????</shared_secret>
-					<interim_interval>600</interim_interval>
-				</acct_server>
-				<retry_interval>600</retry_interval>
-			</radius>
-			<vlan>
-				<dynamic_vlan>disabled/optional/required</dynamic_vlan>
-				<vlan_id>id</vlan_id>
-			</vlan>
-			<wpa>
-				<group_rekey_interval>600</group_rekey_interval>
-				<strict_rekey>true/false</strict_rekey>
-				<pre_auth>true/false</pre_auth>
-				<pre_auth_interfaces>
-					<interface>eth0</interface>
-					<interface>eth1</interface>
-				</pre_auth_interfaces>
-			</wpa>
-			<dhcp_relay>
-				<servers>
-					<server>x.x.x.x</server>
-					<server>x.x.x.x</server>
-				</servers>
-				<interfaces>
-					<interface>eth0</interface>
-					<interface>eth1</interface>
-				</interfaces>
-			</dhcp_relay>
-		</ssid>
-	</hostap>
-	<openvpn>
-		<tunnel>
-			<server>x.x.x.x</server>
-			<port>??</port>
-			<cipher>AES</cipher>
-			<compression>true/false</compression>
-		</tunnel>
-	</openvpn>
+	<updateserver>195.169.160.3</updateserver>
+	<ssid mode="1">
+		<ssid_name>test</ssid_name>
+		<mode>b/g/n</mode>
+		<channel>0</channel>
+		<broadcast>true</broadcast>
+		<vlan enable="false">
+			<vlan_id>666</vlan_id>
+		</vlan>
+		<wpa>
+			<group_rekey_interval>600</group_rekey_interval>
+			<strict_rekey>true/false</strict_rekey>
+			<pre_auth>true/false</pre_auth>
+			<pre_auth_interfaces>
+			<interface>eth0</interface>
+			<interface>eth1</interface>
+			</pre_auth_interfaces>
+			<passphrase>lalalala</passphrase>
+		</wpa>
+	</ssid>
+	<ssid mode="2">
+		<ssid_name>test</ssid_name>
+		<mode>b/g/n</mode>
+		<channel>0</channel>
+		<broadcast>true</broadcast>
+		<vlan enable="false">
+			<vlan_id>666</vlan_id>
+		</vlan>
+		<wpa>
+			<group_rekey_interval>600</group_rekey_interval>
+			<strict_rekey>true/false</strict_rekey>
+			<pre_auth>true/false</pre_auth>
+			<pre_auth_interfaces>
+				<interface>eth0</interface>
+				<interface>eth1</interface>
+			</pre_auth_interfaces>
+			<passphrase>lalalala</passphrase>
+		</wpa>
+		<radius enable="true"></radius>
+		<portal>
+			<mode>url/local</mode>
+			<url>http://google.nl</url>
+			<local_files>
+				<file name="file.html">dataaa</file>
+			</local_files>
+		</portal>
+	</ssid>
+	<ssid mode="2">
+		<ssid_name>test</ssid_name>
+		<mode>b/g/n</mode>
+		<channel>0</channel>
+		<broadcast>true</broadcast>
+		<vlan enable="false">
+			<vlan_id>666</vlan_id>
+		</vlan>
+		<radius>
+			<own_ip></own_ip>
+			<nas_identifier></nas_identifier>
+			<auth_server>
+				<ip></ip>
+				<port></port>
+				<shared_secret></shared_secret>
+			</auth_server>
+			<acct_server>
+				<ip></ip>
+				<port></port>
+				<shared_secret></shared_secret>
+				<interim_interval>600</interim_interval>
+			</acct_server>
+			<retry_interval>60</retry_interval>
+		</radius>
+		<wpa>
+			<group_rekey_interval>600</group_rekey_interval>
+			<strict_rekey>true/false</strict_rekey>
+			<pre_auth>true/false</pre_auth>
+			<pre_auth_interfaces>
+				<interface>eth0</interface>
+				<interface>eth1</interface>
+			</pre_auth_interfaces>
+			<passphrase>lalalala</passphrase>
+		</wpa>
+		<dhcp_relay>
+			<servers>
+				<server>10.254.12.5</server>
+				<server>10.254.12.6</server>
+			</servers>
+			<interface>wlan0</interface>
+		</dhcp_relay>
+		<openvpn>
+			<tunnel type="data">
+				<server>x.x.x.x</server>
+				<port></port>
+				<cipher>AES-CBC-128</cipher>
+				<compression>true/false</compression>
+			</tunnel>
+			<tunnel type="auth">
+				<server>x.x.x.x</server>
+				<port></port>
+				<cipher>AES-CBC-256</cipher>
+				<compression>true/false</compression>
+			</tunnel>
+		</openvpn>
+	</ssid>
 </config>
