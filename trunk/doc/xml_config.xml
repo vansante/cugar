@@ -2,64 +2,75 @@
 <config>
 	<updateserver>195.169.160.3</updateserver>
 	<ssid mode="1">
-		<ssid_name>test</ssid_name>
-		<mode>b/g/n</mode>
-		<channel>0</channel>
-		<broadcast>true</broadcast>
-		<vlan enable="false">
-			<vlan_id>666</vlan_id>
-		</vlan>
-		<wpa mode="wpa/wpa2/off">
-			<group_rekey_interval>600</group_rekey_interval>
-			<strict_rekey>true/false</strict_rekey>
-			<pre_auth>true/false</pre_auth>
-			<pre_auth_interfaces>
+		<hostapd>
+			<ssid_name>test</ssid_name>
+			<mode>b/g/n</mode>
+			<channel>0</channel>
+			<broadcast>true</broadcast>
+			<vlan enable="false">
+				<vlan_id>666</vlan_id>
+			</vlan>
+			<wpa>
+				<group_rekey_interval>600</group_rekey_interval>
+				<strict_rekey>true/false</strict_rekey>
+				<pre_auth>true/false</pre_auth>
+				<pre_auth_interfaces>
 				<interface>eth0</interface>
 				<interface>eth1</interface>
-			</pre_auth_interfaces>
-			<passphrase>lalalala</passphrase>
-		</wpa>
+				</pre_auth_interfaces>
+				<passphrase>lalalala</passphrase>
+			</wpa>
+		</hostapd>
 	</ssid>
 	<ssid mode="2">
-		<ssid_name>test</ssid_name>
-		<mode>b/g/n</mode>
-		<channel>0</channel>
-		<broadcast>true</broadcast>
-		<vlan enable="false">
-			<vlan_id>666</vlan_id>
-		</vlan>
-		<wpa mode="wpa/wpa2/off">
-			<group_rekey_interval>600</group_rekey_interval>
-			<strict_rekey>true/false</strict_rekey>
-			<pre_auth>true/false</pre_auth>
-			<pre_auth_interfaces>
-				<interface>eth0</interface>
-				<interface>eth1</interface>
-			</pre_auth_interfaces>
-			<passphrase>lalalala</passphrase>
-		</wpa>
-		<radius enable="false"></radius>
+		<hostap>
+			<ssid_name>test</ssid_name>
+			<mode>b/g/n</mode>
+			<channel>0</channel>
+			<broadcast>true</broadcast>
+			<vlan enable="false">
+				<vlan_id>666</vlan_id>
+			</vlan>
+			<wpa>
+				<group_rekey_interval>600</group_rekey_interval>
+				<strict_rekey>true/false</strict_rekey>
+				<pre_auth>true/false</pre_auth>
+				<pre_auth_interfaces>
+					<interface>eth0</interface>
+					<interface>eth1</interface>
+				</pre_auth_interfaces>
+				<passphrase>lalalala</passphrase>
+			</wpa>
+		</hostap>
+		<radius enable="true"></radius>
 		<portal>
 			<mode>url/local</mode>
 			<url>http://google.nl</url>
 			<local_files>
 				<file name="file.html">dataaa</file>
 			</local_files>
-			<whitelist>
-				<item value="http://www.google.com"/>
-				<item value="http://www.gmail.com"/>
-				<item value="http://www.vianode.net"/>
-			</whitelist>
 		</portal>
 	</ssid>
 	<ssid mode="2">
-		<ssid_name>test</ssid_name>
-		<mode>b/g/n</mode>
-		<channel>0</channel>
-		<broadcast>true</broadcast>
-		<vlan enable="false">
-			<vlan_id>666</vlan_id>
-		</vlan>
+		<hostap>
+			<ssid_name>test</ssid_name>
+			<mode>b/g/n</mode>
+			<channel>0</channel>
+			<broadcast>true</broadcast>
+			<vlan enable="false">
+				<vlan_id>666</vlan_id>
+			</vlan>
+			<wpa>
+				<group_rekey_interval>600</group_rekey_interval>
+				<strict_rekey>true/false</strict_rekey>
+				<pre_auth>true/false</pre_auth>
+				<pre_auth_interfaces>
+					<interface>eth0</interface>
+					<interface>eth1</interface>
+				</pre_auth_interfaces>
+				<passphrase>lalalala</passphrase>
+			</wpa>
+		</hostap>
 		<radius>
 			<own_ip></own_ip>
 			<nas_identifier></nas_identifier>
@@ -76,16 +87,6 @@
 			</acct_server>
 			<retry_interval>60</retry_interval>
 		</radius>
-		<wpa mode="wpa/wpa2/off">
-			<group_rekey_interval>600</group_rekey_interval>
-			<strict_rekey>true/false</strict_rekey>
-			<pre_auth>true/false</pre_auth>
-			<pre_auth_interfaces>
-				<interface>eth0</interface>
-				<interface>eth1</interface>
-			</pre_auth_interfaces>
-			<passphrase>lalalala</passphrase>
-		</wpa>
 		<dhcp_relay>
 			<servers>
 				<server>10.254.12.5</server>
