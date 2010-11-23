@@ -46,10 +46,10 @@ $(function() {
             if (cg[url] && cg[url].clickHandler) {
                 cg[url].clickHandler();
             }
-        } else if (cg.status) {
+        } else if (cg.basic) {
             cg.showHomepage();
         }
-    } else if (cg.status) {
+    } else if (cg.basic) {
         cg.showHomepage();
     }
 
@@ -121,11 +121,11 @@ $(function() {
 
 cg.showHomepage = function() {
     // Show default homepage: System status
-    var cp = $('#cp_status');
+    var cp = $('#cp_basic');
     cp.show();
     cp.parent().show();
-    $('#status').addClass('active');
-    cg.status.system.clickHandler();
+    $('#basic').addClass('active');
+    cg.basic.clickHandler();
 };
 
 /*
