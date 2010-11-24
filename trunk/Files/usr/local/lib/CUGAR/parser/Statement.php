@@ -36,6 +36,7 @@ Interface Statement{
 	 * Validates (through validate()) the statement and propagates their meaning to the
 	 * configuration management classes through the approprate functions.
 	 * 
+	 * @throws MalformedConfigException
 	 * @return void
 	 */
 	public function interpret($options);

@@ -30,6 +30,8 @@
  *
  */
 class ssid implements Statement{
+	private $expectedtags = Array('hostapd','openvpn','portal','dhcp_relay');
+	
 	/**
 	 * (non-PHPdoc)
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#interpret()
@@ -37,6 +39,12 @@ class ssid implements Statement{
 	public function interpret($options){
 		validate($options);
 		
+		foreach($options->children() as $child){
+			//	Interpret each child tag, and we're through (because SSID contains no system configuration and is merely a container)
+			$name = $child->getName();
+			$tmp = new $name();
+			$tmp->interpret($child);
+		}
 	}
 	
 	/**
@@ -45,10 +53,34 @@ class ssid implements Statement{
 	 */
 	public function validate($options){
 		if($options['mode'] >= 1 && $options['mode'] <= 3){
-		
+			if(!isset($options->hostapd)){
+				throw new MalformedConfigException($options,'no hostap tag found');
+			}
+			
+			if($options['mode'] == 2 && !isset($options->portal)){
+				throw new MalformedConfigException($options,'no portal tag found for mode 2 config');
+			}
+			
+			if($options['mode'] == 3){
+				if(!isset($options->openvpn)){
+					throw new MalformedConfigException($options, 'no openvpn tag found for mode 3 config');
+				}
+				if(!isset($options->dhcp_relay)){
+					throw new MalformedConfigException($options, 'no dhcp_relay tag found for mode 3 config');
+				}
+			}
+			
+			/*
+			 * Check if all child tags are expected, throw error on unexpected tags
+			 */
+			foreach($options->children() as $child){
+				if(!in_array($child->getName(),$this->expectedtags)){
+					throw new MalformedConfigException($child,'unexpected tag');
+				}
+			}
 		}
 		else{
-			throw new MalformedConfigException('ssid','invalid mode - ' + $options['mode']);
+			throw new MalformedConfigException($options,'invalid mode - ' + $options['mode']);
 		}
 	}
 }
