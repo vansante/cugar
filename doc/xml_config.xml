@@ -13,11 +13,6 @@
 			<wpa>
 				<group_rekey_interval>600</group_rekey_interval>
 				<strict_rekey>true/false</strict_rekey>
-				<pre_auth>true/false</pre_auth>
-				<pre_auth_interfaces>
-				<interface>eth0</interface>
-				<interface>eth1</interface>
-				</pre_auth_interfaces>
 				<passphrase>lalalala</passphrase>
 			</wpa>
 		</hostapd>
@@ -34,15 +29,25 @@
 			<wpa>
 				<group_rekey_interval>600</group_rekey_interval>
 				<strict_rekey>true/false</strict_rekey>
-				<pre_auth>true/false</pre_auth>
-				<pre_auth_interfaces>
-					<interface>eth0</interface>
-					<interface>eth1</interface>
-				</pre_auth_interfaces>
 				<passphrase>lalalala</passphrase>
 			</wpa>
 		</hostap>
-		<radius enable="true"></radius>
+		<radius>
+				<own_ip></own_ip>
+				<nas_identifier></nas_identifier>
+				<auth_server>
+					<ip></ip>
+					<port></port>
+					<shared_secret></shared_secret>
+				</auth_server>
+				<acct_server>
+					<ip></ip>
+					<port></port>
+					<shared_secret></shared_secret>
+					<interim_interval>600</interim_interval>
+				</acct_server>
+				<retry_interval>60</retry_interval>
+		</radius>
 		<portal>
 			<mode>url/local</mode>
 			<url>http://google.nl</url>
@@ -51,7 +56,7 @@
 			</local_files>
 		</portal>
 	</ssid>
-	<ssid mode="2">
+	<ssid mode="3">
 		<hostap>
 			<ssid_name>test</ssid_name>
 			<mode>b/g/n</mode>
@@ -63,30 +68,25 @@
 			<wpa>
 				<group_rekey_interval>600</group_rekey_interval>
 				<strict_rekey>true/false</strict_rekey>
-				<pre_auth>true/false</pre_auth>
-				<pre_auth_interfaces>
-					<interface>eth0</interface>
-					<interface>eth1</interface>
-				</pre_auth_interfaces>
 				<passphrase>lalalala</passphrase>
 			</wpa>
+			<radius>
+				<own_ip></own_ip>
+				<nas_identifier></nas_identifier>
+				<auth_server>
+					<ip></ip>
+					<port></port>
+					<shared_secret></shared_secret>
+				</auth_server>
+				<acct_server>
+					<ip></ip>
+					<port></port>
+					<shared_secret></shared_secret>
+					<interim_interval>600</interim_interval>
+				</acct_server>
+				<retry_interval>60</retry_interval>
+			</radius>
 		</hostap>
-		<radius>
-			<own_ip></own_ip>
-			<nas_identifier></nas_identifier>
-			<auth_server>
-				<ip></ip>
-				<port></port>
-				<shared_secret></shared_secret>
-			</auth_server>
-			<acct_server>
-				<ip></ip>
-				<port></port>
-				<shared_secret></shared_secret>
-				<interim_interval>600</interim_interval>
-			</acct_server>
-			<retry_interval>60</retry_interval>
-		</radius>
 		<dhcp_relay>
 			<servers>
 				<server>10.254.12.5</server>
