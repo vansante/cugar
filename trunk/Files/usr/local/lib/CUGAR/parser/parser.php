@@ -1,7 +1,7 @@
 <?php
 /*
  All rights reserved.
- Copyright (C) 2009-2010 GenericProxy <feedback@genericproxy.org>.
+ Copyright (C) 2010-2011 CUGAR
  All rights reserved.
 
  Redistribution and use in source and binary forms, with or without
@@ -25,11 +25,97 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
+
+/**
+ * XML Parser class for the client
+ */
 class XMLParser{
+	public static $_WRITE_CONFIG = 0;
+	public static $_VALIDATE_CONFIG = 1;
+	
+	/**
+	 * @var XMLObject
+	 * @access private
+	 */
 	private $xml;
+	
+	/**
+	 * @var String filepath
+	 * @access private
+	 */
 	private $filepath;
 	
-	public XMLParser(){
+	/**
+	 * Config management instances
+	 * 
+	 * Initialized 
+	 * 
+	 * @var Array configblocks
+	 * @access private
+	 */
+	private $configblocks;
+
+	/**
+	 * Parse mode
+	 * 
+	 * Parse mode, either _WRITE_CONFIG or _VALIDATE_CONFIG
+	 * 
+	 * @var String $mode
+	 */
+	private $mode;
+	
+	/**
+	 * 
+	 */
+	public function __construct(){
 		
+	}
+	
+	/**
+	 * Set parse mode
+	 * 
+	 * @param String $mode
+	 * @return void
+	 */
+	public function setMode($mode){
+		$this->mode = $mode;
+	}
+
+	/**
+	 * load XML from file
+	 * 
+	 * @param $file 	filepath/name of file to load
+	 */
+	public function loadXML($file){
+		//	Use custom error throwing for libxml
+		$previouslibxmlSetting = libxml_use_internal_errors(true);
+		
+		$this->xml = simplexml_load_file($file);
+		$this->file = $file;
+
+		//Failed loading the XML, throw excption.
+		if (!$this->xml){
+			$message = "Failed to load configuration file {$file}. Invalid XML. ";
+			foreach(libxml_get_errors() as $error) {
+				$message .= $error->message;
+			}
+
+			libxml_clear_errors();
+			throw new Exception($message);
+		}
+
+		//Set back to default error handling
+		libxml_use_internal_errors($previouslibxmlSetting);
+	}
+	
+	/**
+	 * 
+	 * @return unknown_type
+	 */
+	public function parse(){
+		foreach($this->xml->ssid as $tag){
+			//	First instantiate new SSID stuff for each config block (where appliccable)
+			
+		}
 	}
 }
