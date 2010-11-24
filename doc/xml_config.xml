@@ -18,7 +18,7 @@
 		</hostapd>
 	</ssid>
 	<ssid mode="2">
-		<hostap>
+		<hostapd>
 			<ssid_name>test</ssid_name>
 			<mode>b/g/n</mode>
 			<channel>0</channel>
@@ -31,7 +31,7 @@
 				<strict_rekey>true/false</strict_rekey>
 				<passphrase>lalalala</passphrase>
 			</wpa>
-		</hostap>
+		</hostapd>
 		<portal>
 			<mode>url/local</mode>
 			<url>http://google.nl</url>
@@ -57,7 +57,7 @@
 		</portal>
 	</ssid>
 	<ssid mode="3">
-		<hostap>
+		<hostapd>
 			<ssid_name>test</ssid_name>
 			<mode>b/g/n</mode>
 			<channel>0</channel>
@@ -86,7 +86,7 @@
 				</acct_server>
 				<retry_interval>60</retry_interval>
 			</radius>
-		</hostap>
+		</hostapd>
 		<dhcp_relay>
 			<servers>
 				<server>10.254.12.5</server>

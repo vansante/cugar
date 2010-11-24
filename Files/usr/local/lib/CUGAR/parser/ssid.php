@@ -45,7 +45,7 @@ class ssid implements Statement{
 	 */
 	public function validate($options){
 		if($options['mode'] >= 1 && $options['mode'] <= 3){
-			
+		
 		}
 		else{
 			throw new MalformedConfigException('ssid','invalid mode - ' + $options['mode']);
