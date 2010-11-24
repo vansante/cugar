@@ -32,28 +32,28 @@
 				<passphrase>lalalala</passphrase>
 			</wpa>
 		</hostap>
-		<radius>
-				<own_ip></own_ip>
-				<nas_identifier></nas_identifier>
-				<auth_server>
-					<ip></ip>
-					<port></port>
-					<shared_secret></shared_secret>
-				</auth_server>
-				<acct_server>
-					<ip></ip>
-					<port></port>
-					<shared_secret></shared_secret>
-					<interim_interval>600</interim_interval>
-				</acct_server>
-				<retry_interval>60</retry_interval>
-		</radius>
 		<portal>
 			<mode>url/local</mode>
 			<url>http://google.nl</url>
 			<local_files>
 				<file name="file.html">dataaa</file>
 			</local_files>
+			<radius>
+					<own_ip></own_ip>
+					<nas_identifier></nas_identifier>
+					<auth_server>
+						<ip></ip>
+						<port></port>
+						<shared_secret></shared_secret>
+					</auth_server>
+					<acct_server>
+						<ip></ip>
+						<port></port>
+						<shared_secret></shared_secret>
+						<interim_interval>600</interim_interval>
+					</acct_server>
+					<retry_interval>60</retry_interval>
+			</radius>
 		</portal>
 	</ssid>
 	<ssid mode="3">

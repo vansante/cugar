@@ -44,16 +44,6 @@ class XMLParser{
 	 * @access private
 	 */
 	private $filepath;
-	
-	/**
-	 * Config management instances
-	 * 
-	 * Initialized 
-	 * 
-	 * @var Array configblocks
-	 * @access private
-	 */
-	private $configblocks;
 
 	/**
 	 * Parse mode
@@ -113,9 +103,31 @@ class XMLParser{
 	 * @return unknown_type
 	 */
 	public function parse(){
-		foreach($this->xml->ssid as $tag){
-			//	First instantiate new SSID stuff for each config block (where appliccable)
-			
+		try{
+			/*	Parser cascades down through Statement classes until it has parsed everything
+			 * 	as such, over here, we only have to call the ssid class every time we encounter an ssid tag.
+			 * 
+			 * 	@TODO: theoretically, we might want to add a config statement for the root tag handling / validation
+			 *  which would ensure ssid tags are present (what good is an empty device)
+			 *  that's mostly something that impacts design, rather than functionality. So it's omitted at this time.
+			 */
+			foreach($this->xml->ssid as $tag){
+				//	First instantiate new SSID stuff for each config block (where appliccable)
+				
+				//	Parse SSID statement and go through validation
+				
+			}
+		}
+		catch(MalformedConfigException $e){
+			/**
+			 * @TODO: What do we want on error, stop parsing entirely (current behavior) or
+			 * do we want to prevent parsing of the SSID that failed validation? (slightly more annoying as it requires double-buffering, but not impossible)
+			 * 
+			 * Behavior would probably also differ in different modes, parsing should probably continue in VALIDATE mode, and should simply log all the errors.
+			 * Will need to rerouteslightly at that point since exceptions break the cascade-down unless handled in a lower tier.
+			 * 
+			 * Make sure to inquire.
+			 */
 		}
 	}
 }
