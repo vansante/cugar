@@ -85,7 +85,7 @@ final class HostAP implements ConfigGenerator{
 	/**
 	 * Determines whether we should broadcast this (B)SSID actively or not.
 	 * 
-	 * @var String true | false
+	 * @var string true | false
 	 */
 	private $broadcast_ssid;
 	
@@ -96,6 +96,31 @@ final class HostAP implements ConfigGenerator{
 	 */
 	private $vlan_id;
 	
+	/**
+	 * Do we want strict rekeying or not
+	 * 
+	 * @var string true | false
+	 */
+	private $wpa_strict_rekey;
+	
+	/**
+	 * Passphrase to use for WPA / WPA2 auth on this (B)SSID
+	 * @var string
+	 */
+	private $wpa_passphrase;
+	
+	/**
+	 * Rekeying interval when using WPA/WPA2
+	 * 
+	 * @var integer
+	 */
+	private $wpa_group_rekey_interval;
+	
+	/**
+	 * Get singleton instance
+	 * 
+	 * @return HostAP
+	 */
 	public static function getInstance(){
 		if(HostAP::$self == null){
 			HostAP::$self = new HostAP();
@@ -187,5 +212,35 @@ final class HostAP implements ConfigGenerator{
 	 */
 	public function setVlan($vlan_id){
 		$this->vlan_id = $vlan_id;
+	}
+	
+	/**
+	 * set WPA / WPA2 Strict Rekeying option
+	 * 
+	 * @param String $strict_rekey
+	 * @return void
+	 */
+	public function setWpaStrictReKey($strict_rekey){
+		$this->wpa_strict_rekey = $strict_rekey;
+	}
+	
+	/**
+	 * Set WPA / WPA2 Passphrase
+	 * 
+	 * @param String $passphrase
+	 * @return void
+	 */
+	public function setWpaPassphrase($passphrase){
+		$this->wpa_passphrase = $passphrase;
+	}
+	
+	/**
+	 * Set group rekey interval (seconds) for WPA/WPA2
+	 * 
+	 * @param int $interval
+	 * @return void
+	 */
+	public function setWpaGroupRekeyInterval($interval){
+		$this->wpa_group_rekey_interval = $interval;
 	}
 }
