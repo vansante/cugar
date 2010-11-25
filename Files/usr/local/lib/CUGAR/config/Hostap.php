@@ -30,17 +30,90 @@
  * Generates HostAP configuration from the XML
  *
  */
-class HostAP{
-	private $buffer;
-	private $FILEPATH = "/etc/hostap.conf";
+final class HostAP implements ConfigGenerator{
+	/**
+	 * Reference to self-instance for singleton
+	 * @var HostAP
+	 */
+	private static $self;
 	
 	/**
-	 * Write out file to filepath
+	 * Buffer for config file contents
+	 * @var String
 	 */
-	public function saveFile(){
+	private $filebuffer;
+	
+	/**
+	 * Path to save the config file to
+	 * @var String
+	 */
+	private $FILEPATH = "/etc/";
+	
+	/**
+	 * Filename of the config file
+	 * @var String
+	 */
+	private $FILENAME = "hostap.conf";
+	
+	/**
+	 * SSID name for current configuration block
+	 * 
+	 * Upon completion of the ssid block, this option is parsed into file format and loaded
+	 * into $filebuffer
+	 * 
+	 * @var unknown_type
+	 */
+	private $ssid_name;
+	
+	public static function getInstance(){
+		if(HostAP::$self == null){
+			HostAP::$self = new HostAP();
+		}
+		return HostAP::$self; 
+	}
+	
+	/**
+	 * Private constructor because this is a singleton.
+	 * @return unknown_type
+	 */
+	private function __construct(){
+	
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#newSSID()
+	 */
+	public function newSSID(){
+		//@TODO: Parse into file
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#setSavePath()
+	 */
+	public function setSavePath($filepath){
+		$this->FILEPATH = $filepath;
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#writeConfig()
+	 */
+	public function writeConfig(){
 		$fp = fopen($this->FILEPATH,'w');
 		if($fp){
 			fwrite($fp,$this->buffer);
+			fclose($fp);
 		}
+	}
+	
+	/**
+	 * Set SSID name
+	 * @param String $name
+	 * @return void
+	 */
+	public function setSsidName($name){
+		$this->ssid_name = $name;
 	}
 }

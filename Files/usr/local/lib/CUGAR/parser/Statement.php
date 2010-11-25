@@ -26,7 +26,7 @@
  POSSIBILITY OF SUCH DAMAGE.
  */
 /**
- * Interface for Expressions to be parsed from the XML
+ * Interface for Statements to be parsed from the XML
  *
  */
 Interface Statement{

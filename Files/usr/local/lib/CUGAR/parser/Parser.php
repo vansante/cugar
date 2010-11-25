@@ -115,7 +115,8 @@ class XMLParser{
 				//	First instantiate new SSID stuff for each config block (where appliccable)
 				
 				//	Parse SSID statement and go through validation
-				
+				$tmp = new ssid();
+				$tmp->interpret($tag);
 			}
 		}
 		catch(MalformedConfigException $e){
@@ -128,6 +129,7 @@ class XMLParser{
 			 * 
 			 * Make sure to inquire.
 			 */
+			print_r($e);
 		}
 	}
 }

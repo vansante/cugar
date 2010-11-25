@@ -4,10 +4,11 @@
  */
 class MalformedConfigException extends Exception{
 	private $xmltag;
-	private $errormsg;
 	
 	public function __construct($xmltag, $errormsg){
 		$this->xmltag = $xmltag;
-		$this->errormsg = $errormsg;	
+		$this->message = $errormsg;	
 	}
 }
+
+class SystemError extends Exception{}

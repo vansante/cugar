@@ -37,13 +37,18 @@ class ssid implements Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#interpret()
 	 */
 	public function interpret($options){
-		validate($options);
+		$this->validate($options);
 		
 		foreach($options->children() as $child){
 			//	Interpret each child tag, and we're through (because SSID contains no system configuration and is merely a container)
 			$name = $child->getName();
-			$tmp = new $name();
-			$tmp->interpret($child);
+			if(class_exists($name)){
+				$tmp = new $name();
+				$tmp->interpret($child);
+			}
+			else{
+				throw new SystemError('Could not find class '.$name);	
+			}
 		}
 	}
 	
