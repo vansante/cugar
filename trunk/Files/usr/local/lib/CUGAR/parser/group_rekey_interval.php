@@ -15,7 +15,7 @@ class group_rekey_interval implements Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
-		if(!numeric($options)){
+		if(!is_numeric($options)){
 			throw new MalformedConfigException('group_rekey_interval is expected to be numeric');
 		}
 	}
