@@ -13,7 +13,7 @@ class wpa implements Statement{
 		 */
 		foreach($options->children() as $child){
 			$name = $child->getName();
-			if(is_class($name)){
+			if(class_exists($name)){
 				$tmp = new $name();
 				$tmp->interpret($child);
 			}
