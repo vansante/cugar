@@ -43,6 +43,7 @@ class hostapd implements Statement{
 			throw new MalformedConfigException($options,'no broadcast tag found');
 		}
 		if(!isset($options->vlan)){
+			//@TODO do we really want to explicitly throw an error on the absence of this tag? It's innconsquential
 			throw new MalformedConfigException($options,'no vlan tag found');
 		}
 		if(!isset($options->wpa)){
