@@ -61,9 +61,33 @@ final class HostAP implements ConfigGenerator{
 	 * Upon completion of the ssid block, this option is parsed into file format and loaded
 	 * into $filebuffer
 	 * 
-	 * @var unknown_type
+	 * @var string
 	 */
 	private $ssid_name;
+	
+	/**
+	 * Hardware mode the AP should run in 
+	 * 
+	 * 802.11a / 802.11b / 802.11g (a/b/g)
+	 * @TODO N support momentarily suspended until suitable configuration can be tested
+	 * 
+	 * @var char
+	 */
+	private $hw_mode;
+	
+	/**
+	 * Radio channel to broadcast on
+	 * 
+	 * @var int
+	 */
+	private $hw_channel;
+	
+	/**
+	 * Determines whether we should broadcast this (B)SSID actively or not.
+	 * 
+	 * @var String true | false
+	 */
+	private $broadcast_ssid;
 	
 	public static function getInstance(){
 		if(HostAP::$self == null){
@@ -85,7 +109,7 @@ final class HostAP implements ConfigGenerator{
 	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#newSSID()
 	 */
 	public function newSSID(){
-		//@TODO: Parse into file
+		//@TODO: Parse into file and reset object for new SSID spec
 	}
 	
 	/**
@@ -115,5 +139,27 @@ final class HostAP implements ConfigGenerator{
 	 */
 	public function setSsidName($name){
 		$this->ssid_name = $name;
+	}
+	
+	/**
+	 * Set operational mode (a/b/g)
+	 * @param char $mode
+	 * @return void
+	 */
+	public function setMode($mode){
+		$this->hw_mode = $mode;
+	}
+	
+	/**
+	 * Set the radio channel to operate on
+	 * @param Int $channel
+	 * @return unknown_type
+	 */
+	public function setChannel($channel){
+		$this->hw_channel = $channel;
+	}
+	
+	public function setBroadcast($broadcast){
+		$this->broadcast_ssid = $broadcast;
 	}
 }
