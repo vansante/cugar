@@ -89,6 +89,13 @@ final class HostAP implements ConfigGenerator{
 	 */
 	private $broadcast_ssid;
 	
+	/**
+	 * vlan tag for outgoing traffic
+	 * 
+	 * @var integer
+	 */
+	private $vlan_id;
+	
 	public static function getInstance(){
 		if(HostAP::$self == null){
 			HostAP::$self = new HostAP();
@@ -134,6 +141,7 @@ final class HostAP implements ConfigGenerator{
 	
 	/**
 	 * Set SSID name
+	 * 
 	 * @param String $name
 	 * @return void
 	 */
@@ -143,6 +151,7 @@ final class HostAP implements ConfigGenerator{
 	
 	/**
 	 * Set operational mode (a/b/g)
+	 * 
 	 * @param char $mode
 	 * @return void
 	 */
@@ -152,14 +161,31 @@ final class HostAP implements ConfigGenerator{
 	
 	/**
 	 * Set the radio channel to operate on
-	 * @param Int $channel
-	 * @return unknown_type
+	 * 
+	 * @param integer $channel
+	 * @return void
 	 */
 	public function setChannel($channel){
 		$this->hw_channel = $channel;
 	}
 	
+	/**
+	 * Set whether to broadcast the (B)SSID or not
+	 * 
+	 * @param String $broadcast
+	 * @return void
+	 */
 	public function setBroadcast($broadcast){
 		$this->broadcast_ssid = $broadcast;
+	}
+	
+	/**
+	 * Set the VLAN id incoming traffic should be tagged with
+	 * 
+	 * @param integer $vlan_id
+	 * @return void
+	 */
+	public function setVlan($vlan_id){
+		$this->vlan_id = $vlan_id;
 	}
 }
