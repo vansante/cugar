@@ -1,5 +1,5 @@
 <?php
-class passphrase implements Statement{
+class passphrase extends Statement{
 	/**
 	 * (non-PHPdoc)
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#interpret($options)

@@ -1,5 +1,5 @@
 <?php
-class hostapd implements Statement{
+class hostapd extends Statement{
 	private $expectedtags = Array('ssid_name','mode','channel','broadcast','vlan','wpa');
 
 	/**
@@ -8,18 +8,7 @@ class hostapd implements Statement{
 	 */
 	public function interpret($options){
 		$this->validate($options);
-
-		//	Interpret each child tag, and we're through (because this tag is merely a container)
-		foreach($options->children() as $child){
-			$name = $child->getName();
-			if(class_exists($name)){
-				$tmp = new $name();
-				$tmp->interpret($child);
-			}
-			else{
-				throw new SystemError('Could not find class '.$name);
-			}
-		}
+		$this->parseChildren($options);
 	}
 
 	/**

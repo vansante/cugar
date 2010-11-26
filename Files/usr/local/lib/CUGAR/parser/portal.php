@@ -1,14 +1,12 @@
 <?php
-class strict_rekey extends Statement{
+class portal extends Statement{
 	/**
 	 * (non-PHPdoc)
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#interpret($options)
 	 */
 	public function interpret($options){
 		$this->validate($options);
-		
-		$inst = HostAP::getInstance();
-		$inst->setWpaStrictRekey((string)$options);
+		$this->parseChildren($options);
 	}
 	
 	/**
@@ -16,9 +14,11 @@ class strict_rekey extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
-		if($options != 'true' && $options != 'false'){
-			throw new MalformedConfigException($options,'Invalid strict_rekey option, expected: (true | false)');
+		if(!isset($options->local_files)){
+			throw new MalformedConfigException($options,'no local tag found');
+		}
+		if(!isset($options->radius)){
+			throw new MalformedConfigException($options,'no radius tag found');
 		}
 	}
 }
-?>

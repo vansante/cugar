@@ -1,5 +1,5 @@
 <?php
-class mode implements Statement{
+class mode extends Statement{
 	/**
 	 * (non-PHPdoc)
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#interpret($options)

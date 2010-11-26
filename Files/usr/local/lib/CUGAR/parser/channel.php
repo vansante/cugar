@@ -1,5 +1,5 @@
 <?php
-class channel implements Statement{
+class channel extends Statement{
 	/**
 	 * (non-PHPdoc)
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#interpret($options)

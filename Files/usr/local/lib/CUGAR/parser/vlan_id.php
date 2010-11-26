@@ -1,5 +1,5 @@
 <?php
-class vlan_id implements Statement{
+class vlan_id extends Statement{
 	
 	/**
 	 * (non-PHPdoc)

@@ -1,5 +1,5 @@
 <?php
-class ssid_name implements Statement{
+class ssid_name extends Statement{
 	/**
 	 * (non-PHPdoc)
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#interpret($options)
