@@ -15,10 +15,10 @@ class portal extends Statement{
 	 */
 	public function validate($options){
 		if(!isset($options->local_files)){
-			throw new MalformedConfigException($options,'no local tag found');
+			ParseErrorBuffer::addError('no local files defined',ParseErrorBuffer::$E_FATAL,$options);
 		}
 		if(!isset($options->radius)){
-			throw new MalformedConfigException($options,'no radius tag found');
+			ParseErrorBuffer::addError('no radius options defined',ParseErrorBuffer::$E_FATAL,$options);
 		}
 	}
 }

@@ -3,20 +3,23 @@
  * Buffer for all Parsing errors encountered during parsing.
  */
 class ParseErrorBuffer{
+	public static $E_FATAL = 0;
+	public static $E_WARNING = 1;
+	public static $E_NOTICE = 2;
 	/**
 	 * Contains all ParseError objects
 	 * @var ParseError
 	 */
-	private $errorbuffer;
+	private static $errorbuffer;
 	
 	/**
 	 * Add error to the error buffer
 	 * 
 	 * @param unknown_type $error
-	 * @return unknown_type
+	 * @return void
 	 */
-	public function addError($error){
-		$errorbuffer[] = $error;
+	public static function addError($message,$severity,$umltrace){
+		ParseErrorBuffer::$errorbuffer[] = new ParseError($message,$severity, $umltrace);
 	}
 }
 

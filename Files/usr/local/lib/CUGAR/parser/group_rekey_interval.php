@@ -16,7 +16,7 @@ class group_rekey_interval extends Statement{
 	 */
 	public function validate($options){
 		if(!is_numeric((int)$options)){
-			throw new MalformedConfigException($options,'group_rekey_interval is expected to be numeric');
+			ParseErrorBuffer::addError('group rekey interval has to be numeric',ParseErrorBuffer::$E_FATAL,$options);
 		}
 	}
 }

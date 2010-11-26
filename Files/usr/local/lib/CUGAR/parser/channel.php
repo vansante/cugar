@@ -16,7 +16,7 @@ class channel extends Statement{
 	 */
 	public function validate($options){
 		if($options < 1 || $options > 13){
-			throw new MalformedConfigException($options,'Invalid channel selected '.$options);
+			ParseErrorBuffer::addError('Invalid channel specified',ParseErrorBuffer::$E_FATAL,$options);
 		}
 	}
 }

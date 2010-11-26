@@ -18,7 +18,7 @@ class mode extends Statement{
 		// @TODO: N configuration is apparently very different, dropped support momentarily
 		$allowed_values = array('a','b','g');
 		if(!in_array((string)$options,$allowed_values)){
-			throw new MalformedConfigException($options,'invalid mode selected');
+			ParseErrorBuffer::addError('invalid mode selected',ParseErrorBuffer::$E_FATAL,$options);
 		}
 	}
 }
