@@ -6,11 +6,10 @@ class wpa implements Statement{
 	 */
 	public function interpret($options){
 		$this->validate($options);
-		/*
-		 * @TODO Missing spec for WPA / WPA 2 selection
-		 * @TODO Missing spec for disabling WPA / WPA2 completely in mode1 (Desirable?)
-		 * @TODO Missing something else, probably :[ 
-		 */
+		
+		$inst = HostAP::getInstance();
+		$inst->setWpaMode($options['mode']);
+		
 		foreach($options->children() as $child){
 			$name = $child->getName();
 			if(class_exists($name)){
@@ -28,6 +27,13 @@ class wpa implements Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		if(!isset($options['mode'])){
+			throw new MalformedConfigException($options,'missing mode attribute in wpa tag');
+		}
+		if($options['mode'] != 'off' && $options['mode'] != 'wpa' && $options['mode'] != 'wpa2'){
+			throw new MalformedConfigException($options,'incorrect setting for wpa mode');
+		}
+		
 		if(!isset($options->group_rekey_interval)){
 			throw new MalformedConfigException($options,'missing group_rekey_interval tag');
 		}
