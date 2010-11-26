@@ -17,7 +17,7 @@ class strict_rekey extends Statement{
 	 */
 	public function validate($options){
 		if($options != 'true' && $options != 'false'){
-			throw new MalformedConfigException($options,'Invalid strict_rekey option, expected: (true | false)');
+			ParseErrorBuffer::addError('invalid strict rekey option',ParseErrorBuffer::$E_FATAL,$options);
 		}
 	}
 }

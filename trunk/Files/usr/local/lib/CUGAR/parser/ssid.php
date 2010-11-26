@@ -52,19 +52,19 @@ class ssid extends Statement{
 	public function validate($options){
 		if($options['mode'] >= 1 && $options['mode'] <= 3){
 			if(!isset($options->hostapd)){
-				throw new MalformedConfigException($options,'no hostap tag found');
+				ParseErrorBuffer::addError('no hostap tag found',ParseErrorBuffer::$E_FATAL,$options);
 			}
 			
 			if($options['mode'] == 2 && !isset($options->portal)){
-				throw new MalformedConfigException($options,'no portal tag found for mode 2 config');
+				ParseErrorBuffer::addError('no portal tag found',ParseErrorBuffer::$E_FATAL,$options);
 			}
 			
 			if($options['mode'] == 3){
 				if(!isset($options->openvpn)){
-					throw new MalformedConfigException($options, 'no openvpn tag found for mode 3 config');
+					ParseErrorBuffer::addError('no openvpn tag found',ParseErrorBuffer::$E_FATAL,$options);
 				}
 				if(!isset($options->dhcp_relay)){
-					throw new MalformedConfigException($options, 'no dhcp_relay tag found for mode 3 config');
+					ParseErrorBuffer::addError('no dhcp-relay tag found',ParseErrorBuffer::$E_FATAL,$options);
 				}
 			}
 			
@@ -73,12 +73,12 @@ class ssid extends Statement{
 			 */
 			foreach($options->children() as $child){
 				if(!in_array($child->getName(),$this->expectedtags)){
-					throw new MalformedConfigException($child,'unexpected tag');
+					ParseErrorBuffer::addError('Unexpected child node encountered.',ParseErrorBuffer::$E_WARNING,$child);
 				}
 			}
 		}
 		else{
-			throw new MalformedConfigException($options,'invalid mode - ' + $options['mode']);
+			ParseErrorBuffer::addError('invalid ssid mode '.$options['mode'],ParseErrorBuffer::$E_FATAL,$options);
 		}
 	}
 }

@@ -17,7 +17,7 @@ class vlan_id extends Statement{
 	 */
 	public function validate($options){
 		if($options < 0 || $options > 4096){
-			throw new MalformedConfigException($options,'Invalid VLAN tag');
+			ParseErrorBuffer::addError('invalid vlan identifier',ParseErrorBuffer::$E_FATAL,$options);
 		}
 	}
 }

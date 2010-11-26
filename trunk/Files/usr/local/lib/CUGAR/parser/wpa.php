@@ -34,25 +34,25 @@ class wpa extends Statement{
 	 */
 	public function validate($options){
 		if(!isset($options['mode'])){
-			throw new MalformedConfigException($options,'missing mode attribute in wpa tag');
+			ParseErrorBuffer::addError('missing mode attribute',ParseErrorBuffer::$E_FATAL,$options);
 		}
 		if($options['mode'] != 'off' && $options['mode'] != 'wpa' && $options['mode'] != 'wpa2'){
-			throw new MalformedConfigException($options,'incorrect setting for wpa mode');
+			ParseErrorBuffer::addError('incorrect mode setting',ParseErrorBuffer::$E_FATAL,$options);
 		}
 		
 		if(!isset($options->group_rekey_interval)){
-			throw new MalformedConfigException($options,'missing group_rekey_interval tag');
+			ParseErrorBuffer::addError('missing group_rekey_interval tag',ParseErrorBuffer::$E_FATAL,$options);
 		}
 		if(!isset($options->strict_rekey)){
-			throw new MalformedConfigException($options,'missing strict_rekey tag');
+			ParseErrorBuffer::addError('missing strict_rekey tag',ParseErrorBuffer::$E_FATAL,$options);
 		}
 		if(!isset($options->passphrase)){
-			throw new MalformedConfigException($options,'missing passphrase tag');
+			ParseErrorBuffer::addError('missing passphrase tag',ParseErrorBuffer::$E_FATAL,$options);
 		}
 		
 		foreach($options->children() as $child){
 			if(!in_array($child->getName(),$this->expected_tags)){
-				throw new MalformedConfigException($options,'unexpected tag encountered: '.$child->getName());
+				ParseErrorBuffer::addError('Unexpected child node',ParseErrorBuffer::$E_FATAL,$child);
 			}
 		}
 	}

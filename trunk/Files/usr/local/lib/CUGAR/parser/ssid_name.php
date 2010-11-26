@@ -18,7 +18,7 @@ class ssid_name extends Statement{
 	 */
 	public function validate($options){
 		if(!preg_match("/^[A-Za-z0-9\.]{1,32}$/",$options)){
-			throw new MalformedConfigException($options,'invalid SSID name');
+			ParseErrorBuffer::addError('invalid ssid name',ParseErrorBuffer::$E_FATAL,$options);
 		}
 	}
 }

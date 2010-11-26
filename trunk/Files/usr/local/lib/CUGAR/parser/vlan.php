@@ -19,16 +19,16 @@ class vlan extends Statement{
 	public function validate($options){
 		if($options['enable'] == 'true'){
 			if(!isset($options->vlan_id)){
-				throw new MalformedConfigException($options,'Vlan enabled but no vlan_id set');
+				ParseErrorBuffer::addError('vlan is enabled but no vlan_id is set',ParseErrorBuffer::$E_FATAL,$options);
 			}
 		}
 		elseif($options['enable'] != 'false'){
-			throw new MalformedConfigException($options,'Invalid option for vlan enable');
+			ParseErrorBuffer::addError('invalid option for vlan enable',ParseErrorBuffer::$E_FATAL,$options);
 		}
 		
 		foreach($options->children() as $child){
 			if($child->getName() != 'vlan_id'){
-				throw new MalformedConfigException($options,'Unexpected tag encountered: '.$child->getName());
+				ParseErrorBuffer::addError('Unexpected child node',ParseErrorBuffer::$E_FATAL,$options);
 			}
 		}
 	}

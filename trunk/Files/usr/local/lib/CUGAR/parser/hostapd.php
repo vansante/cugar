@@ -20,23 +20,17 @@ class hostapd extends Statement{
 		 * Check if all expected child tags exist
 		 */
 		if(!isset($options->ssid_name)){
-			throw new MalformedConfigException($options,'no ssid_name tag found');
-		}
-		if(!isset($options->mode)){
-			throw new MalformedConfigException($options,'no mode tag found');
-		}
-		if(!isset($options->channel)){
-			throw new MalformedConfigException($options,'no channel tag found');
+			ParseErrorBuffer::addError('no ssid_name tag found',ParseErrorBuffer::$E_FATAL,$options);
 		}
 		if(!isset($options->broadcast)){
-			throw new MalformedConfigException($options,'no broadcast tag found');
+			ParseErrorBuffer::addError('no broadcast tag found',ParseErrorBuffer::$E_FATAL,$options);
 		}
 		if(!isset($options->vlan)){
 			//@TODO do we really want to explicitly throw an error on the absence of this tag? It's innconsquential
-			throw new MalformedConfigException($options,'no vlan tag found');
+			ParseErrorBuffer::addError('no vlan tag found',ParseErrorBuffer::$E_NOTICE,$options);
 		}
 		if(!isset($options->wpa)){
-			throw new MalformedConfigException($options,'no wpa tag found');
+			ParseErrorBuffer::addError('no wpa tag found',ParseErrorBuffer::$E_FATAL,$options);
 		}
 
 		/*
@@ -44,7 +38,7 @@ class hostapd extends Statement{
 		 */
 		foreach($options->children() as $child){
 			if(!in_array($child->getName(),$this->expectedtags)){
-				throw new MalformedConfigException($child,'unexpected tag');
+				ParseErrorBuffer::addError('Unexpected child node',ParseErrorBuffer::$E_FATAL,$child);
 			}
 		}
 	}
