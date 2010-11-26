@@ -117,6 +117,13 @@ final class HostAP implements ConfigGenerator{
 	private $wpa_group_rekey_interval;
 	
 	/**
+	 * WPA mode setting
+	 * 
+	 * @var string
+	 */
+	private $wpa_mode;
+	
+	/**
 	 * Get singleton instance
 	 * 
 	 * @return HostAP
@@ -222,6 +229,15 @@ final class HostAP implements ConfigGenerator{
 	 */
 	public function setWpaStrictReKey($strict_rekey){
 		$this->wpa_strict_rekey = $strict_rekey;
+	}
+	
+	/**
+	 * Set WPA mode
+	 * @param String $mode
+	 * @return void
+	 */
+	public function setWpaMode($mode){
+		$this->wpa_mode = $mode;
 	}
 	
 	/**
