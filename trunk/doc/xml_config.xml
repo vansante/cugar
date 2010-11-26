@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
 	<updateserver>195.169.160.3</updateserver>
+	<hardware>
+			<mode>b/g/n</mode>
+			<channel>0</channel>
+	</hardware>
 	<ssid mode="1">
 		<hostapd>
 			<ssid_name>test</ssid_name>
-			<mode>b/g/n</mode>
-			<channel>0</channel>
 			<broadcast>true</broadcast>
 			<vlan enable="false">
 				<vlan_id>666</vlan_id>
 			</vlan>
-			<wpa>
+			<wpa mode="wpa/wpa2/off">
 				<group_rekey_interval>600</group_rekey_interval>
 				<strict_rekey>true/false</strict_rekey>
 				<passphrase>lalalala</passphrase>
@@ -20,13 +22,11 @@
 	<ssid mode="2">
 		<hostapd>
 			<ssid_name>test</ssid_name>
-			<mode>b/g/n</mode>
-			<channel>0</channel>
 			<broadcast>true</broadcast>
 			<vlan enable="false">
 				<vlan_id>666</vlan_id>
 			</vlan>
-			<wpa>
+			<wpa mode="wpa/wpa2/off">
 				<group_rekey_interval>600</group_rekey_interval>
 				<strict_rekey>true/false</strict_rekey>
 				<passphrase>lalalala</passphrase>
@@ -34,8 +34,6 @@
 		</hostapd>
 		
 		<portal>
-			<mode>url/local</mode>
-			<url>http://google.nl</url>
 			<local_files>
 				<file name="file.html">dataaa</file>
 			</local_files>
@@ -60,8 +58,6 @@
 	<ssid mode="3">
 		<hostapd>
 			<ssid_name>test</ssid_name>
-			<mode>b/g/n</mode>
-			<channel>0</channel>
 			<broadcast>true</broadcast>
 			<vlan enable="false">
 				<vlan_id>666</vlan_id>

@@ -1,5 +1,5 @@
 <?php
-class group_rekey_interval implements Statement{
+class group_rekey_interval extends Statement{
 	/**
 	 * (non-PHPdoc)
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#interpret($options)

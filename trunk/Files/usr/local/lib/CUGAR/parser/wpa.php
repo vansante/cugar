@@ -1,5 +1,11 @@
 <?php
-class wpa implements Statement{
+class wpa extends Statement{
+	/**
+	 * Expected child nodes for this statement
+	 * @var Array
+	 */
+	private $expected_tags = array('passphrase','strict_rekey','group_rekey_interval');
+	
 	/**
 	 * (non-PHPdoc)
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#interpret($options)
@@ -42,6 +48,12 @@ class wpa implements Statement{
 		}
 		if(!isset($options->passphrase)){
 			throw new MalformedConfigException($options,'missing passphrase tag');
+		}
+		
+		foreach($options->children() as $child){
+			if(!in_array($child->getName(),$this->expected_tags)){
+				throw new MalformedConfigException($options,'unexpected tag encountered: '.$child->getName());
+			}
 		}
 	}
 }

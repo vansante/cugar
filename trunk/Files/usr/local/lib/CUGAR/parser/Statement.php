@@ -29,7 +29,7 @@
  * Interface for Statements to be parsed from the XML
  *
  */
-Interface Statement{
+abstract class Statement{
 	/**
 	 * Interpret the statement
 	 * 
@@ -48,5 +48,26 @@ Interface Statement{
 	 * @return void
 	 */
 	public function validate($options);
+	
+	/**
+	 * Parse all the child tags of this statement
+	 * 
+	 * @param SimpleXMLElement $options
+	 * @return void
+	 */
+	public function parseChildren($options){
+		foreach($options->children() as $child){
+			//	Interpret each child tag, and we're through (because SSID contains no system configuration and is merely a container)
+			$name = $child->getName();
+			Parser::loadClass($name);
+			if(class_exists($name)){
+				$tmp = new $name();
+				$tmp->interpret($child);
+			}
+			else{
+				throw new SystemError('Could not find class '.$name);	
+			}
+		}
+	}
 }
 ?>

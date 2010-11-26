@@ -99,6 +99,20 @@ class XMLParser{
 	}
 	
 	/**
+	 * Load statement class
+	 * @param String $classname
+	 * @return void
+	 */
+	public static function loadClass($classname){
+		if(file_exists('./parser/'.$classname.'.php')){
+			include('./parser/'.$classname.'.php');
+		}
+		else{
+			throw new SystemError('Could not load file '.$classname.'.php');
+		}
+	}
+	
+	/**
 	 * 
 	 * @return unknown_type
 	 */
@@ -115,7 +129,7 @@ class XMLParser{
 				//	First instantiate new SSID stuff for each config block (where appliccable)
 				
 				//	Parse SSID statement and go through validation
-				$tmp = new ssid();
+				$tmp = new ssid($this);
 				$tmp->interpret($tag);
 			}
 		}

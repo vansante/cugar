@@ -29,7 +29,11 @@
  *	Validate / interpret SSID statement
  *
  */
-class ssid implements Statement{
+class ssid extends Statement{
+	/**
+	 * 
+	 * @var unknown_type
+	 */
 	private $expectedtags = Array('hostapd','openvpn','portal','dhcp_relay');
 	
 	/**
@@ -38,18 +42,7 @@ class ssid implements Statement{
 	 */
 	public function interpret($options){
 		$this->validate($options);
-		
-		foreach($options->children() as $child){
-			//	Interpret each child tag, and we're through (because SSID contains no system configuration and is merely a container)
-			$name = $child->getName();
-			if(class_exists($name)){
-				$tmp = new $name();
-				$tmp->interpret($child);
-			}
-			else{
-				throw new SystemError('Could not find class '.$name);	
-			}
-		}
+		$this->parseChildren($options);
 	}
 	
 	/**

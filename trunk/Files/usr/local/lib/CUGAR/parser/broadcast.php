@@ -1,5 +1,5 @@
 <?php
-class broadcast implements Statement{
+class broadcast extends Statement{
 	/**
 	 * (non-PHPdoc)
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#interpret($options)

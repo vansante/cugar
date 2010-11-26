@@ -1,5 +1,5 @@
 <?php
-class vlan implements Statement{
+class vlan extends Statement{
 	/**
 	 * (non-PHPdoc)
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#interpret($options)
@@ -8,16 +8,7 @@ class vlan implements Statement{
 		$this->validate($options);
 		
 		if($options['enable'] == 'true'){
-			foreach($options->children() as $child){
-				$name = $child->getName();
-				if(is_class($name)){
-					$tmp = new $name();
-					$tmp->interpret($child);
-				}
-				else{
-					throw new SystemError('could not find class '.$name);
-				}
-			}
+			$this->parseChildren($options);
 		}
 	}
 	
@@ -33,6 +24,12 @@ class vlan implements Statement{
 		}
 		elseif($options['enable'] != 'false'){
 			throw new MalformedConfigException($options,'Invalid option for vlan enable');
+		}
+		
+		foreach($options->children() as $child){
+			if($child->getName() != 'vlan_id'){
+				throw new MalformedConfigException($options,'Unexpected tag encountered: '.$child->getName());
+			}
 		}
 	}
 }
