@@ -64,7 +64,7 @@ class vlan extends Statement{
 
 		foreach($options->children() as $child){
 			if($child->getName() != 'vlan_id'){
-				ParseErrorBuffer::addError('Unexpected child node',ParseErrorBuffer::$E_FATAL,$options);
+				ParseErrorBuffer::addError('Unexpected child node '.$child->getName(),ParseErrorBuffer::$E_FATAL,$options);
 			}
 		}
 	}

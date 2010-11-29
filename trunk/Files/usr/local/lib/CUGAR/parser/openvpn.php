@@ -56,7 +56,7 @@ class openvpn extends Statement{
 		
 		foreach($options->children() as $child){
 			if(!in_array($child,$this->expected_tags)){
-				ParseErrorBuffer::addError('Unexpected child node',ParseErrorBuffer::$E_WARNING,$child);
+				ParseErrorBuffer::addError('Unexpected child node '.$child->getName(),ParseErrorBuffer::$E_WARNING,$child);
 			}
 		}
 	}

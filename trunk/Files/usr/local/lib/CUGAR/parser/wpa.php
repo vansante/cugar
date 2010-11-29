@@ -50,7 +50,9 @@ class wpa extends Statement{
 		$this->validate($options);
 
 		$inst = HostAP::getInstance();
-		$inst->setWpaMode($options['mode']);
+		if($this->parse_options['mode'] == 1){
+			$inst->setWpaMode($options['mode']);
+		}
 
 		$this->parseChildren($options);
 	}
@@ -60,26 +62,49 @@ class wpa extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
-		if(!isset($options['mode'])){
+		if($this->parse_options['mode'] == 1 && !isset($options['mode'])){
 			ParseErrorBuffer::addError('missing mode attribute',ParseErrorBuffer::$E_FATAL,$options);
 		}
-		if($options['mode'] != 'off' && $options['mode'] != 'wpa' && $options['mode'] != 'wpa2'){
+		if($this->parse_options['mode'] == 1 && ($options['mode'] != 'off' && $options['mode'] != 'wpa' && $options['mode'] != 'wpa2')){
 			ParseErrorBuffer::addError('incorrect mode setting',ParseErrorBuffer::$E_FATAL,$options);
 		}
 
-		if(!isset($options->group_rekey_interval)){
-			ParseErrorBuffer::addError('missing group_rekey_interval tag',ParseErrorBuffer::$E_FATAL,$options);
+		if($this->parse_options['mode'] == 1){
+			if($options['mode'] != 'off'){
+				if(!isset($options->group_rekey_interval)){
+					ParseErrorBuffer::addError('missing group_rekey_interval tag',ParseErrorBuffer::$E_FATAL,$options);
+				}
+				if(!isset($options->strict_rekey)){
+					ParseErrorBuffer::addError('missing strict_rekey tag',ParseErrorBuffer::$E_FATAL,$options);
+				}
+				if(!isset($options->passphrase)){
+					ParseErrorBuffer::addError('missing passphrase tag',ParseErrorBuffer::$E_FATAL,$options);
+				}
+			}
+			else{
+				if(isset($options->group_rekey_interval)){
+					ParseErrorBuffer::addError('group_rekey_interval tag present, but wpa is switched off',ParseErrorBuffer::$E_NOTICE,$options);
+				}
+				if(!isset($options->strict_rekey)){
+					ParseErrorBuffer::addError('strict_rekey tag present, but wpa is switched off',ParseErrorBuffer::$E_NOTICE,$options);
+				}
+				if(!isset($options->passphrase)){
+					ParseErrorBuffer::addError('passphrase tag present, but wpa is switched off',ParseErrorBuffer::$E_NOTICE,$options);
+				}
+			}
 		}
-		if(!isset($options->strict_rekey)){
-			ParseErrorBuffer::addError('missing strict_rekey tag',ParseErrorBuffer::$E_FATAL,$options);
-		}
-		if(!isset($options->passphrase)){
-			ParseErrorBuffer::addError('missing passphrase tag',ParseErrorBuffer::$E_FATAL,$options);
+		elseif($this->parse_options['mode'] == 3){
+			if(!isset($options->group_rekey_interval)){
+				ParseErrorBuffer::addError('missing group_rekey_interval tag',ParseErrorBuffer::$E_FATAL,$options);
+			}
+			if(!isset($options->strict_rekey)){
+				ParseErrorBuffer::addError('missing strict_rekey tag',ParseErrorBuffer::$E_FATAL,$options);
+			}
 		}
 
 		foreach($options->children() as $child){
 			if(!in_array($child->getName(),$this->expected_tags)){
-				ParseErrorBuffer::addError('Unexpected child node',ParseErrorBuffer::$E_FATAL,$child);
+				ParseErrorBuffer::addError('Unexpected child node '.$child->getName(),ParseErrorBuffer::$E_FATAL,$child);
 			}
 		}
 	}

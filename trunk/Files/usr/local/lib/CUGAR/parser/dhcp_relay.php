@@ -58,13 +58,13 @@ class dhcp_relay extends Statement{
 		if(!isset($options->servers)){
 			ParseErrorBuffer::addError('no servers tag found',ParseErrorBuffer::$E_FATAL,$options);
 		}
-		if(!isset($options->interface)){
-			ParseErrorBuffer::addError('no interface tag found',ParseErrorBuffer::$E_FATAL,$options);
+		if(!isset($options->hw_interface)){
+			ParseErrorBuffer::addError('no hw_interface tag found',ParseErrorBuffer::$E_FATAL,$options);
 		}
 		
 		foreach($options->children() as $child){
 			if(!in_array($child,$this->expected_tags)){
-				ParseErrorBuffer::addError('Unexpected child node',ParseErrorBuffer::$E_WARNING,$child);
+				ParseErrorBuffer::addError('Unexpected child node '.$child->getName(),ParseErrorBuffer::$E_WARNING,$child);
 			}
 		}
 	}
