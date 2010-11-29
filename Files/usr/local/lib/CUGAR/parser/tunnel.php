@@ -25,15 +25,20 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
-class strict_rekey extends Statement{
+class tunnel extends Statement{
+	/**
+	 * Expected child nodes for this node
+	 * @var Array
+	 */
+	private $expected_tags = array('server','port','cipher','compression');
+	
 	/**
 	 * Constructor
-	 *
-	 * @param Array $parse_opt
-	 * @return void
+	 * @param Array $opt
+	 * @return unknown_type
 	 */
-	public function __construct($parse_opt){
-		$this->parse_options = $parse_opt;
+	public function __construct($opt){
+		$this->parse_options = $opt;
 	}
 	
 	/**
@@ -42,19 +47,31 @@ class strict_rekey extends Statement{
 	 */
 	public function interpret($options){
 		$this->validate($options);
-
-		$inst = HostAP::getInstance();
-		$inst->setWpaStrictRekey((string)$options);
+		$this->parseChildren($options);
 	}
-
+	
 	/**
 	 * (non-PHPdoc)
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
-		if($options != 'true' && $options != 'false'){
-			ParseErrorBuffer::addError('invalid strict rekey option',ParseErrorBuffer::$E_FATAL,$options);
+		if(!isset($options->server)){
+			ParseErrorBuffer::addError('no server tag found',ParseErrorBuffer::$E_FATAL,$options);
+		}
+		if(!isset($options->port)){
+			ParseErrorBuffer::addError('no port tag found',ParseErrorBuffer::$E_FATAL,$options);
+		}
+		if(!isset($options->cipher)){
+			ParseErrorBuffer::addError('no cipher tag found',ParseErrorBuffer::$E_FATAL,$options);
+		}
+		if(!isset($options->compression)){
+			ParseErrorBuffer::addError('no compression tag found',ParseErrorBuffer::$E_FATAL,$options);
+		}
+		
+		foreach($options->children() as $child){
+			if(!in_array($child,$this->expected_tags)){
+				ParseErrorBuffer::addError('Unexpected child node',ParseErrorBuffer::$E_WARNING,$child);
+			}
 		}
 	}
 }
-?>

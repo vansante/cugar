@@ -25,7 +25,7 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
-class strict_rekey extends Statement{
+class port extends Statement{
 	/**
 	 * Constructor
 	 *
@@ -35,16 +35,13 @@ class strict_rekey extends Statement{
 	public function __construct($parse_opt){
 		$this->parse_options = $parse_opt;
 	}
-	
+
 	/**
 	 * (non-PHPdoc)
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#interpret($options)
 	 */
 	public function interpret($options){
 		$this->validate($options);
-
-		$inst = HostAP::getInstance();
-		$inst->setWpaStrictRekey((string)$options);
 	}
 
 	/**
@@ -52,9 +49,8 @@ class strict_rekey extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
-		if($options != 'true' && $options != 'false'){
-			ParseErrorBuffer::addError('invalid strict rekey option',ParseErrorBuffer::$E_FATAL,$options);
+		if((string)$options < 0 || (string)$options > 65535){
+			ParseErrorBuffer::addError('invalid port specified',ParseErrorBuffer::$E_FATAL,$options);
 		}
 	}
 }
-?>

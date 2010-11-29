@@ -25,15 +25,20 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
-class strict_rekey extends Statement{
+class cipher extends Statement{
+	/**
+	 * Available Ciphers for OpenVPN
+	 * @var unknown_type
+	 */
+	private $ciphers = array('DES-CBC','AES-128-CBC','AES-192-CBC','AES-256-CBC','BF-CBC');
+	
 	/**
 	 * Constructor
-	 *
-	 * @param Array $parse_opt
-	 * @return void
+	 * @param Array $opt
+	 * @return unknown_type
 	 */
-	public function __construct($parse_opt){
-		$this->parse_options = $parse_opt;
+	public function __construct($opt){
+		$this->parse_options = $opt;
 	}
 	
 	/**
@@ -42,19 +47,17 @@ class strict_rekey extends Statement{
 	 */
 	public function interpret($options){
 		$this->validate($options);
-
-		$inst = HostAP::getInstance();
-		$inst->setWpaStrictRekey((string)$options);
+		
+		// @TODO Finish interpretation
 	}
-
+	
 	/**
 	 * (non-PHPdoc)
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
-		if($options != 'true' && $options != 'false'){
-			ParseErrorBuffer::addError('invalid strict rekey option',ParseErrorBuffer::$E_FATAL,$options);
+		if(!in_array((string)$options,$this->ciphers)){
+			ParseErrorBuffer::addError('Invalid cipher',ParseErrorBuffer::$E_FATAL,$options);
 		}
 	}
 }
-?>

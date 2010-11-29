@@ -25,10 +25,16 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
-class strict_rekey extends Statement{
+class auth_server extends Statement{
+	/**
+	 * Expected child nodes for this node
+	 * @var Array
+	 */
+	private $expected_tags = array('ip','port','shared_secret');
+	
 	/**
 	 * Constructor
-	 *
+	 * 
 	 * @param Array $parse_opt
 	 * @return void
 	 */
@@ -42,19 +48,28 @@ class strict_rekey extends Statement{
 	 */
 	public function interpret($options){
 		$this->validate($options);
-
-		$inst = HostAP::getInstance();
-		$inst->setWpaStrictRekey((string)$options);
+		$this->parseChildren($options);
 	}
-
+	
 	/**
 	 * (non-PHPdoc)
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
-		if($options != 'true' && $options != 'false'){
-			ParseErrorBuffer::addError('invalid strict rekey option',ParseErrorBuffer::$E_FATAL,$options);
+		if(!isset($options->ip)){
+			ParseErrorBuffer::addError('no radius ip address defined',ParseErrorBuffer::$E_FATAL,$options);
+		}
+		if(!isset($options->port)){
+			ParseErrorBuffer::addError('no radius port defined',ParseErrorBuffer::$E_FATAL,$options);
+		}
+		if(!isset($options->shared_secret)){
+			ParseErrorBuffer::addError('no radius shared_secret defined',ParseErrorBuffer::$E_FATAL,$options);
+		}
+		
+		foreach($options->children() as $child){
+			if(!in_array($child,$this->expected_tags)){
+				ParseErrorBuffer::addError('unexpected child node',ParseErrorBuffer::$E_FATAL,$options);	
+			}
 		}
 	}
 }
-?>
