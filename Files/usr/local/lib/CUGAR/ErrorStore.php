@@ -58,6 +58,47 @@ class ParseErrorBuffer{
 			ParseErrorBuffer::$buffer_notice[] = $tmp;
 		}
 	}
+	
+	/**
+	 * Check if errors exist of any level with greater or equal priority than $level
+	 * 
+	 * @param int $level
+	 * @return boolean
+	 */
+	public static function hasErrors($level){
+		if($level <= ParseErrorBuffer::$E_FATAL && count(ParseErrorBuffer::$buffer_fatal) > 0){
+			return true;
+		}
+		elseif($level <= ParseErrorBuffer::$E_WARNING && count(ParseErrorBuffer::$buffer_warning) > 0){
+			return true;
+		}
+		elseif($level <= ParseErrorBuffer::$E_NOTICE && count(ParseErrorBuffer::$buffer_notice) > 0){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	/**
+	 * Print all the errors that occurred to stdout
+	 * 
+	 * currently just does a print_r until I can be bothered to create a slightly fancier function.
+	 * 
+	 * @param int $level
+	 * @return void
+	 */
+	public static function printErrors($level){
+		if($level <= ParseErrorBuffer::$E_FATAL && count(ParseErrorBuffer::$buffer_fatal) > 0){
+			print_r(ParseErrorBuffer::$buffer_fatal);
+		}
+		elseif($level <= ParseErrorBuffer::$E_WARNING && count(ParseErrorBuffer::$buffer_warning) > 0){
+			print_r(ParseErrorBuffer::$buffer_warning);
+		}
+		elseif($level <= ParseErrorBuffer::$E_NOTICE && count(ParseErrorBuffer::$buffer_notice) > 0){
+			print_r(ParseErrorBuffer::$buffer_notice);
+		}
+	}
 }
 
 /**

@@ -46,13 +46,13 @@ class XMLParser{
 	private $filepath;
 
 	/**
-	 * Parse mode
+	 * Parse Options
 	 * 
-	 * Parse mode, either _WRITE_CONFIG or _VALIDATE_CONFIG
+	 * ['mode'] Parse mode, either _WRITE_CONFIG or _VALIDATE_CONFIG
 	 * 
 	 * @var String $mode
 	 */
-	private $mode;
+	private $options;
 	
 	/**
 	 * 
@@ -68,7 +68,16 @@ class XMLParser{
 	 * @return void
 	 */
 	public function setMode($mode){
-		$this->mode = $mode;
+		$this->options['mode'] = $mode;
+	}
+	
+	/**
+	 * Set the error level
+	 * @param int $errorlevel
+	 * @return unknown_type
+	 */
+	public function setErrorLevel($errorlevel){
+		$this->options['errorlevel'] = $errorlevel;
 	}
 
 	/**
@@ -97,21 +106,7 @@ class XMLParser{
 		//Set back to default error handling
 		libxml_use_internal_errors($previouslibxmlSetting);
 	}
-	
-	/**
-	 * Load statement class
-	 * @param String $classname
-	 * @return void
-	 */
-	public static function loadClass($classname){
-		if(file_exists('./parser/'.$classname.'.php')){
-			include('./parser/'.$classname.'.php');
-		}
-		else{
-			throw new SystemError('Could not load file '.$classname.'.php');
-		}
-	}
-	
+
 	/**
 	 * 
 	 * @return unknown_type
@@ -129,9 +124,24 @@ class XMLParser{
 				//	First instantiate new SSID stuff for each config block (where appliccable)
 				
 				//	Parse SSID statement and go through validation
-				$tmp = new ssid($this);
+				$tmp = new ssid($this->options);
 				$tmp->interpret($tag);
 			}
+			
+			/*
+			 * Now that we've parsed the entire thing, check if we had any errors
+			 */
+			if(ParseErrorBuffer::hasErrors($this->options['errorlevel'])){
+				if($this->options['mode'] == 'validate'){
+					ParseErrorBuffer::printErrors($this->options['errorlevel']);
+				}
+			}
+			else{
+				echo 'parsing complete';
+			}
+		}
+		catch(SystemError $e){
+			print_r($e);
 		}
 		catch(MalformedConfigException $e){
 			/**

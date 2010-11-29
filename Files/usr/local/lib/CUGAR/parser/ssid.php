@@ -54,8 +54,7 @@ class ssid extends Statement{
 		$this->validate($options);
 		
 		//	Set mode for this SSID, child tags could need this for parsing.
-		$this->parse_options['mode'] = $options['mode'];
-		
+		$this->parse_options['mode'] = (string)$options['mode'];
 		$this->parseChildren($options);
 	}
 

@@ -25,6 +25,7 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
+
 /**
  * Interface for Statements to be parsed from the XML
  *
@@ -45,7 +46,7 @@ abstract class Statement{
 	 * @throws MalformedConfigException
 	 * @return void
 	 */
-	public function interpret($options);
+	public abstract function interpret($options);
 	
 	/**
 	 * Validate the statement
@@ -53,7 +54,22 @@ abstract class Statement{
 	 * @throws MalformedConfigException
 	 * @return void
 	 */
-	public function validate($options);
+	public abstract function validate($options);
+		
+	/**
+	 * Load statement class
+	 * @param String $classname
+	 * @return void
+	 */
+	protected function loadClass($classname){
+		if(file_exists('./parser/'.$classname.'.php')){
+			require_once('./parser/'.$classname.'.php');
+		}
+		else{
+			throw new SystemError('Could not load file '.$classname.'.php');
+		}
+	}
+	
 	
 	/**
 	 * Parse all the child tags of this statement
@@ -65,7 +81,8 @@ abstract class Statement{
 		foreach($options->children() as $child){
 			//	Interpret each child tag, and we're through (because SSID contains no system configuration and is merely a container)
 			$name = $child->getName();
-			Parser::loadClass($name);
+			
+			$this->loadClass($name);
 			if(class_exists($name)){
 				$tmp = new $name($this->parse_options);
 				$tmp->interpret($child);
