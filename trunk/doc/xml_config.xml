@@ -87,10 +87,10 @@
 		
 		<dhcp_relay>
 			<servers>
-				<server>10.254.12.5</server>
-				<server>10.254.12.6</server>
+				<ip>10.254.12.5</ip>
+				<ip>10.254.12.6</ip>
 			</servers>
-			<interface>wlan0</interface>
+			<hw_interface>wlan0</hw_interface>
 		</dhcp_relay>
 		<openvpn>
 			<tunnel type="data">

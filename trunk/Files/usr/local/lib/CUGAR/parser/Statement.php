@@ -31,6 +31,12 @@
  */
 abstract class Statement{
 	/**
+	 * Parsing options passes through from the parser or parent nodes
+	 * @var integer
+	 */
+	protected $parse_options;
+	
+	/**
 	 * Interpret the statement
 	 * 
 	 * Validates (through validate()) the statement and propagates their meaning to the
@@ -61,7 +67,7 @@ abstract class Statement{
 			$name = $child->getName();
 			Parser::loadClass($name);
 			if(class_exists($name)){
-				$tmp = new $name();
+				$tmp = new $name($this->parse_options);
 				$tmp->interpret($child);
 			}
 			else{

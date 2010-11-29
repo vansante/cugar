@@ -25,36 +25,40 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
-class strict_rekey extends Statement{
+class openvpn extends Statement{
 	/**
-	 * Constructor
-	 *
-	 * @param Array $parse_opt
-	 * @return void
+	 * Expected child nodes for this node
+	 * @var Array
 	 */
-	public function __construct($parse_opt){
-		$this->parse_options = $parse_opt;
-	}
+	private $expected_tags = array('tunnel');
 	
 	/**
-	 * (non-PHPdoc)
-	 * @see Files/usr/local/lib/CUGAR/parser/Statement#interpret($options)
+	 * Constructor
+	 * @param Array $opt
+	 * @return unknown_type
 	 */
+	public function __construct($opt){
+		$this->parse_options = $opt;
+	}
+	
 	public function interpret($options){
 		$this->validate($options);
-
-		$inst = HostAP::getInstance();
-		$inst->setWpaStrictRekey((string)$options);
+		$this->parseChildren($options);
 	}
-
-	/**
-	 * (non-PHPdoc)
-	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
-	 */
+	
 	public function validate($options){
-		if($options != 'true' && $options != 'false'){
-			ParseErrorBuffer::addError('invalid strict rekey option',ParseErrorBuffer::$E_FATAL,$options);
+		if(!isset($options->tunnel)){
+			ParseErrorBuffer::addError('no tunnel definitions found',ParseErrorBuffer::$E_FATAL,$options);
+		}
+		if(count($options->tunnel) > 2){
+			ParseErrorBuffer::addError('too many tunnels defined',ParseErrorBuffer::$E_FATAL,$options);
+		}
+		
+		foreach($options->children() as $child){
+			if(!in_array($child,$this->expected_tags)){
+				ParseErrorBuffer::addError('Unexpected child node',ParseErrorBuffer::$E_WARNING,$child);
+			}
 		}
 	}
+	
 }
-?>

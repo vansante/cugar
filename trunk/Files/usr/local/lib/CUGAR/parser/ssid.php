@@ -31,20 +31,34 @@
  */
 class ssid extends Statement{
 	/**
-	 * 
+	 * Constructor
+	 *
+	 * @param Array $parse_opt
+	 * @return void
+	 */
+	public function __construct($parse_opt){
+		$this->parse_options = $parse_opt;
+	}
+
+	/**
+	 *
 	 * @var unknown_type
 	 */
 	private $expectedtags = Array('hostapd','openvpn','portal','dhcp_relay');
-	
+
 	/**
 	 * (non-PHPdoc)
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#interpret()
 	 */
 	public function interpret($options){
 		$this->validate($options);
+		
+		//	Set mode for this SSID, child tags could need this for parsing.
+		$this->parse_options['mode'] = $options['mode'];
+		
 		$this->parseChildren($options);
 	}
-	
+
 	/**
 	 * (non-PHPdoc)
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate()
@@ -54,20 +68,20 @@ class ssid extends Statement{
 			if(!isset($options->hostapd)){
 				ParseErrorBuffer::addError('no hostap tag found',ParseErrorBuffer::$E_FATAL,$options);
 			}
-			
+				
 			if($options['mode'] == 2 && !isset($options->portal)){
 				ParseErrorBuffer::addError('no portal tag found',ParseErrorBuffer::$E_FATAL,$options);
 			}
-			
+				
 			if($options['mode'] == 3){
 				if(!isset($options->openvpn)){
 					ParseErrorBuffer::addError('no openvpn tag found',ParseErrorBuffer::$E_FATAL,$options);
 				}
 				if(!isset($options->dhcp_relay)){
-					ParseErrorBuffer::addError('no dhcp-relay tag found',ParseErrorBuffer::$E_FATAL,$options);
+					ParseErrorBuffer::addError('no dhcp_relay tag found',ParseErrorBuffer::$E_FATAL,$options);
 				}
 			}
-			
+				
 			/*
 			 * Check if all child tags are expected, throw error on unexpected tags
 			 */
