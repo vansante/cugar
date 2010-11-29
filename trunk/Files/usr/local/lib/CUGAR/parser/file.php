@@ -32,6 +32,7 @@ class file extends Statement{
 	 */
 	public function interpret($options){
 		//@TODO Write out the file (use a buffer like the other configs?)
+		$this->validate($options);
 	}
 	
 	/**
@@ -48,7 +49,7 @@ class file extends Statement{
 	 * (non-PHPdoc)
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#interpret($options)
 	 */
-	public function interpret($options){
+	public function validate($options){
 		if(empty($options['name'])){
 			ParseErrorBuffer::addError('no filename specified',ParseErrorBuffer::$E_FATAL,$options);
 		}

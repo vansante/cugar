@@ -52,16 +52,7 @@ class wpa extends Statement{
 		$inst = HostAP::getInstance();
 		$inst->setWpaMode($options['mode']);
 
-		foreach($options->children() as $child){
-			$name = $child->getName();
-			if(class_exists($name)){
-				$tmp = new $name();
-				$tmp->interpret($child);
-			}
-			else{
-				throw new SystemError('could not find class '.$name);
-			}
-		}
+		$this->parseChildren($options);
 	}
 
 	/**

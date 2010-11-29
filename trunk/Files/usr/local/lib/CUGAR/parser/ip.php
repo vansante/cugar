@@ -51,7 +51,7 @@ class ip extends Statement{
 	public function validate($options){
 		if(long2ip(ip2long((string)$options)) != (string)$options){
 			// @TODO: Do IPV6 validation (no stock PHP function yet)
-			if($ipv6Address && false){
+			if(!false){
 				ParseErrorBuffer::addError('invalid IP address',ParseErrorBuffer::$E_FATAL,$options);
 			}
 		}
