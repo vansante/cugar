@@ -66,13 +66,13 @@ class ParseErrorBuffer{
 	 * @return boolean
 	 */
 	public static function hasErrors($level){
-		if($level <= ParseErrorBuffer::$E_FATAL && count(ParseErrorBuffer::$buffer_fatal) > 0){
+		if($level >= ParseErrorBuffer::$E_FATAL && count(ParseErrorBuffer::$buffer_fatal) > 0){
 			return true;
 		}
-		elseif($level <= ParseErrorBuffer::$E_WARNING && count(ParseErrorBuffer::$buffer_warning) > 0){
+		elseif($level >= ParseErrorBuffer::$E_WARNING && count(ParseErrorBuffer::$buffer_warning) > 0){
 			return true;
 		}
-		elseif($level <= ParseErrorBuffer::$E_NOTICE && count(ParseErrorBuffer::$buffer_notice) > 0){
+		elseif($level >= ParseErrorBuffer::$E_NOTICE && count(ParseErrorBuffer::$buffer_notice) > 0){
 			return true;
 		}
 		else{
@@ -89,13 +89,13 @@ class ParseErrorBuffer{
 	 * @return void
 	 */
 	public static function printErrors($level){
-		if($level <= ParseErrorBuffer::$E_FATAL && count(ParseErrorBuffer::$buffer_fatal) > 0){
+		if($level >= ParseErrorBuffer::$E_FATAL && count(ParseErrorBuffer::$buffer_fatal) > 0){
 			print_r(ParseErrorBuffer::$buffer_fatal);
 		}
-		elseif($level <= ParseErrorBuffer::$E_WARNING && count(ParseErrorBuffer::$buffer_warning) > 0){
+		elseif($level >= ParseErrorBuffer::$E_WARNING && count(ParseErrorBuffer::$buffer_warning) > 0){
 			print_r(ParseErrorBuffer::$buffer_warning);
 		}
-		elseif($level <= ParseErrorBuffer::$E_NOTICE && count(ParseErrorBuffer::$buffer_notice) > 0){
+		elseif($level >= ParseErrorBuffer::$E_NOTICE && count(ParseErrorBuffer::$buffer_notice) > 0){
 			print_r(ParseErrorBuffer::$buffer_notice);
 		}
 	}

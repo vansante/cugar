@@ -67,8 +67,8 @@ class auth_server extends Statement{
 		}
 		
 		foreach($options->children() as $child){
-			if(!in_array($child,$this->expected_tags)){
-				ParseErrorBuffer::addError('unexpected child node',ParseErrorBuffer::$E_FATAL,$options);	
+			if(!in_array($child->getName(),$this->expected_tags)){
+				ParseErrorBuffer::addError('Unexpected child node '.$child->getName(),ParseErrorBuffer::$E_FATAL,$options);	
 			}
 		}
 	}

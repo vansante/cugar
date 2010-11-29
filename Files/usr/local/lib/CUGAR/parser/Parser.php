@@ -58,7 +58,8 @@ class XMLParser{
 	 * 
 	 */
 	public function __construct(){
-		
+		$this->options['mode'] = 'parse';
+		$this->options['errorlevel'] = 0;
 	}
 	
 	/**
@@ -133,6 +134,10 @@ class XMLParser{
 			 */
 			if(ParseErrorBuffer::hasErrors($this->options['errorlevel'])){
 				if($this->options['mode'] == 'validate'){
+					ParseErrorBuffer::printErrors($this->options['errorlevel']);
+				}
+				else{
+					//@TODO: what to do here? let's just print it for now
 					ParseErrorBuffer::printErrors($this->options['errorlevel']);
 				}
 			}

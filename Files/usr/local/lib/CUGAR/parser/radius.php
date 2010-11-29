@@ -30,7 +30,7 @@ class radius extends Statement{
 	 * Expected child nodes for this statement
 	 * @var Array
 	 */
-	private $expected_tags = array('own_ip','nas_identifier','auth_server','acct_server');
+	private $expected_tags = array('own_ip','nas_identifier','auth_server','acct_server','retry_interval');
 
 	/**
 	 * Constructor
@@ -71,7 +71,7 @@ class radius extends Statement{
 
 		foreach($options->children() as $child){
 			if(!in_array($child->getName(),$this->expected_tags)){
-				ParseErrorBuffer::addError('Unexpected child node',ParseErrorBuffer::$E_FATAL,$child);
+				ParseErrorBuffer::addError('Unexpected child node '.$child->getName(),ParseErrorBuffer::$E_FATAL,$child);
 			}
 		}
 	}
