@@ -33,6 +33,8 @@ class XMLParser{
 	public static $_WRITE_CONFIG = 0;
 	public static $_VALIDATE_CONFIG = 1;
 	
+	const VERSION = '0.1';
+	
 	/**
 	 * @var XMLObject
 	 * @access private
@@ -114,50 +116,43 @@ class XMLParser{
 	 */
 	public function parse(){
 		try{
-			/*	Parser cascades down through Statement classes until it has parsed everything
-			 * 	as such, over here, we only have to call the ssid class every time we encounter an ssid tag.
-			 * 
-			 * 	@TODO: theoretically, we might want to add a config statement for the root tag handling / validation
-			 *  which would ensure ssid tags are present (what good is an empty device)
-			 *  that's mostly something that impacts design, rather than functionality. So it's omitted at this time.
-			 */
-			foreach($this->xml->ssid as $tag){
-				//	First instantiate new SSID stuff for each config block (where appliccable)
+			if($this->xml['version'] == XMLParser::VERSION){
+				/*	Parser cascades down through Statement classes until it has parsed everything
+				 * 	as such, over here, we only have to call the ssid class every time we encounter an ssid tag.
+				 * 
+				 * 	@TODO: theoretically, we might want to add a config statement for the root tag handling / validation
+				 *  which would ensure ssid tags are present (what good is an empty device)
+				 *  that's mostly something that impacts design, rather than functionality. So it's omitted at this time.
+				 */
+				foreach($this->xml->ssid as $tag){
+					//	First instantiate new SSID stuff for each config block (where appliccable)
+					
+					//	Parse SSID statement and go through validation
+					$tmp = new ssid($this->options);
+					$tmp->interpret($tag);
+				}
 				
-				//	Parse SSID statement and go through validation
-				$tmp = new ssid($this->options);
-				$tmp->interpret($tag);
-			}
-			
-			/*
-			 * Now that we've parsed the entire thing, check if we had any errors
-			 */
-			if(ParseErrorBuffer::hasErrors($this->options['errorlevel'])){
-				if($this->options['mode'] == 'validate'){
-					ParseErrorBuffer::printErrors($this->options['errorlevel']);
+				/*
+				 * Now that we've parsed the entire thing, check if we had any errors
+				 */
+				if(ParseErrorBuffer::hasErrors($this->options['errorlevel'])){
+					if($this->options['mode'] == 'validate'){
+						ParseErrorBuffer::printErrors($this->options['errorlevel']);
+					}
+					else{
+						//@TODO: what to do here? let's just print it for now
+						ParseErrorBuffer::printErrors($this->options['errorlevel']);
+					}
 				}
 				else{
-					//@TODO: what to do here? let's just print it for now
-					ParseErrorBuffer::printErrors($this->options['errorlevel']);
+					echo 'parsing complete';
 				}
 			}
 			else{
-				echo 'parsing complete';
+				throw new SystemError('Invalid configuration version');
 			}
 		}
 		catch(SystemError $e){
-			print_r($e);
-		}
-		catch(MalformedConfigException $e){
-			/**
-			 * @TODO: What do we want on error, stop parsing entirely (current behavior) or
-			 * do we want to prevent parsing of the SSID that failed validation? (slightly more annoying as it requires double-buffering, but not impossible)
-			 * 
-			 * Behavior would probably also differ in different modes, parsing should probably continue in VALIDATE mode, and should simply log all the errors.
-			 * Will need to rerouteslightly at that point since exceptions break the cascade-down unless handled in a lower tier.
-			 * 
-			 * Make sure to inquire.
-			 */
 			print_r($e);
 		}
 	}
