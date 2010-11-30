@@ -17,26 +17,6 @@
             <input name="mode_mode2_ssid" type="text" id="mode_mode2_ssid" />
         </dd>
 
-        <dt><label for="mode_mode2_channel">Channel</label></dt>
-        <dd>
-            <select name="mode_mode2_channel" id="mode_mode2_channel">
-                <option value="auto">Auto</option>
-                <?php for ($i = 0; $i < 14; $i++) : ?>
-                <option value="<?=$i?>"><?=$i?></option>
-                <?php endfor ?>
-            </select>
-        </dd>
-
-        <dt><label for="mode_mode2_mode">Wireless mode</label></dt>
-        <dd>
-            <select name="mode_mode2_mode" id="mode_mode2_mode">
-                <option value="b_g_n">Wireless B/G/N</option>
-                <option value="b">Wireless B</option>
-                <option value="g">Wireless G</option>
-                <option value="n">Wireless N</option>
-            </select>
-        </dd>
-
         <dt><label for="mode_mode2_encryption">Wireless encryption</label></dt>
         <dd>
             <select name="mode_mode2_encryption" id="mode_mode2_encryption">

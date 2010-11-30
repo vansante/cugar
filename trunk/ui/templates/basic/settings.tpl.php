@@ -6,7 +6,9 @@
 
     <input type="hidden" name="module" value="settings"/>
     <input type="hidden" name="page" value="save" id="basic_settings_form_page"/>
-    
+
+    <h3>Internet settings</h3>
+
     <dl>
         <dt><label for="basic_settings_hostname">Hostname</label></dt>
         <dd>
@@ -48,6 +50,32 @@
             </dl>
         </dd>
 
+    </dl>
+
+    <p style="clear: both;"></p>
+
+    <h3>Wireless settings</h3>
+
+    <dl>
+        <dt><label for="basic_settings_wl_channel">Channel</label></dt>
+        <dd>
+            <select name="basic_settings_wl_channel" id="basic_settings_channel">
+                <option value="auto">Auto</option>
+                <?php for ($i = 0; $i < 14; $i++) : ?>
+                <option value="<?=$i?>"><?=$i?></option>
+                <?php endfor ?>
+            </select>
+        </dd>
+
+        <dt><label for="basic_settings_wl_mode">Wireless mode</label></dt>
+        <dd>
+            <select name="basic_settings_wl_mode" id="basic_settings_wl_mode">
+                <option value="auto">Auto</option>
+                <option value="b">Wireless B</option>
+                <option value="g">Wireless G</option>
+                <option value="n">Wireless N</option>
+            </select>
+        </dd>
         
         <dt><input type="submit" value="Save" id="basic_settings_submit" class="submitbutton"/></dt>
     </dl>

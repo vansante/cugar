@@ -54,6 +54,9 @@ cg.basic.settings.loadForm = function() {
         $('#basic_settings_static_default_gateway').val(data['static'].default_gateway);
         $('#basic_settings_static_dns_server_1').val(data['static'].dns_server_1);
         $('#basic_settings_static_dns_server_2').val(data['static'].dns_server_2);
+
+        $('#basic_settings_wl_channel').val(data['hardware'].wl_channel);
+        $('#basic_settings_wl_mode').val(data['hardware'].wl_mode);
     }
 };
 
