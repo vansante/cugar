@@ -1,0 +1,117 @@
+DeviceConfig:
+  columns:
+    id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
+    wireless_channel: { type: int(1), unsigned: true, range: [1, 13]}
+    wireless_mode:
+      type: enum
+      values: [b, g, n, auto]
+      notnull: true
+    update_server: {type: string(255), notnull: true }
+    
+Device:
+  columns:
+    id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
+    device_config_id: { type: integer(4), unsigned: true, notnull: true }
+    description: { type: string }
+  relations:
+    DeviceConfig:
+      class: DeviceConfig
+      local: device_config_id
+      foreign: id
+      foreignAlias: DeviceConfigs
+      foreignType: one
+      type: one
+      
+DhcpServer:
+  columns:
+    id: { type: integer(4), unsigned: true, primary: true }
+    mode3_id: { type: integer(4), unsigned: true, notnull: true}
+    ip:
+      type: string(15)
+      ip: true
+  relations:
+    Mode3:
+      class: Mode3
+      local: mode3_id
+      foreign: id
+      foreignAlias: DhcpServers
+      foreignType: one
+      type: one
+
+Mode2:
+  columns:
+    id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
+    ssid_id: { type: integer(4), unsigned: true }
+    file_path: { type: string(255), notnull: true, minlength: 4 }
+  relations:
+    Ssid:
+      class: Ssid
+      local: ssid_id
+      foreign: id
+      foreignAlias: Mode2s
+      foreignType: one
+      type: one
+      
+Mode3:
+  columns:
+    id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
+    ssid_id: { type: integer(4), unsigned: true }
+    retry_interval: { type: integer(4), notnull: true }
+    own_ip: { type: string(15), ip: true, notnull: true }
+    nas_identifier: { type: string(48), notnull: true, minlength: 1 }
+    dhcprelay_ip: { type: string(15), ip: true, notnull: true }
+    hw_interface: {type: string(5), notnull: true, minlength: 3 }
+    radius_auth_ip: { type: string(15), ip: true, notnull: true }
+    radius_auth_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
+    radius_auth_shared_secret: { type: string(255), notnull: true, minlength: 1}
+    radius_auth_interim_interval: { type: integer(3), unsigned: true, notnull: true, range: [1] }
+    radius_acct_auth_ip: { type: string(15), ip: true, notnull: true }
+    radius_acct_auth_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
+    radius_acct_auth_shared_secret: { type: string(255), notnull: true, minlength: 1}
+    radius_acct_interim_interval: { type: integer(3), unsigned: true, notnull: true, range: [1] }
+    vpn_auth_server: { type: string(255), notnull: true, minlength: 4 }
+    vpn_auth_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
+    vpn_auth_cipher:
+      type: enum
+      values: [DES-CBC, AES-128-CBC, AES-192-CBC, AES-256-CBC, BF-CBC]
+      notnull: true
+    vpn_auth_compression: { type: boolean, notnull: true }
+    vpn_data_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
+    vpn_data_cipher:
+      type: enum
+      values: [DES-CBC, AES-128-CBC, AES-192-CBC, AES-256-CBC, BF-CBC]
+      notnull: true
+    vpn_data_compression: { type: boolean, notnull: true }
+  relations:
+    Ssid:
+      class: Ssid
+      local: ssid_id
+      foreign: id
+      foreignAlias: Mode3s
+      foreignType: one
+      type: one
+
+Ssid:
+  columns:
+    id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
+    device_config_id: { type: integer(4), unsigned: true, notnull: true }
+    name: { type: string(32), notnull: true, minlength: 1 }
+    vlan: { type: integer(2), notnull: true, range: [1, 4096] }
+    group_rekey_interval: { type: integer(4), notnull: true }
+    broadcast: { type: boolean, notnull: true }
+    strict_rekey: { type: boolean, notnull: true }
+    passprase: { type: string(255) }
+    wpa_mode:
+      type: enum
+      values: [wpa, wpa2, off]
+      notnull: true
+  relations:
+    DeviceConfig:
+      class: DeviceConfig
+      local: device_config_id
+      foreign: id
+      foreignAlias: Ssids
+      foreignType: one
+      type: one
+
+
