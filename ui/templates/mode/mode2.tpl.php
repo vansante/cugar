@@ -104,9 +104,13 @@
 </form>
 
 <div class="help_pool">
-    
+    <div class="help" id="help_mode_mode2_ssid">Please enter the SSID that the accesspoint should broadcast</div>
+    <div class="help" id="help_mode_mode2_encryption">Please select which encryption type the accesspoint should use</div>
+    <div class="help" id="help_mode_mode2_passphrase">Please enter the passphrase used for authentication with the accesspoint</div>
+    <div class="help" id="help_mode_mode2_portal_url">Please enter url that should be used as your homepage upon connecting with the accesspoint</div>
+    <div class="help" id="help_mode_mode2_portal_localfile">Please supply a zipfile with all the files necessary for your homepage</div>
+    <div class="help" id="help_mode_mode2_whitelist_item">Please enter a whitelist item in the form of an URL (google.com), an IP address (xxx.xxx.xxx.xxx) or a subnet (xxx.xxx.xxx.xxx/xx)</div>
 </div>
-
 <script type="text/javascript">
 $(function() {
     $('#mode_mode2_form input[name=mode_mode2_portalmode]').click(function() {

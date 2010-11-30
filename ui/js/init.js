@@ -58,8 +58,7 @@ $(function() {
         var helpElement = $('#help_'+$(this).attr('for'));
         //Check if help text extists
         if (helpElement.length == 1) {
-            //Give the help a header
-            helpElement.prepend('<h3>Help</h3>').addClass('hidden');
+            helpElement.addClass('hidden');
 
             //DT to display help in
             $('<dt />')

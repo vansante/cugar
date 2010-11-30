@@ -1,4 +1,4 @@
-<h2 class="help_anchor"><a class="open_all_help" rel="cp_mode_mode1_wlan"></a>Wireless settings</h2>
+<h2 class="help_anchor"><a class="open_all_help" rel="cp_mode_mode1"></a>Wireless settings</h2>
 
 <p class="intro">You can define the basic wireless settings here.</p>
 
@@ -34,6 +34,12 @@
 
     <p style="clear: both;"></p>
 </form>
+
+<div class="help_pool">
+    <div class="help" id="help_mode_mode1_ssid">Please enter the SSID that the accesspoint should broadcast</div>
+    <div class="help" id="help_mode_mode1_encryption">Please select which encryption type the accesspoint should use</div>
+    <div class="help" id="help_mode_mode1_passphrase">Please enter the passphrase used for authentication with the accesspoint</div>
+</div>
 
 <script type="text/javascript">
 cg.mode.mode1.loadForm = function() {
