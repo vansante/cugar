@@ -5,3 +5,7 @@ all:
       dsn:      mysql:host=localhost;dbname=cugar
       username: root
       password: ~
+    
+      attributes:
+         use_native_enum: true
+         use_dql_callbacks: true

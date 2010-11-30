@@ -1,16 +1,16 @@
 <?php
 
 /**
- * DeviceConfig form base class.
+ * Config form base class.
  *
- * @method DeviceConfig getObject() Returns the current form's model object
+ * @method Config getObject() Returns the current form's model object
  *
  * @package    sf_sandbox
  * @subpackage form
  * @author     Your name here
  * @version    SVN: $Id: sfDoctrineFormGeneratedTemplate.php 29553 2010-05-20 14:33:00Z Kris.Wallsmith $
  */
-abstract class BaseDeviceConfigForm extends BaseFormDoctrine
+abstract class BaseConfigForm extends BaseFormDoctrine
 {
   public function setup()
   {
@@ -28,7 +28,7 @@ abstract class BaseDeviceConfigForm extends BaseFormDoctrine
       'update_server'    => new sfValidatorString(array('max_length' => 255)),
     ));
 
-    $this->widgetSchema->setNameFormat('device_config[%s]');
+    $this->widgetSchema->setNameFormat('config[%s]');
 
     $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
 
@@ -39,7 +39,7 @@ abstract class BaseDeviceConfigForm extends BaseFormDoctrine
 
   public function getModelName()
   {
-    return 'DeviceConfig';
+    return 'Config';
   }
 
 }
