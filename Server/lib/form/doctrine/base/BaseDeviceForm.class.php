@@ -15,15 +15,15 @@ abstract class BaseDeviceForm extends BaseFormDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'id'               => new sfWidgetFormInputHidden(),
-      'device_config_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('DeviceConfig'), 'add_empty' => false)),
-      'description'      => new sfWidgetFormTextarea(),
+      'id'          => new sfWidgetFormInputHidden(),
+      'config_id'   => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Config'), 'add_empty' => false)),
+      'description' => new sfWidgetFormTextarea(),
     ));
 
     $this->setValidators(array(
-      'id'               => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'device_config_id' => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('DeviceConfig'))),
-      'description'      => new sfValidatorString(array('required' => false)),
+      'id'          => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
+      'config_id'   => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Config'))),
+      'description' => new sfValidatorString(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('device[%s]');

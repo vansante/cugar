@@ -1,4 +1,4 @@
-DeviceConfig:
+Config:
   columns:
     id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
     wireless_channel: { type: int(1), unsigned: true, range: [1, 13]}
@@ -11,14 +11,14 @@ DeviceConfig:
 Device:
   columns:
     id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
-    device_config_id: { type: integer(4), unsigned: true, notnull: true }
+    config_id: { type: integer(4), unsigned: true, notnull: true }
     description: { type: string }
   relations:
-    DeviceConfig:
-      class: DeviceConfig
-      local: device_config_id
+    Config:
+      class: Config
+      local: config_id
       foreign: id
-      foreignAlias: DeviceConfigs
+      foreignAlias: Configs
       foreignType: one
       type: one
       
@@ -55,8 +55,8 @@ Mode2:
 Mode3:
   columns:
     id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
-    ssid_id: { type: integer(4), unsigned: true }
-    retry_interval: { type: integer(4), notnull: true }
+    ssid_id: { type: integer(4), unsigned: true, notnull: true }
+    retry_interval: { type: integer(4), unsigned: true, notnull: true }
     own_ip: { type: string(15), ip: true, notnull: true }
     nas_identifier: { type: string(48), notnull: true, minlength: 1 }
     dhcprelay_ip: { type: string(15), ip: true, notnull: true }
@@ -94,21 +94,21 @@ Mode3:
 Ssid:
   columns:
     id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
-    device_config_id: { type: integer(4), unsigned: true, notnull: true }
+    config_id: { type: integer(4), unsigned: true, notnull: true }
     name: { type: string(32), notnull: true, minlength: 1 }
-    vlan: { type: integer(2), notnull: true, range: [1, 4096] }
+    vlan: { type: integer(2), notnull: false, range: [1, 4096] }
     group_rekey_interval: { type: integer(4), notnull: true }
     broadcast: { type: boolean, notnull: true }
     strict_rekey: { type: boolean, notnull: true }
-    passprase: { type: string(255) }
+    passprase: { type: string(255), notnull: false }
     wpa_mode:
       type: enum
       values: [wpa, wpa2, off]
       notnull: true
   relations:
-    DeviceConfig:
-      class: DeviceConfig
-      local: device_config_id
+    Config:
+      class: Config
+      local: config_id
       foreign: id
       foreignAlias: Ssids
       foreignType: one

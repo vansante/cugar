@@ -99,10 +99,12 @@ abstract class BaseMode3 extends sfDoctrineRecord
         $this->hasColumn('ssid_id', 'integer', 4, array(
              'type' => 'integer',
              'unsigned' => true,
+             'notnull' => true,
              'length' => 4,
              ));
         $this->hasColumn('retry_interval', 'integer', 4, array(
              'type' => 'integer',
+             'unsigned' => true,
              'notnull' => true,
              'length' => 4,
              ));

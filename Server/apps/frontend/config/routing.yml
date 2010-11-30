@@ -1,3 +1,57 @@
+dhcp_server:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                DhcpServer
+    module:               dhcp_server
+    prefix_path:          /dhcp_server
+    column:               id
+    with_wildcard_routes: true
+
+ssid:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Ssid
+    module:               ssid
+    prefix_path:          /ssid
+    column:               id
+    with_wildcard_routes: true
+
+mode2:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Mode2
+    module:               mode2
+    prefix_path:          /mode2
+    column:               id
+    with_wildcard_routes: true
+
+mode3:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Mode3
+    module:               mode3
+    prefix_path:          /mode3
+    column:               id
+    with_wildcard_routes: true
+
+config:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Config
+    module:               config
+    prefix_path:          /config
+    column:               id
+    with_wildcard_routes: true
+
+device:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Device
+    module:               device
+    prefix_path:          /device
+    column:               id
+    with_wildcard_routes: true
+
 # You can find more information about this file on the symfony website:
 # http://www.symfony-project.org/reference/1_4/en/10-Routing
 

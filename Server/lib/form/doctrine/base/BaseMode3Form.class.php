@@ -16,7 +16,7 @@ abstract class BaseMode3Form extends BaseFormDoctrine
   {
     $this->setWidgets(array(
       'id'                             => new sfWidgetFormInputHidden(),
-      'ssid_id'                        => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Ssid'), 'add_empty' => true)),
+      'ssid_id'                        => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Ssid'), 'add_empty' => false)),
       'retry_interval'                 => new sfWidgetFormInputText(),
       'own_ip'                         => new sfWidgetFormInputText(),
       'nas_identifier'                 => new sfWidgetFormInputText(),
@@ -41,7 +41,7 @@ abstract class BaseMode3Form extends BaseFormDoctrine
 
     $this->setValidators(array(
       'id'                             => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'ssid_id'                        => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Ssid'), 'required' => false)),
+      'ssid_id'                        => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Ssid'))),
       'retry_interval'                 => new sfValidatorInteger(),
       'own_ip'                         => new sfValidatorString(array('max_length' => 15)),
       'nas_identifier'                 => new sfValidatorString(array('max_length' => 48, 'min_length' => 1)),

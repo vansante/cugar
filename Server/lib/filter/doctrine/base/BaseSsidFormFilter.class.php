@@ -13,9 +13,9 @@ abstract class BaseSsidFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'device_config_id'     => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('DeviceConfig'), 'add_empty' => true)),
+      'config_id'            => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Config'), 'add_empty' => true)),
       'name'                 => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'vlan'                 => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'vlan'                 => new sfWidgetFormFilterInput(),
       'group_rekey_interval' => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'broadcast'            => new sfWidgetFormChoice(array('choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no'))),
       'strict_rekey'         => new sfWidgetFormChoice(array('choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no'))),
@@ -24,7 +24,7 @@ abstract class BaseSsidFormFilter extends BaseFormFilterDoctrine
     ));
 
     $this->setValidators(array(
-      'device_config_id'     => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('DeviceConfig'), 'column' => 'id')),
+      'config_id'            => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Config'), 'column' => 'id')),
       'name'                 => new sfValidatorPass(array('required' => false)),
       'vlan'                 => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'group_rekey_interval' => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
@@ -52,7 +52,7 @@ abstract class BaseSsidFormFilter extends BaseFormFilterDoctrine
   {
     return array(
       'id'                   => 'Number',
-      'device_config_id'     => 'ForeignKey',
+      'config_id'            => 'ForeignKey',
       'name'                 => 'Text',
       'vlan'                 => 'Number',
       'group_rekey_interval' => 'Number',

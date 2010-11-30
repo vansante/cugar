@@ -16,7 +16,7 @@ abstract class BaseSsidForm extends BaseFormDoctrine
   {
     $this->setWidgets(array(
       'id'                   => new sfWidgetFormInputHidden(),
-      'device_config_id'     => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('DeviceConfig'), 'add_empty' => false)),
+      'config_id'            => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Config'), 'add_empty' => false)),
       'name'                 => new sfWidgetFormInputText(),
       'vlan'                 => new sfWidgetFormInputText(),
       'group_rekey_interval' => new sfWidgetFormInputText(),
@@ -28,9 +28,9 @@ abstract class BaseSsidForm extends BaseFormDoctrine
 
     $this->setValidators(array(
       'id'                   => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'device_config_id'     => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('DeviceConfig'))),
+      'config_id'            => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Config'))),
       'name'                 => new sfValidatorString(array('max_length' => 32, 'min_length' => 1)),
-      'vlan'                 => new sfValidatorInteger(),
+      'vlan'                 => new sfValidatorInteger(array('required' => false)),
       'group_rekey_interval' => new sfValidatorInteger(),
       'broadcast'            => new sfValidatorBoolean(),
       'strict_rekey'         => new sfValidatorBoolean(),
