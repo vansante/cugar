@@ -34,6 +34,10 @@
     <p style="clear: both;"></p>
 </form>
 
+<div class="help_pool">
+    <div class="help" id="help_mode_selection_mode">Please select the mode your device should run in</div>
+</div>
+
 <script type="text/javascript">
 $(function() {
     $('#tabs_mode').tabs('option', 'disabled', [1, 2, 3]);

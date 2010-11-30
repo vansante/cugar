@@ -37,7 +37,10 @@
 </form>
 
 <div class="help_pool">
-    
+    <div class="help" id="help_mode_mode3_server">Please enter the URL or the IP address of the server that should configure your accesspoint</div>
+    <div class="help" id="help_mode_mode3_public_key">Please upload your public key file (*.crt)</div>
+    <div class="help" id="help_mode_mode3_private_key">Please upload your private key file (*.key)</div>
+    <div class="help" id="help_mode_mode3_certificate">Please upload your certificate file (ca.crt)</div>
 </div>
 
 <script type="text/javascript">

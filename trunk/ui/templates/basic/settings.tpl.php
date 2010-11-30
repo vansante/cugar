@@ -1,4 +1,4 @@
-<h2 class="help_anchor"><a class="open_all_help" rel="cp_basic_settings_settings"></a>Basic settings</h2>
+<h2 class="help_anchor"><a class="open_all_help" rel="cp_basic_settings"></a>Basic settings</h2>
 
 <form id="basic_settings_form" action="ajaxserver.php" method="post">
     <div class="form-error" id="basic_settings_form_error">
@@ -15,7 +15,7 @@
             <input type="text" size="40" name="basic_settings_hostname" id="basic_settings_hostname"/>
         </dd>
 
-        <dt>Internet configuration</dt>
+        <dt><label for="basic_settings_type">Internet configuration</label></dt>
         <dd>
             <input name="basic_settings_type" type="radio" id="basic_settings_type_dhcp" value="dhcp"/>
             <label for="basic_settings_type_dhcp">Get an IP address automaticly (DHCP)</label>
@@ -84,12 +84,13 @@
 </form>
 
 <div class="help_pool">
-    <div class="help" id="help_basic_settings_hostname">Name of the firewall host, without domain part. e.g. "firewall"</div>
-    <div class="help" id="help_basic_settings_domain">e.g. mycorp.com</div>
-    <div class="help" id="help_basic_settings_dns1">IP addresses; these are also used for the DHCP service, DNS forwarder and for PPTP VPN clients </div>
+    <div class="help" id="help_basic_settings_hostname">Hostname for the accesspoint, without the domain part. e.g. "accesspoint"</div>
     <div class="help" id="help_basic_settings_type">Choose the type of IP configuration you want to use</div>
-    <div class="help" id="help_basic_settings_static_subnetmask">Enter the subnet mask of the interface in the following format: xxx.xxx.xxx.xxx</div>
     <div class="help" id="help_basic_settings_static_ipaddr">Enter the IP address of the interface in the following format: xxx.xxx.xxx.xxx</div>
-    <div class="help" id="help_basic_settings_static_gateway">Enter the IP address of the default gateway in the following format: xxx.xxx.xxx.xxx</div>
+    <div class="help" id="help_basic_settings_static_subnet_mask">Enter the subnet mask of the interface in the following format: xxx.xxx.xxx.xxx</div>
+    <div class="help" id="help_basic_settings_static_default_gateway">Enter the IP address of the default gateway in the following format: xxx.xxx.xxx.xxx</div>
+    <div class="help" id="help_basic_settings_static_dns_server_1">Please enter the IPs of the DNS servers of your ISP in the following format: xxx.xxx.xxx.xxx</div>
+    <div class="help" id="help_basic_settings_wl_channel">Please select the channel on which your accesspoint should transmit</div>
+    <div class="help" id="help_basic_settings_wl_mode">Please select the mode your accesspoint should run in</div>
 </div>
 
