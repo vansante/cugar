@@ -51,7 +51,14 @@ class passphrase extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
-		// @TODO See if we can actually VALIDATE this to ASCII-only,regex doesn't help much
+		$tmp = str_split($options);
+		print_r($tmp);
+		foreach($tmp as $char){
+			if( ord($char) < 32 && ord($char) > 126 ){
+				ParseErrorBuffer::addError('invalid passphrase option, accepts ASCII only',ParseErrorBuffer::$E_NOTICE,$options);
+				break;
+			}
+		}
 	}
 }
 ?>
