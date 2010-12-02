@@ -41,6 +41,7 @@ class hostapd extends Statement{
 	 */
 	public function __construct($parse_opt){
 		$this->parse_options = $parse_opt;
+		$this->parse_options['conf_block'] == 'hostapd';
 	}
 	
 	/**

@@ -47,6 +47,10 @@ class tunnel extends Statement{
 	 */
 	public function interpret($options){
 		$this->validate($options);
+		
+		$ref = OpenVPN::getInstance();
+		$ref->setTunnelType((string)$options['type']);
+		
 		$this->parseChildren($options);
 	}
 	

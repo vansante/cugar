@@ -41,8 +41,8 @@ class compression extends Statement{
 	 */
 	public function interpret($options){
 		$this->validate($options);
-		
-		// @TODO Finish interpretation
+		$ref = OpenVPN::getInstance();
+		$ref->setCompression((string)$options);
 	}
 	
 	/**

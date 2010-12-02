@@ -34,6 +34,7 @@ final class HostAP implements ConfigGenerator{
 	/**
 	 * Reference to self-instance for singleton
 	 * @var HostAP
+	 * @static
 	 */
 	private static $self;
 	
@@ -125,7 +126,7 @@ final class HostAP implements ConfigGenerator{
 	
 	/**
 	 * Get singleton instance
-	 * 
+	 * @static
 	 * @return HostAP
 	 */
 	public static function getInstance(){

@@ -31,8 +31,127 @@
  *
  */
 class OpenVPN{
+	/**
+	 * Reference to self (for singleton)
+	 * @var OpenVPN
+	 * @static
+	 * @access private
+	 */
+	private static $self;
+	
+	/**
+	 * File buffer
+	 * @var unknown_type
+	 */
 	private $buffer;
-	private $FILEPATH = "/etc/openvpn.conf";
+	
+	/**
+	 * Path to save the config file(s) to
+	 * @var String
+	 * @static
+	 */
+	private static FILEPATH = "/etc/";
+	
+	/**
+	 * Name of file to write to.
+	 * @var unknown_type
+	 */
+	private $filename = 'openvpn.conf';
+	
+	/**
+	 * tunnel type (data / auth)
+	 * @var String
+	 */
+	private $tunnel_type;
+	
+	/**
+	 * Cipher (any supported cipher)
+	 * @var String
+	 */
+	private $cipher;
+	
+	/**
+	 * Enable compression
+	 * @var Boolean
+	 */
+	private $compression;
+	
+	/**
+	 * Address of the server to connect to
+	 * 
+	 * IP or domain name
+	 * 
+	 * @var String
+	 */
+	private $server;
+	
+	/**
+	 * Port to connect on
+	 * @var Integer
+	 */
+	private $port;
+	
+	/**
+	 * Get singleton instance
+	 * @static
+	 * @return OpenVPN
+	 */
+	public static function getInstance(){
+		if(OpenVPN::$self == null){
+			OpenVPN::$self = new OpenVPN();
+		}
+		return OpenVPN::$self; 
+	}
+	
+	/**
+	 * 
+	 */
+	private function __construct(){}
+	
+	/**
+	 * Set the tunnel type
+	 * @param String $type
+	 */
+	public function setTunnelType($type){
+		$this->tunnel_type = $tunnel_type;
+	}
+	
+	/**
+	 * Enable / Disable compression
+	 * @param Boolean $compression
+	 */
+	public function setCompression($compression){
+		$this->compression = $compression;
+	}
+	
+	/**
+	 * Set the server
+	 * @param String $server
+	 */
+	public function setServer($server){
+		$this->server = $server;
+	}
+
+	/**
+	 * Set the port
+	 * @param Integer $port
+	 */
+	public function setPort($port){
+		$this->port = port;
+	}
+	
+	/**
+	 * New Tunnel
+	 * 
+	 * Write filebuffer to file
+	 * Increment tunnel count
+	 * flush filebuffer
+	 *
+	 */
+	public function newTunnel(){
+		$this->saveFile();
+		$this->buffer = '';
+	}
 	
 	/**
 	 * Write out file to filepath
