@@ -50,7 +50,7 @@ class OpenVPN extends ConfigGenerator{
 	 * @var String
 	 * @static
 	 */
-	private static FILEPATH = "/etc/";
+	private static $FILEPATH = "/etc/";
 	
 	/**
 	 * Name of file to write to.

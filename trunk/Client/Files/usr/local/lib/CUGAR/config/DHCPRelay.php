@@ -31,7 +31,7 @@ class DHCPRelay implements ConfigGenerator{
 	private $FILEPATH = "/etc/";
 	
 	private $hw_interface;
-	private $servers
+	private $servers;
 	
 	/**
 	 * Get singleton instance
