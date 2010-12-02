@@ -42,7 +42,10 @@ class own_ip extends Statement{
 	 */
 	public function interpret($options){
 		$this->validate($options);
-		$this->parseChildren($options);	
+		if($this->parse_options['conf_block'] == 'hostapd'){
+			$ref = HostAP::getInstance();
+			$ref->setRadiusOwnIp((string)$options);
+		}	
 	}
 	
 	/**

@@ -30,7 +30,7 @@
  * Generates OpenVPN configuration from the XML
  *
  */
-class OpenVPN{
+class OpenVPN extends ConfigGenerator{
 	/**
 	 * Reference to self (for singleton)
 	 * @var OpenVPN
@@ -154,12 +154,22 @@ class OpenVPN{
 	}
 	
 	/**
-	 * Write out file to filepath
+	 * (non-PHPdoc)
+	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#setSavePath()
 	 */
-	public function saveFile(){
+	public function setSavePath($filepath){
+		$this->FILEPATH = $filepath;
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#writeConfig()
+	 */
+	public function writeConfig(){
 		$fp = fopen($this->FILEPATH,'w');
 		if($fp){
 			fwrite($fp,$this->buffer);
+			fclose($fp);
 		}
 	}
 }
