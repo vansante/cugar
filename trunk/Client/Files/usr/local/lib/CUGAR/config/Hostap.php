@@ -182,9 +182,26 @@ final class HostAP implements ConfigGenerator{
 	public function newSSID(){
 		//	Parse SSID spec and write to file buffer
 		$this->parseBuffer();
+		$this->ssid_count++;;
 		
-		$this->ssid_count++;
 		//	Reset object for new SSID spec
+		$ssid_name = null;
+		$broadcast_ssid = null;
+		$vlan_id = null;
+		$wpa_strict_rekey = null;
+		$wpa_passphrase = null;
+		$wpa_group_rekey_interval = null;
+		$wpa_mode = null;
+		$rad_own_ip = null;
+		$rad_nas_identifier = null;
+		$rad_retry_interval = null;
+		$rad_acct_ip = null;
+		$rad_acct_port = null;
+		$rad_acct_sharedsecret = null;
+		$rad_acct_interim_interval = null;
+		$rad_auth_ip = null;
+		$rad_auth_port = null;
+		$rad_auth_sharedsecret = null;
 	}
 	
 	private function parseBuffer(){
