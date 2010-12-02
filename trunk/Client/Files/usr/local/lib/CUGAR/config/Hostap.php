@@ -176,12 +176,9 @@ final class HostAP implements ConfigGenerator{
 	}
 	
 	/**
-	 * (non-PHPdoc)
-	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#newSSID()
+	 * 
 	 */
 	public function newSSID(){
-		//	Parse SSID spec and write to file buffer
-		$this->parseBuffer();
 		$this->ssid_count++;;
 		
 		//	Reset object for new SSID spec
@@ -202,6 +199,11 @@ final class HostAP implements ConfigGenerator{
 		$rad_auth_ip = null;
 		$rad_auth_port = null;
 		$rad_auth_sharedsecret = null;
+	}
+	
+	public function finishSSID(){
+		// Parse SSID spec and write to file buffer
+		$this->parseBuffer();
 	}
 	
 	private function parseBuffer(){
