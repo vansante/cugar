@@ -42,6 +42,11 @@ class retry_interval extends Statement{
 	 */
 	public function interpret($options){
 		$this->validate($options);
+		
+		if($this->parse_options['conf_block'] == 'hostapd'){
+			$ref = HostAP::getInstance();
+			$ref->setRadiusRetryInterval((string)$options);
+		}
 	}
 
 	/**

@@ -124,6 +124,19 @@ final class HostAP implements ConfigGenerator{
 	 */
 	private $wpa_mode;
 	
+	private $rad_own_ip;
+	private $rad_nas_identifier;
+	private $rad_retry_interval;
+	
+	private $rad_acct_ip;
+	private $rad_acct_port;
+	private $rad_acct_sharedsecret;
+	private $rad_acct_interim_interval;
+	
+	private $rad_auth_ip
+	private $rad_auth_port;
+	private $rad_auth_sharedsecret;
+	
 	/**
 	 * Get singleton instance
 	 * @static
@@ -259,5 +272,87 @@ final class HostAP implements ConfigGenerator{
 	 */
 	public function setWpaGroupRekeyInterval($interval){
 		$this->wpa_group_rekey_interval = $interval;
+	}
+	
+	/*
+	 *	
+	private $rad_auth_ip
+	private $rad_auth_port;
+	private $rad_auth_sharedsecret;
+	 */
+	
+	/**
+	 * set radius own IP
+	 * @param IP $ip
+	 */
+	public function setRadiusOwnIp($ip){
+		$this->rad_own_ip = $ip;
+	}
+	
+	/**
+	 * set Radius Retry interval
+	 * @param Integer $interval
+	 */
+	public function setRadiusRetryInterval($interval){
+		$this->rad_retry_interval = $interval;
+	}
+	
+	/**
+	 * Set NAS identifier
+	 * @param String $nasid
+	 */
+	public function setRadiusNasIdentifier($nasid){
+		$this->rad_nas_identifier = $nasid;
+	}
+	
+	/**
+	 * set IP of authorization server
+	 * @param IP $ip
+	 */
+	public function setRadiusAuthIp($ip){
+		$this->rad_acct_ip = $ip;
+	}
+	
+	/**
+	 * set Port of authorization server
+	 * @param Integer $port
+	 */
+	public function setRadiusAuthPort($port){
+		$this->rad_acct_port = $port;
+	}
+	
+	/**
+	 * set Shared secret of authorization server
+	 * @param String $secret
+	 */
+	public function setRadiusAuthSharedSecret($secret){
+		$this->rad_acct_sharedsecret = $secret;
+	
+	/**
+	 * set IP of accounting server
+	 * @param IP $ip
+	 */
+	public function setRadiusAcctIp($ip){
+		$this->rad_acct_ip = $ip;
+	}
+	
+	/**
+	 * set Port of accounting server
+	 * @param Integer $port
+	 */
+	public function setRadiusAcctPort($port){
+		$this->rad_acct_port = $port;
+	}
+	
+	public function setRadiusAcctInterval($interval){
+		$this->rad_acct_interim_interval = $interval;
+	}
+	
+	/**
+	 * set Shared secret of accounting server
+	 * @param String $secret
+	 */
+	public function setRadiusAcctSharedSecret($secret){
+		$this->rad_acct_sharedsecret = $secret;
 	}
 }

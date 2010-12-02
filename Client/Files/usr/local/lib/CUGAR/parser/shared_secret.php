@@ -42,6 +42,14 @@ class shared_secret extends Statement{
 	 */
 	public function interpret($options){
 		$this->validate($options);
+		if($this->parse_options['conf_block'] == 'hostapd'){
+			if($this->parse_options['radius_server_type'] == 'auth'){
+				$ref->setRadiusAuthSharedSecret((string)$options);
+			}
+			else{
+				$ref->setRadiusAcctSharedSecret((string)$options);
+			}
+		}
 	}
 
 	/**

@@ -30,13 +30,62 @@ class DHCPRelay implements ConfigGenerator{
 	private $FILENAME = "openvpn.conf";
 	private $FILEPATH = "/etc/";
 	
+	private $hw_interface;
+	private $servers
+	
 	/**
-	 * Write out file to filepath
+	 * Get singleton instance
+	 * @static
+	 * @return DHCPRelay
+	 */
+	public static function getInstance(){
+		if(DHCPRelay::$self == null){
+			DHCPRelay::$self = new DHCPRelay();
+		}
+		return DHCPRelay::$self; 
+	}
+	
+	/**
+	 * Private constructor because this is a singleton.
+	 * @return unknown_type
+	 */
+	private function __construct(){
+	
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#setSavePath()
+	 */
+	public function setSavePath($filepath){
+		$this->FILEPATH = $filepath;
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#writeConfig()
 	 */
 	public function writeConfig(){
 		$fp = fopen($this->FILEPATH,'w');
 		if($fp){
 			fwrite($fp,$this->buffer);
+			fclose($fp);
 		}
+	}
+	
+	/**
+	 * Set the hardware interface dhcprelay should bind to
+	 * @param String $interface
+	 */
+	public function setInterface($interface){
+		$this->hw_interface = $interface;
+	}
+	
+	/**
+	 * Add a DHCP server dhcprelay should forward to
+	 * @param IP $interface
+	 */
+	public function addServer($ip){
+		$this->servers[] = $ip;
 	}
 }

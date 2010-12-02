@@ -47,6 +47,15 @@ class port extends Statement{
 			$ref = OpenVPN::getInstance();
 			$ref->setPort((string)$options);
 		}
+		if($this->parse_options['conf_block'] == 'hostapd'){
+			$ref = HostAP::getInstance();
+			if($this->parse_options['radius_server_type'] == 'auth'){
+				$ref->setRadiusAuthPort((string)$options);
+			}
+			else{
+				$ref->setRadiusAcctPort((string)$options);
+			}
+		}
 	}
 
 	/**
