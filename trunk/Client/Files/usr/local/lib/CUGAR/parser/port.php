@@ -42,6 +42,11 @@ class port extends Statement{
 	 */
 	public function interpret($options){
 		$this->validate($options);
+		
+		if($this->parse_options['conf_block'] == 'openvpn'){
+			$ref = OpenVPN::getInstance();
+			$ref->setPort((string)$options);
+		}
 	}
 
 	/**

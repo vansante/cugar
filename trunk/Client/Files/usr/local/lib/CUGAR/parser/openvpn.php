@@ -39,11 +39,15 @@ class openvpn extends Statement{
 	 */
 	public function __construct($opt){
 		$this->parse_options = $opt;
+		$this->parse_options['conf_block'] == 'openvpn';
 	}
 	
 	public function interpret($options){
 		$this->validate($options);
 		$this->parseChildren($options);
+		
+		$ref = OpenVPN::getInstance();
+		$ref->newTunnel();
 	}
 	
 	public function validate($options){
