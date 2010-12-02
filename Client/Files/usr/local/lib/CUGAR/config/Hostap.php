@@ -39,10 +39,21 @@ final class HostAP implements ConfigGenerator{
 	private static $self;
 	
 	/**
+	 * 
+	 * @var unknown_type
+	 */
+	private $ssid_count;
+	
+	/**
 	 * Buffer for config file contents
 	 * @var String
 	 */
-	private $filebuffer;
+	private $filebuffer = "interface=wlan0
+		driver=bsd
+		logger_syslog=-1
+		logger_syslog_level=2
+		logger_stdout=-1
+		logger_stdout_level=2";
 	
 	/**
 	 * Path to save the config file to
@@ -55,6 +66,13 @@ final class HostAP implements ConfigGenerator{
 	 * @var String
 	 */
 	private $FILENAME = "hostap.conf";
+	
+	/**
+	 * CUGAR mode the SSID runs in, used only to determine what values to ignore
+	 * when parsing the config block
+	 * @var Integer
+	 */
+	private $ssid_mode;
 	
 	/**
 	 * SSID name for current configuration block
@@ -133,7 +151,7 @@ final class HostAP implements ConfigGenerator{
 	private $rad_acct_sharedsecret;
 	private $rad_acct_interim_interval;
 	
-	private $rad_auth_ip
+	private $rad_auth_ip;
 	private $rad_auth_port;
 	private $rad_auth_sharedsecret;
 	
@@ -154,7 +172,7 @@ final class HostAP implements ConfigGenerator{
 	 * @return unknown_type
 	 */
 	private function __construct(){
-	
+		$this->ssid_count = 0;
 	}
 	
 	/**
@@ -162,7 +180,72 @@ final class HostAP implements ConfigGenerator{
 	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#newSSID()
 	 */
 	public function newSSID(){
-		//@TODO: Parse into file and reset object for new SSID spec
+		//	Parse SSID spec and write to file buffer
+		$this->parseBuffer();
+		
+		$this->ssid_count++;
+		//	Reset object for new SSID spec
+	}
+	
+	private function parseBuffer(){
+		if($this->ssid_count == 0){
+			$this->filebuffer .= "
+			ssid=".$this->ssid_name."
+			hw_mode=".$this->hw_mode."
+			channel=".$this->hw_channel."
+			macaddr_acl=0
+			ignore_broadcast_ssid=".(int)$this->broadcast_ssid."";
+		}
+		else{
+			$this->filebuffer .="
+			bss=wlan0_".$this->ssid_count."
+			ssid=".$this->ssid_name."
+			macaddr_acl=0
+			ignore_broadcast_ssid=".(int)$this->broadcast_ssid."
+			";
+		}
+		
+		if($this->ssid_mode == 3){
+			$this->filebuffer .= "
+			ieee8021x=1
+			eapol_version=2
+			eap_reauth_period=3600
+			eap_server=0
+			own_ip_addr=".$this->rad_own_ip."
+			nas_identifier=".$this->rad_nas_identifier."
+			
+			auth_server_addr=".$this->rad_auth_ip."
+			auth_server_port=".$this->rad_auth_port."
+			auth_server_shared_secret=".$this->rad_auth_sharedsecret."
+			acct_server_addr=".$this->rad_acct_ip."
+			acct_server_port=".$this->rad_acct_port."
+			acct_server_shared_secret=".$this->rad_acct_sharedsecret."
+			radius_acct_interim_interval".$this->rad_acct_interim_interval."
+			radius_retry_primary_interval=".$this->rad_retry_interval."
+			";
+		}
+		if($this->ssid_mode == 1){
+			if($this->wpa_mode == 'wpa'){
+				$this->filebuffer .= "
+				wpa=0
+				wpa_passphrase=".$this->wpa_passphrase."
+				wpa_key_mgmt=WPA-PSK
+				wpa_pairwise=TKIP CCMP
+				wpa_group_rekey=".$this->wpa_group_rekey_interval."
+				wpa_strict_rekey=".$this->wpa_strict_rekey."
+				";
+			}
+			elseif($this->wpa_mode == 'wpa2'){
+				$this->filebuffer .= "
+				wpa=1
+				wpa_passphrase=".$this->wpa_passphrase."
+				wpa_key_mgmt=WPA-PSK
+				rsn_pairwise=CCMP
+				wpa_group_rekey=".$this->wpa_group_rekey_interval."
+				wpa_strict_rekey=".$this->wpa_strict_rekey."
+				";
+			}
+		}
 	}
 	
 	/**
@@ -183,6 +266,16 @@ final class HostAP implements ConfigGenerator{
 			fwrite($fp,$this->buffer);
 			fclose($fp);
 		}
+	}
+	
+	/**
+	 * Set SSID's CUGAR mode
+	 *
+	 * @param Integer $mode
+	 * @return void
+	 */
+	public function setSsidMode($mode){
+		$this->ssid_mode = $mode;
 	}
 	
 	/**
@@ -222,7 +315,12 @@ final class HostAP implements ConfigGenerator{
 	 * @return void
 	 */
 	public function setBroadcast($broadcast){
-		$this->broadcast_ssid = $broadcast;
+		if($broadcast == 'false'){
+			$this->broadcast_ssid = 1;
+		}
+		else{
+			$this->broadcast_ssid = 0;
+		}
 	}
 	
 	/**
@@ -242,7 +340,12 @@ final class HostAP implements ConfigGenerator{
 	 * @return void
 	 */
 	public function setWpaStrictReKey($strict_rekey){
-		$this->wpa_strict_rekey = $strict_rekey;
+		if($strict_rekey == 'true'){
+			$this->wpa_strict_rekey = 1;
+		}
+		else{
+			$this->wpa_strict_rekey = 0;
+		}
 	}
 	
 	/**
@@ -327,6 +430,7 @@ final class HostAP implements ConfigGenerator{
 	 */
 	public function setRadiusAuthSharedSecret($secret){
 		$this->rad_acct_sharedsecret = $secret;
+	}
 	
 	/**
 	 * set IP of accounting server
