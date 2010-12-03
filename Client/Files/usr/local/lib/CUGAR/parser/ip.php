@@ -48,6 +48,7 @@ class ip extends Statement{
 			$ref->addServer((string)$options);
 		}
 		elseif($this->parse_options['conf_block'] == 'hostapd'){
+			$ref = HostAPDConfig::getInstance();
 			if($this->parse_options['radius_server_type'] == 'auth'){
 				$ref->setRadiusAuthIp((string)$options);
 			}

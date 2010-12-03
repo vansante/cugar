@@ -31,17 +31,50 @@
  *
  * 
  */
-class PortalConfig implements COnfigGenerator{
+class PortalConfig implements ConfigGenerator{
+	private static $self;
+	
 	private $buffer;
-	private $FILEPATH = "/etc/chillispot.conf";
+	private $FILEPATH = "/etc/";
+	private $FILENAME = "chillispot.conf";
+	
+/**
+	 * Get singleton instance
+	 * @static
+	 * @return PortalConfig
+	 */
+	public static function getInstance(){
+		if(PortalConfig::$self == null){
+			PortalConfig::$self = new PortalConfig();
+		}
+		return PortalConfig::$self; 
+	}
 	
 	/**
-	 * Write out file to filepath
+	 * Private constructor because this is a singleton.
+	 * @return unknown_type
 	 */
-	public function saveFile(){
+	private function __construct(){
+	
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#setSavePath()
+	 */
+	public function setSavePath($filepath){
+		$this->FILEPATH = $filepath;
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#writeConfig()
+	 */
+	public function writeConfig(){
 		$fp = fopen($this->FILEPATH,'w');
 		if($fp){
 			fwrite($fp,$this->buffer);
+			fclose($fp);
 		}
 	}
 }

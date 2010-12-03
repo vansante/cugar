@@ -158,13 +158,13 @@ final class HostAPDConfig implements ConfigGenerator{
 	/**
 	 * Get singleton instance
 	 * @static
-	 * @return HostAP
+	 * @return HostAPDConfig
 	 */
 	public static function getInstance(){
-		if(HostAP::$self == null){
-			HostAP::$self = new HostAP();
+		if(HostAPDConfig::$self == null){
+			HostAPDConfig::$self = new HostAPDConfig();
 		}
-		return HostAP::$self; 
+		return HostAPDConfig::$self; 
 	}
 	
 	/**
@@ -280,7 +280,7 @@ final class HostAPDConfig implements ConfigGenerator{
 	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#writeConfig()
 	 */
 	public function writeConfig(){
-		$fp = fopen($this->FILEPATH,'w');
+		$fp = fopen($this->FILEPATH.$this->FILENAME,'w');
 		if($fp){
 			fwrite($fp,$this->buffer);
 			fclose($fp);

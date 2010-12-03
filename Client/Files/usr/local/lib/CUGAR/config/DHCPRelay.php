@@ -29,7 +29,7 @@ class DHCPRelayConfig implements ConfigGenerator{
 	private static $self;
 	
 	private $buffer;
-	private $FILENAME = "openvpn.conf";
+	private $FILENAME = "dhcprelay.conf";
 	private $FILEPATH = "/etc/";
 	
 	private $hw_interface;
@@ -38,13 +38,13 @@ class DHCPRelayConfig implements ConfigGenerator{
 	/**
 	 * Get singleton instance
 	 * @static
-	 * @return DHCPRelay
+	 * @return DHCPRelayConfig
 	 */
 	public static function getInstance(){
-		if(DHCPRelay::$self == null){
-			DHCPRelay::$self = new DHCPRelay();
+		if(DHCPRelayConfig::$self == null){
+			DHCPRelayConfig::$self = new DHCPRelayConfig();
 		}
-		return DHCPRelay::$self; 
+		return DHCPRelayConfig::$self; 
 	}
 	
 	/**
@@ -68,7 +68,7 @@ class DHCPRelayConfig implements ConfigGenerator{
 	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#writeConfig()
 	 */
 	public function writeConfig(){
-		$fp = fopen($this->FILEPATH,'w');
+		$fp = fopen($this->FILEPATH.$this->FILENAME,'w');
 		if($fp){
 			fwrite($fp,$this->buffer);
 			fclose($fp);

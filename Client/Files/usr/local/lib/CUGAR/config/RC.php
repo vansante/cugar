@@ -6,17 +6,45 @@
  * through this class to maintain consistency.
  *
  */
-class RC{
+class RCConfig implements ConfigGenerator{
+	public static $self;
 	private $buffer;
 	private $FILEPATH = "/etc/rc.conf";
 	
 	/**
-	 * Write out file to filepath
+	 * Get singleton instance
+	 * @static
+	 * @return RCConfig
 	 */
-	public function saveFile(){
-		$fp = fopen($this->FILEPATH,'w');
+	public static function getInstance(){
+		if(RCConfig::$self == null){
+			RCConfig::$self = new RCConfig();
+		}
+		return RCConfig::$self; 
+	}
+	
+	/**
+	 * 
+	 */
+	private function __construct(){}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#setSavePath()
+	 */
+	public function setSavePath($filepath){
+		$this->FILEPATH = $filepath;
+	}
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#writeConfig()
+	 */
+	public function writeConfig(){
+		$fp = fopen($this->FILEPATH.$this->FILENAME,'w');
 		if($fp){
 			fwrite($fp,$this->buffer);
+			fclose($fp);
 		}
 	}
 }
