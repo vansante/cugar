@@ -78,8 +78,8 @@ class hostapd extends Statement{
 		if($this->parse_options['mode'] == 3 && !isset($options->radius)){
 			ParseErrorBuffer::addError('no radius tag found',ParseErrorBuffer::$E_FATAL,$options);
 		}
-		elseif(isset($options->radius)){
-			ParseErrorBuffer::addError('radius tag found in non-mode 3, this tag will be skipped',ParseErrorBuffer::$E_NOTICE,$options);
+		elseif(isset($options->radius) && $this->parse_options['mode'] != 3){
+			ParseErrorBuffer::addError('radius tag found in non mode3, this tag will be skipped',ParseErrorBuffer::$E_NOTICE,$options);
 		}
 		/*
 		 * Check if all child tags are expected, throw error on unexpected tags

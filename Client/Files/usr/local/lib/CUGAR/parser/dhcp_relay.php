@@ -30,7 +30,7 @@ class dhcp_relay extends Statement{
 	 * Expected child nodes for this node
 	 * @var Array
 	 */
-	private $expected_tags = array('servers','interface');
+	private $expected_tags = array('servers','hw_interface');
 	
 	/**
 	 * Constructor
@@ -64,7 +64,7 @@ class dhcp_relay extends Statement{
 		}
 		
 		foreach($options->children() as $child){
-			if(!in_array($child,$this->expected_tags)){
+			if(!in_array($child->getName(),$this->expected_tags)){
 				ParseErrorBuffer::addError('Unexpected child node '.$child->getName(),ParseErrorBuffer::$E_WARNING,$child);
 			}
 		}
