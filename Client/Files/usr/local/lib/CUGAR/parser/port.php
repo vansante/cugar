@@ -44,7 +44,7 @@ class port extends Statement{
 		$this->validate($options);
 		
 		if($this->parse_options['conf_block'] == 'openvpn'){
-			$ref = OpenVPN::getInstance();
+			$ref = OpenVPNConfig::getInstance();
 			$ref->setPort((string)$options);
 		}
 		if($this->parse_options['conf_block'] == 'hostapd'){

@@ -44,7 +44,7 @@ class ip extends Statement{
 		$this->validate($options);
 		
 		if($this->parse_options['conf_block'] == 'dhcp_relay'){
-			$ref = DHCPRelay::getInstance();
+			$ref = DHCPRelayConfig::getInstance();
 			$ref->addServer((string)$options);
 		}
 		elseif($this->parse_options['conf_block'] == 'hostapd'){
