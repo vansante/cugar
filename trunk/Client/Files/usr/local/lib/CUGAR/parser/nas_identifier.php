@@ -54,7 +54,7 @@ class nas_identifier extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
-		if(strlen((string)$options) == 0){
+		if(strlen((string)$options) == 0 && strlen((string)$options) < 64){
 			ParseErrorBuffer::addError('invalid nas_identifier',ParseErrorBuffer::$E_WARNING,$options);
 		}
 	}
