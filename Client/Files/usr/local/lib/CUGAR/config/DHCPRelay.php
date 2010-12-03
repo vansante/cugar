@@ -26,6 +26,8 @@
  POSSIBILITY OF SUCH DAMAGE.
  */
 class DHCPRelay implements ConfigGenerator{
+	private static $self;
+	
 	private $buffer;
 	private $FILENAME = "openvpn.conf";
 	private $FILEPATH = "/etc/";

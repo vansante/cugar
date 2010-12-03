@@ -117,6 +117,16 @@ class XMLParser{
 	public function parse(){
 		try{
 			if($this->xml['version'] == XMLParser::VERSION){
+				/*------------------ DEBUG -------------------*/
+				$ovpn = OpenVPN::getInstance();
+				$ovpn->setSavePath('./output/');
+				$hostap = HostAP::getInstance();
+				$hostap->setSavePath('./output/');
+				$dhcprelay = DhcpRelay::getInstance();
+				$dhcprelay->setSavePath('./output/');
+				/*------------------ DEBUG -------------------*/
+				
+				
 				/*	Parser cascades down through Statement classes until it has parsed everything
 				 * 	as such, over here, we only have to call the ssid class every time we encounter an ssid tag.
 				 * 
@@ -145,6 +155,14 @@ class XMLParser{
 					}
 				}
 				else{
+					/*
+					 *	Parsing complete, write out all our files now 
+					 *	TODO: Somehow figure out which of these are actually ACTIVE since
+					 *	mode3 / mode2 configurations are not guaranteed to exist
+					 */
+					$ovpn->writeConfig();
+					$hostap->writeConfig();
+					$dhcprelay->writeConfig();
 					echo 'parsing complete';
 				}
 			}
