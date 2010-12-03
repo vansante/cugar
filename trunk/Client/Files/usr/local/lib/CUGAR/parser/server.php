@@ -42,7 +42,7 @@ class server extends Statement{
 	public function interpret($options){
 		$this->validate($options);
 		if($this->parse_options['conf_block'] == 'openvpn'){
-			$ref = OpenVPN::getInstance();
+			$ref = OpenVPNConfig::getInstance();
 			$ref->setServer((string)$options);
 		}
 	}

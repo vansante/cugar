@@ -118,11 +118,11 @@ class XMLParser{
 		try{
 			if($this->xml['version'] == XMLParser::VERSION){
 				/*------------------ DEBUG -------------------*/
-				$ovpn = OpenVPN::getInstance();
+				$ovpn = OpenVPNConfig::getInstance();
 				$ovpn->setSavePath('./output/');
 				$hostap = HostAPDConfig::getInstance();
 				$hostap->setSavePath('./output/');
-				$dhcprelay = DhcpRelay::getInstance();
+				$dhcprelay = DHCPRelayConfig::getInstance();
 				$dhcprelay->setSavePath('./output/');
 				/*------------------ DEBUG -------------------*/
 				

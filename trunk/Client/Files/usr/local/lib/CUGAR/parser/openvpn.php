@@ -46,7 +46,7 @@ class openvpn extends Statement{
 		$this->validate($options);
 		$this->parseChildren($options);
 		
-		$ref = OpenVPN::getInstance();
+		$ref = OpenVPNConfig::getInstance();
 		$ref->newTunnel();
 	}
 	

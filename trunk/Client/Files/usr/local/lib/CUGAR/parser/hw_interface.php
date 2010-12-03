@@ -41,7 +41,7 @@ class hw_interface extends Statement{
 	 */
 	public function interpret($options){
 		$this->validate($options);
-		$ref = DHCPRelay::getInstance();
+		$ref = DHCPRelayConfig::getInstance();
 		$ref->setInterface((string)$options);
 	}
 	

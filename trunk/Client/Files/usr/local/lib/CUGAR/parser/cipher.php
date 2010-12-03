@@ -47,7 +47,7 @@ class cipher extends Statement{
 	 */
 	public function interpret($options){
 		$this->validate($options);
-		$ref = OpenVPN::getInstance();
+		$ref = OpenVPNConfig::getInstance();
 		$ref->setCipher((string)$options);
 	}
 	
