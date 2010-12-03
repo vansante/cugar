@@ -42,7 +42,7 @@ class vlan_id extends Statement{
 	 */
 	public function interpret($options){
 		$this->validate($options);
-		$inst = HostAP::getInstance();
+		$inst = HostAPDConfig::getInstance();
 		$inst->setVlan((string)$options);
 	}
 

@@ -42,7 +42,7 @@ class passphrase extends Statement{
 	 */
 	public function interpret($options){
 		$this->validate($options);
-		$inst = HostAP::getInstance();
+		$inst = HostAPDConfig::getInstance();
 		$inst->setWpaPassphrase((string)$options);
 	}
 

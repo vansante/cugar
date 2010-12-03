@@ -30,7 +30,7 @@
  * Generates HostAP configuration from the XML
  *
  */
-final class HostAP implements ConfigGenerator{
+final class HostAPDConfig implements ConfigGenerator{
 	/**
 	 * Reference to self-instance for singleton
 	 * @var HostAP

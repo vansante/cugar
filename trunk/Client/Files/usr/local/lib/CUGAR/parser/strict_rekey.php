@@ -43,7 +43,7 @@ class strict_rekey extends Statement{
 	public function interpret($options){
 		$this->validate($options);
 
-		$inst = HostAP::getInstance();
+		$inst = HostAPDConfig::getInstance();
 		$inst->setWpaStrictRekey((string)$options);
 	}
 

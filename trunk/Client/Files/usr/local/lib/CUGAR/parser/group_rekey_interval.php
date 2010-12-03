@@ -42,7 +42,7 @@ class group_rekey_interval extends Statement{
 	 */
 	public function interpret($options){
 		$this->validate($options);
-		$inst = HostAP::getInstance();
+		$inst = HostAPDConfig::getInstance();
 		$inst->setWpaGroupRekeyInterval((string)$options);
 	}
 	

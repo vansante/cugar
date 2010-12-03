@@ -120,7 +120,7 @@ class XMLParser{
 				/*------------------ DEBUG -------------------*/
 				$ovpn = OpenVPN::getInstance();
 				$ovpn->setSavePath('./output/');
-				$hostap = HostAP::getInstance();
+				$hostap = HostAPDConfig::getInstance();
 				$hostap->setSavePath('./output/');
 				$dhcprelay = DhcpRelay::getInstance();
 				$dhcprelay->setSavePath('./output/');

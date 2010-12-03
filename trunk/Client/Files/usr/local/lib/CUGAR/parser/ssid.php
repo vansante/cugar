@@ -55,7 +55,7 @@ class ssid extends Statement{
 		
 		//	Set mode for this SSID, child tags could need this for parsing.
 		$this->parse_options['mode'] = (string)$options['mode'];
-		$ref = HostAP::getInstance();
+		$ref = HostAPDConfig::getInstance();
 		$ref->newSSID();
 		$ref->setSsidMode((string)$options['mode']);
 		
