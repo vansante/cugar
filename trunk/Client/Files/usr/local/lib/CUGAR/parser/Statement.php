@@ -84,8 +84,10 @@ abstract class Statement{
 			
 			$this->loadClass($name);
 			if(class_exists($name)){
-				$tmp = new $name($this->parse_options);
-				$tmp->interpret($child);
+				if(in_array($child->getName(),$this->expectedtags)){
+					$tmp = new $name($this->parse_options);
+					$tmp->interpret($child);
+				}
 			}
 			else{
 				throw new SystemError('Could not find class '.$name);	
