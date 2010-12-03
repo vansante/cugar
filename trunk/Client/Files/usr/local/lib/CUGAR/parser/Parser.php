@@ -124,6 +124,8 @@ class XMLParser{
 				$hostap->setSavePath('./output/');
 				$dhcprelay = DHCPRelayConfig::getInstance();
 				$dhcprelay->setSavePath('./output/');
+				$rc = RCConfig::getInstance();
+				$rc->setSavePath('./output/');
 				/*------------------ DEBUG -------------------*/
 				
 				
@@ -163,6 +165,7 @@ class XMLParser{
 					$ovpn->writeConfig();
 					$hostap->writeConfig();
 					$dhcprelay->writeConfig();
+					$rc->writeConfig();
 					echo 'parsing complete';
 				}
 			}

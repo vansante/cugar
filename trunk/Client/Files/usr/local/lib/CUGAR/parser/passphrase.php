@@ -52,7 +52,6 @@ class passphrase extends Statement{
 	 */
 	public function validate($options){
 		$tmp = str_split($options);
-		print_r($tmp);
 		foreach($tmp as $char){
 			if( ord($char) < 32 && ord($char) > 126 ){
 				ParseErrorBuffer::addError('invalid passphrase option, accepts ASCII only',ParseErrorBuffer::$E_NOTICE,$options);

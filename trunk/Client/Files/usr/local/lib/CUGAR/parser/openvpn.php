@@ -39,7 +39,7 @@ class openvpn extends Statement{
 	 */
 	public function __construct($opt){
 		$this->parse_options = $opt;
-		$this->parse_options['conf_block'] == 'openvpn';
+		$this->parse_options['conf_block'] = 'openvpn';
 	}
 	
 	public function interpret($options){

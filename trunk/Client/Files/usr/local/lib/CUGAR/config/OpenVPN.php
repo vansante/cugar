@@ -92,15 +92,25 @@ class OpenVPNConfig implements ConfigGenerator{
 	private $port;
 	
 	/**
+	 * tunnel counter, keeps track of how many tunnels
+	 * already exist, used to write out more than one config file
+	 * 
+	 * @TODO after generation it'll be impossible to know what tunnel belongs to what
+	 * hell it's already hard enough to figure it out at this stage
+	 * @var Integer
+	 */
+	private $tunnelcount = 0;
+	
+	/**
 	 * Get singleton instance
 	 * @static
-	 * @return OpenVPN
+	 * @return OpenVPNConfig
 	 */
 	public static function getInstance(){
-		if(OpenVPN::$self == null){
-			OpenVPN::$self = new OpenVPN();
+		if(OpenVPNConfig::$self == null){
+			OpenVPNConfig::$self = new OpenVPNConfig();
 		}
-		return OpenVPN::$self; 
+		return OpenVPNConfig::$self; 
 	}
 	
 	/**
@@ -113,7 +123,16 @@ class OpenVPNConfig implements ConfigGenerator{
 	 * @param String $type
 	 */
 	public function setTunnelType($type){
-		$this->tunnel_type = $tunnel_type;
+		$this->tunnel_type = $type;
+	}
+	
+	/**
+	 * set the OpenVPN cipher
+	 * @param String $cipher
+	 * @return void
+	 */
+	public function setCipher($cipher){
+		$this->cipher = $cipher;
 	}
 	
 	/**
@@ -137,7 +156,7 @@ class OpenVPNConfig implements ConfigGenerator{
 	 * @param Integer $port
 	 */
 	public function setPort($port){
-		$this->port = port;
+		$this->port = $port;
 	}
 	
 	/**
@@ -149,7 +168,8 @@ class OpenVPNConfig implements ConfigGenerator{
 	 *
 	 */
 	public function newTunnel(){
-		$this->saveFile();
+		$this->writeConfig();
+		$this->tunnelcount++;
 		$this->buffer = '';
 	}
 	
@@ -166,7 +186,7 @@ class OpenVPNConfig implements ConfigGenerator{
 	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#writeConfig()
 	 */
 	public function writeConfig(){
-		$fp = fopen($this->FILEPATH,'w');
+		$fp = fopen($this->FILEPATH.$this->filename.$this->tunnelcount,'w');
 		if($fp){
 			fwrite($fp,$this->buffer);
 			fclose($fp);

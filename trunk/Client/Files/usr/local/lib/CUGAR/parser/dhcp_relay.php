@@ -39,7 +39,7 @@ class dhcp_relay extends Statement{
 	 */
 	public function __construct($opt){
 		$this->parse_options = $opt;
-		$this->parse_options['conf_block'] == 'dhcp_relay';
+		$this->parse_options['conf_block'] = 'dhcp_relay';
 	}
 	
 	/**
