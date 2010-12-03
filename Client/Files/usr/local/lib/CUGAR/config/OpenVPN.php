@@ -30,7 +30,7 @@
  * Generates OpenVPN configuration from the XML
  *
  */
-class OpenVPN implements ConfigGenerator{
+class OpenVPNConfig implements ConfigGenerator{
 	/**
 	 * Reference to self (for singleton)
 	 * @var OpenVPN

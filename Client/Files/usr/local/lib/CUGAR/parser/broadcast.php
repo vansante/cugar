@@ -32,7 +32,7 @@ class broadcast extends Statement{
 	 */
 	public function interpret($options){
 		$this->validate($options);
-		$inst = HostAP::getInstance();
+		$inst = HostAPDConfig::getInstance();
 		$inst->setBroadcast((string)$options);
 	}
 	

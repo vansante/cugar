@@ -49,7 +49,7 @@ class wpa extends Statement{
 	public function interpret($options){
 		$this->validate($options);
 
-		$inst = HostAP::getInstance();
+		$inst = HostAPDConfig::getInstance();
 		if($this->parse_options['mode'] == 1){
 			$inst->setWpaMode($options['mode']);
 		}

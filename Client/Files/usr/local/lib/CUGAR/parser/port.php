@@ -48,7 +48,7 @@ class port extends Statement{
 			$ref->setPort((string)$options);
 		}
 		if($this->parse_options['conf_block'] == 'hostapd'){
-			$ref = HostAP::getInstance();
+			$ref = HostAPDConfig::getInstance();
 			if($this->parse_options['radius_server_type'] == 'auth'){
 				$ref->setRadiusAuthPort((string)$options);
 			}

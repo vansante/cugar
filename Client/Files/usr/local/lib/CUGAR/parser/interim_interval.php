@@ -44,7 +44,7 @@ class interim_interval extends Statement{
 		$this->validate($options);
 		
 		if($this->parse_options['conf_block'] == 'hostapd'){
-			$ref = HostAP::getInstance();
+			$ref = HostAPDConfig::getInstance();
 			$ref->setRadiusAcctInterval((string)$options);
 		}
 	}

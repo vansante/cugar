@@ -31,7 +31,7 @@
  *
  * 
  */
-class Portal{
+class PortalConfig implements COnfigGenerator{
 	private $buffer;
 	private $FILEPATH = "/etc/chillispot.conf";
 	

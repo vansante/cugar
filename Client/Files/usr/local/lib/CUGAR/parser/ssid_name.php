@@ -44,7 +44,7 @@ class ssid_name extends Statement{
 		$this->validate($options);
 
 		//	Validation apparently succeeded, set the option in the hostAP config
-		$inst = HostAP::getInstance();
+		$inst = HostAPDConfig::getInstance();
 		$inst->setSsidName((string)$options);
 	}
 
