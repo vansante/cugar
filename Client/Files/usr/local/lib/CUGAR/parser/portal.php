@@ -27,12 +27,6 @@
  */
 class portal extends Statement{
 	/**
-	 * Expected child nodes for this node
-	 * @var Array
-	 */
-	private $expected_tags = array('local_files','radius');
-	
-	/**
 	 * Constructor
 	 *
 	 * @param Array $parse_opt
@@ -41,6 +35,7 @@ class portal extends Statement{
 	public function __construct($parse_opt){
 		$this->parse_options = $parse_opt;
 		$this->parse_options['conf_block'] = 'portal';
+		$this->expectedtags = array('local_files','radius');
 	}
 
 	/**
@@ -64,10 +59,6 @@ class portal extends Statement{
 			ParseErrorBuffer::addError('no radius options defined',ParseErrorBuffer::$E_FATAL,$options);
 		}
 		
-		foreach($options->children() as $child){
-			if(!in_array($child->getName(),$this->expected_tags)){
-				ParseErrorBuffer::addError('Unexpected child node '.$child->getName(),ParseErrorBuffer::$E_FATAL,$options);
-			}
-		}
+		$this->checkChildNodes($options);
 	}
 }

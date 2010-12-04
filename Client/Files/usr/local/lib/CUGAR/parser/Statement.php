@@ -38,6 +38,12 @@ abstract class Statement{
 	protected $parse_options;
 	
 	/**
+	 * Expected child nodes for statement
+	 * @var unknown_type
+	 */
+	protected $expectedtags;
+	
+	/**
 	 * Interpret the statement
 	 * 
 	 * Validates (through validate()) the statement and propagates their meaning to the
@@ -91,6 +97,20 @@ abstract class Statement{
 			}
 			else{
 				throw new SystemError('Could not find class '.$name);	
+			}
+		}
+	}
+	
+	/**
+	 * Check child nodes for unexpected nodes
+	 * 
+	 * @param SimpleXMLElement $options
+	 * @return void
+	 */
+	public function checkChildNodes($options){
+		foreach($options->children() as $child){
+			if(!in_array($child->getName(),$this->expectedtags)){
+				ParseErrorBuffer::addError('unexpected child node '.$child->getName(),ParseErrorBuffer::$E_FATAL,$options);	
 			}
 		}
 	}

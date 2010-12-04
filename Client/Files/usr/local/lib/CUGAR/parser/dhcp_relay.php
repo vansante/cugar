@@ -27,12 +27,6 @@
  */
 class dhcp_relay extends Statement{
 	/**
-	 * Expected child nodes for this node
-	 * @var Array
-	 */
-	private $expected_tags = array('servers','hw_interface');
-	
-	/**
 	 * Constructor
 	 * @param Array $opt
 	 * @return unknown_type
@@ -40,6 +34,7 @@ class dhcp_relay extends Statement{
 	public function __construct($opt){
 		$this->parse_options = $opt;
 		$this->parse_options['conf_block'] = 'dhcp_relay';
+		$this->expectedtags = array('servers','hw_interface');
 	}
 	
 	/**
@@ -63,10 +58,6 @@ class dhcp_relay extends Statement{
 			ParseErrorBuffer::addError('no hw_interface tag found',ParseErrorBuffer::$E_FATAL,$options);
 		}
 		
-		foreach($options->children() as $child){
-			if(!in_array($child->getName(),$this->expected_tags)){
-				ParseErrorBuffer::addError('Unexpected child node '.$child->getName(),ParseErrorBuffer::$E_WARNING,$child);
-			}
-		}
+		$this->checkChildNodes($options);
 	}
 }

@@ -27,18 +27,13 @@
  */
 class tunnel extends Statement{
 	/**
-	 * Expected child nodes for this node
-	 * @var Array
-	 */
-	private $expected_tags = array('server','port','cipher','compression');
-	
-	/**
 	 * Constructor
 	 * @param Array $opt
 	 * @return unknown_type
 	 */
 	public function __construct($opt){
 		$this->parse_options = $opt;
+		$this->expectedtags = array('server','port','cipher','compression');
 	}
 	
 	/**
@@ -49,9 +44,10 @@ class tunnel extends Statement{
 		$this->validate($options);
 		
 		$ref = OpenVPNConfig::getInstance();
+		$ref->newTunnel();
 		$ref->setTunnelType((string)$options['type']);
-		
 		$this->parseChildren($options);
+		$ref->endTunnel();
 	}
 	
 	/**
@@ -72,10 +68,6 @@ class tunnel extends Statement{
 			ParseErrorBuffer::addError('no compression tag found',ParseErrorBuffer::$E_FATAL,$options);
 		}
 		
-		foreach($options->children() as $child){
-			if(!in_array($child->getName(),$this->expected_tags)){
-				ParseErrorBuffer::addError('Unexpected child node '.$child->getName(),ParseErrorBuffer::$E_WARNING,$child);
-			}
-		}
+		$this->checkChildNodes($options);
 	}
 }

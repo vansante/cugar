@@ -162,7 +162,6 @@ class XMLParser{
 					 *	TODO: Somehow figure out which of these are actually ACTIVE since
 					 *	mode3 / mode2 configurations are not guaranteed to exist
 					 */
-					$ovpn->writeConfig();
 					$hostap->writeConfig();
 					$dhcprelay->writeConfig();
 					$rc->writeConfig();
