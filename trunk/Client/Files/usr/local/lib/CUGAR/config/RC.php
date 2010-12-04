@@ -9,7 +9,8 @@
 class RCConfig implements ConfigGenerator{
 	public static $self;
 	private $buffer;
-	private $FILEPATH = "/etc/rc.conf";
+	private $FILEPATH = "/etc/";
+	private $FILENAME = "rc.conf";
 	
 	/**
 	 * Get singleton instance

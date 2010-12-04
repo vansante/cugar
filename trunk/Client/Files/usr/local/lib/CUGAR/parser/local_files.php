@@ -34,6 +34,7 @@ class local_files extends Statement{
 	 */
 	public function __construct($parse_opt){
 		$this->parse_options = $parse_opt;
+		$this->expectedtags = array('file');
 	}
 	
 	/**
@@ -53,5 +54,6 @@ class local_files extends Statement{
 		if(!isset($options->file)){
 			ParseErrorBuffer::addError('no file definitions found',ParseErrorBuffer::$E_NOTICE,$options);
 		}
+		$this->checkChildNodes($options);
 	}
 }

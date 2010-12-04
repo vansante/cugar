@@ -27,12 +27,6 @@
  */
 class radius extends Statement{
 	/**
-	 * Expected child nodes for this statement
-	 * @var Array
-	 */
-	private $expected_tags = array('own_ip','nas_identifier','auth_server','acct_server','retry_interval');
-
-	/**
 	 * Constructor
 	 *
 	 * @param Array $parse_opt
@@ -40,6 +34,7 @@ class radius extends Statement{
 	 */
 	public function __construct($parse_opt){
 		$this->parse_options = $parse_opt;
+		$this->expectedtags = array('own_ip','nas_identifier','auth_server','acct_server','retry_interval');
 	}
 
 	/**
@@ -69,10 +64,6 @@ class radius extends Statement{
 			ParseErrorBuffer::addError('no nas_identifier tag found',ParseErrorBuffer::$E_FATAL,$options);
 		}
 
-		foreach($options->children() as $child){
-			if(!in_array($child->getName(),$this->expected_tags)){
-				ParseErrorBuffer::addError('Unexpected child node '.$child->getName(),ParseErrorBuffer::$E_FATAL,$child);
-			}
-		}
+		$this->checkChildNodes($options);
 	}
 }

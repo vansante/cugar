@@ -27,12 +27,6 @@
  */
 class openvpn extends Statement{
 	/**
-	 * Expected child nodes for this node
-	 * @var Array
-	 */
-	private $expected_tags = array('tunnel');
-	
-	/**
 	 * Constructor
 	 * @param Array $opt
 	 * @return unknown_type
@@ -40,6 +34,7 @@ class openvpn extends Statement{
 	public function __construct($opt){
 		$this->parse_options = $opt;
 		$this->parse_options['conf_block'] = 'openvpn';
+		$this->expectedtags = array('tunnel');
 	}
 	
 	public function interpret($options){
@@ -47,7 +42,6 @@ class openvpn extends Statement{
 		$this->parseChildren($options);
 		
 		$ref = OpenVPNConfig::getInstance();
-		$ref->newTunnel();
 	}
 	
 	public function validate($options){
@@ -58,11 +52,7 @@ class openvpn extends Statement{
 			ParseErrorBuffer::addError('too many tunnels defined',ParseErrorBuffer::$E_FATAL,$options);
 		}
 		
-		foreach($options->children() as $child){
-			if(!in_array($child->getName(),$this->expected_tags)){
-				ParseErrorBuffer::addError('Unexpected child node '.$child->getName(),ParseErrorBuffer::$E_WARNING,$child);
-			}
-		}
+		$this->checkChildNodes($options);
 	}
 	
 }

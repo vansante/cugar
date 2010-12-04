@@ -38,13 +38,8 @@ class ssid extends Statement{
 	 */
 	public function __construct($parse_opt){
 		$this->parse_options = $parse_opt;
+		$this->expectedtags = Array('hostapd','openvpn','portal','dhcp_relay');
 	}
-
-	/**
-	 *
-	 * @var unknown_type
-	 */
-	private $expectedtags = Array('hostapd','openvpn','portal','dhcp_relay');
 
 	/**
 	 * (non-PHPdoc)
@@ -89,11 +84,7 @@ class ssid extends Statement{
 			/*
 			 * Check if all child tags are expected, throw error on unexpected tags
 			 */
-			foreach($options->children() as $child){
-				if(!in_array($child->getName(),$this->expectedtags)){
-					ParseErrorBuffer::addError('Unexpected child node encountered.',ParseErrorBuffer::$E_WARNING,$child);
-				}
-			}
+			$this->checkChildNodes($options);
 		}
 		else{
 			ParseErrorBuffer::addError('invalid ssid mode '.$options['mode'],ParseErrorBuffer::$E_FATAL,$options);

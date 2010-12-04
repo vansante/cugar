@@ -27,12 +27,6 @@
  */
 class acct_server extends Statement{
 	/**
-	 * Expected child nodes for this node
-	 * @var Array
-	 */
-	private $expected_tags = array('ip','port','shared_secret','interim_interval');
-	
-	/**
 	 * Constructor
 	 * 
 	 * @param Array $parse_opt
@@ -41,6 +35,7 @@ class acct_server extends Statement{
 	public function __construct($parse_opt){
 		$this->parse_options = $parse_opt;
 		$this->parse_options['radius_server_type'] = 'acct';
+		$this->expectedtags = array('ip','port','shared_secret','interim_interval');
 	}
 	
 	/**
@@ -70,10 +65,6 @@ class acct_server extends Statement{
 			ParseErrorBuffer::addError('no radius accounting interim_interval defined',ParseErrorBuffer::$E_FATAL,$options);
 		}
 		
-		foreach($options->children() as $child){
-			if(!in_array($child->getName(),$this->expected_tags)){
-				ParseErrorBuffer::addError('unexpected child node '.$child->getName(),ParseErrorBuffer::$E_FATAL,$options);	
-			}
-		}
+		$this->checkChildNodes($options);
 	}
 }

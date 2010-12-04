@@ -26,11 +26,6 @@
  POSSIBILITY OF SUCH DAMAGE.
  */
 class wpa extends Statement{
-	/**
-	 * Expected child nodes for this statement
-	 * @var Array
-	 */
-	private $expected_tags = array('passphrase','strict_rekey','group_rekey_interval');
 
 	/**
 	 * Constructor
@@ -40,6 +35,7 @@ class wpa extends Statement{
 	 */
 	public function __construct($parse_opt){
 		$this->parse_options = $parse_opt;
+		$this->expectedtags = array('passphrase','strict_rekey','group_rekey_interval');
 	}
 
 	/**
@@ -85,10 +81,10 @@ class wpa extends Statement{
 				if(isset($options->group_rekey_interval)){
 					ParseErrorBuffer::addError('group_rekey_interval tag present, but wpa is switched off',ParseErrorBuffer::$E_NOTICE,$options);
 				}
-				if(!isset($options->strict_rekey)){
+				if(isset($options->strict_rekey)){
 					ParseErrorBuffer::addError('strict_rekey tag present, but wpa is switched off',ParseErrorBuffer::$E_NOTICE,$options);
 				}
-				if(!isset($options->passphrase)){
+				if(isset($options->passphrase)){
 					ParseErrorBuffer::addError('passphrase tag present, but wpa is switched off',ParseErrorBuffer::$E_NOTICE,$options);
 				}
 			}
@@ -102,10 +98,6 @@ class wpa extends Statement{
 			}
 		}
 
-		foreach($options->children() as $child){
-			if(!in_array($child->getName(),$this->expected_tags)){
-				ParseErrorBuffer::addError('Unexpected child node '.$child->getName(),ParseErrorBuffer::$E_FATAL,$child);
-			}
-		}
+		$this->checkChildNodes($options);
 	}
 }

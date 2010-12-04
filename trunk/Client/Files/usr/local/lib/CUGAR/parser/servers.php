@@ -26,11 +26,6 @@
  POSSIBILITY OF SUCH DAMAGE.
  */
 class servers extends Statement{
-	/**
-	 * Expected child nodes for this node
-	 * @var Array
-	 */
-	private $expected_tags = array('ip');
 	
 	/**
 	 * Constructor
@@ -39,6 +34,7 @@ class servers extends Statement{
 	 */
 	public function __construct($opt){
 		$this->parse_options = $opt;
+		$this->expectedtags = array('ip');
 	}
 	
 	public function interpret($options){
@@ -51,10 +47,6 @@ class servers extends Statement{
 			ParseErrorBuffer::addError('no ip tag(s) found',ParseErrorBuffer::$E_FATAL,$options);
 		}
 		
-		foreach($options->children() as $child){
-			if(!in_array($child->getName(),$this->expected_tags)){
-				ParseErrorBuffer::addError('Unexpected child node '.$child->getName(),ParseErrorBuffer::$E_WARNING,$child);
-			}
-		}
+		$this->checkChildNodes($options);
 	}
 }

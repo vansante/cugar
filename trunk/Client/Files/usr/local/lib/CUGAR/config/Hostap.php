@@ -49,11 +49,11 @@ final class HostAPDConfig implements ConfigGenerator{
 	 * @var String
 	 */
 	private $filebuffer = "interface=wlan0
-		driver=bsd
-		logger_syslog=-1
-		logger_syslog_level=2
-		logger_stdout=-1
-		logger_stdout_level=2";
+driver=bsd
+logger_syslog=-1
+logger_syslog_level=2
+logger_stdout=-1
+logger_stdout_level=2";
 	
 	/**
 	 * Path to save the config file to
@@ -199,6 +199,8 @@ final class HostAPDConfig implements ConfigGenerator{
 		$rad_auth_ip = null;
 		$rad_auth_port = null;
 		$rad_auth_sharedsecret = null;
+		
+		$this->filebuffer .= "\n############ NEW SSID ##########\n";
 	}
 	
 	public function finishSSID(){
@@ -208,61 +210,51 @@ final class HostAPDConfig implements ConfigGenerator{
 	
 	private function parseBuffer(){
 		if($this->ssid_count == 0){
-			$this->filebuffer .= "
-			ssid=".$this->ssid_name."
-			hw_mode=".$this->hw_mode."
-			channel=".$this->hw_channel."
-			macaddr_acl=0
-			ignore_broadcast_ssid=".(int)$this->broadcast_ssid."";
+			$this->filebuffer .= "ssid=".$this->ssid_name."\n";
+			$this->filebuffer .= "hw_mode=".$this->hw_mode."\n";
+			$this->filebuffer .= "channel=".$this->hw_channel."\n";
+			$this->filebuffer .= "macaddr_acl=0\n";
+			$this->filebuffer .= "ignore_broadcast_ssid=".(int)$this->broadcast_ssid."\n";
 		}
 		else{
-			$this->filebuffer .="
-			bss=wlan0_".$this->ssid_count."
-			ssid=".$this->ssid_name."
-			macaddr_acl=0
-			ignore_broadcast_ssid=".(int)$this->broadcast_ssid."
-			";
+			$this->filebuffer .="bss=wlan0_".$this->ssid_count."\n";
+			$this->filebuffer .= "ssid=".$this->ssid_name."\n";
+			$this->filebuffer .= "macaddr_acl=0\n";
+			$this->filebuffer .= "ignore_broadcast_ssid=".(int)$this->broadcast_ssid."\n";
 		}
 		
 		if($this->ssid_mode == 3){
-			$this->filebuffer .= "
-			ieee8021x=1
-			eapol_version=2
-			eap_reauth_period=3600
-			eap_server=0
-			own_ip_addr=".$this->rad_own_ip."
-			nas_identifier=".$this->rad_nas_identifier."
-			
-			auth_server_addr=".$this->rad_auth_ip."
-			auth_server_port=".$this->rad_auth_port."
-			auth_server_shared_secret=".$this->rad_auth_sharedsecret."
-			acct_server_addr=".$this->rad_acct_ip."
-			acct_server_port=".$this->rad_acct_port."
-			acct_server_shared_secret=".$this->rad_acct_sharedsecret."
-			radius_acct_interim_interval".$this->rad_acct_interim_interval."
-			radius_retry_primary_interval=".$this->rad_retry_interval."
-			";
+			$this->filebuffer .= "ieee8021x=1\n";
+			$this->filebuffer .= "eapol_version=2\n";
+			$this->filebuffer .= "eap_reauth_period=3600\n";
+			$this->filebuffer .= "eap_server=0\n";
+			$this->filebuffer .= "own_ip_addr=".$this->rad_own_ip."\n";
+			$this->filebuffer .= "nas_identifier=".$this->rad_nas_identifier."\n";
+			$this->filebuffer .= "auth_server_addr=".$this->rad_auth_ip."\n";
+			$this->filebuffer .= "auth_server_port=".$this->rad_auth_port."\n";
+			$this->filebuffer .= "auth_server_shared_secret=".$this->rad_auth_sharedsecret."\n";
+			$this->filebuffer .= "acct_server_addr=".$this->rad_acct_ip."\n";
+			$this->filebuffer .= "acct_server_port=".$this->rad_acct_port."\n";
+			$this->filebuffer .= "acct_server_shared_secret=".$this->rad_acct_sharedsecret."\n";
+			$this->filebuffer .= "radius_acct_interim_interval".$this->rad_acct_interim_interval."\n";
+			$this->filebuffer .= "radius_retry_primary_interval=".$this->rad_retry_interval."\n";
 		}
 		if($this->ssid_mode == 1){
 			if($this->wpa_mode == 'wpa'){
-				$this->filebuffer .= "
-				wpa=0
-				wpa_passphrase=".$this->wpa_passphrase."
-				wpa_key_mgmt=WPA-PSK
-				wpa_pairwise=TKIP CCMP
-				wpa_group_rekey=".$this->wpa_group_rekey_interval."
-				wpa_strict_rekey=".$this->wpa_strict_rekey."
-				";
+				$this->filebuffer .= "wpa=0\n";
+				$this->filebuffer .= "wpa_passphrase=".$this->wpa_passphrase."\n";
+				$this->filebuffer .= "wpa_key_mgmt=WPA-PSK\n";
+				$this->filebuffer .= "wpa_pairwise=TKIP CCMP\n";
+				$this->filebuffer .= "wpa_group_rekey=".$this->wpa_group_rekey_interval."\n";
+				$this->filebuffer .= "wpa_strict_rekey=".$this->wpa_strict_rekey."\n";
 			}
 			elseif($this->wpa_mode == 'wpa2'){
-				$this->filebuffer .= "
-				wpa=1
-				wpa_passphrase=".$this->wpa_passphrase."
-				wpa_key_mgmt=WPA-PSK
-				rsn_pairwise=CCMP
-				wpa_group_rekey=".$this->wpa_group_rekey_interval."
-				wpa_strict_rekey=".$this->wpa_strict_rekey."
-				";
+				$this->filebuffer .= "wpa=1\n";
+				$this->filebuffer .= "wpa_passphrase=".$this->wpa_passphrase."\n";
+				$this->filebuffer .= "wpa_key_mgmt=WPA-PSK\n";
+				$this->filebuffer .= "rsn_pairwise=CCMP\n";
+				$this->filebuffer .= "wpa_group_rekey=".$this->wpa_group_rekey_interval."\n";
+				$this->filebuffer .= "wpa_strict_rekey=".$this->wpa_strict_rekey."\n";
 			}
 		}
 	}
@@ -282,7 +274,7 @@ final class HostAPDConfig implements ConfigGenerator{
 	public function writeConfig(){
 		$fp = fopen($this->FILEPATH.$this->FILENAME,'w');
 		if($fp){
-			fwrite($fp,$this->buffer);
+			fwrite($fp,$this->filebuffer);
 			fclose($fp);
 		}
 	}

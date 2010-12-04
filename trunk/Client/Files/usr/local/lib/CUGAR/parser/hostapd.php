@@ -27,13 +27,6 @@
  */
 class hostapd extends Statement{
 	/**
-	 * Expected child nodes for this node
-	 * 
-	 * @var Array
-	 */
-	private $expectedtags = Array('ssid_name','mode','channel','broadcast','vlan','wpa','radius');
-
-	/**
 	 * Constructor
 	 * 
 	 * @param Array $parse_opt
@@ -42,6 +35,7 @@ class hostapd extends Statement{
 	public function __construct($parse_opt){
 		$this->parse_options = $parse_opt;
 		$this->parse_options['conf_block'] = 'hostapd';
+		$this->expectedtags = Array('ssid_name','mode','channel','broadcast','vlan','wpa','radius');
 	}
 	
 	/**
@@ -84,10 +78,6 @@ class hostapd extends Statement{
 		/*
 		 * Check if all child tags are expected, throw error on unexpected tags
 		 */
-		foreach($options->children() as $child){
-			if(!in_array($child->getName(),$this->expectedtags)){
-				ParseErrorBuffer::addError('Unexpected child node '.$child->getName(),ParseErrorBuffer::$E_FATAL,$child);
-			}
-		}
+		$this->checkChildNodes($options);
 	}
 }

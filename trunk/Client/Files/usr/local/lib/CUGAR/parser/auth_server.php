@@ -27,12 +27,6 @@
  */
 class auth_server extends Statement{
 	/**
-	 * Expected child nodes for this node
-	 * @var Array
-	 */
-	private $expected_tags = array('ip','port','shared_secret');
-	
-	/**
 	 * Constructor
 	 * 
 	 * @param Array $parse_opt
@@ -41,6 +35,7 @@ class auth_server extends Statement{
 	public function __construct($parse_opt){
 		$this->parse_options = $parse_opt;
 		$this->parse_options['radius_server_type'] = 'auth';
+		$this->expectedtags = array('ip','port','shared_secret');
 	}
 	
 	/**
@@ -66,11 +61,6 @@ class auth_server extends Statement{
 		if(!isset($options->shared_secret)){
 			ParseErrorBuffer::addError('no radius shared_secret defined',ParseErrorBuffer::$E_FATAL,$options);
 		}
-		
-		foreach($options->children() as $child){
-			if(!in_array($child->getName(),$this->expected_tags)){
-				ParseErrorBuffer::addError('Unexpected child node '.$child->getName(),ParseErrorBuffer::$E_FATAL,$options);	
-			}
-		}
+		$this->checkChildNodes($options);
 	}
 }
