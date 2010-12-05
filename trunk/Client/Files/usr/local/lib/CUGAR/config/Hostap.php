@@ -168,6 +168,22 @@ logger_stdout_level=2";
 	}
 	
 	/**
+	 * Get the hardware interface for the current SSID
+	 * the hardware interface is required by dhcp_relay and to set up
+	 * the bridge with the openvpn interface or ethernet interface
+	 * 
+	 * @return unknown_type
+	 */
+	public function getHardwareAddress(){
+		if($this->ssid_count > 0){
+			return 'wlan0_'.$this->ssid_count;
+		}
+		else{
+			return 'wlan0';
+		}
+	}
+	
+	/**
 	 * Private constructor because this is a singleton.
 	 * @return unknown_type
 	 */
@@ -209,18 +225,27 @@ logger_stdout_level=2";
 	}
 	
 	private function parseBuffer(){
+		$rc = RCConfig::getInstance();
+		
 		if($this->ssid_count == 0){
 			$this->filebuffer .= "ssid=".$this->ssid_name."\n";
 			$this->filebuffer .= "hw_mode=".$this->hw_mode."\n";
 			$this->filebuffer .= "channel=".$this->hw_channel."\n";
 			$this->filebuffer .= "macaddr_acl=0\n";
 			$this->filebuffer .= "ignore_broadcast_ssid=".(int)$this->broadcast_ssid."\n";
+			
+			$rc->addLine('hostapd_enable="YES"');
+			$rc->addLine('wlans_ath0="wlan0"');
+			$rc->addLine('create_args_wlan0="wlanmode hostap');
 		}
 		else{
 			$this->filebuffer .="bss=wlan0_".$this->ssid_count."\n";
 			$this->filebuffer .= "ssid=".$this->ssid_name."\n";
 			$this->filebuffer .= "macaddr_acl=0\n";
 			$this->filebuffer .= "ignore_broadcast_ssid=".(int)$this->broadcast_ssid."\n";
+			
+			$rc->addLine('wlans_ath0="wlan0_'.$this->ssid_count.'"');
+			$rc->addLine('create_args_wlan0_'.$this->ssid_count.'="wlanmode hostap');
 		}
 		
 		if($this->ssid_mode == 3){

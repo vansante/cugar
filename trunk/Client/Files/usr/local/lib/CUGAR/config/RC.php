@@ -8,6 +8,7 @@
  */
 class RCConfig implements ConfigGenerator{
 	public static $self;
+	
 	private $buffer;
 	private $FILEPATH = "/etc/";
 	private $FILENAME = "rc.conf";
@@ -27,7 +28,10 @@ class RCConfig implements ConfigGenerator{
 	/**
 	 * 
 	 */
-	private function __construct(){}
+	private function __construct(){
+		//@TODO remove on completion of debug
+		$this->addLine("sshd_enable=\"YES\"");
+	}
 	
 	/**
 	 * (non-PHPdoc)
@@ -35,6 +39,10 @@ class RCConfig implements ConfigGenerator{
 	 */
 	public function setSavePath($filepath){
 		$this->FILEPATH = $filepath;
+	}
+	
+	public function addLine($line){
+		$this->buffer .= $line."\n";
 	}
 	
 	/**
