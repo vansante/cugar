@@ -200,7 +200,6 @@ class OpenVPNConfig implements ConfigGenerator{
 	 * @return void
 	 */
 	public function endTunnel(){
-		echo 'ENDTUNNEL '.$this->tunnelcount."<br />";
 		$this->buffer .= "dev tun\n
 remote ".$this->server."
 tls-client
