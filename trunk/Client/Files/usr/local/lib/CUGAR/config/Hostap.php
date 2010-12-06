@@ -65,7 +65,7 @@ logger_stdout_level=2";
 	 * Filename of the config file
 	 * @var String
 	 */
-	private $FILENAME = "hostap.conf";
+	private $FILENAME = "hostapd.conf";
 	
 	/**
 	 * CUGAR mode the SSID runs in, used only to determine what values to ignore
@@ -194,9 +194,7 @@ logger_stdout_level=2";
 	/**
 	 * 
 	 */
-	public function newSSID(){
-		$this->ssid_count++;;
-		
+	public function newSSID(){		
 		//	Reset object for new SSID spec
 		$ssid_name = null;
 		$broadcast_ssid = null;
@@ -222,11 +220,11 @@ logger_stdout_level=2";
 	public function finishSSID(){
 		// Parse SSID spec and write to file buffer
 		$this->parseBuffer();
+		$this->ssid_count++;;
 	}
 	
 	private function parseBuffer(){
 		$rc = RCConfig::getInstance();
-		
 		if($this->ssid_count == 0){
 			$this->filebuffer .= "ssid=".$this->ssid_name."\n";
 			$this->filebuffer .= "hw_mode=".$this->hw_mode."\n";
@@ -236,7 +234,7 @@ logger_stdout_level=2";
 			
 			$rc->addLine('hostapd_enable="YES"');
 			$rc->addLine('wlans_ath0="wlan0"');
-			$rc->addLine('create_args_wlan0="wlanmode hostap');
+			$rc->addLine('create_args_wlan0="wlanmode hostap"');
 		}
 		else{
 			$this->filebuffer .="bss=wlan0_".$this->ssid_count."\n";
@@ -245,14 +243,13 @@ logger_stdout_level=2";
 			$this->filebuffer .= "ignore_broadcast_ssid=".(int)$this->broadcast_ssid."\n";
 			
 			$rc->addLine('wlans_ath0="wlan0_'.$this->ssid_count.'"');
-			$rc->addLine('create_args_wlan0_'.$this->ssid_count.'="wlanmode hostap');
+			$rc->addLine('create_args_wlan0_'.$this->ssid_count.'="wlanmode hostap"');
 		}
 		
 		if($this->ssid_mode == 3){
 			$this->filebuffer .= "ieee8021x=1\n";
 			$this->filebuffer .= "eapol_version=2\n";
 			$this->filebuffer .= "eap_reauth_period=3600\n";
-			$this->filebuffer .= "eap_server=0\n";
 			$this->filebuffer .= "own_ip_addr=".$this->rad_own_ip."\n";
 			$this->filebuffer .= "nas_identifier=".$this->rad_nas_identifier."\n";
 			$this->filebuffer .= "auth_server_addr=".$this->rad_auth_ip."\n";
@@ -261,7 +258,7 @@ logger_stdout_level=2";
 			$this->filebuffer .= "acct_server_addr=".$this->rad_acct_ip."\n";
 			$this->filebuffer .= "acct_server_port=".$this->rad_acct_port."\n";
 			$this->filebuffer .= "acct_server_shared_secret=".$this->rad_acct_sharedsecret."\n";
-			$this->filebuffer .= "radius_acct_interim_interval".$this->rad_acct_interim_interval."\n";
+			$this->filebuffer .= "radius_acct_interim_interval=".$this->rad_acct_interim_interval."\n";
 			$this->filebuffer .= "radius_retry_primary_interval=".$this->rad_retry_interval."\n";
 		}
 		if($this->ssid_mode == 1){
@@ -449,7 +446,7 @@ logger_stdout_level=2";
 	 * @param IP $ip
 	 */
 	public function setRadiusAuthIp($ip){
-		$this->rad_acct_ip = $ip;
+		$this->rad_auth_ip = $ip;
 	}
 	
 	/**
@@ -457,7 +454,7 @@ logger_stdout_level=2";
 	 * @param Integer $port
 	 */
 	public function setRadiusAuthPort($port){
-		$this->rad_acct_port = $port;
+		$this->rad_auth_port = $port;
 	}
 	
 	/**
@@ -465,7 +462,7 @@ logger_stdout_level=2";
 	 * @param String $secret
 	 */
 	public function setRadiusAuthSharedSecret($secret){
-		$this->rad_acct_sharedsecret = $secret;
+		$this->rad_auth_sharedsecret = $secret;
 	}
 	
 	/**
