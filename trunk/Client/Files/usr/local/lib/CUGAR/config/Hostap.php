@@ -155,6 +155,8 @@ logger_stdout_level=2";
 	private $rad_auth_port;
 	private $rad_auth_sharedsecret;
 	
+	private $ap_count;
+	
 	/**
 	 * Get singleton instance
 	 * @static
@@ -225,25 +227,34 @@ logger_stdout_level=2";
 	
 	private function parseBuffer(){
 		$rc = RCConfig::getInstance();
+		
+		$i = 0;
+		$wanbuffer = null;
+		while($i < $this->ap_count){
+			$wanbuffer .= "wlan".$i." ";	
+			$i++;
+		}
+		$rc->addLine('wlans_ath0="'.$wanbuffer.'"');
+		
 		if($this->ssid_count == 0){
 			$this->filebuffer .= "ssid=".$this->ssid_name."\n";
 			$this->filebuffer .= "hw_mode=".$this->hw_mode."\n";
 			$this->filebuffer .= "channel=".$this->hw_channel."\n";
 			$this->filebuffer .= "macaddr_acl=0\n";
-			$this->filebuffer .= "ignore_broadcast_ssid=".(int)$this->broadcast_ssid."\n";
 			
+			$this->filebuffer .= "ignore_broadcast_ssid=".(int)$this->broadcast_ssid."\n";
 			$rc->addLine('hostapd_enable="YES"');
-			$rc->addLine('wlans_ath0="wlan0"');
-			$rc->addLine('create_args_wlan0="wlanmode hostap"');
+			//@TODO Figure this out
+			$rc->addLine('create_args_wlan0="wlanmode hostap bssid"');
 		}
 		else{
-			$this->filebuffer .="bss=wlan0_".$this->ssid_count."\n";
+			$this->filebuffer .="bss=wlan".$this->ssid_count."\n";
 			$this->filebuffer .= "ssid=".$this->ssid_name."\n";
 			$this->filebuffer .= "macaddr_acl=0\n";
 			$this->filebuffer .= "ignore_broadcast_ssid=".(int)$this->broadcast_ssid."\n";
 			
-			$rc->addLine('wlans_ath0="wlan0_'.$this->ssid_count.'"');
-			$rc->addLine('create_args_wlan0_'.$this->ssid_count.'="wlanmode hostap"');
+			$rc->addLine('wlans_ath0="wlan'.$this->ssid_count.'"');
+			$rc->addLine('create_args_wlan'.$this->ssid_count.'="wlanmode hostap bssid"');
 		}
 		
 		if($this->ssid_mode == 3){
@@ -309,6 +320,16 @@ logger_stdout_level=2";
 	 */
 	public function setSsidMode($mode){
 		$this->ssid_mode = $mode;
+	}
+	
+	/**
+	 * set total number of access points
+	 * 
+	 * @param unknown_type $number
+	 * @return unknown_type
+	 */
+	public function setApNumber($number){
+		$this->ap_count = $number;
 	}
 	
 	/**

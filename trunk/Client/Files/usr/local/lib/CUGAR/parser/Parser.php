@@ -131,33 +131,9 @@ class XMLParser{
 				
 				/*	Parser cascades down through Statement classes until it has parsed everything
 				 * 	as such, over here, we only have to call the ssid class every time we encounter an ssid tag.
-				 * 
-				 * 	@TODO: theoretically, we might want to add a config statement for the root tag handling / validation
-				 *  which would ensure ssid tags are present (what good is an empty device)
-				 *  that's mostly something that impacts design, rather than functionality. So it's omitted at this time.
 				 */
-				if(count($this->xml->ssid) > 0 && count($this->xml->ssid) <= 8){
-					if(isset($this->xml->hardware) && count($this->xml->hardware) == 1){
-						$tmp = new hardware($this->options);
-						$tmp->interpret($this->xml->hardware);
-					}
-					
-					foreach($this->xml->ssid as $tag){
-						//	First instantiate new SSID stuff for each config block (where appliccable)
-						
-						//	Parse SSID statement and go through validation
-						$tmp = new ssid($this->options);
-						$tmp->interpret($tag);
-					}
-				}
-				else{
-					if(count($this->xml->ssid) == 0){
-						ParseErrorBuffer::addError('No ssid defined',ParseErrorBuffer::$E_FATAL,$this->xml);
-					}
-					if(count($this->xml->ssid) > 8){
-						ParseErrorBuffer::addError('Too many ssids defined ('.count($this->xml->ssid).')',ParseErrorBuffer::$E_FATAL,$this->xml);
-					}
-				}
+				$tmp = new config();
+				$tmp->interpret($this->xml);
 				/*
 				 * Now that we've parsed the entire thing, check if we had any errors
 				 */
