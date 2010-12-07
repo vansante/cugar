@@ -1,18 +1,21 @@
 Config:
   columns:
     id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
+    name: { type: string(50), minlength: 1, notnull: true }
+    update_server: { type: string(255), notnull: true, minlength: 3 }
     wireless_channel: { type: int(2), minlength: 1, unsigned: true, range: [1, 13] }
     wireless_mode:
       type: enum
-      values: [B, G, N, auto]
+      values: [auto, B, G, N]
+      default: auto
       notnull: true
-    update_server: {type: string(255), notnull: true }
     
 Device:
   columns:
     id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
+    name: { type: string(50), minlength: 1, notnull: true }
     config_id: { type: integer(4), unsigned: true, notnull: true }
-    description: { type: string }
+    certificate_name: { type: string(50), minlength: 5, notnull: true }
   relations:
     Config:
       class: Config
@@ -71,12 +74,14 @@ Mode3:
     vpn_auth_cipher:
       type: enum
       values: [DES-CBC, AES-128-CBC, AES-192-CBC, AES-256-CBC, BF-CBC]
+      default: AES-128-CBC
       notnull: true
     vpn_auth_compression: { type: boolean, notnull: true }
     vpn_data_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
     vpn_data_cipher:
       type: enum
       values: [DES-CBC, AES-128-CBC, AES-192-CBC, AES-256-CBC, BF-CBC]
+      default: AES-128-CBC
       notnull: true
     vpn_data_compression: { type: boolean, notnull: true }
   relations:
@@ -113,20 +118,22 @@ Ssid:
   columns:
     id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
     config_id: { type: integer(4), unsigned: true, notnull: true }
+    name: { type: string(32), notnull: true, minlength: 1 }
     mode:
       type: enum
       values: [1, 2, 3]
+      default: 1
       notnull: true
-    name: { type: string(32), notnull: true, minlength: 1 }
     vlan: { type: integer(2), notnull: false, range: [1, 4096] }
-    group_rekey_interval: { type: integer(4), notnull: true }
-    broadcast: { type: boolean, notnull: true }
-    strict_rekey: { type: boolean, notnull: true }
-    passprase: { type: string(255), notnull: false }
     wpa_mode:
       type: enum
       values: [wpa, wpa2, off]
+      default: wpa2
       notnull: true
+    broadcast: { type: boolean, notnull: true, default: true }
+    passphrase: { type: string(255) }
+    group_rekey_interval: { type: integer(4), notnull: true }
+    strict_rekey: { type: boolean, notnull: true }
   relations:
     Config:
       class: Config

@@ -13,15 +13,17 @@ abstract class BaseConfigFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'wireless_channel' => new sfWidgetFormFilterInput(),
-      'wireless_mode'    => new sfWidgetFormChoice(array('choices' => array('' => '', 'B' => 'B', 'G' => 'G', 'N' => 'N', 'auto' => 'auto'))),
+      'name'             => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'update_server'    => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'wireless_channel' => new sfWidgetFormFilterInput(),
+      'wireless_mode'    => new sfWidgetFormChoice(array('choices' => array('' => '', 'auto' => 'auto', 'B' => 'B', 'G' => 'G', 'N' => 'N'))),
     ));
 
     $this->setValidators(array(
-      'wireless_channel' => new sfValidatorPass(array('required' => false)),
-      'wireless_mode'    => new sfValidatorChoice(array('required' => false, 'choices' => array('B' => 'B', 'G' => 'G', 'N' => 'N', 'auto' => 'auto'))),
+      'name'             => new sfValidatorPass(array('required' => false)),
       'update_server'    => new sfValidatorPass(array('required' => false)),
+      'wireless_channel' => new sfValidatorPass(array('required' => false)),
+      'wireless_mode'    => new sfValidatorChoice(array('required' => false, 'choices' => array('auto' => 'auto', 'B' => 'B', 'G' => 'G', 'N' => 'N'))),
     ));
 
     $this->widgetSchema->setNameFormat('config_filters[%s]');
@@ -42,9 +44,10 @@ abstract class BaseConfigFormFilter extends BaseFormFilterDoctrine
   {
     return array(
       'id'               => 'Number',
+      'name'             => 'Text',
+      'update_server'    => 'Text',
       'wireless_channel' => 'Text',
       'wireless_mode'    => 'Enum',
-      'update_server'    => 'Text',
     );
   }
 }

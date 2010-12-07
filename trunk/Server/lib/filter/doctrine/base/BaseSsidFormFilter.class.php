@@ -14,26 +14,26 @@ abstract class BaseSsidFormFilter extends BaseFormFilterDoctrine
   {
     $this->setWidgets(array(
       'config_id'            => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Config'), 'add_empty' => true)),
-      'mode'                 => new sfWidgetFormChoice(array('choices' => array('' => '', 1 => 1, 2 => 2, 3 => 3))),
       'name'                 => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'mode'                 => new sfWidgetFormChoice(array('choices' => array('' => '', 1 => 1, 2 => 2, 3 => 3))),
       'vlan'                 => new sfWidgetFormFilterInput(),
-      'group_rekey_interval' => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'broadcast'            => new sfWidgetFormChoice(array('choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no'))),
-      'strict_rekey'         => new sfWidgetFormChoice(array('choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no'))),
-      'passprase'            => new sfWidgetFormFilterInput(),
       'wpa_mode'             => new sfWidgetFormChoice(array('choices' => array('' => '', 'wpa' => 'wpa', 'wpa2' => 'wpa2', 'off' => 'off'))),
+      'broadcast'            => new sfWidgetFormChoice(array('choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no'))),
+      'passphrase'           => new sfWidgetFormFilterInput(),
+      'group_rekey_interval' => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'strict_rekey'         => new sfWidgetFormChoice(array('choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no'))),
     ));
 
     $this->setValidators(array(
       'config_id'            => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Config'), 'column' => 'id')),
-      'mode'                 => new sfValidatorChoice(array('required' => false, 'choices' => array(1 => 1, 2 => 2, 3 => 3))),
       'name'                 => new sfValidatorPass(array('required' => false)),
+      'mode'                 => new sfValidatorChoice(array('required' => false, 'choices' => array(1 => 1, 2 => 2, 3 => 3))),
       'vlan'                 => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
-      'group_rekey_interval' => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
-      'broadcast'            => new sfValidatorChoice(array('required' => false, 'choices' => array('', 1, 0))),
-      'strict_rekey'         => new sfValidatorChoice(array('required' => false, 'choices' => array('', 1, 0))),
-      'passprase'            => new sfValidatorPass(array('required' => false)),
       'wpa_mode'             => new sfValidatorChoice(array('required' => false, 'choices' => array('wpa' => 'wpa', 'wpa2' => 'wpa2', 'off' => 'off'))),
+      'broadcast'            => new sfValidatorChoice(array('required' => false, 'choices' => array('', 1, 0))),
+      'passphrase'           => new sfValidatorPass(array('required' => false)),
+      'group_rekey_interval' => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
+      'strict_rekey'         => new sfValidatorChoice(array('required' => false, 'choices' => array('', 1, 0))),
     ));
 
     $this->widgetSchema->setNameFormat('ssid_filters[%s]');
@@ -55,14 +55,14 @@ abstract class BaseSsidFormFilter extends BaseFormFilterDoctrine
     return array(
       'id'                   => 'Number',
       'config_id'            => 'ForeignKey',
-      'mode'                 => 'Enum',
       'name'                 => 'Text',
+      'mode'                 => 'Enum',
       'vlan'                 => 'Number',
-      'group_rekey_interval' => 'Number',
-      'broadcast'            => 'Boolean',
-      'strict_rekey'         => 'Boolean',
-      'passprase'            => 'Text',
       'wpa_mode'             => 'Enum',
+      'broadcast'            => 'Boolean',
+      'passphrase'           => 'Text',
+      'group_rekey_interval' => 'Number',
+      'strict_rekey'         => 'Boolean',
     );
   }
 }

@@ -22,14 +22,10 @@ all:
         url: device
       SSIDs:
         url: ssid
-      Mode 2:
-        url: mode2
 
     categories:
       Mode 3:
         items:
-          Mode 3:
-            url: mode3
           DHCP Relay:
             url: dhcp_server
           Certificates:

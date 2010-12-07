@@ -16,16 +16,18 @@ abstract class BaseConfigForm extends BaseFormDoctrine
   {
     $this->setWidgets(array(
       'id'               => new sfWidgetFormInputHidden(),
-      'wireless_channel' => new sfWidgetFormInputText(),
-      'wireless_mode'    => new sfWidgetFormChoice(array('choices' => array('B' => 'B', 'G' => 'G', 'N' => 'N', 'auto' => 'auto'))),
+      'name'             => new sfWidgetFormInputText(),
       'update_server'    => new sfWidgetFormInputText(),
+      'wireless_channel' => new sfWidgetFormInputText(),
+      'wireless_mode'    => new sfWidgetFormChoice(array('choices' => array('auto' => 'auto', 'B' => 'B', 'G' => 'G', 'N' => 'N'))),
     ));
 
     $this->setValidators(array(
       'id'               => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
+      'name'             => new sfValidatorString(array('max_length' => 50, 'min_length' => 1)),
+      'update_server'    => new sfValidatorString(array('max_length' => 255, 'min_length' => 3)),
       'wireless_channel' => new sfValidatorPass(array('required' => false)),
-      'wireless_mode'    => new sfValidatorChoice(array('choices' => array(0 => 'B', 1 => 'G', 2 => 'N', 3 => 'auto'))),
-      'update_server'    => new sfValidatorString(array('max_length' => 255)),
+      'wireless_mode'    => new sfValidatorChoice(array('choices' => array(0 => 'auto', 1 => 'B', 2 => 'G', 3 => 'N'), 'required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('config[%s]');
