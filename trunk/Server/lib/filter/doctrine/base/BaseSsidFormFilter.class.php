@@ -14,6 +14,7 @@ abstract class BaseSsidFormFilter extends BaseFormFilterDoctrine
   {
     $this->setWidgets(array(
       'config_id'            => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Config'), 'add_empty' => true)),
+      'mode'                 => new sfWidgetFormChoice(array('choices' => array('' => '', 1 => 1, 2 => 2, 3 => 3))),
       'name'                 => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'vlan'                 => new sfWidgetFormFilterInput(),
       'group_rekey_interval' => new sfWidgetFormFilterInput(array('with_empty' => false)),
@@ -25,6 +26,7 @@ abstract class BaseSsidFormFilter extends BaseFormFilterDoctrine
 
     $this->setValidators(array(
       'config_id'            => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Config'), 'column' => 'id')),
+      'mode'                 => new sfValidatorChoice(array('required' => false, 'choices' => array(1 => 1, 2 => 2, 3 => 3))),
       'name'                 => new sfValidatorPass(array('required' => false)),
       'vlan'                 => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'group_rekey_interval' => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
@@ -53,6 +55,7 @@ abstract class BaseSsidFormFilter extends BaseFormFilterDoctrine
     return array(
       'id'                   => 'Number',
       'config_id'            => 'ForeignKey',
+      'mode'                 => 'Enum',
       'name'                 => 'Text',
       'vlan'                 => 'Number',
       'group_rekey_interval' => 'Number',
