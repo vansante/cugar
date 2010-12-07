@@ -1,6 +1,6 @@
 <h2>Manual firmware update</h2>
 
-<p class="intro">Choose the image file (cugar-*.img) to be uploaded. Click "Upload" to start the update process.</p>
+<p class="intro">Choose the image file (cugar-*.img) to be uploaded. Click "Update firmware" to start the update process.</p>
 
 <div class="warning">
     <h3>Warning:</h3>
