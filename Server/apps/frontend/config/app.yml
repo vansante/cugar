@@ -34,4 +34,12 @@ all:
             url: dhcp_server
           Certificates:
             url: mode3_certificate
+      User Management:
+        items:
+          Users:
+            url: sf_guard_user
+          Groups:
+            url: sf_guard_group
+          Permissions:
+            url: sf_guard_permission
 
