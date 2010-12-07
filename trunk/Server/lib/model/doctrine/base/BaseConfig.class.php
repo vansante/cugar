@@ -42,23 +42,24 @@ abstract class BaseConfig extends sfDoctrineRecord
              'primary' => true,
              'length' => 4,
              ));
-        $this->hasColumn('wireless_channel', 'int', 1, array(
+        $this->hasColumn('wireless_channel', 'int', 2, array(
              'type' => 'int',
+             'minlength' => 1,
              'unsigned' => true,
              'range' => 
              array(
               0 => 1,
               1 => 13,
              ),
-             'length' => 1,
+             'length' => 2,
              ));
         $this->hasColumn('wireless_mode', 'enum', null, array(
              'type' => 'enum',
              'values' => 
              array(
-              0 => 'b',
-              1 => 'g',
-              2 => 'n',
+              0 => 'B',
+              1 => 'G',
+              2 => 'N',
               3 => 'auto',
              ),
              'notnull' => true,

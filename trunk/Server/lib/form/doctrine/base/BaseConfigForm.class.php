@@ -17,14 +17,14 @@ abstract class BaseConfigForm extends BaseFormDoctrine
     $this->setWidgets(array(
       'id'               => new sfWidgetFormInputHidden(),
       'wireless_channel' => new sfWidgetFormInputText(),
-      'wireless_mode'    => new sfWidgetFormChoice(array('choices' => array('b' => 'b', 'g' => 'g', 'n' => 'n', 'auto' => 'auto'))),
+      'wireless_mode'    => new sfWidgetFormChoice(array('choices' => array('B' => 'B', 'G' => 'G', 'N' => 'N', 'auto' => 'auto'))),
       'update_server'    => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
       'id'               => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
       'wireless_channel' => new sfValidatorPass(array('required' => false)),
-      'wireless_mode'    => new sfValidatorChoice(array('choices' => array(0 => 'b', 1 => 'g', 2 => 'n', 3 => 'auto'))),
+      'wireless_mode'    => new sfValidatorChoice(array('choices' => array(0 => 'B', 1 => 'G', 2 => 'N', 3 => 'auto'))),
       'update_server'    => new sfValidatorString(array('max_length' => 255)),
     ));
 

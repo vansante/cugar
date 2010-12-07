@@ -14,13 +14,13 @@ abstract class BaseConfigFormFilter extends BaseFormFilterDoctrine
   {
     $this->setWidgets(array(
       'wireless_channel' => new sfWidgetFormFilterInput(),
-      'wireless_mode'    => new sfWidgetFormChoice(array('choices' => array('' => '', 'b' => 'b', 'g' => 'g', 'n' => 'n', 'auto' => 'auto'))),
+      'wireless_mode'    => new sfWidgetFormChoice(array('choices' => array('' => '', 'B' => 'B', 'G' => 'G', 'N' => 'N', 'auto' => 'auto'))),
       'update_server'    => new sfWidgetFormFilterInput(array('with_empty' => false)),
     ));
 
     $this->setValidators(array(
       'wireless_channel' => new sfValidatorPass(array('required' => false)),
-      'wireless_mode'    => new sfValidatorChoice(array('required' => false, 'choices' => array('b' => 'b', 'g' => 'g', 'n' => 'n', 'auto' => 'auto'))),
+      'wireless_mode'    => new sfValidatorChoice(array('required' => false, 'choices' => array('B' => 'B', 'G' => 'G', 'N' => 'N', 'auto' => 'auto'))),
       'update_server'    => new sfValidatorPass(array('required' => false)),
     ));
 

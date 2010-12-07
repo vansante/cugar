@@ -10,6 +10,7 @@ generator:
     route_prefix:          ssid
     with_doctrine_route:   true
     actions_base_class:    sfActions
+    css:                   nothing   #setting the css to a placeholder
 
     config:
       actions: ~

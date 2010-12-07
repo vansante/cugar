@@ -1,3 +1,12 @@
+mode3_certificate:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Mode3Certificate
+    module:               mode3_certificate
+    prefix_path:          /mode3_certificate
+    column:               id
+    with_wildcard_routes: true
+
 dhcp_server:
   class: sfDoctrineRouteCollection
   options:
@@ -58,7 +67,7 @@ device:
 # default rules
 homepage:
   url:   /
-  param: { module: default, action: index }
+  param: { module: sfAdminDash, action: dashboard }
 
 # generic rules
 # please, remove them by adding more specific rules
