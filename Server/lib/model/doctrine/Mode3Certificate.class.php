@@ -10,7 +10,9 @@
  * @author     Your name here
  * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
-class Mode3Certificate extends BaseMode3Certificate
-{
+class Mode3Certificate extends BaseMode3Certificate {
 
+    public function __toString() {
+        return $this->Device->__toString() . ' - ' . $this->Mode3->__toString();
+    }
 }

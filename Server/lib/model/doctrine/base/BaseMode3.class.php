@@ -228,6 +228,7 @@ abstract class BaseMode3 extends sfDoctrineRecord
               3 => 'AES-256-CBC',
               4 => 'BF-CBC',
              ),
+             'default' => 'AES-128-CBC',
              'notnull' => true,
              ));
         $this->hasColumn('vpn_auth_compression', 'boolean', null, array(
@@ -255,6 +256,7 @@ abstract class BaseMode3 extends sfDoctrineRecord
               3 => 'AES-256-CBC',
               4 => 'BF-CBC',
              ),
+             'default' => 'AES-128-CBC',
              'notnull' => true,
              ));
         $this->hasColumn('vpn_data_compression', 'boolean', null, array(

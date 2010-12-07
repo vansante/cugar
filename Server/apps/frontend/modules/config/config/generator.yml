@@ -5,17 +5,20 @@ generator:
     theme:                 admin
     non_verbose_templates: true
     with_show:             false
-    singular:              ~
-    plural:                ~
+    singular:              config
+    plural:                configs
     route_prefix:          config
     with_doctrine_route:   true
     actions_base_class:    sfActions
     css:                   nothing   #setting the css to a placeholder
 
     config:
-      actions: ~
+      actions:
+        _new: { label: "Create a new configuration" }
       fields:  ~
-      list:    ~
+      list:
+        title: List of Configs
+        display: [id, =name, update_server, wireless_channel, wireless_mode]
       filter:  ~
       form:    ~
       edit:    ~

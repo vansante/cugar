@@ -57,10 +57,10 @@ abstract class BaseMode3Form extends BaseFormDoctrine
       'radius_acct_interim_interval' => new sfValidatorInteger(),
       'vpn_auth_server'              => new sfValidatorString(array('max_length' => 255, 'min_length' => 4)),
       'vpn_auth_port'                => new sfValidatorInteger(),
-      'vpn_auth_cipher'              => new sfValidatorChoice(array('choices' => array(0 => 'DES-CBC', 1 => 'AES-128-CBC', 2 => 'AES-192-CBC', 3 => 'AES-256-CBC', 4 => 'BF-CBC'))),
+      'vpn_auth_cipher'              => new sfValidatorChoice(array('choices' => array(0 => 'DES-CBC', 1 => 'AES-128-CBC', 2 => 'AES-192-CBC', 3 => 'AES-256-CBC', 4 => 'BF-CBC'), 'required' => false)),
       'vpn_auth_compression'         => new sfValidatorBoolean(),
       'vpn_data_port'                => new sfValidatorInteger(),
-      'vpn_data_cipher'              => new sfValidatorChoice(array('choices' => array(0 => 'DES-CBC', 1 => 'AES-128-CBC', 2 => 'AES-192-CBC', 3 => 'AES-256-CBC', 4 => 'BF-CBC'))),
+      'vpn_data_cipher'              => new sfValidatorChoice(array('choices' => array(0 => 'DES-CBC', 1 => 'AES-128-CBC', 2 => 'AES-192-CBC', 3 => 'AES-256-CBC', 4 => 'BF-CBC'), 'required' => false)),
       'vpn_data_compression'         => new sfValidatorBoolean(),
     ));
 

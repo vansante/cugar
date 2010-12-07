@@ -6,3 +6,24 @@ sfGuardUser:
   user_paul:
     username: paul
     password: paul
+
+Config:
+  Config_Test1:
+    name: Test Config 1
+    update_server: http://www.updateserver.com
+    wireless_channel: 10
+    wireless_mode: auto
+    Ssids:
+      Ssid_test1:
+        name: SSID HOI ANDRE!
+        mode: 3
+        vlan: 5
+        passphrase: Passw0rd
+        group_rekey_interval: 500
+        strict_rekey: false
+        
+  Config_Test2:
+    name: Test Blabla
+    update_server: http://www.serverupdate.co.uk
+    wireless_channel: 3
+    wireless_mode: N

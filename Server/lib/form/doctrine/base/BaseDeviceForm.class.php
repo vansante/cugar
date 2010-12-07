@@ -15,15 +15,17 @@ abstract class BaseDeviceForm extends BaseFormDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'id'          => new sfWidgetFormInputHidden(),
-      'config_id'   => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Config'), 'add_empty' => false)),
-      'description' => new sfWidgetFormTextarea(),
+      'id'               => new sfWidgetFormInputHidden(),
+      'name'             => new sfWidgetFormInputText(),
+      'config_id'        => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Config'), 'add_empty' => false)),
+      'certificate_name' => new sfWidgetFormInputText(),
     ));
 
     $this->setValidators(array(
-      'id'          => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'config_id'   => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Config'))),
-      'description' => new sfValidatorString(array('required' => false)),
+      'id'               => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
+      'name'             => new sfValidatorString(array('max_length' => 50, 'min_length' => 1)),
+      'config_id'        => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Config'))),
+      'certificate_name' => new sfValidatorString(array('max_length' => 50, 'min_length' => 5)),
     ));
 
     $this->widgetSchema->setNameFormat('device[%s]');
