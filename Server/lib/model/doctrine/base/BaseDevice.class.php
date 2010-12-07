@@ -9,15 +9,18 @@
  * @property integer $config_id
  * @property string $description
  * @property Config $Config
+ * @property Doctrine_Collection $Certificates
  * 
- * @method integer getId()          Returns the current record's "id" value
- * @method integer getConfigId()    Returns the current record's "config_id" value
- * @method string  getDescription() Returns the current record's "description" value
- * @method Config  getConfig()      Returns the current record's "Config" value
- * @method Device  setId()          Sets the current record's "id" value
- * @method Device  setConfigId()    Sets the current record's "config_id" value
- * @method Device  setDescription() Sets the current record's "description" value
- * @method Device  setConfig()      Sets the current record's "Config" value
+ * @method integer             getId()           Returns the current record's "id" value
+ * @method integer             getConfigId()     Returns the current record's "config_id" value
+ * @method string              getDescription()  Returns the current record's "description" value
+ * @method Config              getConfig()       Returns the current record's "Config" value
+ * @method Doctrine_Collection getCertificates() Returns the current record's "Certificates" collection
+ * @method Device              setId()           Sets the current record's "id" value
+ * @method Device              setConfigId()     Sets the current record's "config_id" value
+ * @method Device              setDescription()  Sets the current record's "description" value
+ * @method Device              setConfig()       Sets the current record's "Config" value
+ * @method Device              setCertificates() Sets the current record's "Certificates" collection
  * 
  * @package    sf_sandbox
  * @subpackage model
@@ -53,5 +56,9 @@ abstract class BaseDevice extends sfDoctrineRecord
         $this->hasOne('Config', array(
              'local' => 'config_id',
              'foreign' => 'id'));
+
+        $this->hasMany('Mode3Certificate as Certificates', array(
+             'local' => 'id',
+             'foreign' => 'device_id'));
     }
 }

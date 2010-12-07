@@ -15,33 +15,33 @@
  * @property string $passprase
  * @property enum $wpa_mode
  * @property Config $Config
- * @property Mode2 $Mode2s
- * @property Mode3 $Mode3s
+ * @property Doctrine_Collection $Mode2s
+ * @property Doctrine_Collection $Mode3s
  * 
- * @method integer getId()                   Returns the current record's "id" value
- * @method integer getConfigId()             Returns the current record's "config_id" value
- * @method string  getName()                 Returns the current record's "name" value
- * @method integer getVlan()                 Returns the current record's "vlan" value
- * @method integer getGroupRekeyInterval()   Returns the current record's "group_rekey_interval" value
- * @method boolean getBroadcast()            Returns the current record's "broadcast" value
- * @method boolean getStrictRekey()          Returns the current record's "strict_rekey" value
- * @method string  getPassprase()            Returns the current record's "passprase" value
- * @method enum    getWpaMode()              Returns the current record's "wpa_mode" value
- * @method Config  getConfig()               Returns the current record's "Config" value
- * @method Mode2   getMode2s()               Returns the current record's "Mode2s" value
- * @method Mode3   getMode3s()               Returns the current record's "Mode3s" value
- * @method Ssid    setId()                   Sets the current record's "id" value
- * @method Ssid    setConfigId()             Sets the current record's "config_id" value
- * @method Ssid    setName()                 Sets the current record's "name" value
- * @method Ssid    setVlan()                 Sets the current record's "vlan" value
- * @method Ssid    setGroupRekeyInterval()   Sets the current record's "group_rekey_interval" value
- * @method Ssid    setBroadcast()            Sets the current record's "broadcast" value
- * @method Ssid    setStrictRekey()          Sets the current record's "strict_rekey" value
- * @method Ssid    setPassprase()            Sets the current record's "passprase" value
- * @method Ssid    setWpaMode()              Sets the current record's "wpa_mode" value
- * @method Ssid    setConfig()               Sets the current record's "Config" value
- * @method Ssid    setMode2s()               Sets the current record's "Mode2s" value
- * @method Ssid    setMode3s()               Sets the current record's "Mode3s" value
+ * @method integer             getId()                   Returns the current record's "id" value
+ * @method integer             getConfigId()             Returns the current record's "config_id" value
+ * @method string              getName()                 Returns the current record's "name" value
+ * @method integer             getVlan()                 Returns the current record's "vlan" value
+ * @method integer             getGroupRekeyInterval()   Returns the current record's "group_rekey_interval" value
+ * @method boolean             getBroadcast()            Returns the current record's "broadcast" value
+ * @method boolean             getStrictRekey()          Returns the current record's "strict_rekey" value
+ * @method string              getPassprase()            Returns the current record's "passprase" value
+ * @method enum                getWpaMode()              Returns the current record's "wpa_mode" value
+ * @method Config              getConfig()               Returns the current record's "Config" value
+ * @method Doctrine_Collection getMode2s()               Returns the current record's "Mode2s" collection
+ * @method Doctrine_Collection getMode3s()               Returns the current record's "Mode3s" collection
+ * @method Ssid                setId()                   Sets the current record's "id" value
+ * @method Ssid                setConfigId()             Sets the current record's "config_id" value
+ * @method Ssid                setName()                 Sets the current record's "name" value
+ * @method Ssid                setVlan()                 Sets the current record's "vlan" value
+ * @method Ssid                setGroupRekeyInterval()   Sets the current record's "group_rekey_interval" value
+ * @method Ssid                setBroadcast()            Sets the current record's "broadcast" value
+ * @method Ssid                setStrictRekey()          Sets the current record's "strict_rekey" value
+ * @method Ssid                setPassprase()            Sets the current record's "passprase" value
+ * @method Ssid                setWpaMode()              Sets the current record's "wpa_mode" value
+ * @method Ssid                setConfig()               Sets the current record's "Config" value
+ * @method Ssid                setMode2s()               Sets the current record's "Mode2s" collection
+ * @method Ssid                setMode3s()               Sets the current record's "Mode3s" collection
  * 
  * @package    sf_sandbox
  * @subpackage model
@@ -119,11 +119,11 @@ abstract class BaseSsid extends sfDoctrineRecord
              'local' => 'config_id',
              'foreign' => 'id'));
 
-        $this->hasOne('Mode2 as Mode2s', array(
+        $this->hasMany('Mode2 as Mode2s', array(
              'local' => 'id',
              'foreign' => 'ssid_id'));
 
-        $this->hasOne('Mode3 as Mode3s', array(
+        $this->hasMany('Mode3 as Mode3s', array(
              'local' => 'id',
              'foreign' => 'ssid_id'));
     }

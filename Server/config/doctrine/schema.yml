@@ -18,8 +18,7 @@ Device:
       class: Config
       local: config_id
       foreign: id
-      foreignAlias: Configs
-      foreignType: one
+      foreignAlias: Devices
       type: one
       
 DhcpServer:
@@ -35,7 +34,6 @@ DhcpServer:
       local: mode3_id
       foreign: id
       foreignAlias: DhcpServers
-      foreignType: one
       type: one
 
 Mode2:
@@ -49,7 +47,6 @@ Mode2:
       local: ssid_id
       foreign: id
       foreignAlias: Mode2s
-      foreignType: one
       type: one
       
 Mode3:
@@ -65,9 +62,9 @@ Mode3:
     radius_auth_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
     radius_auth_shared_secret: { type: string(255), notnull: true, minlength: 1}
     radius_auth_interim_interval: { type: integer(3), unsigned: true, notnull: true, range: [1] }
-    radius_acct_auth_ip: { type: string(15), ip: true, notnull: true }
-    radius_acct_auth_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
-    radius_acct_auth_shared_secret: { type: string(255), notnull: true, minlength: 1}
+    radius_acct_ip: { type: string(15), ip: true, notnull: true }
+    radius_acct_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
+    radius_acct_shared_secret: { type: string(255), notnull: true, minlength: 1}
     radius_acct_interim_interval: { type: integer(3), unsigned: true, notnull: true, range: [1] }
     vpn_auth_server: { type: string(255), notnull: true, minlength: 4 }
     vpn_auth_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
@@ -88,7 +85,28 @@ Mode3:
       local: ssid_id
       foreign: id
       foreignAlias: Mode3s
-      foreignType: one
+      type: one
+
+Mode3Certificate:
+  columns:
+    id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
+    mode3_id: { type: integer(4), unsigned: true, notnull: true }
+    device_id: { type: integer(4), unsigned: true, notnull: true }
+    public_key: {type: string, notnull: true }
+    private_key: {type: string, notnull: true }
+    cert_of_authority: {type: string, notnull: true }
+  relations:
+    Mode3:
+      class: Mode3
+      local: mode3_id
+      foreign: id
+      foreignAlias: Certificates
+      type: one
+    Device:
+      class: Device
+      local: device_id
+      foreign: id
+      foreignAlias: Certificates
       type: one
 
 Ssid:
@@ -111,7 +129,6 @@ Ssid:
       local: config_id
       foreign: id
       foreignAlias: Ssids
-      foreignType: one
       type: one
 
 
