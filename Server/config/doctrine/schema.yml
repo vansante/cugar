@@ -1,10 +1,10 @@
 Config:
   columns:
     id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
-    wireless_channel: { type: int(1), unsigned: true, range: [1, 13]}
+    wireless_channel: { type: int(2), minlength: 1, unsigned: true, range: [1, 13] }
     wireless_mode:
       type: enum
-      values: [b, g, n, auto]
+      values: [B, G, N, auto]
       notnull: true
     update_server: {type: string(255), notnull: true }
     

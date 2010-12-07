@@ -2,4 +2,36 @@
 # http://www.symfony-project.org/reference/1_4/en/11-App
 
 # default values
-#all:
+all:
+  sf_admin_dash:
+    web_dir: /sfAdminDashPlugin
+    image_dir: /sfAdminDashPlugin/images/icons/
+    default_image: config.png
+    resize_mode: thumbnail
+    site: CUGAR Server admin
+    include_path: true
+    include_jquery_no_conflict: false
+    logout: true
+    login_route: '@sf_guard_signin'
+    logout_route: '@sf_guard_signout'
+
+    items:
+      Config:
+        url: config
+      Devices:
+        url: device
+      SSIDs:
+        url: ssid
+      Mode 2:
+        url: mode2
+
+    categories:
+      Mode 3:
+        items:
+          Mode 3:
+            url: mode3
+          DHCP Relay:
+            url: dhcp_server
+          Certificates:
+            url: mode3_certificate
+

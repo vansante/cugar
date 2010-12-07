@@ -1,4 +1,4 @@
-CREATE TABLE config (id INT UNSIGNED AUTO_INCREMENT, wireless_channel TINYINT, wireless_mode ENUM('b', 'g', 'n', 'auto') NOT NULL, update_server VARCHAR(255) NOT NULL, PRIMARY KEY(id)) ENGINE = INNODB;
+CREATE TABLE config (id INT UNSIGNED AUTO_INCREMENT, wireless_channel SMALLINT, wireless_mode ENUM('B', 'G', 'N', 'auto') NOT NULL, update_server VARCHAR(255) NOT NULL, PRIMARY KEY(id)) ENGINE = INNODB;
 CREATE TABLE device (id INT UNSIGNED AUTO_INCREMENT, config_id INT UNSIGNED NOT NULL, description TEXT, INDEX config_id_idx (config_id), PRIMARY KEY(id)) ENGINE = INNODB;
 CREATE TABLE dhcp_server (id INT UNSIGNED, mode3_id INT UNSIGNED NOT NULL, ip VARCHAR(15), INDEX mode3_id_idx (mode3_id), PRIMARY KEY(id)) ENGINE = INNODB;
 CREATE TABLE mode2 (id INT UNSIGNED AUTO_INCREMENT, ssid_id INT UNSIGNED, file_path VARCHAR(255) NOT NULL, INDEX ssid_id_idx (ssid_id), PRIMARY KEY(id)) ENGINE = INNODB;
