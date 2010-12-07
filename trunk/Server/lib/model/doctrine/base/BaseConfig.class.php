@@ -9,21 +9,21 @@
  * @property int $wireless_channel
  * @property enum $wireless_mode
  * @property string $update_server
- * @property Device $Configs
- * @property Ssid $Ssids
+ * @property Doctrine_Collection $Devices
+ * @property Doctrine_Collection $Ssids
  * 
- * @method integer getId()               Returns the current record's "id" value
- * @method int     getWirelessChannel()  Returns the current record's "wireless_channel" value
- * @method enum    getWirelessMode()     Returns the current record's "wireless_mode" value
- * @method string  getUpdateServer()     Returns the current record's "update_server" value
- * @method Device  getConfigs()          Returns the current record's "Configs" value
- * @method Ssid    getSsids()            Returns the current record's "Ssids" value
- * @method Config  setId()               Sets the current record's "id" value
- * @method Config  setWirelessChannel()  Sets the current record's "wireless_channel" value
- * @method Config  setWirelessMode()     Sets the current record's "wireless_mode" value
- * @method Config  setUpdateServer()     Sets the current record's "update_server" value
- * @method Config  setConfigs()          Sets the current record's "Configs" value
- * @method Config  setSsids()            Sets the current record's "Ssids" value
+ * @method integer             getId()               Returns the current record's "id" value
+ * @method int                 getWirelessChannel()  Returns the current record's "wireless_channel" value
+ * @method enum                getWirelessMode()     Returns the current record's "wireless_mode" value
+ * @method string              getUpdateServer()     Returns the current record's "update_server" value
+ * @method Doctrine_Collection getDevices()          Returns the current record's "Devices" collection
+ * @method Doctrine_Collection getSsids()            Returns the current record's "Ssids" collection
+ * @method Config              setId()               Sets the current record's "id" value
+ * @method Config              setWirelessChannel()  Sets the current record's "wireless_channel" value
+ * @method Config              setWirelessMode()     Sets the current record's "wireless_mode" value
+ * @method Config              setUpdateServer()     Sets the current record's "update_server" value
+ * @method Config              setDevices()          Sets the current record's "Devices" collection
+ * @method Config              setSsids()            Sets the current record's "Ssids" collection
  * 
  * @package    sf_sandbox
  * @subpackage model
@@ -73,11 +73,11 @@ abstract class BaseConfig extends sfDoctrineRecord
     public function setUp()
     {
         parent::setUp();
-        $this->hasOne('Device as Configs', array(
+        $this->hasMany('Device as Devices', array(
              'local' => 'id',
              'foreign' => 'config_id'));
 
-        $this->hasOne('Ssid as Ssids', array(
+        $this->hasMany('Ssid as Ssids', array(
              'local' => 'id',
              'foreign' => 'config_id'));
     }
