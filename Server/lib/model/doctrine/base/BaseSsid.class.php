@@ -7,6 +7,7 @@
  * 
  * @property integer $id
  * @property integer $config_id
+ * @property enum $mode
  * @property string $name
  * @property integer $vlan
  * @property integer $group_rekey_interval
@@ -20,6 +21,7 @@
  * 
  * @method integer             getId()                   Returns the current record's "id" value
  * @method integer             getConfigId()             Returns the current record's "config_id" value
+ * @method enum                getMode()                 Returns the current record's "mode" value
  * @method string              getName()                 Returns the current record's "name" value
  * @method integer             getVlan()                 Returns the current record's "vlan" value
  * @method integer             getGroupRekeyInterval()   Returns the current record's "group_rekey_interval" value
@@ -32,6 +34,7 @@
  * @method Doctrine_Collection getMode3s()               Returns the current record's "Mode3s" collection
  * @method Ssid                setId()                   Sets the current record's "id" value
  * @method Ssid                setConfigId()             Sets the current record's "config_id" value
+ * @method Ssid                setMode()                 Sets the current record's "mode" value
  * @method Ssid                setName()                 Sets the current record's "name" value
  * @method Ssid                setVlan()                 Sets the current record's "vlan" value
  * @method Ssid                setGroupRekeyInterval()   Sets the current record's "group_rekey_interval" value
@@ -65,6 +68,16 @@ abstract class BaseSsid extends sfDoctrineRecord
              'unsigned' => true,
              'notnull' => true,
              'length' => 4,
+             ));
+        $this->hasColumn('mode', 'enum', null, array(
+             'type' => 'enum',
+             'values' => 
+             array(
+              0 => 1,
+              1 => 2,
+              2 => 3,
+             ),
+             'notnull' => true,
              ));
         $this->hasColumn('name', 'string', 32, array(
              'type' => 'string',

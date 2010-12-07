@@ -113,6 +113,10 @@ Ssid:
   columns:
     id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
     config_id: { type: integer(4), unsigned: true, notnull: true }
+    mode:
+      type: enum
+      values: [1, 2, 3]
+      notnull: true
     name: { type: string(32), notnull: true, minlength: 1 }
     vlan: { type: integer(2), notnull: false, range: [1, 4096] }
     group_rekey_interval: { type: integer(4), notnull: true }
