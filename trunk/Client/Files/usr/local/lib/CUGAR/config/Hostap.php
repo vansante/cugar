@@ -234,7 +234,7 @@ logger_stdout_level=2";
 				$this->filebuffer .= "hw_mode=".$this->hw_mode."\n";
 			}
 			else{
-				$this->filebuffer .= "eee80211n=1\n";
+				$this->filebuffer .= "ieee80211n=1\n";
 			}
 			
 			$this->filebuffer .= "macaddr_acl=0\n";
