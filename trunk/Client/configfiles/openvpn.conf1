@@ -1,0 +1,17 @@
+dev tun
+
+remote 127.0.0.2
+tls-client
+
+ca 
+cert
+key 
+
+port 7777
+cipher AES-256-CBC
+
+user nobody
+group nobody
+persist-key
+persist-tun
+verb 3
