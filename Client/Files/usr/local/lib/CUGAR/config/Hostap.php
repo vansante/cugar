@@ -248,8 +248,7 @@ logger_stdout_level=2";
 			$this->filebuffer .= "ssid=".$this->ssid_name."\n";
 			$this->filebuffer .= "macaddr_acl=0\n";
 			$this->filebuffer .= "ignore_broadcast_ssid=".(int)$this->broadcast_ssid."\n";
-				
-			$rc->addLine('wlans_ath0="wlan'.$this->ssid_count.'"');
+		
 			$rc->addLine('create_args_wlan'.$this->ssid_count.'="wlanmode hostap bssid"');
 		}
 
