@@ -52,7 +52,7 @@ class mode extends Statement{
 	 */
 	public function validate($options){
 		// @TODO: N configuration is apparently very different, dropped support momentarily
-		$allowed_values = array('a','b','g');
+		$allowed_values = array('a','b','g','n');
 		if(!in_array((string)$options,$allowed_values)){
 			ParseErrorBuffer::addError('invalid mode selected',ParseErrorBuffer::$E_FATAL,$options);
 		}
