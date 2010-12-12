@@ -32,6 +32,7 @@ abstract class BaseDhcpServer extends sfDoctrineRecord
         $this->hasColumn('id', 'integer', 4, array(
              'type' => 'integer',
              'unsigned' => true,
+             'autoincrement' => true,
              'primary' => true,
              'length' => 4,
              ));

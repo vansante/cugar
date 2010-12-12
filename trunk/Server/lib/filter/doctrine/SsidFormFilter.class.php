@@ -8,9 +8,13 @@
  * @author     Your name here
  * @version    SVN: $Id: sfDoctrineFormFilterTemplate.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
  */
-class SsidFormFilter extends BaseSsidFormFilter
-{
-  public function configure()
-  {
-  }
+class SsidFormFilter extends BaseSsidFormFilter {
+
+    public function configure() {
+
+        $this->useFields(array(
+            'config_id', 'name', 'vlan', 'broadcast', 'group_rekey_interval', 'strict_rekey'
+        ));
+    }
+
 }

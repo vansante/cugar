@@ -1,3 +1,21 @@
+mode1:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Mode1
+    module:               mode1
+    prefix_path:          /mode1
+    column:               id
+    with_wildcard_routes: true
+
+mode:
+  class: sfDoctrineRouteCollection
+  options:
+    model:                Mode
+    module:               mode
+    prefix_path:          /mode
+    column:               id
+    with_wildcard_routes: true
+
 mode3_certificate:
   class: sfDoctrineRouteCollection
   options:

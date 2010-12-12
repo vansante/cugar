@@ -11,9 +11,7 @@
 class Mode3Form extends BaseMode3Form {
 
     public function configure() {
-        unset(
-            $this['ssid_id']
-        );
+        
     }
 
 }
