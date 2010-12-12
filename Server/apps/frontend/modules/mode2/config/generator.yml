@@ -5,18 +5,23 @@ generator:
     theme:                 admin
     non_verbose_templates: true
     with_show:             false
-    singular:              ~
-    plural:                ~
+    singular:              mode2
+    plural:                mode2s
     route_prefix:          mode2
     with_doctrine_route:   true
     actions_base_class:    sfActions
     css:                   nothing   #setting the css to a placeholder
 
     config:
-      actions: ~
+      actions:
+        _new: { label: "Create a new Mode 2 SSID" }
       fields:  ~
-      list:    ~
+      list:
+        title: List of Mode 2 SSIDs
+        display: [id, _config, =name, vlan, broadcast, group_rekey_interval, strict_rekey]
       filter:  ~
       form:    ~
-      edit:    ~
-      new:     ~
+      edit:
+        title: Edit Mode 2 SSID
+      new:
+        title: Create Mode 2 SSID

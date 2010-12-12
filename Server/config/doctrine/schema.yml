@@ -26,7 +26,7 @@ Device:
       
 DhcpServer:
   columns:
-    id: { type: integer(4), unsigned: true, primary: true }
+    id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
     mode3_id: { type: integer(4), unsigned: true, notnull: true}
     ip:
       type: string(15)
@@ -39,27 +39,60 @@ DhcpServer:
       foreignAlias: DhcpServers
       type: one
 
-Mode2:
+
+Ssid:
   columns:
     id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
-    ssid_id: { type: integer(4), unsigned: true }
+    name: { type: string(32), notnull: true, minlength: 1 }
+#    mode:
+#      type: enum
+#      values: [1, 2, 3]
+#      default: 1
+#      notnull: true
+    vlan: { type: integer(2), notnull: false, range: [1, 4096] }
+    broadcast: { type: boolean, notnull: true, default: true }
+    passphrase: { type: string(255) }
+    group_rekey_interval: { type: integer(4), notnull: true }
+    strict_rekey: { type: boolean, notnull: true }
+
+Mode1:
+  inheritance:
+    type:          concrete
+    extends:       Ssid
+  columns:
+    config_id: { type: integer(4), unsigned: true, notnull: true }
+  relations:
+    Config:
+      class: Config
+      local: config_id
+      foreign: id
+      foreignAlias: Mode1s
+      type: one
+
+Mode2:
+  inheritance:
+    type:          concrete
+    extends:       Ssid
+  columns:
+    config_id: { type: integer(4), unsigned: true, notnull: true }
     file_path: { type: string(255), notnull: true, minlength: 4 }
   relations:
-    Ssid:
-      class: Ssid
-      local: ssid_id
+    Config:
+      class: Config
+      local: config_id
       foreign: id
       foreignAlias: Mode2s
       type: one
-      
+
 Mode3:
+  inheritance:
+    type:          concrete
+    extends:       Ssid
   columns:
-    id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
-    ssid_id: { type: integer(4), unsigned: true, notnull: true }
+    config_id: { type: integer(4), unsigned: true, notnull: true }
     retry_interval: { type: integer(4), unsigned: true, notnull: true }
     own_ip: { type: string(15), ip: true, notnull: true }
     nas_identifier: { type: string(48), notnull: true, minlength: 1 }
-    dhcprelay_ip: { type: string(15), ip: true, notnull: true }
     hw_interface: {type: string(5), notnull: true, minlength: 3 }
     radius_auth_ip: { type: string(15), ip: true, notnull: true }
     radius_auth_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
@@ -77,6 +110,7 @@ Mode3:
       default: AES-128-CBC
       notnull: true
     vpn_auth_compression: { type: boolean, notnull: true }
+    vpn_data_server: { type: string(255), notnull: true, minlength: 4 }
     vpn_data_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
     vpn_data_cipher:
       type: enum
@@ -85,9 +119,9 @@ Mode3:
       notnull: true
     vpn_data_compression: { type: boolean, notnull: true }
   relations:
-    Ssid:
-      class: Ssid
-      local: ssid_id
+    Config:
+      class: Config
+      local: config_id
       foreign: id
       foreignAlias: Mode3s
       type: one
@@ -113,33 +147,4 @@ Mode3Certificate:
       foreign: id
       foreignAlias: Certificates
       type: one
-
-Ssid:
-  columns:
-    id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
-    config_id: { type: integer(4), unsigned: true, notnull: true }
-    name: { type: string(32), notnull: true, minlength: 1 }
-    mode:
-      type: enum
-      values: [1, 2, 3]
-      default: 1
-      notnull: true
-    vlan: { type: integer(2), notnull: false, range: [1, 4096] }
-    wpa_mode:
-      type: enum
-      values: [wpa, wpa2, off]
-      default: wpa2
-      notnull: true
-    broadcast: { type: boolean, notnull: true, default: true }
-    passphrase: { type: string(255) }
-    group_rekey_interval: { type: integer(4), notnull: true }
-    strict_rekey: { type: boolean, notnull: true }
-  relations:
-    Config:
-      class: Config
-      local: config_id
-      foreign: id
-      foreignAlias: Ssids
-      type: one
-
 

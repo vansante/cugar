@@ -16,11 +16,8 @@ abstract class BaseSsidForm extends BaseFormDoctrine
   {
     $this->setWidgets(array(
       'id'                   => new sfWidgetFormInputHidden(),
-      'config_id'            => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Config'), 'add_empty' => false)),
       'name'                 => new sfWidgetFormInputText(),
-      'mode'                 => new sfWidgetFormChoice(array('choices' => array(1 => 1, 2 => 2, 3 => 3))),
       'vlan'                 => new sfWidgetFormInputText(),
-      'wpa_mode'             => new sfWidgetFormChoice(array('choices' => array('wpa' => 'wpa', 'wpa2' => 'wpa2', 'off' => 'off'))),
       'broadcast'            => new sfWidgetFormInputCheckbox(),
       'passphrase'           => new sfWidgetFormInputText(),
       'group_rekey_interval' => new sfWidgetFormInputText(),
@@ -29,11 +26,8 @@ abstract class BaseSsidForm extends BaseFormDoctrine
 
     $this->setValidators(array(
       'id'                   => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'config_id'            => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Config'))),
       'name'                 => new sfValidatorString(array('max_length' => 32, 'min_length' => 1)),
-      'mode'                 => new sfValidatorChoice(array('choices' => array(0 => 1, 1 => 2, 2 => 3), 'required' => false)),
       'vlan'                 => new sfValidatorInteger(array('required' => false)),
-      'wpa_mode'             => new sfValidatorChoice(array('choices' => array(0 => 'wpa', 1 => 'wpa2', 2 => 'off'), 'required' => false)),
       'broadcast'            => new sfValidatorBoolean(array('required' => false)),
       'passphrase'           => new sfValidatorString(array('max_length' => 255, 'required' => false)),
       'group_rekey_interval' => new sfValidatorInteger(),

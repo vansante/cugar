@@ -13,6 +13,6 @@
 class Mode3 extends BaseMode3 {
     
     public function __toString() {
-        return $this->Ssid->name;
+        return $this->name;
     }
 }

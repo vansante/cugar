@@ -15,21 +15,29 @@ all:
     login_route: '@sf_guard_signin'
     logout_route: '@sf_guard_signout'
 
-    items:
-      Config:
-        url: config
-      Devices:
-        url: device
-      SSIDs:
-        url: ssid
-
     categories:
+      Configs:
+        items:
+          Configs:
+            url: config
+      SSIDs:
+        items:
+          Mode 1:
+            url: mode1
+          Mode 2:
+            url: mode2
+          Mode 3:
+            url: mode3
       Mode 3:
         items:
-          DHCP Relay:
+          DHCP Servers:
             url: dhcp_server
           Certificates:
             url: mode3_certificate
+      Device Management:
+        items:
+          Devices:
+            url: device
       User Management:
         items:
           Users:

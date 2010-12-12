@@ -1,27 +1,27 @@
 generator:
   class: sfDoctrineGenerator
   param:
-    model_class:           Mode3Certificate
+    model_class:           Mode1
     theme:                 admin
     non_verbose_templates: true
     with_show:             false
-    singular:              mode3certificate
-    plural:                mode3certificates
-    route_prefix:          mode3_certificate
+    singular:              mode1
+    plural:                mode1s
+    route_prefix:          mode1
     with_doctrine_route:   true
     actions_base_class:    sfActions
     css:                   nothing   #setting the css to a placeholder
 
     config:
       actions:
-        _new: { label: "Create a new mode 3 Certificate" }
+        _new: { label: "Create a new Mode 1 SSID" }
       fields:  ~
       list:
-        title: List of mode 3 Certificates
-        display: [id, _mode3, _device]
+        title: List of Mode 1 SSIDs
+        display: [id, _config, =name, vlan, broadcast, group_rekey_interval, strict_rekey]
       filter:  ~
       form:    ~
       edit:
-        title: Edit mode 3 Certificate
+        title: Edit Mode 1 SSID
       new:
-        title: Create mode 3 Certificate
+        title: Create Mode 1 SSID

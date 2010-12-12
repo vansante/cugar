@@ -11,7 +11,9 @@
  * @property int $wireless_channel
  * @property enum $wireless_mode
  * @property Doctrine_Collection $Devices
- * @property Doctrine_Collection $Ssids
+ * @property Doctrine_Collection $Mode1s
+ * @property Doctrine_Collection $Mode2s
+ * @property Doctrine_Collection $Mode3s
  * 
  * @method integer             getId()               Returns the current record's "id" value
  * @method string              getName()             Returns the current record's "name" value
@@ -19,14 +21,18 @@
  * @method int                 getWirelessChannel()  Returns the current record's "wireless_channel" value
  * @method enum                getWirelessMode()     Returns the current record's "wireless_mode" value
  * @method Doctrine_Collection getDevices()          Returns the current record's "Devices" collection
- * @method Doctrine_Collection getSsids()            Returns the current record's "Ssids" collection
+ * @method Doctrine_Collection getMode1s()           Returns the current record's "Mode1s" collection
+ * @method Doctrine_Collection getMode2s()           Returns the current record's "Mode2s" collection
+ * @method Doctrine_Collection getMode3s()           Returns the current record's "Mode3s" collection
  * @method Config              setId()               Sets the current record's "id" value
  * @method Config              setName()             Sets the current record's "name" value
  * @method Config              setUpdateServer()     Sets the current record's "update_server" value
  * @method Config              setWirelessChannel()  Sets the current record's "wireless_channel" value
  * @method Config              setWirelessMode()     Sets the current record's "wireless_mode" value
  * @method Config              setDevices()          Sets the current record's "Devices" collection
- * @method Config              setSsids()            Sets the current record's "Ssids" collection
+ * @method Config              setMode1s()           Sets the current record's "Mode1s" collection
+ * @method Config              setMode2s()           Sets the current record's "Mode2s" collection
+ * @method Config              setMode3s()           Sets the current record's "Mode3s" collection
  * 
  * @package    sf_sandbox
  * @subpackage model
@@ -89,7 +95,15 @@ abstract class BaseConfig extends sfDoctrineRecord
              'local' => 'id',
              'foreign' => 'config_id'));
 
-        $this->hasMany('Ssid as Ssids', array(
+        $this->hasMany('Mode1 as Mode1s', array(
+             'local' => 'id',
+             'foreign' => 'config_id'));
+
+        $this->hasMany('Mode2 as Mode2s', array(
+             'local' => 'id',
+             'foreign' => 'config_id'));
+
+        $this->hasMany('Mode3 as Mode3s', array(
              'local' => 'id',
              'foreign' => 'config_id'));
     }

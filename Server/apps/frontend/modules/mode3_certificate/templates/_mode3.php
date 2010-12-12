@@ -1,0 +1,1 @@
+<?php echo link_to($mode3certificate->Mode3->__toString(), 'mode3_edit', $mode3certificate->Mode3) ?> 

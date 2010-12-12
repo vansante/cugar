@@ -1,0 +1,1 @@
+<?php echo link_to($mode3->Config->__toString(), 'config_edit', $mode3->Config) ?> 

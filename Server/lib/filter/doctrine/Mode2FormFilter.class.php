@@ -8,9 +8,13 @@
  * @author     Your name here
  * @version    SVN: $Id: sfDoctrineFormFilterTemplate.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
  */
-class Mode2FormFilter extends BaseMode2FormFilter
-{
-  public function configure()
-  {
-  }
+class Mode2FormFilter extends BaseMode2FormFilter {
+
+    /**
+     * @see ModeFormFilter
+     */
+    public function configure() {
+        parent::configure();
+
+    }
 }
