@@ -1,27 +1,18 @@
-mode1:
+config:
   class: sfDoctrineRouteCollection
   options:
-    model:                Mode1
-    module:               mode1
-    prefix_path:          /mode1
+    model:                Config
+    module:               config
+    prefix_path:          /config
     column:               id
     with_wildcard_routes: true
 
-mode:
+device:
   class: sfDoctrineRouteCollection
   options:
-    model:                Mode
-    module:               mode
-    prefix_path:          /mode
-    column:               id
-    with_wildcard_routes: true
-
-mode3_certificate:
-  class: sfDoctrineRouteCollection
-  options:
-    model:                Mode3Certificate
-    module:               mode3_certificate
-    prefix_path:          /mode3_certificate
+    model:                Device
+    module:               device
+    prefix_path:          /device
     column:               id
     with_wildcard_routes: true
 
@@ -34,12 +25,12 @@ dhcp_server:
     column:               id
     with_wildcard_routes: true
 
-ssid:
+mode1:
   class: sfDoctrineRouteCollection
   options:
-    model:                Ssid
-    module:               ssid
-    prefix_path:          /ssid
+    model:                Mode1
+    module:               mode1
+    prefix_path:          /mode1
     column:               id
     with_wildcard_routes: true
 
@@ -61,23 +52,15 @@ mode3:
     column:               id
     with_wildcard_routes: true
 
-config:
+mode3_certificate:
   class: sfDoctrineRouteCollection
   options:
-    model:                Config
-    module:               config
-    prefix_path:          /config
+    model:                Mode3Certificate
+    module:               mode3_certificate
+    prefix_path:          /mode3_certificate
     column:               id
     with_wildcard_routes: true
 
-device:
-  class: sfDoctrineRouteCollection
-  options:
-    model:                Device
-    module:               device
-    prefix_path:          /device
-    column:               id
-    with_wildcard_routes: true
 
 # You can find more information about this file on the symfony website:
 # http://www.symfony-project.org/reference/1_4/en/10-Routing
