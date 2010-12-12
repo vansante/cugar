@@ -10,7 +10,7 @@ generator:
     route_prefix:          config
     with_doctrine_route:   true
     actions_base_class:    sfActions
-    css:                   nothing   #setting the css to a placeholder
+    css:                   admin-gen
 
     config:
       actions:
@@ -18,7 +18,7 @@ generator:
       fields:  ~
       list:
         title: List of Configs
-        display: [id, =name, update_server, wireless_channel, wireless_mode]
+        display: [id, =name, update_server, wireless_channel, wireless_mode, _mode1s, _mode2s, _mode3s]
       filter:  ~
       form:    ~
       edit:    ~

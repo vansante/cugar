@@ -1,0 +1,15 @@
+#sf_admin_container ul.sub-list {
+    margin: 0 5px 0 16px;
+    padding: 0;
+}
+
+#sf_admin_container ul.sub-list li {
+    margin: 0;
+    padding: 0;
+    list-style: square;
+}
+
+#sf_admin_container ul.sub-list li a {
+    padding: 0;
+    background: none;
+}

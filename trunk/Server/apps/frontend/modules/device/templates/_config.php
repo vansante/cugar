@@ -1,1 +1,1 @@
-<?php echo link_to($device->Config->__toString(), 'config_edit', $device->Config) ?> 
+<?php echo link_to($device->Config->__toString(), 'config_edit', $device->Config) ?>

@@ -10,7 +10,7 @@ generator:
     route_prefix:          mode3
     with_doctrine_route:   true
     actions_base_class:    sfActions
-    css:                   nothing   #setting the css to a placeholder
+    css:                   admin-gen   #setting the css to a placeholder
 
     config:
       actions:
@@ -18,7 +18,7 @@ generator:
       fields:  ~
       list:
         title: List of Mode 3 SSIDs
-        display: [id, _config, =name, vlan, broadcast, radius_auth_ip, radius_acct_ip, vpn_auth_server, vpn_data_server]
+        display: [id, _config, =name, vlan, broadcast, radius_auth_ip, radius_acct_ip, vpn_auth_server, vpn_data_server, _dhcp_servers]
       filter:  ~
       form:    ~
       edit:
