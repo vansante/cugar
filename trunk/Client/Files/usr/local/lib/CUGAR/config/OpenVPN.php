@@ -100,16 +100,47 @@ class OpenVPNConfig implements ConfigGenerator{
 	 * @var Integer
 	 */
 	private $tunnelcount = 0;
-	
+
 	/**
 	 * OpenVPN verbose setting
 	 * Verbosity setting to give to the OpenVPN daemon, 3 is normal >3 is more verbose
 	 * @var Integer
 	 */
 	private $verbosity = 3;
-	
+
+	/**
+	 * Certificate authority filename
+	 * @var String
+	 */
+	private $caname;
+
+	/**
+	 * Certificate authority contents
+	 * @var String
+	 */
 	private $ca;
+
+	/**
+	 * private key filename
+	 * @var String
+	 */
+	private $keyname;
+	/**
+	 * private key contents
+	 * @var String
+	 */
 	private $key;
+
+	/**
+	 * public key filename
+	 * @var String
+	 */
+	private $certname;
+
+	/**
+	 * public key contents
+	 * @var String
+	 */
 	private $cert;
 
 	/**
@@ -128,6 +159,39 @@ class OpenVPNConfig implements ConfigGenerator{
 	 *
 	 */
 	private function __construct(){}
+
+	/**
+	 *
+	 * @param String $filename
+	 * @param String $contents
+	 * @return null
+	 */
+	public function setCA($filename,$contents){
+		$this->caname = $filename;
+		$this->ca = $contents;
+	}
+
+	/**
+	 *
+	 * @param String $filename
+	 * @param String $contents
+	 * @return null
+	 */
+	public function setKey($filename,$contents){
+		$this->keyname = $filename;
+		$this->key = $contents;
+	}
+
+	/**
+	 *
+	 * @param String $filename
+	 * @param String $contents
+	 * @return null
+	 */
+	public function setCert($filename,$contents){
+		$this->certname = $filename;
+		$this->cert = $contents;
+	}
 
 	/**
 	 * Set the tunnel type
@@ -190,12 +254,18 @@ class OpenVPNConfig implements ConfigGenerator{
 		$this->cipher = null;
 		$this->server = null;
 		$this->port = null;
+		$this->ca = null;
+		$this->caname = null;
+		$this->key = null;
+		$this->keyname = null;
+		$this->cert = null;
+		$this->certname = null;
 	}
 
 	/**
 	 * End of a tunnel spec, all the required variables are now filled
 	 * and we can parse all the variables into our config file.
-	 * 
+	 *
 	 * @TODO What will we do about certificates? (possible issue)
 	 * @return void
 	 */
@@ -204,9 +274,9 @@ class OpenVPNConfig implements ConfigGenerator{
 remote ".$this->server."
 tls-client
 
-ca ".$this->ca."
-cert".$this->cert."
-key ".$this->key."
+ca /etc/openvpn".$this->tunnelcount."/".$this->caname."
+cert /etc/openvpn".$this->tunnelcount."/".$this->certname."
+key /etc/openvpn".$this->tunnelcount."/".$this->keyname."
 
 port ".$this->port."
 cipher ".$this->cipher."
@@ -216,11 +286,11 @@ group nobody
 persist-key
 persist-tun
 verb ".$this->verbosity."\n";
-		
+
 		if($this->compression){
 			$this->buffer .= "comp-lzo\n";
 		}
-		
+
 		$this->writeConfig();
 		$this->tunnelcount++;
 	}
@@ -238,7 +308,25 @@ verb ".$this->verbosity."\n";
 	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#writeConfig()
 	 */
 	public function writeConfig(){
-		$fp = fopen($this->FILEPATH.$this->filename.$this->tunnelcount,'w');
+		$fp = fopen($this->FILEPATH."openvpn".$this->tunnelcount."/".$this->keyname);
+		if($fp){
+			fwrite($fp,$this->key);
+			fclose($fp);
+		}
+
+		$fp = fopen($this->FILEPATH."openvpn".$this->tunnelcount."/".$this->certname);
+		if($fp){
+			fwrite($fp,$this->cert);
+			fclose($fp);
+		}
+
+		$fp = fopen($this->FILEPATH."openvpn".$this->tunnelcount."/".$this->caname);
+		if($fp){
+			fwrite($fp,$this->ca);
+			fclose($fp);
+		}
+
+		$fp = fopen($this->FILEPATH."openvpn".$this->tunnelcount."/".$this->filename.$this->tunnelcount,'w');
 		if($fp){
 			fwrite($fp,$this->buffer);
 			fclose($fp);
