@@ -25,57 +25,42 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
-class ip extends Statement{
-	/**
-	 * Constructor
-	 *
-	 * @param Array $parse_opt
-	 * @return void
-	 */
+class address extends Statement{
+	
 	public function __construct($parse_opt){
 		$this->parse_options = $parse_opt;
+		$this->parse_options['conf_block'] = 'address';
 	}
-
-	/**
-	 * (non-PHPdoc)
-	 * @see Files/usr/local/lib/CUGAR/parser/Statement#interpret($options)
-	 */
+	
 	public function interpret($options){
 		$this->validate($options);
-		
-		if($this->parse_options['conf_block'] == 'dhcp_relay'){
-			$ref = DHCPRelayConfig::getInstance();
-			$ref->addServer((string)$options);
-		}
-		elseif($this->parse_options['conf_block'] == 'hostapd'){
-			$ref = HostAPDConfig::getInstance();
-			if($this->parse_options['radius_server_type'] == 'auth'){
-				$ref->setRadiusAuthIp((string)$options);
-			}
-			else{
-				$ref->setRadiusAcctIp((string)$options);
-			}
-		}
-		elseif($this->parse_options['conf_block'] == 'address'){
-			$ref = System::getInstance();
-			$ref->setAddress((string)$options);
-		}
-		elseif($this->parse_options['conf_block'] == 'dns_servers'){
-			$ref = System::getInstance();
-			$ref->addDNSserver((string)$options);
-		}
+		$ref = System::getInstance();
+		$ref->setAddressType($options['type']);
+		$this->parseChildren($options);
 	}
-
-	/**
-	 * (non-PHPdoc)
-	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
-	 */
+	
 	public function validate($options){
-		if(long2ip(ip2long((string)$options)) != (string)$options){
-			// @TODO: Do IPV6 validation (no stock PHP function yet)
-			if(!false){
-				ParseErrorBuffer::addError('invalid IP address',ParseErrorBuffer::$E_FATAL,$options);
+		if($options['type'] == 'static'){
+			$this->expectedtags = array('ip','subnet_mask','default_gateway','dns_servers');
+			if(!isset($options->ip)){
+				ParseErrorBuffer::addError('No IP address tag found',ParseErrorBuffer::$E_FATAL,$options);
+			}
+			if(!isset($options->subnet_mask)){
+				ParseErrorBuffer::addError('No subnet_mask tag found',ParseErrorBuffer::$E_FATAL,$options);
+			}
+			if(!isset($options->default_gateway)){
+				ParseErrorBuffer::addError('no default_gateway tag found',ParseErrorBuffer::$E_FATAL,$options);
+			}
+			if(!isset($options->dns_servers)){
+				ParseErrorBuffer::addError('no dns_servers tag found',ParseErrorBuffer::$E_FATAL,$options);
 			}
 		}
+		elseif($options['type'] == 'dhcp'){
+			$this->expectedtags = array();
+		}
+		else{
+			ParseErrorBuffer::addError('Invalid address type specified',ParseErrorBuffer::$E_FATAL,$options);
+		}
+		$this->checkChildNodes($options);
 	}
 }

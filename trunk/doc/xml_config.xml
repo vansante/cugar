@@ -2,35 +2,37 @@
 <config version="0.1">
 	<updateserver>195.169.160.3</updateserver>
 	<hardware>
-			<mode>b/g/n</mode>
-			<channel>0</channel>
+			<mode>g</mode>
+			<channel>7</channel>
+
+			<hostname>AP</hostname>
+	        <address type="static">
+	            <ip>192.168.1.1</ip>
+	            <subnet_mask>255.255.255.0</subnet_mask>
+	            <default_gateway>192.168.1.0</default_gateway>
+	            <dns_servers>
+	            	<ip>192.168.1.0</ip>
+	            </dns_servers>
+	        </address>
 	</hardware>
 	<ssid mode="1">
 		<hostapd>
 			<ssid_name>test</ssid_name>
 			<broadcast>true</broadcast>
 			<vlan enable="false">
-				<vlan_id>666</vlan_id>
+				<vlan_id>aa</vlan_id>
 			</vlan>
-			<wpa mode="wpa/wpa2/off">
-				<group_rekey_interval>600</group_rekey_interval>
-				<strict_rekey>true/false</strict_rekey>
-				<passphrase>lalalala</passphrase>
+			<wpa mode="off" test="true">
 			</wpa>
 		</hostapd>
 	</ssid>
 	<ssid mode="2">
 		<hostapd>
-			<ssid_name>test</ssid_name>
+			<ssid_name>test1</ssid_name>
 			<broadcast>true</broadcast>
 			<vlan enable="false">
 				<vlan_id>666</vlan_id>
 			</vlan>
-			<wpa mode="wpa/wpa2/off">
-				<group_rekey_interval>600</group_rekey_interval>
-				<strict_rekey>true/false</strict_rekey>
-				<passphrase>lalalala</passphrase>
-			</wpa>
 		</hostapd>
 		
 		<portal>
@@ -38,17 +40,17 @@
 				<file name="file.html">dataaa</file>
 			</local_files>
 			<radius>
-					<own_ip></own_ip>
-					<nas_identifier></nas_identifier>
+					<own_ip>127.0.0.1</own_ip>
+					<nas_identifier>something</nas_identifier>
 					<auth_server>
-						<ip></ip>
-						<port></port>
-						<shared_secret></shared_secret>
+						<ip>192.168.2.2</ip>
+						<port>22</port>
+						<shared_secret>aaaa</shared_secret>
 					</auth_server>
 					<acct_server>
-						<ip></ip>
-						<port></port>
-						<shared_secret></shared_secret>
+						<ip>192.168.2.2</ip>
+						<port>33</port>
+						<shared_secret>aaaa</shared_secret>
 						<interim_interval>600</interim_interval>
 					</acct_server>
 					<retry_interval>60</retry_interval>
@@ -57,28 +59,28 @@
 	</ssid>
 	<ssid mode="3">
 		<hostapd>
-			<ssid_name>test</ssid_name>
+			<ssid_name>test2</ssid_name>
 			<broadcast>true</broadcast>
 			<vlan enable="false">
 				<vlan_id>666</vlan_id>
 			</vlan>
 			<wpa>
 				<group_rekey_interval>600</group_rekey_interval>
-				<strict_rekey>true/false</strict_rekey>
+				<strict_rekey>false</strict_rekey>
 				<passphrase>lalalala</passphrase>
 			</wpa>
 			<radius>
-				<own_ip></own_ip>
-				<nas_identifier></nas_identifier>
+				<own_ip>127.0.0.1</own_ip>
+				<nas_identifier>imanidentifier</nas_identifier>
 				<auth_server>
-					<ip></ip>
-					<port></port>
-					<shared_secret></shared_secret>
+					<ip>127.0.0.1</ip>
+					<port>6666</port>
+					<shared_secret>afa</shared_secret>
 				</auth_server>
 				<acct_server>
-					<ip></ip>
-					<port></port>
-					<shared_secret></shared_secret>
+					<ip>127.0.0.1</ip>
+					<port>6666</port>
+					<shared_secret>aba</shared_secret>
 					<interim_interval>600</interim_interval>
 				</acct_server>
 				<retry_interval>60</retry_interval>
@@ -94,16 +96,16 @@
 		</dhcp_relay>
 		<openvpn>
 			<tunnel type="data">
-				<server>x.x.x.x</server>
-				<port></port>
-				<cipher>AES-CBC-128</cipher>
-				<compression>true/false</compression>
+				<server>127.0.0.1</server>
+				<port>6666</port>
+				<cipher>AES-128-CBC</cipher>
+				<compression>false</compression>
 			</tunnel>
 			<tunnel type="auth">
-				<server>x.x.x.x</server>
-				<port></port>
-				<cipher>AES-CBC-256</cipher>
-				<compression>true/false</compression>
+				<server>127.0.0.2</server>
+				<port>7777</port>
+				<cipher>AES-256-CBC</cipher>
+				<compression>false</compression>
 			</tunnel>
 		</openvpn>
 	</ssid>
