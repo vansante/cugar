@@ -17,7 +17,7 @@ class xmlActions extends sfActions {
      */
     public function executeGet(sfWebRequest $request) {
 
-        $device = DeviceTable::getByCertificateName($request->getParameter('cert_name'));
+        $device = DeviceTable::getFromCertificateName($request->getParameter('cert_name'));
         
         $this->forward404Unless($device, 'Device not found');
 

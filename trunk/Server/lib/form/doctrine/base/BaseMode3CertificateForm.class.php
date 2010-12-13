@@ -18,7 +18,9 @@ abstract class BaseMode3CertificateForm extends BaseFormDoctrine
       'id'                => new sfWidgetFormInputHidden(),
       'mode3_id'          => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Mode3'), 'add_empty' => false)),
       'device_id'         => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Device'), 'add_empty' => false)),
+      'public_key_name'   => new sfWidgetFormInputText(),
       'public_key'        => new sfWidgetFormTextarea(),
+      'private_key_name'  => new sfWidgetFormInputText(),
       'private_key'       => new sfWidgetFormTextarea(),
       'cert_of_authority' => new sfWidgetFormTextarea(),
     ));
@@ -27,7 +29,9 @@ abstract class BaseMode3CertificateForm extends BaseFormDoctrine
       'id'                => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
       'mode3_id'          => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Mode3'))),
       'device_id'         => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Device'))),
+      'public_key_name'   => new sfValidatorString(array('max_length' => 255, 'min_length' => 5)),
       'public_key'        => new sfValidatorString(),
+      'private_key_name'  => new sfValidatorString(array('max_length' => 255, 'min_length' => 5)),
       'private_key'       => new sfValidatorString(),
       'cert_of_authority' => new sfValidatorString(),
     ));

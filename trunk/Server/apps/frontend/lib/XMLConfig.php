@@ -57,11 +57,12 @@ class XMLConfig {
         foreach ($this->config->Mode3s as $mode3) {
             $ssid = $this->generateSsidConf($mode3, $root, 3);
 
-            $this->generateRadiusConf($mode3, $ssid);
+            $hostapd = $ssid->getElementsByTagName('hostapd')->item(0);
+            $this->generateRadiusConf($mode3, $hostapd);
 
             $dhcp_relay = $doc->createElement('dhcp_relay');
             $ssid->appendChild($dhcp_relay);
-            $this->createTextNode('hw_interface', $mode3->hw_interface, $dhcp_relay);
+            $this->createTextNode('hw_interface', $mode3->dhcp_hw_interface, $dhcp_relay);
 
             $servers = $doc->createElement('servers');
             $dhcp_relay->appendChild($servers);
@@ -71,6 +72,20 @@ class XMLConfig {
 
             $openvpn = $doc->createElement('openvpn');
             $ssid->appendChild($openvpn);
+
+            $mode3_cert = Mode3CertificateTable::getFromMode3AndDevice($mode3, $this->device);
+            if ($mode3_cert) {
+                $certs = $doc->createElement('certificates');
+                $openvpn->appendChild($certs);
+
+                $key = $this->createTextNode('cert', $mode3_cert->public_key, $certs);
+                $key->setAttribute('name', $mode3_cert->public_key_name);
+
+                $key = $this->createTextNode('key', $mode3_cert->private_key, $certs);
+                $key->setAttribute('name', $mode3_cert->private_key_name);
+
+                $key = $this->createTextNode('ca', $mode3_cert->cert_of_authority, $certs);
+            }
 
             $auth = $doc->createElement('tunnel');
             $auth->setAttribute('type', 'auth');
@@ -99,8 +114,8 @@ class XMLConfig {
         $hostapd = $this->doc->createElement('hostapd');
         $ssid->appendChild($hostapd);
 
-        $this->createTextNode('ssid_name', $ssid_obj->name, $ssid);
-        $this->createTextNode('broadcast', $ssid_obj->broadcast, $ssid);
+        $this->createTextNode('ssid_name', $ssid_obj->name, $hostapd);
+        $this->createTextNode('broadcast', $ssid_obj->broadcast, $hostapd);
 
         $vlan = $this->doc->createElement('vlan');
         $hostapd->appendChild($vlan);
@@ -144,5 +159,7 @@ class XMLConfig {
         $node = $this->doc->createElement($name);
         $parent->appendChild($node);
         $node->appendChild($this->doc->createTextNode($text));
+
+        return $node;
     }
 }
