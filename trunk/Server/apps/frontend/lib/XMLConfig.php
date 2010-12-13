@@ -44,7 +44,14 @@ class XMLConfig {
         }
 
         foreach ($this->config->Mode2s as $mode2) {
-            $this->generateSsidConf($mode2, $root, 2);
+            $ssid = $this->generateSsidConf($mode2, $root, 2);
+
+            $portal = $doc->createElement('portal');
+            $ssid->appendChild($portal);
+
+            $this->createTextNode('remote_file', $mode2->file_name, $portal);
+
+            $this->generateRadiusConf($mode2, $portal);
         }
 
         foreach ($this->config->Mode3s as $mode3) {
