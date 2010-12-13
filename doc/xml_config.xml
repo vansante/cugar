@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config version="0.1">
-	<updateserver>195.169.160.3</updateserver>
+	<update_server>195.169.160.3</update_server>
 	<hardware>
 			<mode>g</mode>
 			<channel>7</channel>
@@ -22,7 +22,10 @@
 			<vlan enable="false">
 				<vlan_id>aa</vlan_id>
 			</vlan>
-			<wpa mode="off" test="true">
+			<wpa mode="wpa2">
+				<group_rekey_interval>600</group_rekey_interval>
+				<strict_rekey>true</strict_rekey>
+				<passphrase>lalalala</passphrase>
 			</wpa>
 		</hostapd>
 	</ssid>
