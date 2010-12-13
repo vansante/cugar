@@ -99,7 +99,7 @@ Mode2:
     extends:       RadiusSsid
   columns:
     config_id: { type: integer(4), unsigned: true, notnull: true }
-    file_path: { type: string(255), notnull: true, minlength: 4 }
+    file_name: { type: string(255), notnull: true, minlength: 4 }
   relations:
     Config:
       class: Config

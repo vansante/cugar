@@ -19,8 +19,8 @@ abstract class BaseMode2Form extends RadiusSsidForm
     $this->widgetSchema   ['config_id'] = new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Config'), 'add_empty' => false));
     $this->validatorSchema['config_id'] = new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Config')));
 
-    $this->widgetSchema   ['file_path'] = new sfWidgetFormInputText();
-    $this->validatorSchema['file_path'] = new sfValidatorString(array('max_length' => 255, 'min_length' => 4));
+    $this->widgetSchema   ['file_name'] = new sfWidgetFormInputText();
+    $this->validatorSchema['file_name'] = new sfValidatorString(array('max_length' => 255, 'min_length' => 4));
 
     $this->widgetSchema->setNameFormat('mode2[%s]');
   }

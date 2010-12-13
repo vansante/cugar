@@ -38,7 +38,7 @@ Config:
         radius_acct_port: 7433
         radius_acct_shared_secret: WOEI!
         radius_acct_interim_interval: 33
-        file_path: /path/to/file
+        file_name: randomfilename.tar.gz
 
     Mode3s:
       Mode3_test1:
