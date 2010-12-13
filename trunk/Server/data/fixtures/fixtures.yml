@@ -16,7 +16,6 @@ Config:
     Mode1s:
       Mode1_test1:
         name: SSID HOI ANDRE!
-#        mode: 1
         vlan: 5
         passphrase: Passw0rd
         group_rekey_interval: 500
@@ -25,17 +24,25 @@ Config:
     Mode2s:
       Mode2_test1:
         name: HotAP
-#        mode: 2
         vlan: 97
         passphrase: Wachtw00rd
         group_rekey_interval: 500
         strict_rekey: true
+        retry_interval: 23
+        own_ip: 10.0.21.32
+        nas_identifier: blaat
+        radius_auth_ip: 212.123.175.104
+        radius_auth_port: 783
+        radius_auth_shared_secret: WOEI!
+        radius_acct_ip: 123.221.123.121
+        radius_acct_port: 7433
+        radius_acct_shared_secret: WOEI!
+        radius_acct_interim_interval: 33
         file_path: /path/to/file
 
     Mode3s:
       Mode3_test1:
         name: Mode3 AP
-#        mode: 2
         vlan: 23
         passphrase: Passw0rd
         group_rekey_interval: 500
@@ -47,7 +54,6 @@ Config:
         radius_auth_ip: 123.123.123.123
         radius_auth_port: 123
         radius_auth_shared_secret: s33kr1t
-        radius_auth_interim_interval: 33
         radius_acct_ip: 123.123.123.123
         radius_acct_port: 123
         radius_acct_shared_secret: s33kr1t
@@ -66,3 +72,9 @@ Config:
     update_server: http://www.serverupdate.co.uk
     wireless_channel: 3
     wireless_mode: N
+
+Device:
+  Device_test:
+    name: Test device
+    Config: Config_Test1
+    certificate_name: testing

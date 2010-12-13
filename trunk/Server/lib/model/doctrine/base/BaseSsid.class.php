@@ -7,6 +7,7 @@
  * 
  * @property integer $id
  * @property string $name
+ * @property enum $wpa_mode
  * @property integer $vlan
  * @property boolean $broadcast
  * @property string $passphrase
@@ -15,6 +16,7 @@
  * 
  * @method integer getId()                   Returns the current record's "id" value
  * @method string  getName()                 Returns the current record's "name" value
+ * @method enum    getWpaMode()              Returns the current record's "wpa_mode" value
  * @method integer getVlan()                 Returns the current record's "vlan" value
  * @method boolean getBroadcast()            Returns the current record's "broadcast" value
  * @method string  getPassphrase()           Returns the current record's "passphrase" value
@@ -22,6 +24,7 @@
  * @method boolean getStrictRekey()          Returns the current record's "strict_rekey" value
  * @method Ssid    setId()                   Sets the current record's "id" value
  * @method Ssid    setName()                 Sets the current record's "name" value
+ * @method Ssid    setWpaMode()              Sets the current record's "wpa_mode" value
  * @method Ssid    setVlan()                 Sets the current record's "vlan" value
  * @method Ssid    setBroadcast()            Sets the current record's "broadcast" value
  * @method Ssid    setPassphrase()           Sets the current record's "passphrase" value
@@ -50,6 +53,17 @@ abstract class BaseSsid extends sfDoctrineRecord
              'notnull' => true,
              'minlength' => 1,
              'length' => 32,
+             ));
+        $this->hasColumn('wpa_mode', 'enum', null, array(
+             'type' => 'enum',
+             'values' => 
+             array(
+              0 => 'wpa',
+              1 => 'wpa2',
+              2 => 'off',
+             ),
+             'default' => 'wpa2',
+             'notnull' => true,
              ));
         $this->hasColumn('vlan', 'integer', 2, array(
              'type' => 'integer',

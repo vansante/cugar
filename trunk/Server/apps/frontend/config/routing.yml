@@ -61,6 +61,15 @@ mode3_certificate:
     column:               id
     with_wildcard_routes: true
 
+get_config_post:
+  url: /getconfig
+  requirements: { cert_name: \s+ }
+  param: { module: xml, action: get, sf_format: xml }
+
+get_config_get:
+  url: /getconfig/:cert_name
+  param: { module: xml, action: get, sf_format: xml }
+
 
 # You can find more information about this file on the symfony website:
 # http://www.symfony-project.org/reference/1_4/en/10-Routing

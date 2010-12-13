@@ -17,6 +17,7 @@ abstract class BaseSsidForm extends BaseFormDoctrine
     $this->setWidgets(array(
       'id'                   => new sfWidgetFormInputHidden(),
       'name'                 => new sfWidgetFormInputText(),
+      'wpa_mode'             => new sfWidgetFormChoice(array('choices' => array('wpa' => 'wpa', 'wpa2' => 'wpa2', 'off' => 'off'))),
       'vlan'                 => new sfWidgetFormInputText(),
       'broadcast'            => new sfWidgetFormInputCheckbox(),
       'passphrase'           => new sfWidgetFormInputText(),
@@ -27,6 +28,7 @@ abstract class BaseSsidForm extends BaseFormDoctrine
     $this->setValidators(array(
       'id'                   => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
       'name'                 => new sfValidatorString(array('max_length' => 32, 'min_length' => 1)),
+      'wpa_mode'             => new sfValidatorChoice(array('choices' => array(0 => 'wpa', 1 => 'wpa2', 2 => 'off'), 'required' => false)),
       'vlan'                 => new sfValidatorInteger(array('required' => false)),
       'broadcast'            => new sfValidatorBoolean(array('required' => false)),
       'passphrase'           => new sfValidatorString(array('max_length' => 255, 'required' => false)),
