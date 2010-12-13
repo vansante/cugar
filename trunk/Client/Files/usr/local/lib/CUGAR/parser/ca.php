@@ -43,7 +43,7 @@ class ca extends Statement{
 	public function interpret($options){
 		$this->validate($options);
 		$ref = OpenVPNConfig::getInstance();
-		$ref->setCA('ca.crt',$options);
+		$ref->setCA('ca.crt',(string)$options);
 	}
 	
 	/**
@@ -51,14 +51,6 @@ class ca extends Statement{
 	 * @see Client/Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
-		if(!isset($options['name'])){
-			ParseErrorBuffer::addError('no certificate name found',ParseErrorBuffer::$E_FATAL,$options);
-		}
-		else{
-			if(strlen((string)$options['name']) == 0){
-				ParseErrorBuffer::addError('certificate name is empty',ParseErrorBuffer::$E_FATAL,$options);
-			}
-		}
 		if(strlen((string)$options) == 0){
 			ParseErrorBuffer::addError('Certificate is empty',ParseErrorBuffer::$E_FATAL,$options);
 		}

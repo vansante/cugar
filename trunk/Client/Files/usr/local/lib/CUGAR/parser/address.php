@@ -56,7 +56,7 @@ class address extends Statement{
 			}
 		}
 		elseif($options['type'] == 'dhcp'){
-			$this->expectedtags = array();
+			$this->expectedtags = array('');
 		}
 		else{
 			ParseErrorBuffer::addError('Invalid address type specified',ParseErrorBuffer::$E_FATAL,$options);

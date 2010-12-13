@@ -254,12 +254,6 @@ class OpenVPNConfig implements ConfigGenerator{
 		$this->cipher = null;
 		$this->server = null;
 		$this->port = null;
-		$this->ca = null;
-		$this->caname = null;
-		$this->key = null;
-		$this->keyname = null;
-		$this->cert = null;
-		$this->certname = null;
 	}
 
 	/**
@@ -308,19 +302,23 @@ verb ".$this->verbosity."\n";
 	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#writeConfig()
 	 */
 	public function writeConfig(){
-		$fp = fopen($this->FILEPATH."openvpn".$this->tunnelcount."/".$this->keyname);
+		if(!is_dir($this->FILEPATH."openvpn".$this->tunnelcount."/")){
+			mkdir($this->FILEPATH."openvpn".$this->tunnelcount."/");
+		}
+		
+		$fp = fopen($this->FILEPATH."openvpn".$this->tunnelcount."/".$this->keyname,'w');
 		if($fp){
 			fwrite($fp,$this->key);
 			fclose($fp);
 		}
 
-		$fp = fopen($this->FILEPATH."openvpn".$this->tunnelcount."/".$this->certname);
+		$fp = fopen($this->FILEPATH."openvpn".$this->tunnelcount."/".$this->certname,'w');
 		if($fp){
 			fwrite($fp,$this->cert);
 			fclose($fp);
 		}
 
-		$fp = fopen($this->FILEPATH."openvpn".$this->tunnelcount."/".$this->caname);
+		$fp = fopen($this->FILEPATH."openvpn".$this->tunnelcount."/".$this->caname,'w');
 		if($fp){
 			fwrite($fp,$this->ca);
 			fclose($fp);

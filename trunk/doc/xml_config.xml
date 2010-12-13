@@ -98,6 +98,11 @@
 			<hw_interface>wlan0</hw_interface>
 		</dhcp_relay>
 		<openvpn>
+			<certificates>
+				<cert name="test.cugar.org.key">dummykey</cert>
+				<ca>dummykey</ca>
+				<key name="test.cugar.org.cert">dummykey</key>
+			</certificates>
 			<tunnel type="data">
 				<server>127.0.0.1</server>
 				<port>6666</port>
