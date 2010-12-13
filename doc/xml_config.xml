@@ -39,9 +39,7 @@
 		</hostapd>
 		
 		<portal>
-			<local_files>
-				<file name="file.html">dataaa</file>
-			</local_files>
+			<remote_file>/file_path/website.tar.gz</remote_file>
 			<radius>
 					<own_ip>127.0.0.1</own_ip>
 					<nas_identifier>something</nas_identifier>
