@@ -30,9 +30,9 @@ all:
             url: mode3
       Mode 3:
         items:
-          DHCP Servers:
+          DHCP servers:
             url: dhcp_server
-          Certificates:
+          Device certificates:
             url: mode3_certificate
       Device Management:
         items:
