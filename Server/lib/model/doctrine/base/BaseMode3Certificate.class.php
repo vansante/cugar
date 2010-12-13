@@ -8,7 +8,9 @@
  * @property integer $id
  * @property integer $mode3_id
  * @property integer $device_id
+ * @property string $public_key_name
  * @property string $public_key
+ * @property string $private_key_name
  * @property string $private_key
  * @property string $cert_of_authority
  * @property Mode3 $Mode3
@@ -17,7 +19,9 @@
  * @method integer          getId()                Returns the current record's "id" value
  * @method integer          getMode3Id()           Returns the current record's "mode3_id" value
  * @method integer          getDeviceId()          Returns the current record's "device_id" value
+ * @method string           getPublicKeyName()     Returns the current record's "public_key_name" value
  * @method string           getPublicKey()         Returns the current record's "public_key" value
+ * @method string           getPrivateKeyName()    Returns the current record's "private_key_name" value
  * @method string           getPrivateKey()        Returns the current record's "private_key" value
  * @method string           getCertOfAuthority()   Returns the current record's "cert_of_authority" value
  * @method Mode3            getMode3()             Returns the current record's "Mode3" value
@@ -25,7 +29,9 @@
  * @method Mode3Certificate setId()                Sets the current record's "id" value
  * @method Mode3Certificate setMode3Id()           Sets the current record's "mode3_id" value
  * @method Mode3Certificate setDeviceId()          Sets the current record's "device_id" value
+ * @method Mode3Certificate setPublicKeyName()     Sets the current record's "public_key_name" value
  * @method Mode3Certificate setPublicKey()         Sets the current record's "public_key" value
+ * @method Mode3Certificate setPrivateKeyName()    Sets the current record's "private_key_name" value
  * @method Mode3Certificate setPrivateKey()        Sets the current record's "private_key" value
  * @method Mode3Certificate setCertOfAuthority()   Sets the current record's "cert_of_authority" value
  * @method Mode3Certificate setMode3()             Sets the current record's "Mode3" value
@@ -60,9 +66,21 @@ abstract class BaseMode3Certificate extends sfDoctrineRecord
              'notnull' => true,
              'length' => 4,
              ));
+        $this->hasColumn('public_key_name', 'string', 255, array(
+             'type' => 'string',
+             'notnull' => true,
+             'minlength' => 5,
+             'length' => 255,
+             ));
         $this->hasColumn('public_key', 'string', null, array(
              'type' => 'string',
              'notnull' => true,
+             ));
+        $this->hasColumn('private_key_name', 'string', 255, array(
+             'type' => 'string',
+             'notnull' => true,
+             'minlength' => 5,
+             'length' => 255,
              ));
         $this->hasColumn('private_key', 'string', null, array(
              'type' => 'string',
@@ -71,6 +89,16 @@ abstract class BaseMode3Certificate extends sfDoctrineRecord
         $this->hasColumn('cert_of_authority', 'string', null, array(
              'type' => 'string',
              'notnull' => true,
+             ));
+
+
+        $this->index('unique_mode3_device', array(
+             'fields' => 
+             array(
+              0 => 'mode3_id',
+              1 => 'device_id',
+             ),
+             'unique' => true,
              ));
     }
 

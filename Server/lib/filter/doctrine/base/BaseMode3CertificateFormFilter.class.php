@@ -15,7 +15,9 @@ abstract class BaseMode3CertificateFormFilter extends BaseFormFilterDoctrine
     $this->setWidgets(array(
       'mode3_id'          => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Mode3'), 'add_empty' => true)),
       'device_id'         => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Device'), 'add_empty' => true)),
+      'public_key_name'   => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'public_key'        => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'private_key_name'  => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'private_key'       => new sfWidgetFormFilterInput(array('with_empty' => false)),
       'cert_of_authority' => new sfWidgetFormFilterInput(array('with_empty' => false)),
     ));
@@ -23,7 +25,9 @@ abstract class BaseMode3CertificateFormFilter extends BaseFormFilterDoctrine
     $this->setValidators(array(
       'mode3_id'          => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Mode3'), 'column' => 'id')),
       'device_id'         => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Device'), 'column' => 'id')),
+      'public_key_name'   => new sfValidatorPass(array('required' => false)),
       'public_key'        => new sfValidatorPass(array('required' => false)),
+      'private_key_name'  => new sfValidatorPass(array('required' => false)),
       'private_key'       => new sfValidatorPass(array('required' => false)),
       'cert_of_authority' => new sfValidatorPass(array('required' => false)),
     ));
@@ -48,7 +52,9 @@ abstract class BaseMode3CertificateFormFilter extends BaseFormFilterDoctrine
       'id'                => 'Number',
       'mode3_id'          => 'ForeignKey',
       'device_id'         => 'ForeignKey',
+      'public_key_name'   => 'Text',
       'public_key'        => 'Text',
+      'private_key_name'  => 'Text',
       'private_key'       => 'Text',
       'cert_of_authority' => 'Text',
     );

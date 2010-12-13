@@ -41,7 +41,7 @@ Config:
         file_name: randomfilename.tar.gz
 
     Mode3s:
-      Mode3_test1:
+      Mode3_Test1:
         name: Mode3 AP
         vlan: 23
         passphrase: Passw0rd
@@ -50,7 +50,7 @@ Config:
         retry_interval: 23
         own_ip: 127.0.0.1
         nas_identifier: blaat
-        hw_interface: eth1
+        dhcp_hw_interface: eth1
         radius_auth_ip: 123.123.123.123
         radius_auth_port: 123
         radius_auth_shared_secret: s33kr1t
@@ -74,7 +74,25 @@ Config:
     wireless_mode: N
 
 Device:
-  Device_test:
+  Device_Test1:
     name: Test device
     Config: Config_Test1
     certificate_name: testing
+
+DhcpServer:
+  Dhcp_Test1:
+    Mode3: Mode3_Test1
+    ip: 145.124.133.53
+  Dhcp_Test2:
+    Mode3: Mode3_Test1
+    ip: 145.34.235.42
+
+Mode3Certificate:
+  Certificate_Config_Test1_Device_test:
+    Mode3: Mode3_Test1
+    Device: Device_Test1
+    public_key_name: test.cugar.org.key
+    public_key: djsrgfo87etklsvfhshfdklsgfljdgfjhdbsvliegvse4ui54984wydkhbuigtkdjseiuty3wh4fiaewlgtaielg
+    private_key_name: test.cugar.org.cert
+    private_key: fdgjhei8tywhfliue4tyfhbewilytgbv4eliu7rslgfvile4w7sgti;sgv7i4ie7i7aey5thagfvblogeiutiasgt
+    cert_of_authority: w8twehfvw498thgdviln47ielytigfvhwoe4utyfaoehvb78aw47egtfageoa7tgfo4ageghfie4lgt

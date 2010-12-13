@@ -114,7 +114,7 @@ Mode3:
     extends:       RadiusSsid
   columns:
     config_id: { type: integer(4), unsigned: true, notnull: true }
-    hw_interface: {type: string(5), notnull: true, minlength: 3 }
+    dhcp_hw_interface: {type: string(5), notnull: true, minlength: 3 }
     vpn_auth_server: { type: string(255), notnull: true, minlength: 4 }
     vpn_auth_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
     vpn_auth_cipher:
@@ -144,9 +144,15 @@ Mode3Certificate:
     id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
     mode3_id: { type: integer(4), unsigned: true, notnull: true }
     device_id: { type: integer(4), unsigned: true, notnull: true }
+    public_key_name: { type: string(255), notnull: true, minlength: 5 }
     public_key: {type: string, notnull: true }
+    private_key_name: { type: string(255), notnull: true, minlength: 5 }
     private_key: {type: string, notnull: true }
     cert_of_authority: {type: string, notnull: true }
+  indexes:
+    unique_mode3_device:
+      fields: [mode3_id, device_id]
+      unique: true
   relations:
     Mode3:
       class: Mode3
