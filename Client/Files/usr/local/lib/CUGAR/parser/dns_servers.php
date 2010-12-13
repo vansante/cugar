@@ -33,6 +33,7 @@ class dns_servers extends Statement{
 	 */
 	public function __construct($parse_opt){
 		$this->parse_options = $parse_opt;
+		$this->expectedtags = array('ip');
 		$this->parse_options['conf_block'] = 'dns_servers';
 	}
 	

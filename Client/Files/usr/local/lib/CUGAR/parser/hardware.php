@@ -6,7 +6,7 @@ class hardware extends Statement{
 	 * @return void
 	 */
 	public function __construct(){
-		$this->expectedtags = array('mode','channel');
+		$this->expectedtags = array('mode','channel','hostname','address');
 	}
 	
 	/**

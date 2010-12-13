@@ -43,7 +43,7 @@ class cert extends Statement{
 	public function interpret($options){
 		$this->validate($options);
 		$ref = OpenVPNConfig::getInstance();
-		$ref->setCert((string)$options['name'],$options);
+		$ref->setCert((string)$options['name'],(string)$options);
 	}
 	
 	/**

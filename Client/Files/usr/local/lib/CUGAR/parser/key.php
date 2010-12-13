@@ -43,7 +43,7 @@ class key extends Statement{
 	public function interpret($options){
 		$this->validate($options);
 		$ref = OpenVPNConfig::getInstance();
-		$ref->setKey((string)$options['name'],$options);
+		$ref->setKey((string)$options['name'],(string)$options);
 	}
 	
 	/**
