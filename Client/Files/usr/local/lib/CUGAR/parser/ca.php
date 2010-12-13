@@ -25,36 +25,42 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
-class openvpn extends Statement{
+class ca extends Statement{
 	/**
-	 * Constructor
+	 *
 	 * @param Array $opt
-	 * @return unknown_type
+	 * @return void
 	 */
 	public function __construct($opt){
 		$this->parse_options = $opt;
-		$this->parse_options['conf_block'] = 'openvpn';
-		$this->expectedtags = array('tunnel','certificates');
+		$this->expectedtags = array('cert','ca','key');
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see Client/Files/usr/local/lib/CUGAR/parser/Statement#interpret($options)
+	 */
 	public function interpret($options){
 		$this->validate($options);
-		$this->parseChildren($options);
-		
 		$ref = OpenVPNConfig::getInstance();
+		$ref->setCA('ca.crt',$options);
 	}
 	
+	/**
+	 * (non-PHPdoc)
+	 * @see Client/Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
+	 */
 	public function validate($options){
-		if(!isset($options->tunnel)){
-			ParseErrorBuffer::addError('no tunnel definitions found',ParseErrorBuffer::$E_FATAL,$options);
+		if(!isset($options['name'])){
+			ParseErrorBuffer::addError('no certificate name found',ParseErrorBuffer::$E_FATAL,$options);
 		}
-		if(count($options->tunnel) > 2){
-			ParseErrorBuffer::addError('too many tunnels defined',ParseErrorBuffer::$E_FATAL,$options);
+		else{
+			if(strlen((string)$options['name']) == 0){
+				ParseErrorBuffer::addError('certificate name is empty',ParseErrorBuffer::$E_FATAL,$options);
+			}
 		}
-		if(!isset($options->certificates)){
-			ParseErrorBuffer::addError('no certificates tag found',ParseErrorBuffer::$E_FATAL,$options);
+		if(strlen((string)$options) == 0){
+			ParseErrorBuffer::addError('Certificate is empty',ParseErrorBuffer::$E_FATAL,$options);
 		}
-		$this->checkChildNodes($options);
 	}
-	
 }
