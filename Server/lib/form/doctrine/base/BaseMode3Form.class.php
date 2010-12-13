@@ -10,7 +10,7 @@
  * @author     Your name here
  * @version    SVN: $Id: sfDoctrineFormGeneratedInheritanceTemplate.php 29553 2010-05-20 14:33:00Z Kris.Wallsmith $
  */
-abstract class BaseMode3Form extends SsidForm
+abstract class BaseMode3Form extends RadiusSsidForm
 {
   protected function setupInheritance()
   {
@@ -19,41 +19,8 @@ abstract class BaseMode3Form extends SsidForm
     $this->widgetSchema   ['config_id'] = new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Config'), 'add_empty' => false));
     $this->validatorSchema['config_id'] = new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Config')));
 
-    $this->widgetSchema   ['retry_interval'] = new sfWidgetFormInputText();
-    $this->validatorSchema['retry_interval'] = new sfValidatorInteger();
-
-    $this->widgetSchema   ['own_ip'] = new sfWidgetFormInputText();
-    $this->validatorSchema['own_ip'] = new sfValidatorString(array('max_length' => 15));
-
-    $this->widgetSchema   ['nas_identifier'] = new sfWidgetFormInputText();
-    $this->validatorSchema['nas_identifier'] = new sfValidatorString(array('max_length' => 48, 'min_length' => 1));
-
     $this->widgetSchema   ['hw_interface'] = new sfWidgetFormInputText();
     $this->validatorSchema['hw_interface'] = new sfValidatorString(array('max_length' => 5, 'min_length' => 3));
-
-    $this->widgetSchema   ['radius_auth_ip'] = new sfWidgetFormInputText();
-    $this->validatorSchema['radius_auth_ip'] = new sfValidatorString(array('max_length' => 15));
-
-    $this->widgetSchema   ['radius_auth_port'] = new sfWidgetFormInputText();
-    $this->validatorSchema['radius_auth_port'] = new sfValidatorInteger();
-
-    $this->widgetSchema   ['radius_auth_shared_secret'] = new sfWidgetFormInputText();
-    $this->validatorSchema['radius_auth_shared_secret'] = new sfValidatorString(array('max_length' => 255, 'min_length' => 1));
-
-    $this->widgetSchema   ['radius_auth_interim_interval'] = new sfWidgetFormInputText();
-    $this->validatorSchema['radius_auth_interim_interval'] = new sfValidatorInteger();
-
-    $this->widgetSchema   ['radius_acct_ip'] = new sfWidgetFormInputText();
-    $this->validatorSchema['radius_acct_ip'] = new sfValidatorString(array('max_length' => 15));
-
-    $this->widgetSchema   ['radius_acct_port'] = new sfWidgetFormInputText();
-    $this->validatorSchema['radius_acct_port'] = new sfValidatorInteger();
-
-    $this->widgetSchema   ['radius_acct_shared_secret'] = new sfWidgetFormInputText();
-    $this->validatorSchema['radius_acct_shared_secret'] = new sfValidatorString(array('max_length' => 255, 'min_length' => 1));
-
-    $this->widgetSchema   ['radius_acct_interim_interval'] = new sfWidgetFormInputText();
-    $this->validatorSchema['radius_acct_interim_interval'] = new sfValidatorInteger();
 
     $this->widgetSchema   ['vpn_auth_server'] = new sfWidgetFormInputText();
     $this->validatorSchema['vpn_auth_server'] = new sfValidatorString(array('max_length' => 255, 'min_length' => 4));

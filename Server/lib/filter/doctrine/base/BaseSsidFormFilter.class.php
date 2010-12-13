@@ -14,6 +14,7 @@ abstract class BaseSsidFormFilter extends BaseFormFilterDoctrine
   {
     $this->setWidgets(array(
       'name'                 => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'wpa_mode'             => new sfWidgetFormChoice(array('choices' => array('' => '', 'wpa' => 'wpa', 'wpa2' => 'wpa2', 'off' => 'off'))),
       'vlan'                 => new sfWidgetFormFilterInput(),
       'broadcast'            => new sfWidgetFormChoice(array('choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no'))),
       'passphrase'           => new sfWidgetFormFilterInput(),
@@ -23,6 +24,7 @@ abstract class BaseSsidFormFilter extends BaseFormFilterDoctrine
 
     $this->setValidators(array(
       'name'                 => new sfValidatorPass(array('required' => false)),
+      'wpa_mode'             => new sfValidatorChoice(array('required' => false, 'choices' => array('wpa' => 'wpa', 'wpa2' => 'wpa2', 'off' => 'off'))),
       'vlan'                 => new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false))),
       'broadcast'            => new sfValidatorChoice(array('required' => false, 'choices' => array('', 1, 0))),
       'passphrase'           => new sfValidatorPass(array('required' => false)),
@@ -49,6 +51,7 @@ abstract class BaseSsidFormFilter extends BaseFormFilterDoctrine
     return array(
       'id'                   => 'Number',
       'name'                 => 'Text',
+      'wpa_mode'             => 'Enum',
       'vlan'                 => 'Number',
       'broadcast'            => 'Boolean',
       'passphrase'           => 'Text',

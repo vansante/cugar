@@ -16,6 +16,9 @@ Device:
     name: { type: string(50), minlength: 1, notnull: true }
     config_id: { type: integer(4), unsigned: true, notnull: true }
     certificate_name: { type: string(50), minlength: 5, notnull: true }
+  indexes:
+    cert_name:
+      fields: [certificate_name]
   relations:
     Config:
       class: Config
@@ -49,11 +52,32 @@ Ssid:
 #      values: [1, 2, 3]
 #      default: 1
 #      notnull: true
+    wpa_mode:
+      type: enum
+      values: [wpa, wpa2, off]
+      default: wpa2
+      notnull: true
     vlan: { type: integer(2), notnull: false, range: [1, 4096] }
     broadcast: { type: boolean, notnull: true, default: true }
     passphrase: { type: string(255) }
     group_rekey_interval: { type: integer(4), notnull: true }
     strict_rekey: { type: boolean, notnull: true }
+
+RadiusSsid:
+  inheritance:
+    type:          concrete
+    extends:       Ssid
+  columns:
+    retry_interval: { type: integer(4), unsigned: true, notnull: true }
+    own_ip: { type: string(15), ip: true, notnull: true }
+    nas_identifier: { type: string(48), notnull: true, minlength: 1 }
+    radius_auth_ip: { type: string(15), ip: true, notnull: true }
+    radius_auth_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
+    radius_auth_shared_secret: { type: string(255), notnull: true, minlength: 1}
+    radius_acct_ip: { type: string(15), ip: true, notnull: true }
+    radius_acct_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
+    radius_acct_shared_secret: { type: string(255), notnull: true, minlength: 1}
+    radius_acct_interim_interval: { type: integer(3), unsigned: true, notnull: true, range: [1] }
 
 Mode1:
   inheritance:
@@ -72,7 +96,7 @@ Mode1:
 Mode2:
   inheritance:
     type:          concrete
-    extends:       Ssid
+    extends:       RadiusSsid
   columns:
     config_id: { type: integer(4), unsigned: true, notnull: true }
     file_path: { type: string(255), notnull: true, minlength: 4 }
@@ -87,21 +111,10 @@ Mode2:
 Mode3:
   inheritance:
     type:          concrete
-    extends:       Ssid
+    extends:       RadiusSsid
   columns:
     config_id: { type: integer(4), unsigned: true, notnull: true }
-    retry_interval: { type: integer(4), unsigned: true, notnull: true }
-    own_ip: { type: string(15), ip: true, notnull: true }
-    nas_identifier: { type: string(48), notnull: true, minlength: 1 }
     hw_interface: {type: string(5), notnull: true, minlength: 3 }
-    radius_auth_ip: { type: string(15), ip: true, notnull: true }
-    radius_auth_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
-    radius_auth_shared_secret: { type: string(255), notnull: true, minlength: 1}
-    radius_auth_interim_interval: { type: integer(3), unsigned: true, notnull: true, range: [1] }
-    radius_acct_ip: { type: string(15), ip: true, notnull: true }
-    radius_acct_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
-    radius_acct_shared_secret: { type: string(255), notnull: true, minlength: 1}
-    radius_acct_interim_interval: { type: integer(3), unsigned: true, notnull: true, range: [1] }
     vpn_auth_server: { type: string(255), notnull: true, minlength: 4 }
     vpn_auth_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
     vpn_auth_cipher:

@@ -8,7 +8,7 @@
  * @author     Your name here
  * @version    SVN: $Id: sfDoctrineFormFilterGeneratedInheritanceTemplate.php 29570 2010-05-21 14:49:47Z Kris.Wallsmith $
  */
-abstract class BaseMode3FormFilter extends SsidFormFilter
+abstract class BaseMode3FormFilter extends RadiusSsidFormFilter
 {
   protected function setupInheritance()
   {
@@ -17,41 +17,8 @@ abstract class BaseMode3FormFilter extends SsidFormFilter
     $this->widgetSchema   ['config_id'] = new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Config'), 'add_empty' => true));
     $this->validatorSchema['config_id'] = new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Config'), 'column' => 'id'));
 
-    $this->widgetSchema   ['retry_interval'] = new sfWidgetFormFilterInput(array('with_empty' => false));
-    $this->validatorSchema['retry_interval'] = new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false)));
-
-    $this->widgetSchema   ['own_ip'] = new sfWidgetFormFilterInput(array('with_empty' => false));
-    $this->validatorSchema['own_ip'] = new sfValidatorPass(array('required' => false));
-
-    $this->widgetSchema   ['nas_identifier'] = new sfWidgetFormFilterInput(array('with_empty' => false));
-    $this->validatorSchema['nas_identifier'] = new sfValidatorPass(array('required' => false));
-
     $this->widgetSchema   ['hw_interface'] = new sfWidgetFormFilterInput(array('with_empty' => false));
     $this->validatorSchema['hw_interface'] = new sfValidatorPass(array('required' => false));
-
-    $this->widgetSchema   ['radius_auth_ip'] = new sfWidgetFormFilterInput(array('with_empty' => false));
-    $this->validatorSchema['radius_auth_ip'] = new sfValidatorPass(array('required' => false));
-
-    $this->widgetSchema   ['radius_auth_port'] = new sfWidgetFormFilterInput(array('with_empty' => false));
-    $this->validatorSchema['radius_auth_port'] = new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false)));
-
-    $this->widgetSchema   ['radius_auth_shared_secret'] = new sfWidgetFormFilterInput(array('with_empty' => false));
-    $this->validatorSchema['radius_auth_shared_secret'] = new sfValidatorPass(array('required' => false));
-
-    $this->widgetSchema   ['radius_auth_interim_interval'] = new sfWidgetFormFilterInput(array('with_empty' => false));
-    $this->validatorSchema['radius_auth_interim_interval'] = new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false)));
-
-    $this->widgetSchema   ['radius_acct_ip'] = new sfWidgetFormFilterInput(array('with_empty' => false));
-    $this->validatorSchema['radius_acct_ip'] = new sfValidatorPass(array('required' => false));
-
-    $this->widgetSchema   ['radius_acct_port'] = new sfWidgetFormFilterInput(array('with_empty' => false));
-    $this->validatorSchema['radius_acct_port'] = new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false)));
-
-    $this->widgetSchema   ['radius_acct_shared_secret'] = new sfWidgetFormFilterInput(array('with_empty' => false));
-    $this->validatorSchema['radius_acct_shared_secret'] = new sfValidatorPass(array('required' => false));
-
-    $this->widgetSchema   ['radius_acct_interim_interval'] = new sfWidgetFormFilterInput(array('with_empty' => false));
-    $this->validatorSchema['radius_acct_interim_interval'] = new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false)));
 
     $this->widgetSchema   ['vpn_auth_server'] = new sfWidgetFormFilterInput(array('with_empty' => false));
     $this->validatorSchema['vpn_auth_server'] = new sfValidatorPass(array('required' => false));
@@ -89,18 +56,7 @@ abstract class BaseMode3FormFilter extends SsidFormFilter
   {
     return array_merge(parent::getFields(), array(
       'config_id' => 'ForeignKey',
-      'retry_interval' => 'Number',
-      'own_ip' => 'Text',
-      'nas_identifier' => 'Text',
       'hw_interface' => 'Text',
-      'radius_auth_ip' => 'Text',
-      'radius_auth_port' => 'Number',
-      'radius_auth_shared_secret' => 'Text',
-      'radius_auth_interim_interval' => 'Number',
-      'radius_acct_ip' => 'Text',
-      'radius_acct_port' => 'Number',
-      'radius_acct_shared_secret' => 'Text',
-      'radius_acct_interim_interval' => 'Number',
       'vpn_auth_server' => 'Text',
       'vpn_auth_port' => 'Number',
       'vpn_auth_cipher' => 'Enum',

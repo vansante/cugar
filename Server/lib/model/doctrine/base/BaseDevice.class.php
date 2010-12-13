@@ -60,6 +60,14 @@ abstract class BaseDevice extends sfDoctrineRecord
              'notnull' => true,
              'length' => 50,
              ));
+
+
+        $this->index('cert_name', array(
+             'fields' => 
+             array(
+              0 => 'certificate_name',
+             ),
+             ));
     }
 
     public function setUp()
