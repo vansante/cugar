@@ -49,7 +49,7 @@ class XMLConfig {
             $portal = $doc->createElement('portal');
             $ssid->appendChild($portal);
 
-            $this->createTextNode('remote_file', $mode2->file_name, $portal);
+            $this->createTextNode('remote_file', '/uploads/portal/'.$mode2->file_name, $portal);
 
             $this->generateRadiusConf($mode2, $portal);
         }

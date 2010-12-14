@@ -9,7 +9,7 @@ generator:
     plural:                ~
     route_prefix:          sf_guard_group
     with_doctrine_route:   true
-    css:                   nothing   #setting the css to a placeholder
+    css:                   admin-gen   #setting the css to a placeholder
 
     config:
       list:
