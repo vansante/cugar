@@ -133,8 +133,6 @@ cg.mode.mode2.loadForm = function() {
     cg.resetForm('mode_mode2_form');
 
     $('#mode_mode2_ssid').val(data.ssid_name);
-    $('#mode_mode2_mode').val(data.mode);
-    $('#mode_mode2_channel').val(data.channel);
     $('#mode_mode2_encryption').val(data.wpa.mode);
     $('#mode_mode2_passphrase').val(data.wpa.passphrase);
     
