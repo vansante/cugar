@@ -10,7 +10,7 @@ generator:
     route_prefix:          mode1
     with_doctrine_route:   true
     actions_base_class:    sfActions
-    css:                   nothing   #setting the css to a placeholder
+    css:                   admin-gen   #setting the css to a placeholder
 
     config:
       actions:
