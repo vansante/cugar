@@ -115,7 +115,7 @@ class XMLConfig {
         $ssid->appendChild($hostapd);
 
         $this->createTextNode('ssid_name', $ssid_obj->name, $hostapd);
-        $this->createTextNode('broadcast', $ssid_obj->broadcast, $hostapd);
+        $this->createTextNode('broadcast', $ssid_obj->broadcast ? 'true' : 'false', $hostapd);
 
         $vlan = $this->doc->createElement('vlan');
         $hostapd->appendChild($vlan);
