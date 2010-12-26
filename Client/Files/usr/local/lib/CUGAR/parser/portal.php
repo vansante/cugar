@@ -35,7 +35,7 @@ class portal extends Statement{
 	public function __construct($parse_opt){
 		$this->parse_options = $parse_opt;
 		$this->parse_options['conf_block'] = 'portal';
-		$this->expectedtags = array('local_files','radius');
+		$this->expectedtags = array('remote_file','radius');
 	}
 
 	/**
@@ -52,8 +52,8 @@ class portal extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
-		if(!isset($options->local_files)){
-			ParseErrorBuffer::addError('no local files defined',ParseErrorBuffer::$E_FATAL,$options);
+		if(!isset($options->remote_file)){
+			ParseErrorBuffer::addError('no remote file defined',ParseErrorBuffer::$E_FATAL,$options);
 		}
 		if(!isset($options->radius)){
 			ParseErrorBuffer::addError('no radius options defined',ParseErrorBuffer::$E_FATAL,$options);

@@ -126,6 +126,8 @@ class XMLParser{
 				$dhcprelay->setSavePath('./output/');
 				$rc = RCConfig::getInstance();
 				$rc->setSavePath('./output/');
+				$system = System::getInstance();
+				$system->setSavePath('./output/');
 				/*------------------ DEBUG -------------------*/
 				
 				
@@ -155,6 +157,7 @@ class XMLParser{
 					$hostap->writeConfig();
 					$dhcprelay->writeConfig();
 					$rc->writeConfig();
+					$system->writeConfig();
 					echo 'parsing complete';
 				}
 			}
