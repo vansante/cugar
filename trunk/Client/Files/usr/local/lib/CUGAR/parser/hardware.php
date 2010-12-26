@@ -14,8 +14,13 @@ class hardware extends Statement{
 	 * @see Client/Files/usr/local/lib/CUGAR/parser/Statement#interpret($options)
 	 */
 	public function interpret($options){
+		$ref = System::getInstance();
+		$ref->startSystem();
+		
 		$this->validate($options);
 		$this->parseChildren($options);
+	
+		$ref->endSystem();
 	}
 	
 	/**
