@@ -15,7 +15,7 @@ Config:
     wireless_mode: auto
     Mode1s:
       Mode1_test1:
-        name: SSID HOI ANDRE!
+        name: HOI_ANDRE
         vlan: 5
         passphrase: Passw0rd
         group_rekey_interval: 500
@@ -23,7 +23,7 @@ Config:
 
     Mode2s:
       Mode2_test1:
-        name: HotAP
+        name: HotMode2AP
         vlan: 97
         passphrase: Wachtw00rd
         group_rekey_interval: 500
@@ -42,7 +42,7 @@ Config:
 
     Mode3s:
       Mode3_Test1:
-        name: Mode3 AP
+        name: Mode3_AP
         vlan: 23
         passphrase: Passw0rd
         group_rekey_interval: 500

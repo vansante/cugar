@@ -46,7 +46,7 @@ DhcpServer:
 Ssid:
   columns:
     id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
-    name: { type: string(32), notnull: true, minlength: 1 }
+    name: { type: string(32), notnull: true, minlength: 1, nospace: true, regexp: '/^[a-zA-Z0-9_]+$/' }
 #    mode:
 #      type: enum
 #      values: [1, 2, 3]
