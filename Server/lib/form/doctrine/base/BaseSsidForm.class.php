@@ -27,7 +27,7 @@ abstract class BaseSsidForm extends BaseFormDoctrine
 
     $this->setValidators(array(
       'id'                   => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'name'                 => new sfValidatorString(array('max_length' => 32, 'min_length' => 1)),
+      'name'                 => new sfValidatorRegex(array('max_length' => 32, 'min_length' => 1, 'pattern' => '/^[a-zA-Z0-9_]+$/')),
       'wpa_mode'             => new sfValidatorChoice(array('choices' => array(0 => 'wpa', 1 => 'wpa2', 2 => 'off'), 'required' => false)),
       'vlan'                 => new sfValidatorInteger(array('required' => false)),
       'broadcast'            => new sfValidatorBoolean(array('required' => false)),

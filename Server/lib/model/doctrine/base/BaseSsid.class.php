@@ -52,6 +52,8 @@ abstract class BaseSsid extends sfDoctrineRecord
              'type' => 'string',
              'notnull' => true,
              'minlength' => 1,
+             'nospace' => true,
+             'regexp' => '/^[a-zA-Z0-9_]+$/',
              'length' => 32,
              ));
         $this->hasColumn('wpa_mode', 'enum', null, array(
