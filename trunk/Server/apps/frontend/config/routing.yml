@@ -63,12 +63,13 @@ mode3_certificate:
 
 get_config_post:
   url: /getconfig
-  requirements: { cert_name: \s+ }
-  param: { module: xml, action: get, sf_format: xml }
+  requirements: { cert_name: \s+, cert_name_check: \s+ }
+  param: { module: xml, action: post, sf_format: xml }
 
 get_config_get:
   url: /getconfig/:cert_name
-  param: { module: xml, action: get, sf_format: xml }
+  requirements: { cert_name_check: \s+ }
+  param: { module: xml, action: post, sf_format: xml }
 
 
 # You can find more information about this file on the symfony website:
