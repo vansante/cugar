@@ -58,8 +58,10 @@ class BootStrap{
 			//	Mode 3, fetch server-side config
 			$fetch = new FetchConfig();
 			$fetch->setConfigServer((string)$this->config->modes->mode3->server);
-			$fetch->setCertName((string)$this->config->modes->mode3->cert);
+			$fetch->setCertName((string)$this->config->modes->mode3->private_key);
 			
+			$this->serverConfig = $fetch->fetch();
+						
 			if($this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
 				$this->mergeConfiguration();		
 			}
@@ -105,5 +107,3 @@ class BootStrap{
 		}
 	}
 }
-
-$strap = new BootStrap();
