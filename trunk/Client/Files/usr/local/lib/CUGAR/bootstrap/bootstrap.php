@@ -15,6 +15,16 @@ class BootStrap{
 	 * @var SimpleXMLElement
 	 */
 	private $config;
+	
+	/**
+	 * Server-side XML configuration
+	 * 
+	 * Configuration fetched from the server, local configuration will
+	 * be merged into this if a server configuration exists.
+	 * 
+	 * @var SimpleXMLElement
+	 */
+	private $serverConfig;
 
 	/**
 	 * Filename of the base system config file
@@ -44,6 +54,23 @@ class BootStrap{
 	 * @throws Exception
 	 */
 	public function prepSystem(){
+		if($this->config->modes->mode_selection == '3' || $this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
+			//	Mode 3, fetch server-side config
+			$fetch = new FetchConfig();
+			$fetch->setConfigServer((string)$this->config->modes->mode3->server);
+			$fetch->setCertName((string)$this->config->modes->mode3->cert);
+			
+			if($this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
+				$this->mergeConfiguration();		
+			}
+		}
+	}
+	
+	/**
+	 * Merge local configuration with the server-side configuration
+	 * @return void
+	 */
+	private function mergeConfiguration(){
 		
 	}
 	
