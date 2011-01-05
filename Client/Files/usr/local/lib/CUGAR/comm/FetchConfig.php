@@ -16,6 +16,12 @@ class FetchConfig{
 	final private $cert_dir = '/etc/CUGAR/';
 	
 	/**
+	 * Private key name
+	 * @var String
+	 */
+	private $cert_name = '';
+	
+	/**
 	 * Address of the configuration server
 	 * @var IPAddress
 	 */
@@ -26,6 +32,19 @@ class FetchConfig{
 	}
 	
 	/**
+	 * fetch Configuration from the server
+	 * 
+	 * @throws HttpException
+	 * @return String
+	 */
+	public function fetchConfiguration(){
+		$r = new HttpRequest($this->configserver.'/getconfig/', HttpRequest::METH_POST);
+		$r->addPostFields(array('cert_name' => $this->cert_name, 'cert_name_check' => $this->encryptString($this->cert_name)));
+		
+		return $r->send()->getBody();
+	}
+	
+	/**
 	 * Set the server to fetch the configuration from
 	 * 
 	 * @param IP $server
@@ -33,6 +52,16 @@ class FetchConfig{
 	 */
 	public function setConfigServer($server){
 		$this->configserver = $server;
+	}
+	
+	/**
+	 * Set certificate name
+	 * 
+	 * @param String $certname
+	 * @return void
+	 */
+	public function setCertName($certname){
+		$this->cert_name = $certname;
 	}
 	
 	public function fetch(){
@@ -46,16 +75,5 @@ class FetchConfig{
         $cert_name_decrypted = false;
         $result = openssl_public_encrypt($cert_name_enc, $cert_name_decrypted, $key);
         return $result;
-	}
-	
-	/**
-	 * Fetch the certificate name from the filesystem
-	 * 
-	 * @return unknown_type
-	 */
-	public function getCertName(){
-		$cert_name = shell_exec('ls '.$this->cert_dir.' | grep .key');
-		$cert_name = str_replace('.key','',$cert_name);
-		return $cert_name;
 	}
 }
