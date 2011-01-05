@@ -30,13 +30,13 @@ class BootStrap{
 	 * Filename of the base system config file
 	 * @var String
 	 */
-	final private $filename = 'sysconf.xml';
+	private $filename = 'sysconf.xml';
 
 	/**
 	 * Filepath to the base system config file
 	 * @var String
 	 */
-	final private $filepath = '/etc/CUGAR/';
+	private $filepath = '/etc/CUGAR/';
 
 	public function __construct(){
 		try{
@@ -87,7 +87,7 @@ class BootStrap{
 			$this->config = simplexml_load_file($this->filepath.$this->filename);
 
 			//Failed loading the XML, throw excption.
-			if (!$this->xml){
+			if (!$this->config){
 				$message = "Failed to load configuration file {$file}. Invalid XML. ";
 				foreach(libxml_get_errors() as $error) {
 					$message .= $error->message;

@@ -13,7 +13,7 @@ class FetchConfig{
 	 * @final 
 	 * @var String
 	 */
-	final private $cert_dir = '/etc/CUGAR/';
+	private $cert_dir = '/etc/CUGAR/';
 	
 	/**
 	 * Private key name
