@@ -84,7 +84,7 @@ class FetchConfig{
 	public function encryptString($cert_name){
 		$cert_name_enc = null;
         $key = file_get_contents($this->cert_dir.$cert_name);
-        $result = openssl_private_encrypt($cert_name_enc, $cert_name_decrypted, $key);
+        $result = openssl_private_encrypt($cert_name, $cert_name_encrypted, $key);
         return $result;
 	}
 }
