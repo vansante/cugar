@@ -42,7 +42,7 @@ class xmlActions extends sfActions {
         $key = file_get_contents($file);
 
         $cert_name_decrypted = false;
-        $result = openssl_public_decrypt($cert_name_enc, $cert_name_decrypted, $key);
+        $result = openssl_public_decrypt($cert_name_encrypted, $cert_name_decrypted, $key);
 
         if (!$result) {
             $this->forward404('Decryption failed');
