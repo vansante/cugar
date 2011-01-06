@@ -33,7 +33,7 @@ class xmlActions extends sfActions {
         }
 
         $cert_dir = sfConfig::get('app_certificate_dir');
-        $file = $cert_dir.DIRECTORY_SEPARATOR.$cert_name.'.crt';
+        $file = $cert_dir.DIRECTORY_SEPARATOR . str_replace($cert_name, '.key', '') . '.crt';
 
         if (!file_exists($file)) {
             return false;
