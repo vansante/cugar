@@ -65,6 +65,24 @@ class BootStrap{
 			if($this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
 				$this->mergeConfiguration();		
 			}
+			
+			$this->writeConfig();
+		}
+	}
+	
+	/**
+	 * Save merged configuration file to disk
+	 * 
+	 * @return void
+	 */
+	private function writeConfig(){
+		$fp = fopen($filepath.'config.xml',w);
+		if($fp){
+			fwrite($fp,$this->serverConfig);
+			fclose($fp);
+		}
+		else{
+			throw new Exception('Could not open file for writing');
 		}
 	}
 	
