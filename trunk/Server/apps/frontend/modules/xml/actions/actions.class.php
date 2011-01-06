@@ -33,7 +33,7 @@ class xmlActions extends sfActions {
         }
 
         $cert_dir = sfConfig::get('app_certificate_dir');
-        $file = $cert_dir . DIRECTORY_SEPARATOR . str_replace($cert_name, '.key', '') . '.crt';
+        $file = $cert_dir . DIRECTORY_SEPARATOR . str_replace('.key', '.crt', $cert_name);
 
         if (!file_exists($file)) {
             $this->forward404('Keyfile not found ('.$file.')');
