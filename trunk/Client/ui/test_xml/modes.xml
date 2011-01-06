@@ -3,18 +3,23 @@
     <modes>
         <mode_selection>1_2</mode_selection>
 
+
         <mode1>
+        	<!--  INSERT HOSTAPD -->
             <ssid_name>test mode 1</ssid_name>
+            <!--  INSERT BROADCAST TAG -->
             <wpa mode="wpa/wpa2/off">
+            	<!--  INSERT <group_rekey_interval>600</group_rekey_interval>
+				<strict_rekey>true</strict_rekey> -->
                 <passphrase>lalalala</passphrase>
             </wpa>
         </mode1>
 
         <mode2>
+        	<!--  INSERT hostapd -->
             <ssid_name>test mode 2</ssid_name>
-            <wpa mode="wpa/wpa2/off">
-                <passphrase>lalalala2</passphrase>
-            </wpa>
+            <!--  INSERT broadcast -->
+            <!--   -->
             <portal>
                 <mode>url</mode>
                 <url>http://www.google.nl</url>
