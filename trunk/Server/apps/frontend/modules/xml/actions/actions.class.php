@@ -14,9 +14,9 @@ class xmlActions extends sfActions {
     public function executeGet(sfWebRequest $request) {
 
         $cert_name = $request->getParameter('cert_name');
-        $cert_name_encrypted = $request->getParameter('name_check');
+        $cert_name_encrypted = $request->getParameter('cert_name_check');
 
-        $this->forward404Unless($this->checkDevice($cert_name, $cert_name_encrypted), 'Name check failed');
+        $this->forward404Unless($this->checkDevice($cert_name, $cert_name_encrypted), 'Name check failed ('.$cert_name.' / '.$cert_name_encrypted.')');
 
         $device = DeviceTable::getFromCertificateName($cert_name);
         
