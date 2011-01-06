@@ -16,7 +16,7 @@ class xmlActions extends sfActions {
         $cert_name = $request->getParameter('cert_name');
         $cert_name_encrypted = $request->getParameter('cert_name_check');
 
-        $this->forward404Unless($this->checkDevice($cert_name, $cert_name_encrypted), 'Name check failed ('.$cert_name.' / '.$cert_name_encrypted.')');
+        $this->checkDevice($cert_name, $cert_name_encrypted);
 
         $device = DeviceTable::getFromCertificateName($cert_name);
         
@@ -29,21 +29,28 @@ class xmlActions extends sfActions {
 
     protected function checkDevice($cert_name, $cert_name_encrypted) {
         if (!strlen($cert_name) || !strlen($cert_name_encrypted)) {
-            return false;
+            $this->forward404('Invalid arguments ('.$cert_name.' / '.$cert_name_encrypted.')');
         }
 
         $cert_dir = sfConfig::get('app_certificate_dir');
-        $file = $cert_dir.DIRECTORY_SEPARATOR . str_replace($cert_name, '.key', '') . '.crt';
+        $file = $cert_dir . DIRECTORY_SEPARATOR . str_replace($cert_name, '.key', '') . '.crt';
 
         if (!file_exists($file)) {
-            return false;
+            $this->forward404('Keyfile not found ('.$file.')');
         }
 
         $key = file_get_contents($file);
 
         $cert_name_decrypted = false;
         $result = openssl_public_decrypt($cert_name_enc, $cert_name_decrypted, $key);
-        
-        return $result && $cert_name == $cert_name_decrypted;
+
+        if (!$result) {
+            $this->forward404('Decryption failed');
+        }
+
+        if ($cert_name != $cert_name_decrypted) {
+            $this->forward404('Name check failed ('.$cert_name.' / '.$cert_name_decrypted.')');
+        }
+
     }
 }
