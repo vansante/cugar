@@ -61,12 +61,14 @@ class BootStrap{
 			$fetch->setCertName((string)$this->config->modes->mode3->private_key);
 			
 			$this->serverConfig = $fetch->fetch();
-						
-			if($this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
-				$this->mergeConfiguration();		
-			}
 			
-			$this->writeConfig();
+			if(strlen($this->serverConfig) > 1){
+				if($this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
+					$this->mergeConfiguration();		
+				}
+				
+				$this->writeConfig();
+			}
 		}
 	}
 	
