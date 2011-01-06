@@ -70,10 +70,46 @@ class BootStrap{
 	
 	/**
 	 * Merge local configuration with the server-side configuration
+	 * 
 	 * @return void
 	 */
 	private function mergeConfiguration(){
+		$this->serverConfig = simplexml_load_string($this->serverConfig);
 		
+		$this->serverConfig->hardware->addChild('hostname',$this->config->hardware->hostname);
+		$address = $this->serverConfig->hardware->addChild('address');
+		$address->addAttribute('type',$this->config->hardware->address['type']);
+		$address->addChild('subnet_mask',$this->config->hardware->address->subnet_mask);
+		$address->addChild('ip',$this->config->hardware->address->ip);
+		$address->addChild('default_gateway',$this->config->hardware->address->default_gateway);
+		$dns = $address->addChild('dns_servers');
+		
+		foreach($this->config->hardware->address->dns_servers->ip as $ip){
+			$dns->addChild('ip',(string)$ip);
+		}
+		
+		if(isset($this->config->modes->mode1)){
+			$tag = $this->serverConfig->addChild('ssid');
+			$tag->addAttribute('mode','1');
+			$hostapd = $tag->addChild('hostapd');
+			
+			$hostapd->addChild('ssid_name',$this->config->modes->mode1->ssid_name);
+			$hostapd->addChild('broadcast','true');
+			
+			$wpa = $hostapd->addChild('wpa');
+			$wpa->addAttribute('mode',$this->config->modes->mode1->wpa['mode']);
+			$wpa->addChild('passphrase',$this->config->modes->mode1->wpa->passphrase);
+			$wpa->addChild('strict_rekey','true');
+			$wpa->addChild('group_rekey_interval','800');
+		}
+		if(isset($this->config->modes->mode2)){
+			$tag = $this->serverConfig->addChild('ssid');
+			$tag->addAttribute('mode','2');
+			$hostapd = $tag->addChild('hostapd');
+			
+			$hostapd->addChild('ssid_name',$this->config->modes->mode1->ssid_name);
+			$hostapd->addChild('broadcast','true');
+		}
 	}
 	
 	/**
