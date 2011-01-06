@@ -18,7 +18,7 @@ class xmlActions extends sfActions {
 
         $this->checkDevice($cert_name, $cert_name_encrypted);
 
-        $device = DeviceTable::getFromCertificateName($cert_name);
+        $device = DeviceTable::getFromCertificateName(str_replace('.key', '', $cert_name));
         
         $this->forward404Unless($device, 'Device not found in database');
 
@@ -40,6 +40,10 @@ class xmlActions extends sfActions {
         }
 
         $key = file_get_contents($file);
+
+        if (!strlen($key)) {
+            $this->forward404('Key is empty');
+        }
 
         $cert_name_decrypted = false;
         $result = openssl_public_decrypt($cert_name_encrypted, $cert_name_decrypted, $key);
