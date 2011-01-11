@@ -4,7 +4,7 @@ class config extends Statement{
 	 * @return unknown_type
 	 */
 	public function __construct(){
-		$this->expectedtags = array('ssid','hardware','updateserver');
+		$this->expectedtags = array('ssid','hardware','update_server');
 	}
 
 	/**

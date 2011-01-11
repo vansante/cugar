@@ -25,7 +25,7 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
-class ssid_name extends Statement{
+class update_server extends Statement{
 	/**
 	 * Constructor
 	 *
@@ -34,6 +34,7 @@ class ssid_name extends Statement{
 	 */
 	public function __construct($parse_opt){
 		$this->parse_options = $parse_opt;
+		$this->expectedtags = array('');
 	}
 
 	/**
@@ -42,10 +43,7 @@ class ssid_name extends Statement{
 	 */
 	public function interpret($options){
 		$this->validate($options);
-
-		//	Validation apparently succeeded, set the option in the hostAP config
-		$inst = HostAPDConfig::getInstance();
-		$inst->setSsidName((string)$options);
+		$this->parseChildren($options);
 	}
 
 	/**
@@ -53,8 +51,6 @@ class ssid_name extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
-		if(!preg_match("/^[A-Za-z0-9_\.]{1,32}$/",$options)){
-			ParseErrorBuffer::addError('invalid ssid name',ParseErrorBuffer::$E_FATAL,$options);
-		}
+		$this->checkChildNodes($options);
 	}
 }
