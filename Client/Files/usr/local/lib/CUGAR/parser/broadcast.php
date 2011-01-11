@@ -51,8 +51,10 @@ class broadcast extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if($options != 'true' && $options != 'false'){
-			throw new MalformedConfigException($options,'Invalid broadcast option, expected: (true | false)');
+			$error = new ParseError('Invalid broadcast option, expected: (true | false)',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 	}
 }

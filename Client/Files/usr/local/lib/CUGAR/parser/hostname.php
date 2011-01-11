@@ -46,8 +46,10 @@ class hostname extends Statement{
 	 * @see Client/Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(!eregi('^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$',(string)$options)){
-			ParseErrorBuffer::addError('Invalid hostname specified',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('Invalid hostname specified',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 	}
 }

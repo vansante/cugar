@@ -54,8 +54,10 @@ class interim_interval extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(!is_numeric((string)$options)){
-			ParseErrorBuffer::addError('invalid interim_interval',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('invalid interim_interval',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 	}
 }

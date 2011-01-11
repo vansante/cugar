@@ -56,8 +56,10 @@ class cipher extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(!in_array((string)$options,$this->ciphers)){
-			ParseErrorBuffer::addError('Invalid cipher',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('Invalid cipher',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 	}
 }

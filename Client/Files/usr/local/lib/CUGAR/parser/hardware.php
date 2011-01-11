@@ -28,11 +28,14 @@ class hardware extends Statement{
 	 * @see Client/Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(!isset($options->mode)){
-			ParseErrorBuffer::addError('no hardware mode defined',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no hardware mode defined',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		if(!isset($options->channel)){
-			ParseErrorBuffer::addError('no channel defined',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no channel defined',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		
 		$this->checkChildNodes($options);

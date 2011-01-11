@@ -51,17 +51,22 @@ class radius extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(!isset($options->own_ip)){
-			ParseErrorBuffer::addError('no own_ip tag found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no own_ip tag found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		if(!isset($options->acct_server)){
-			ParseErrorBuffer::addError('no acct_server tag found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no acct_server tag found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		if(!isset($options->auth_server)){
-			ParseErrorBuffer::addError('no auth_server tag found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no auth_server tag found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		if(!isset($options->nas_identifier)){
-			ParseErrorBuffer::addError('no nas_identifier tag found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no nas_identifier tag found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 
 		$this->checkChildNodes($options);

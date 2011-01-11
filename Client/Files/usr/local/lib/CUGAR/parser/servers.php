@@ -43,8 +43,10 @@ class servers extends Statement{
 	}
 
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(!isset($options->ip)){
-			ParseErrorBuffer::addError('no ip tag(s) found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no ip tag(s) found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		
 		$this->checkChildNodes($options);

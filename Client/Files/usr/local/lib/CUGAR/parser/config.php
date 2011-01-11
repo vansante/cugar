@@ -23,16 +23,20 @@ class config extends Statement{
 	 * @see Client/Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		$this->checkChildNodes($options);
 		if(!isset($options->hardware) && count($options->hardware) != 1){
-			ParseErrorBuffer::addError('no hardware options specified',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no hardware options specified',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		if(count($options->ssid) < 0 && count($options->ssid) > 8){
 			if(count($options->ssid) == 0){
-				ParseErrorBuffer::addError('No ssid defined',ParseErrorBuffer::$E_FATAL,$options);
+				$error = new ParseError('No ssid defined',ErrorStore::$E_FATAL,$options);
+				$errorstore->addError($error);
 			}
 			if(count($options->ssid) > 8){
-				ParseErrorBuffer::addError('Too many ssids defined ('.count($options->ssid).')',ParseErrorBuffer::$E_FATAL,$options);
+				$error = new ParseError('Too many ssids defined ('.count($options->ssid).')',ErrorStore::$E_FATAL,$options);
+				$errorstore->addError($error);
 			}
 		}
 

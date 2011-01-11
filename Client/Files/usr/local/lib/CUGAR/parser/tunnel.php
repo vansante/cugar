@@ -55,17 +55,22 @@ class tunnel extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(!isset($options->server)){
-			ParseErrorBuffer::addError('no server tag found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no server tag found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		if(!isset($options->port)){
-			ParseErrorBuffer::addError('no port tag found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no port tag found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		if(!isset($options->cipher)){
-			ParseErrorBuffer::addError('no cipher tag found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no cipher tag found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		if(!isset($options->compression)){
-			ParseErrorBuffer::addError('no compression tag found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no compression tag found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		
 		$this->checkChildNodes($options);

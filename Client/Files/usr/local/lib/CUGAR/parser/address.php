@@ -40,26 +40,32 @@ class address extends Statement{
 	}
 	
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if($options['type'] == 'static'){
 			$this->expectedtags = array('ip','subnet_mask','default_gateway','dns_servers');
 			if(!isset($options->ip)){
-				ParseErrorBuffer::addError('No IP address tag found',ParseErrorBuffer::$E_FATAL,$options);
+				$error = new ParseError('No IP address tag found',ErrorStore::$E_FATAL,$options);
+				$errorstore->addError($error);
 			}
 			if(!isset($options->subnet_mask)){
-				ParseErrorBuffer::addError('No subnet_mask tag found',ParseErrorBuffer::$E_FATAL,$options);
+				$error = new ParseError('No subnet_mask tag found',ErrorStore::$E_FATAL,$options);
+				$errorstore->addError($error);
 			}
 			if(!isset($options->default_gateway)){
-				ParseErrorBuffer::addError('no default_gateway tag found',ParseErrorBuffer::$E_FATAL,$options);
+				$error = new ParseError('no default_gateway tag found',ErrorStore::$E_FATAL,$options);
+				$errorstore->addError($error);
 			}
 			if(!isset($options->dns_servers)){
-				ParseErrorBuffer::addError('no dns_servers tag found',ParseErrorBuffer::$E_FATAL,$options);
+				$error = new ParseError('no dns_servers tag found',ErrorStore::$E_FATAL,$options);
+				$errorstore->addError($error);
 			}
 		}
 		elseif($options['type'] == 'dhcp'){
 			$this->expectedtags = array('');
 		}
 		else{
-			ParseErrorBuffer::addError('Invalid address type specified',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('Invalid address type specified',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		$this->checkChildNodes($options);
 	}

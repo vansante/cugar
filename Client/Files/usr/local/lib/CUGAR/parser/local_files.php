@@ -51,8 +51,10 @@ class local_files extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(!isset($options->file)){
-			ParseErrorBuffer::addError('no file definitions found',ParseErrorBuffer::$E_NOTICE,$options);
+			$error = new ParseError('no file definitions found',ErrorStore::$E_NOTICE,$options);
+			$errorstore->addError($error);
 		}
 		$this->checkChildNodes($options);
 	}

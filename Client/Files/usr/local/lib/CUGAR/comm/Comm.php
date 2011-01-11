@@ -25,36 +25,56 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
-class group_rekey_interval extends Statement{
+class Comm{
 	/**
-	 * Constructor
+	 * Directory where the private key resides
 	 * 
-	 * @param Array $parse_opt
+	 * @final 
+	 * @var String
+	 */
+	protected $cert_dir = '/etc/CUGAR/';
+	
+	/**
+	 * Private key name
+	 * @var String
+	 */
+	protected $cert_name = '';
+	
+	/**
+	 * Address of the configuration server
+	 * @var IPAddress
+	 */
+	protected $configserver;
+	
+	/**
+	 * Set the server to fetch the configuration from
+	 * 
+	 * @param IP $server
 	 * @return void
 	 */
-	public function __construct($parse_opt){
-		$this->parse_options = $parse_opt;
+	public function setConfigServer($server){
+		$this->configserver = $server;
 	}
 	
 	/**
-	 * (non-PHPdoc)
-	 * @see Files/usr/local/lib/CUGAR/parser/Statement#interpret($options)
+	 * Set certificate name
+	 * 
+	 * @param String $certname
+	 * @return void
 	 */
-	public function interpret($options){
-		$this->validate($options);
-		$inst = HostAPDConfig::getInstance();
-		$inst->setWpaGroupRekeyInterval((string)$options);
+	public function setCertName($certname){
+		$this->cert_name = $certname;
 	}
 	
 	/**
-	 * (non-PHPdoc)
-	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
+	 * Encrypt test string
+	 * @param String $cert_name
+	 * @return void
 	 */
-	public function validate($options){
-		$errorstore = ErrorStore::getInstance();
-		if(!is_numeric((int)$options)){
-			$error = new ParseError('group rekey interval has to be numeric',ErrorStore::$E_FATAL,$options);
-			$errorstore->addError($error);
-		}
+	protected function encryptString($cert_name){
+		$cert_name_enc = null;
+        $key = file_get_contents($this->cert_dir.$cert_name);
+        $result = openssl_private_encrypt($cert_name, $cert_name_encrypted, $key);
+        return $result;
 	}
 }

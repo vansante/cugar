@@ -51,10 +51,12 @@ class mode extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		// @TODO: N configuration is apparently very different, dropped support momentarily
 		$allowed_values = array('a','b','g','n');
 		if(!in_array(strtolower((string)$options),$allowed_values)){
-			ParseErrorBuffer::addError('invalid mode selected',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('invalid mode selected',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 	}
 }

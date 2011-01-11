@@ -50,8 +50,10 @@ class compression extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(strtolower((string)$options) != 'false' && strtolower((string)$options) != 'true'){
-			ParseErrorBuffer::addError('invalid compression option',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('invalid compression option',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 	}
 }

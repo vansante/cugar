@@ -51,8 +51,10 @@ class channel extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if($options < 1 || $options > 13){
-			ParseErrorBuffer::addError('Invalid channel specified',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('Invalid channel specified',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 	}
 }

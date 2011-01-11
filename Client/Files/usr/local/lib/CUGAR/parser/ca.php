@@ -51,8 +51,10 @@ class ca extends Statement{
 	 * @see Client/Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(strlen((string)$options) == 0){
-			ParseErrorBuffer::addError('Certificate is empty',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('Certificate is empty',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 	}
 }

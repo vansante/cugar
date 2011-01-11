@@ -45,14 +45,18 @@ class openvpn extends Statement{
 	}
 	
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(!isset($options->tunnel)){
-			ParseErrorBuffer::addError('no tunnel definitions found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no tunnel definitions found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		if(count($options->tunnel) > 2){
-			ParseErrorBuffer::addError('too many tunnels defined',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('too many tunnels defined',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		if(!isset($options->certificates)){
-			ParseErrorBuffer::addError('no certificates tag found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no certificates tag found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		$this->checkChildNodes($options);
 	}
