@@ -60,15 +60,15 @@ Ssid:
     vlan: { type: integer(2), notnull: false, range: [1, 4096] }
     broadcast: { type: boolean, notnull: true, default: true }
     passphrase: { type: string(255) }
-    group_rekey_interval: { type: integer(4), notnull: true }
-    strict_rekey: { type: boolean, notnull: true }
+    group_rekey_interval: { type: integer(4), notnull: true, default: 600 }
+    strict_rekey: { type: boolean, notnull: true, default: true }
 
 RadiusSsid:
   inheritance:
     type:          concrete
     extends:       Ssid
   columns:
-    retry_interval: { type: integer(4), unsigned: true, notnull: true }
+    retry_interval: { type: integer(4), unsigned: true, notnull: true, default: 600 }
     own_ip: { type: string(15), ip: true, notnull: true }
     nas_identifier: { type: string(48), notnull: true, minlength: 1 }
     radius_auth_ip: { type: string(15), ip: true, notnull: true }
@@ -77,7 +77,7 @@ RadiusSsid:
     radius_acct_ip: { type: string(15), ip: true, notnull: true }
     radius_acct_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
     radius_acct_shared_secret: { type: string(255), notnull: true, minlength: 1}
-    radius_acct_interim_interval: { type: integer(3), unsigned: true, notnull: true, range: [1] }
+    radius_acct_interim_interval: { type: integer(3), unsigned: true, notnull: true, range: [1], default: 600 }
 
 Mode1:
   inheritance:
@@ -122,7 +122,7 @@ Mode3:
       values: [DES-CBC, AES-128-CBC, AES-192-CBC, AES-256-CBC, BF-CBC]
       default: AES-128-CBC
       notnull: true
-    vpn_auth_compression: { type: boolean, notnull: true }
+    vpn_auth_compression: { type: boolean, notnull: true, default: false }
     vpn_data_server: { type: string(255), notnull: true, minlength: 4 }
     vpn_data_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
     vpn_data_cipher:
@@ -130,7 +130,7 @@ Mode3:
       values: [DES-CBC, AES-128-CBC, AES-192-CBC, AES-256-CBC, BF-CBC]
       default: AES-128-CBC
       notnull: true
-    vpn_data_compression: { type: boolean, notnull: true }
+    vpn_data_compression: { type: boolean, notnull: true, default: false }
   relations:
     Config:
       class: Config

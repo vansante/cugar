@@ -17,7 +17,7 @@ abstract class BaseRadiusSsidForm extends SsidForm
     parent::setupInheritance();
 
     $this->widgetSchema   ['retry_interval'] = new sfWidgetFormInputText();
-    $this->validatorSchema['retry_interval'] = new sfValidatorInteger();
+    $this->validatorSchema['retry_interval'] = new sfValidatorInteger(array('required' => false));
 
     $this->widgetSchema   ['own_ip'] = new sfWidgetFormInputText();
     $this->validatorSchema['own_ip'] = new sfValidatorString(array('max_length' => 15));
@@ -44,7 +44,7 @@ abstract class BaseRadiusSsidForm extends SsidForm
     $this->validatorSchema['radius_acct_shared_secret'] = new sfValidatorString(array('max_length' => 255, 'min_length' => 1));
 
     $this->widgetSchema   ['radius_acct_interim_interval'] = new sfWidgetFormInputText();
-    $this->validatorSchema['radius_acct_interim_interval'] = new sfValidatorInteger();
+    $this->validatorSchema['radius_acct_interim_interval'] = new sfValidatorInteger(array('required' => false));
 
     $this->widgetSchema->setNameFormat('radius_ssid[%s]');
   }

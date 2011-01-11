@@ -89,11 +89,13 @@ abstract class BaseSsid extends sfDoctrineRecord
         $this->hasColumn('group_rekey_interval', 'integer', 4, array(
              'type' => 'integer',
              'notnull' => true,
+             'default' => 600,
              'length' => 4,
              ));
         $this->hasColumn('strict_rekey', 'boolean', null, array(
              'type' => 'boolean',
              'notnull' => true,
+             'default' => true,
              ));
     }
 

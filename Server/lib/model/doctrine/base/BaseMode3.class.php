@@ -102,6 +102,7 @@ abstract class BaseMode3 extends RadiusSsid
         $this->hasColumn('vpn_auth_compression', 'boolean', null, array(
              'type' => 'boolean',
              'notnull' => true,
+             'default' => false,
              ));
         $this->hasColumn('vpn_data_server', 'string', 255, array(
              'type' => 'string',
@@ -136,6 +137,7 @@ abstract class BaseMode3 extends RadiusSsid
         $this->hasColumn('vpn_data_compression', 'boolean', null, array(
              'type' => 'boolean',
              'notnull' => true,
+             'default' => false,
              ));
     }
 
