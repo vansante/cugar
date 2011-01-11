@@ -10,6 +10,7 @@
  * @property integer $config_id
  * @property string $certificate_name
  * @property Config $Config
+ * @property Doctrine_Collection $Logs
  * @property Doctrine_Collection $Certificates
  * 
  * @method integer             getId()               Returns the current record's "id" value
@@ -17,12 +18,14 @@
  * @method integer             getConfigId()         Returns the current record's "config_id" value
  * @method string              getCertificateName()  Returns the current record's "certificate_name" value
  * @method Config              getConfig()           Returns the current record's "Config" value
+ * @method Doctrine_Collection getLogs()             Returns the current record's "Logs" collection
  * @method Doctrine_Collection getCertificates()     Returns the current record's "Certificates" collection
  * @method Device              setId()               Sets the current record's "id" value
  * @method Device              setName()             Sets the current record's "name" value
  * @method Device              setConfigId()         Sets the current record's "config_id" value
  * @method Device              setCertificateName()  Sets the current record's "certificate_name" value
  * @method Device              setConfig()           Sets the current record's "Config" value
+ * @method Device              setLogs()             Sets the current record's "Logs" collection
  * @method Device              setCertificates()     Sets the current record's "Certificates" collection
  * 
  * @package    sf_sandbox
@@ -76,6 +79,10 @@ abstract class BaseDevice extends sfDoctrineRecord
         $this->hasOne('Config', array(
              'local' => 'config_id',
              'foreign' => 'id'));
+
+        $this->hasMany('DeviceLog as Logs', array(
+             'local' => 'id',
+             'foreign' => 'device_id'));
 
         $this->hasMany('Mode3Certificate as Certificates', array(
              'local' => 'id',

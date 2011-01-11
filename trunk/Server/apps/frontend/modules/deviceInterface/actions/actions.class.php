@@ -8,10 +8,9 @@
  * @author     Your name here
  * @version    SVN: $Id: actions.class.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
  */
-class xmlActions extends sfActions {
+class deviceInterfaceActions extends sfActions {
 
-
-    public function executeGet(sfWebRequest $request) {
+    public function executeGetXml(sfWebRequest $request) {
 
         $cert_name = $request->getParameter('cert_name');
         $cert_name_encrypted = $request->getParameter('cert_name_check');
@@ -25,6 +24,27 @@ class xmlActions extends sfActions {
         $xml = new XMLConfig($device);
 
         $this->xml = $xml->getXML();
+    }
+
+    public function executePostError(sfWebRequest $request) {
+
+        $cert_name = $request->getParameter('cert_name');
+        $cert_name_encrypted = $request->getParameter('cert_name_check');
+
+        $this->checkDevice($cert_name, $cert_name_encrypted);
+
+        $device = DeviceTable::getFromCertificateName(str_replace('.key', '', $cert_name));
+
+        $this->forward404Unless($device, 'Device not found in database');
+
+        $time = $request->getParameter('time');
+        $date = date_parse_from_format('Y-m-d H:i:s', $time);
+        $this->forward404If($date['error_count'], 'The supplied time ('.$time.') is in an invalid format');
+
+        $descr = $request->getParameter('description');
+        $this->forward404if(strlen($desc), 'Description is empty');
+        
+        DeviceLogTable::addLog($device, $time, $descr);
     }
 
     protected function checkDevice($cert_name, $cert_name_encrypted) {

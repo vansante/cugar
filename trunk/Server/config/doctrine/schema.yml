@@ -26,7 +26,21 @@ Device:
       foreign: id
       foreignAlias: Devices
       type: one
-      
+
+DeviceLog:
+  columns:
+    id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
+    device_id: { type: integer(4), unsigned: true, notnull: true }
+    time: { type: timestamp, notnull: true }
+    description: { type: text, notnull: true }
+  relations:
+    Device:
+      class: Device
+      local: device_id
+      foreign: id
+      foreignAlias: Logs
+      type: one
+
 DhcpServer:
   columns:
     id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
@@ -41,7 +55,6 @@ DhcpServer:
       foreign: id
       foreignAlias: DhcpServers
       type: one
-
 
 Ssid:
   columns:
