@@ -3,8 +3,6 @@ generator:
   param:
     model_class:           DhcpServer
     theme:                 admin
-    css:                   backend
-
     non_verbose_templates: true
     with_show:             false
     singular:              dhcpserver

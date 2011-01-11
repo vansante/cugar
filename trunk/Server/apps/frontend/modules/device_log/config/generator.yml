@@ -5,16 +5,22 @@ generator:
     theme:                 admin
     non_verbose_templates: true
     with_show:             false
-    singular:              ~
-    plural:                ~
+    singular:              log
+    plural:                logs
     route_prefix:          device_log
     with_doctrine_route:   true
     actions_base_class:    sfActions
+    css:                   admin-gen   #setting the css to a placeholder
 
     config:
       actions: ~
       fields:  ~
-      list:    ~
+      list:
+        title:          Device log
+        display:        [_device, time, description]
+        actions:        {}
+        batch_actions:  {}
+        object_actions: {}
       filter:  ~
       form:    ~
       edit:    ~

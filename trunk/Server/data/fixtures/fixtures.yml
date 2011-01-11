@@ -12,7 +12,7 @@ Config:
     name: Test Config 1
     update_server: http://www.updateserver.com
     wireless_channel: 10
-    wireless_mode: auto
+    wireless_mode: G
     Mode1s:
       Mode1_test1:
         name: HOI_ANDRE

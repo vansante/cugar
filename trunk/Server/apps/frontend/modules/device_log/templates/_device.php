@@ -1,0 +1,1 @@
+<?php echo link_to($log->Device->__toString(), 'device_edit', $log->Device) ?> 
