@@ -3,8 +3,6 @@ generator:
   param:
     model_class:           Device
     theme:                 admin
-    css:                   backend
-
     non_verbose_templates: true
     with_show:             false
     singular:              device
@@ -19,8 +17,8 @@ generator:
         _new: { label: "Create a new device" }
       fields:  ~
       list:
-        title: List of Devices
-        display: [id, =name, _config]
+        title:    List of Devices
+        display:  [id, =name, _config]
       filter:  ~
       form:    ~
       edit:    ~
