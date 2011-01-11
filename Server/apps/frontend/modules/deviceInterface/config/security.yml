@@ -1,0 +1,5 @@
+getXml:
+  is_secure: false
+
+postError:
+  is_secure: false

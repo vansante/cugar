@@ -15,6 +15,10 @@ all:
     logout_route: '@sf_guard_signout'
 
     categories:
+      Logging:
+        items:
+          Device log:
+            url: device_log
       Configs:
         items:
           Configs:
