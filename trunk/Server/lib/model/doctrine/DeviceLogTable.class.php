@@ -21,7 +21,7 @@ class DeviceLogTable extends Doctrine_Table {
         $log = new DeviceLog();
         $log->device_id = is_object($device) ? $device->id : $device;
         $log->time = $time;
-        $log->description = $desc;
+        $log->description = $descr;
         $log->save();
 
         return $log;
