@@ -52,8 +52,10 @@ class strict_rekey extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if($options != 'true' && $options != 'false'){
-			ParseErrorBuffer::addError('invalid strict rekey option',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('invalid strict rekey option',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 	}
 }

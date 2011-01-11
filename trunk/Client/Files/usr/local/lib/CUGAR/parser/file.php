@@ -50,12 +50,15 @@ class file extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#interpret($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(empty($options['name'])){
-			ParseErrorBuffer::addError('no filename specified',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no filename specified',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		
 		if(empty($options)){
-			ParseErrorBuffer::addError('empty file specified',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('empty file specified',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 	}
 }

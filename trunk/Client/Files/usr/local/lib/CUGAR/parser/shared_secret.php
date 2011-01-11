@@ -58,8 +58,10 @@ class shared_secret extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(strlen((string)$options) == 0){
-			ParseErrorBuffer::addError('invalid shared_secret',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('invalid shared_secret',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 	}
 }

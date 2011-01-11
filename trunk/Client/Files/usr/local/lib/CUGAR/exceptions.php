@@ -10,5 +10,3 @@ class MalformedConfigException extends Exception{
 		$this->message = $errormsg;	
 	}
 }
-
-class SystemError extends Exception{}

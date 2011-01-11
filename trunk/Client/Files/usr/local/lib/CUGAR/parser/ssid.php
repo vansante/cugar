@@ -63,21 +63,26 @@ class ssid extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate()
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if($options['mode'] >= 1 && $options['mode'] <= 3){
 			if(!isset($options->hostapd)){
-				ParseErrorBuffer::addError('no hostap tag found',ParseErrorBuffer::$E_FATAL,$options);
+				$error = new ParseError('no hostap tag found',ErrorStore::$E_FATAL,$options);
+				$errorstore->addError($error);
 			}
 				
 			if($options['mode'] == 2 && !isset($options->portal)){
-				ParseErrorBuffer::addError('no portal tag found',ParseErrorBuffer::$E_FATAL,$options);
+				$error = new ParseError('no portal tag found',ErrorStore::$E_FATAL,$options);
+				$errorstore->addError($error);
 			}
 				
 			if($options['mode'] == 3){
 				if(!isset($options->openvpn)){
-					ParseErrorBuffer::addError('no openvpn tag found',ParseErrorBuffer::$E_FATAL,$options);
+					$error = new ParseError('no openvpn tag found',ErrorStore::$E_FATAL,$options);
+					$errorstore->addError($error);
 				}
 				if(!isset($options->dhcp_relay)){
-					ParseErrorBuffer::addError('no dhcp_relay tag found',ParseErrorBuffer::$E_FATAL,$options);
+					$error = new ParseError('no dhcp_relay tag found',ErrorStore::$E_FATAL,$options);
+					$errorstore->addError($error);
 				}
 			}
 				
@@ -87,7 +92,8 @@ class ssid extends Statement{
 			$this->checkChildNodes($options);
 		}
 		else{
-			ParseErrorBuffer::addError('invalid ssid mode '.$options['mode'],ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('invalid ssid mode '.$options['mode'],ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 	}
 }

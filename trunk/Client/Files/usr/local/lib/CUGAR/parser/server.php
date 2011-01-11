@@ -52,10 +52,12 @@ class server extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		//@TODO Finish validation
 		if(long2ip(ip2long((string)$options)) != (string)$options){
 			if(!eregi('^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$',(string)$options)){
-				ParseErrorBuffer::addError('invalid openvpn server',ParseErrorBuffer::$E_FATAL,$options);
+				$error = new ParseError('invalid openvpn server',ErrorStore::$E_FATAL,$options);
+				$errorstore->addError($error);
 			}
 		}
 	}

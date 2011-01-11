@@ -42,14 +42,18 @@ class certificates extends Statement{
 	}
 	
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(!isset($options->cert)){
-			ParseErrorBuffer::addError('no public key definition found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no public key definition found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		if(!isset($options->key)){
-			ParseErrorBuffer::addError('no private key definition found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no private key definition found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		if(!isset($options->ca)){
-			ParseErrorBuffer::addError('no certificate authority definition found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no certificate authority definition found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		$this->checkChildNodes($options);	
 	}

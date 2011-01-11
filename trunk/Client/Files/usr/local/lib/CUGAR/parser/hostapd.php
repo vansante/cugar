@@ -52,28 +52,35 @@ class hostapd extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		/*
 		 * Check if all expected child tags exist
 		 */
 		if(!isset($options->ssid_name)){
-			ParseErrorBuffer::addError('no ssid_name tag found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no ssid_name tag found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		if(!isset($options->broadcast)){
-			ParseErrorBuffer::addError('no broadcast tag found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no broadcast tag found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		if(!isset($options->vlan)){
 			//@TODO do we really want to explicitly throw an error on the absence of this tag? It's innconsquential
-			ParseErrorBuffer::addError('no vlan tag found',ParseErrorBuffer::$E_NOTICE,$options);
+			$error = new ParseError('no vlan tag found',ErrorStore::$E_NOTICE,$options);
+			$errorstore->addError($error);
 		}
 		if($this->parse_options['mode'] != 2 && !isset($options->wpa)){
-			ParseErrorBuffer::addError('no wpa tag found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no wpa tag found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		
 		if($this->parse_options['mode'] == 3 && !isset($options->radius)){
-			ParseErrorBuffer::addError('no radius tag found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no radius tag found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		elseif(isset($options->radius) && $this->parse_options['mode'] != 3){
-			ParseErrorBuffer::addError('radius tag found in non mode3, this tag will be skipped',ParseErrorBuffer::$E_NOTICE,$options);
+			$error = new ParseError('radius tag found in non mode3, this tag will be skipped',ErrorStore::$E_NOTICE,$options);
+			$errorstore->addError($error);
 		}
 		/*
 		 * Check if all child tags are expected, throw error on unexpected tags

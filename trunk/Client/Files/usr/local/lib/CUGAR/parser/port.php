@@ -63,8 +63,10 @@ class port extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if((string)$options < 0 || (string)$options > 65535){
-			ParseErrorBuffer::addError('invalid port specified',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('invalid port specified',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 	}
 }

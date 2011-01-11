@@ -32,15 +32,15 @@
 class XMLParser{
 	public static $_WRITE_CONFIG = 0;
 	public static $_VALIDATE_CONFIG = 1;
-	
+
 	const VERSION = '0.1';
-	
+
 	/**
 	 * @var XMLObject
 	 * @access private
 	 */
 	private $xml;
-	
+
 	/**
 	 * @var String filepath
 	 * @access private
@@ -49,31 +49,31 @@ class XMLParser{
 
 	/**
 	 * Parse Options
-	 * 
+	 *
 	 * ['mode'] Parse mode, either _WRITE_CONFIG or _VALIDATE_CONFIG
-	 * 
+	 *
 	 * @var String $mode
 	 */
 	private $options;
-	
+
 	/**
-	 * 
+	 *
 	 */
 	public function __construct(){
 		$this->options['mode'] = 'parse';
 		$this->options['errorlevel'] = 0;
 	}
-	
+
 	/**
 	 * Set parse mode
-	 * 
+	 *
 	 * @param String $mode
 	 * @return void
 	 */
 	public function setMode($mode){
 		$this->options['mode'] = $mode;
 	}
-	
+
 	/**
 	 * Set the error level
 	 * @param int $errorlevel
@@ -85,13 +85,13 @@ class XMLParser{
 
 	/**
 	 * load XML from file
-	 * 
+	 *
 	 * @param $file 	filepath/name of file to load
 	 */
 	public function loadXML($file){
 		//	Use custom error throwing for libxml
 		$previouslibxmlSetting = libxml_use_internal_errors(true);
-		
+
 		$this->xml = simplexml_load_file($file);
 		$this->file = $file;
 
@@ -111,62 +111,59 @@ class XMLParser{
 	}
 
 	/**
-	 * 
+	 *
 	 * @return unknown_type
 	 */
 	public function parse(){
-		try{
-			if($this->xml['version'] == XMLParser::VERSION){
-				/*------------------ DEBUG -------------------*/
-				$ovpn = OpenVPNConfig::getInstance();
-				$ovpn->setSavePath('./output/');
-				$hostap = HostAPDConfig::getInstance();
-				$hostap->setSavePath('./output/');
-				$dhcprelay = DHCPRelayConfig::getInstance();
-				$dhcprelay->setSavePath('./output/');
-				$rc = RCConfig::getInstance();
-				$rc->setSavePath('./output/');
-				$system = System::getInstance();
-				$system->setSavePath('./output/');
-				/*------------------ DEBUG -------------------*/
-				
-				
-				/*	Parser cascades down through Statement classes until it has parsed everything
-				 * 	as such, over here, we only have to call the ssid class every time we encounter an ssid tag.
-				 */
-				$tmp = new config();
-				$tmp->interpret($this->xml);
-				/*
-				 * Now that we've parsed the entire thing, check if we had any errors
-				 */
-				if(ParseErrorBuffer::hasErrors($this->options['errorlevel'])){
-					if($this->options['mode'] == 'validate'){
-						ParseErrorBuffer::printErrors($this->options['errorlevel']);
-					}
-					else{
-						//@TODO: what to do here? let's just print it for now
-						ParseErrorBuffer::printErrors($this->options['errorlevel']);
-					}
+		if($this->xml['version'] == XMLParser::VERSION){
+			/*------------------ DEBUG -------------------*/
+			$ovpn = OpenVPNConfig::getInstance();
+			$ovpn->setSavePath('./output/');
+			$hostap = HostAPDConfig::getInstance();
+			$hostap->setSavePath('./output/');
+			$dhcprelay = DHCPRelayConfig::getInstance();
+			$dhcprelay->setSavePath('./output/');
+			$rc = RCConfig::getInstance();
+			$rc->setSavePath('./output/');
+			$system = System::getInstance();
+			$system->setSavePath('./output/');
+			/*------------------ DEBUG -------------------*/
+
+
+			/*	Parser cascades down through Statement classes until it has parsed everything
+			 * 	as such, over here, we only have to call the ssid class every time we encounter an ssid tag.
+			 */
+			$tmp = new config();
+			$tmp->interpret($this->xml);
+			/*
+			 * Now that we've parsed the entire thing, check if we had any errors
+			 */
+			$errorstore = ErrorStore::getInstance();
+			if($errorstore->hasErrors($this->options['errorlevel'])){
+				if($this->options['mode'] == 'validate'){
+					$errorstore->printErrors($this->options['errorlevel']);
 				}
 				else{
-					/*
-					 *	Parsing complete, write out all our files now 
-					 *	TODO: Somehow figure out which of these are actually ACTIVE since
-					 *	mode3 / mode2 configurations are not guaranteed to exist
-					 */
-					$hostap->writeConfig();
-					$dhcprelay->writeConfig();
-					$rc->writeConfig();
-					$system->writeConfig();
-					echo 'parsing complete';
+					$errorstore->postErrors($this->options['errorlevel']);
 				}
 			}
 			else{
-				throw new SystemError('Invalid configuration version');
+				/*
+				 *	Parsing complete, write out all our files now
+				 *	TODO: Somehow figure out which of these are actually ACTIVE since
+				 *	mode3 / mode2 configurations are not guaranteed to exist
+				 */
+				$hostap->writeConfig();
+				$dhcprelay->writeConfig();
+				$rc->writeConfig();
+				$system->writeConfig();
+				echo 'parsing complete';
 			}
 		}
-		catch(SystemError $e){
-			print_r($e);
+		else{
+			$errorstore = ErrorStore::getInstance();
+			$error = new ParseError('invalid configuration version',ErrorStore::$E_FATAL,$this->xml['version']."!=".XMLParser::VERSION);
+			$errorstore->addError($error);
 		}
 	}
 }

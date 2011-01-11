@@ -51,8 +51,10 @@ class dns_servers extends Statement{
 	 * @see Client/Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(!isset($options->ip)){
-			ParseErrorBuffer::addError('No IP address tag found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('No IP address tag found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		$this->checkChildNodes($options);
 	}

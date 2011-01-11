@@ -53,8 +53,11 @@ class ssid_name extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
+		
 		if(!preg_match("/^[A-Za-z0-9_\.]{1,32}$/",$options)){
-			ParseErrorBuffer::addError('invalid ssid name',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('invalid ssid name',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 	}
 }

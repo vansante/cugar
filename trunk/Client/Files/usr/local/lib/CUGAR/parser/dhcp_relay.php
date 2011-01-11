@@ -51,11 +51,14 @@ class dhcp_relay extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(!isset($options->servers)){
-			ParseErrorBuffer::addError('no servers tag found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no servers tag found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		if(!isset($options->hw_interface)){
-			ParseErrorBuffer::addError('no hw_interface tag found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no hw_interface tag found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		
 		$this->checkChildNodes($options);

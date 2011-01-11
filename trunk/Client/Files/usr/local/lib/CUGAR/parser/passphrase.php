@@ -51,10 +51,12 @@ class passphrase extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		$tmp = str_split($options);
 		foreach($tmp as $char){
 			if( ord($char) < 32 && ord($char) > 126 ){
-				ParseErrorBuffer::addError('invalid passphrase option, accepts ASCII only',ParseErrorBuffer::$E_NOTICE,$options);
+				$error = new ParseError('invalid passphrase option, accepts ASCII only',ErrorStore::$E_NOTICE,$options);
+				$errorstore->addError($error);
 				break;
 			}
 		}

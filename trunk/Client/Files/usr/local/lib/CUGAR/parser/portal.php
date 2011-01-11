@@ -52,11 +52,14 @@ class portal extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(!isset($options->remote_file)){
-			ParseErrorBuffer::addError('no remote file defined',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no remote file defined',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		if(!isset($options->radius)){
-			ParseErrorBuffer::addError('no radius options defined',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no radius options defined',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		
 		$this->checkChildNodes($options);

@@ -25,36 +25,32 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
-class group_rekey_interval extends Statement{
+class PostErrors extends Comm{
+	
+	public function __construct(){
+		
+	}
+	
 	/**
-	 * Constructor
+	 * post Errors to the server
 	 * 
-	 * @param Array $parse_opt
-	 * @return void
+	 * @return String
 	 */
-	public function __construct($parse_opt){
-		$this->parse_options = $parse_opt;
-	}
-	
-	/**
-	 * (non-PHPdoc)
-	 * @see Files/usr/local/lib/CUGAR/parser/Statement#interpret($options)
-	 */
-	public function interpret($options){
-		$this->validate($options);
-		$inst = HostAPDConfig::getInstance();
-		$inst->setWpaGroupRekeyInterval((string)$options);
-	}
-	
-	/**
-	 * (non-PHPdoc)
-	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
-	 */
-	public function validate($options){
-		$errorstore = ErrorStore::getInstance();
-		if(!is_numeric((int)$options)){
-			$error = new ParseError('group rekey interval has to be numeric',ErrorStore::$E_FATAL,$options);
-			$errorstore->addError($error);
-		}
+	public function post(){
+		$ch = curl_init($this->configserver.'/posterror/');
+		
+		//return the transfer as a string
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        
+        //	set POST values
+        $data = array('cert_name' => $this->cert_name, 'cert_name_check' => $this->encryptString($this->cert_name), 'time' => date('Y-m-d H:i:s'), 'description' => 'CANHAS error');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        
+        // $output contains the output string
+        $output = curl_exec($ch);
+        // close curl resource to free up system resources
+        curl_close($ch);  
+        return $output;
 	}
 }
+?>

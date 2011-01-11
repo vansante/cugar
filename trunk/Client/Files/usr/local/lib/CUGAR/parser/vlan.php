@@ -54,18 +54,22 @@ class vlan extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if($options['enable'] == 'true'){
 			if(!isset($options->vlan_id)){
-				ParseErrorBuffer::addError('vlan is enabled but no vlan_id is set',ParseErrorBuffer::$E_FATAL,$options);
+				$error = new ParseError('vlan is enabled but no vlan_id is set',ErrorStore::$E_FATAL,$options);
+				$errorstore->addError($error);
 			}
 		}
 		elseif($options['enable'] != 'false'){
-			ParseErrorBuffer::addError('invalid option for vlan enable',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('invalid option for vlan enable',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 
 		foreach($options->children() as $child){
 			if($child->getName() != 'vlan_id'){
-				ParseErrorBuffer::addError('Unexpected child node '.$child->getName(),ParseErrorBuffer::$E_FATAL,$options);
+				$error = new ParseError('Unexpected child node '.$child->getName(),ErrorStore::$E_FATAL,$options);
+				$errorstore->addError($error);
 			}
 		}
 	}

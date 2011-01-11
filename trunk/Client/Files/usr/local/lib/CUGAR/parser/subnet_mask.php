@@ -52,8 +52,10 @@ class subnet_mask extends Statement{
 	 * @see Client/Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(long2ip(ip2long((string)$options)) != (string)$options){
-			ParseErrorBuffer::addError('invalid subnet mask',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('invalid subnet mask',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 	}
 }

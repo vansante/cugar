@@ -52,7 +52,9 @@ class vlan_id extends Statement{
 	 */
 	public function validate($options){
 		if($options < 0 || $options > 4096){
-			ParseErrorBuffer::addError('invalid vlan identifier',ParseErrorBuffer::$E_FATAL,$options);
+			$errorstore = ErrorStore::getInstance();
+			$error = new ParseError('invalid vlan identifier',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 	}
 }

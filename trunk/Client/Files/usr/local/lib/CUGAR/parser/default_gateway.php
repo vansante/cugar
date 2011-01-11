@@ -50,8 +50,10 @@ class default_gateway extends Statement{
 	 * @see Client/Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(long2ip(ip2long((string)$options)) != (string)$options){
-			ParseErrorBuffer::addError('invalid default gateway',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('invalid default gateway',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 	}
 }

@@ -52,14 +52,18 @@ class auth_server extends Statement{
 	 * @see Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(!isset($options->ip)){
-			ParseErrorBuffer::addError('no radius ip address defined',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no radius ip address defined',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		if(!isset($options->port)){
-			ParseErrorBuffer::addError('no radius port defined',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no radius port defined',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		if(!isset($options->shared_secret)){
-			ParseErrorBuffer::addError('no radius shared_secret defined',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no radius shared_secret defined',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		$this->checkChildNodes($options);
 	}

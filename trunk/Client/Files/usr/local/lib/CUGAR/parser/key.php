@@ -51,16 +51,20 @@ class key extends Statement{
 	 * @see Client/Files/usr/local/lib/CUGAR/parser/Statement#validate($options)
 	 */
 	public function validate($options){
+		$errorstore = ErrorStore::getInstance();
 		if(!isset($options['name'])){
-			ParseErrorBuffer::addError('no certificate name found',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('no certificate name found',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 		else{
 			if(strlen((string)$options['name']) == 0){
-				ParseErrorBuffer::addError('certificate name is empty',ParseErrorBuffer::$E_FATAL,$options);
+				$error = new ParseError('certificate name is empty',ErrorStore::$E_FATAL,$options);
+				$errorstore->addError($error);
 			}
 		}
 		if(strlen((string)$options) == 0){
-			ParseErrorBuffer::addError('Certificate is empty',ParseErrorBuffer::$E_FATAL,$options);
+			$error = new ParseError('Certificate is empty',ErrorStore::$E_FATAL,$options);
+			$errorstore->addError($error);
 		}
 	}
 }
