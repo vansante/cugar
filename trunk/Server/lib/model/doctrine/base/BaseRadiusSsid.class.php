@@ -52,6 +52,7 @@ abstract class BaseRadiusSsid extends Ssid
              'type' => 'integer',
              'unsigned' => true,
              'notnull' => true,
+             'default' => 600,
              'length' => 4,
              ));
         $this->hasColumn('own_ip', 'string', 15, array(
@@ -120,6 +121,7 @@ abstract class BaseRadiusSsid extends Ssid
              array(
               0 => 1,
              ),
+             'default' => 600,
              'length' => 3,
              ));
     }

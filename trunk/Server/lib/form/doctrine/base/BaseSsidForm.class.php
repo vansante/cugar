@@ -32,8 +32,8 @@ abstract class BaseSsidForm extends BaseFormDoctrine
       'vlan'                 => new sfValidatorInteger(array('required' => false)),
       'broadcast'            => new sfValidatorBoolean(array('required' => false)),
       'passphrase'           => new sfValidatorString(array('max_length' => 255, 'required' => false)),
-      'group_rekey_interval' => new sfValidatorInteger(),
-      'strict_rekey'         => new sfValidatorBoolean(),
+      'group_rekey_interval' => new sfValidatorInteger(array('required' => false)),
+      'strict_rekey'         => new sfValidatorBoolean(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('ssid[%s]');

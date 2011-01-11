@@ -32,7 +32,7 @@ abstract class BaseMode3Form extends RadiusSsidForm
     $this->validatorSchema['vpn_auth_cipher'] = new sfValidatorChoice(array('choices' => array(0 => 'DES-CBC', 1 => 'AES-128-CBC', 2 => 'AES-192-CBC', 3 => 'AES-256-CBC', 4 => 'BF-CBC'), 'required' => false));
 
     $this->widgetSchema   ['vpn_auth_compression'] = new sfWidgetFormInputCheckbox();
-    $this->validatorSchema['vpn_auth_compression'] = new sfValidatorBoolean();
+    $this->validatorSchema['vpn_auth_compression'] = new sfValidatorBoolean(array('required' => false));
 
     $this->widgetSchema   ['vpn_data_server'] = new sfWidgetFormInputText();
     $this->validatorSchema['vpn_data_server'] = new sfValidatorString(array('max_length' => 255, 'min_length' => 4));
@@ -44,7 +44,7 @@ abstract class BaseMode3Form extends RadiusSsidForm
     $this->validatorSchema['vpn_data_cipher'] = new sfValidatorChoice(array('choices' => array(0 => 'DES-CBC', 1 => 'AES-128-CBC', 2 => 'AES-192-CBC', 3 => 'AES-256-CBC', 4 => 'BF-CBC'), 'required' => false));
 
     $this->widgetSchema   ['vpn_data_compression'] = new sfWidgetFormInputCheckbox();
-    $this->validatorSchema['vpn_data_compression'] = new sfValidatorBoolean();
+    $this->validatorSchema['vpn_data_compression'] = new sfValidatorBoolean(array('required' => false));
 
     $this->widgetSchema->setNameFormat('mode3[%s]');
   }
