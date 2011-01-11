@@ -63,6 +63,7 @@ class BootStrap{
 			$this->serverConfig = $fetch->fetch();
 			
 			if(strlen($this->serverConfig) > 1){
+				$this->serverConfig = simplexml_load_string($this->serverConfig);
 				if($this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
 					$this->mergeConfiguration();		
 				}
@@ -79,8 +80,9 @@ class BootStrap{
 	 */
 	private function writeConfig(){
 		$fp = fopen($filepath.'config.xml',w);
+		
 		if($fp){
-			fwrite($fp,$this->serverConfig);
+			fwrite($fp,$this->serverConfig->asXML());
 			fclose($fp);
 		}
 		else{
@@ -94,8 +96,6 @@ class BootStrap{
 	 * @return void
 	 */
 	private function mergeConfiguration(){
-		$this->serverConfig = simplexml_load_string($this->serverConfig);
-		
 		$this->serverConfig->hardware->addChild('hostname',$this->config->hardware->hostname);
 		$address = $this->serverConfig->hardware->addChild('address');
 		$address->addAttribute('type',$this->config->hardware->address['type']);
