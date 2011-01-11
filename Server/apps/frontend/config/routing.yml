@@ -70,19 +70,19 @@ mode3_certificate:
     column:               id
     with_wildcard_routes: true
 
-get_config_post:
+device_config_post:
   url: /getconfig
   sf_method: post
   requirements: { cert_name: \s+, cert_name_check: \s+ }
   param: { module: deviceInterface, action: getXml, sf_format: xml }
 
-get_config_get:
+device_config_get:
   url: /getconfig/:cert_name
   sf_method: post
   requirements: { cert_name_check: \s+ }
   param: { module: deviceInterface, action: getXml, sf_format: xml }
 
-post_error:
+device_error_post:
   url: /posterror
   sf_method: post
   requirements: { cert_name: \s+, cert_name_check: \s+ }
