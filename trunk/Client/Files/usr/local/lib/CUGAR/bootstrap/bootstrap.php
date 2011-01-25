@@ -100,7 +100,7 @@ class BootStrap{
 			}
 			fwrite($resolvconf, $contents);
 			fclose($resolveconf);
-				
+
 			shell_exec("/sbin/route add default ".$this->config->hardware->address->default_gateway );
 		} else {
 			// Set DHCP
@@ -114,12 +114,12 @@ class BootStrap{
                         script \"/sbin/dhclient-script\";\n
                 }";
 
-            fwrite ( $fd, $dhclientconf );
-            fclose ( $fd );
+			fwrite ( $fd, $dhclientconf );
+			fclose ( $fd );
 
-            shell_exec( "/sbin/dhclient -c /var/etc/dhclient_".$networkinterface[0].".conf ".$networkinterface[0]." >/tmp/ ".$networkinterface[0]."_output >/tmp/".$networkinterface[0]."_error_output" );
+			shell_exec( "/sbin/dhclient -c /var/etc/dhclient_".$networkinterface[0].".conf ".$networkinterface[0]." >/tmp/ ".$networkinterface[0]."_output >/tmp/".$networkinterface[0]."_error_output" );
 		}
-		
+
 		if( $this->config->modes->mode_seletion == '3' || $this->config->modes->mode_seletion == '1_3' || $this->config->modes->mode_seletion == '2_3' ){
 			//Write openvpn config
 			$openvpnfile = fopen('/usr/local/etc/openvpn/openvpn.conf', 'w');
@@ -140,144 +140,145 @@ class BootStrap{
 			";
 			fwrite( $openvpnfile, $openvpncontent );
 			fclose($openvpnfile);
-	 		
+
 			//Start openvpn
 			shell_exec("/usr/local/sbin/openvpn file /usr/local/etc/openvpn/openvpn.conf");
 		}
 	}
 
 	public function getInterfaceList() {
-	$i = 0;
-	$interfaces = array();
+		$i = 0;
+		$interfaces = array();
 
-	$temp = shell_exec('ifconfig');
-	$temp = explode("\n",$temp);
+		$temp = shell_exec('ifconfig');
+		$temp = explode("\n",$temp);
 
-	while($i < count($temp)){
-		if(stristr($temp[$i],'flags')){
-			$position = strpos($temp[$i],":",0);
-			$tmp = substr($temp[$i],0,$position);
+		while($i < count($temp)){
+			if(stristr($temp[$i],'flags')){
+				$position = strpos($temp[$i],":",0);
+				$tmp = substr($temp[$i],0,$position);
 
-			if($tmp != 'lo0'){
-				$interfaces[] = $tmp;
+				if($tmp != 'lo0'){
+					$interfaces[] = $tmp;
+				}
 			}
+			$i++;
 		}
-		$i++;
+		return $interfaces;
 	}
-	return $interfaces;
-		}
-		/**
-		 * Prep the system for configuration
-		 * @return void
-		 * @throws Exception
-		 */
-		public function prepConfig(){
-			if($this->config->modes->mode_selection == '3' || $this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
-				//	Mode 3, fetch server-side config
-				$fetch = new FetchConfig();
-				$fetch->setConfigServer((string)$this->config->modes->mode3->server);
-				$fetch->setCertName((string)$this->config->modes->mode3->private_key);
 
-				$this->serverConfig = $fetch->fetch();
+	/**
+	 * Prep the system for configuration
+	 * @return void
+	 * @throws Exception
+	 */
+	public function prepConfig(){
+		if($this->config->modes->mode_selection == '3' || $this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
+			//	Mode 3, fetch server-side config
+			$fetch = new FetchConfig();
+			$fetch->setConfigServer((string)$this->config->modes->mode3->tunnelIP);
+			$fetch->setCertName((string)$this->config->modes->mode3->private_key);
 
-				if(strlen($this->serverConfig) > 1){
-					$this->serverConfig = simplexml_load_string($this->serverConfig);
-					if($this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
-						$this->mergeConfiguration();
-					}
+			$this->serverConfig = $fetch->fetch();
 
-					$this->writeConfig();
-				}
-			}
-		}
-
-		/**
-		 * Save merged configuration file to disk
-		 *
-		 * @return void
-		 */
-		private function writeConfig(){
-			$fp = fopen($filepath.'config.xml',w);
-
-			if($fp){
-				fwrite($fp,$this->serverConfig->asXML());
-				fclose($fp);
-			}
-			else{
-				throw new Exception('Could not open file for writing');
-			}
-		}
-
-		/**
-		 * Merge local configuration with the server-side configuration
-		 *
-		 * @return void
-		 */
-		private function mergeConfiguration(){
-			$this->serverConfig->hardware->addChild('hostname',$this->config->hardware->hostname);
-			$address = $this->serverConfig->hardware->addChild('address');
-			$address->addAttribute('type',$this->config->hardware->address['type']);
-			$address->addChild('subnet_mask',$this->config->hardware->address->subnet_mask);
-			$address->addChild('ip',$this->config->hardware->address->ip);
-			$address->addChild('default_gateway',$this->config->hardware->address->default_gateway);
-			$dns = $address->addChild('dns_servers');
-
-			foreach($this->config->hardware->address->dns_servers->ip as $ip){
-				$dns->addChild('ip',(string)$ip);
-			}
-
-			if(isset($this->config->modes->mode1)){
-				$tag = $this->serverConfig->addChild('ssid');
-				$tag->addAttribute('mode','1');
-				$hostapd = $tag->addChild('hostapd');
-
-				$hostapd->addChild('ssid_name',$this->config->modes->mode1->ssid_name);
-				$hostapd->addChild('broadcast','true');
-
-				$wpa = $hostapd->addChild('wpa');
-				$wpa->addAttribute('mode',$this->config->modes->mode1->wpa['mode']);
-				$wpa->addChild('passphrase',$this->config->modes->mode1->wpa->passphrase);
-				$wpa->addChild('strict_rekey','true');
-				$wpa->addChild('group_rekey_interval','800');
-			}
-			if(isset($this->config->modes->mode2)){
-				$tag = $this->serverConfig->addChild('ssid');
-				$tag->addAttribute('mode','2');
-				$hostapd = $tag->addChild('hostapd');
-
-				$hostapd->addChild('ssid_name',$this->config->modes->mode1->ssid_name);
-				$hostapd->addChild('broadcast','true');
-			}
-		}
-
-		/**
-		 * Fetch the base XML from file
-		 * @return void
-		 * @throws Exception
-		 */
-		public function readBaseXML(){
-			if(file_exists($this->filepath.$this->filename)){
-				//	Use custom error throwing for libxml
-				$previouslibxmlSetting = libxml_use_internal_errors(true);
-
-				$this->config = simplexml_load_file($this->filepath.$this->filename);
-
-				//Failed loading the XML, throw excption.
-				if (!$this->config){
-					$message = "Failed to load configuration file {$file}. Invalid XML. ";
-					foreach(libxml_get_errors() as $error) {
-						$message .= $error->message;
-					}
-
-					libxml_clear_errors();
-					throw new Exception($message);
+			if(strlen($this->serverConfig) > 1){
+				$this->serverConfig = simplexml_load_string($this->serverConfig);
+				if($this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
+					$this->mergeConfiguration();
 				}
 
-				//Set back to default error handling
-				libxml_use_internal_errors($previouslibxmlSetting);
-			}
-			else{
-				throw new Exception('XML file does not exist');
+				$this->writeConfig();
 			}
 		}
 	}
+
+	/**
+	 * Save merged configuration file to disk
+	 *
+	 * @return void
+	 */
+	private function writeConfig(){
+		$fp = fopen($filepath.'config.xml',w);
+
+		if($fp){
+			fwrite($fp,$this->serverConfig->asXML());
+			fclose($fp);
+		}
+		else{
+			throw new Exception('Could not open file for writing');
+		}
+	}
+
+	/**
+	 * Merge local configuration with the server-side configuration
+	 *
+	 * @return void
+	 */
+	private function mergeConfiguration(){
+		$this->serverConfig->hardware->addChild('hostname',$this->config->hardware->hostname);
+		$address = $this->serverConfig->hardware->addChild('address');
+		$address->addAttribute('type',$this->config->hardware->address['type']);
+		$address->addChild('subnet_mask',$this->config->hardware->address->subnet_mask);
+		$address->addChild('ip',$this->config->hardware->address->ip);
+		$address->addChild('default_gateway',$this->config->hardware->address->default_gateway);
+		$dns = $address->addChild('dns_servers');
+
+		foreach($this->config->hardware->address->dns_servers->ip as $ip){
+			$dns->addChild('ip',(string)$ip);
+		}
+
+		if(isset($this->config->modes->mode1)){
+			$tag = $this->serverConfig->addChild('ssid');
+			$tag->addAttribute('mode','1');
+			$hostapd = $tag->addChild('hostapd');
+
+			$hostapd->addChild('ssid_name',$this->config->modes->mode1->ssid_name);
+			$hostapd->addChild('broadcast','true');
+
+			$wpa = $hostapd->addChild('wpa');
+			$wpa->addAttribute('mode',$this->config->modes->mode1->wpa['mode']);
+			$wpa->addChild('passphrase',$this->config->modes->mode1->wpa->passphrase);
+			$wpa->addChild('strict_rekey','true');
+			$wpa->addChild('group_rekey_interval','800');
+		}
+		if(isset($this->config->modes->mode2)){
+			$tag = $this->serverConfig->addChild('ssid');
+			$tag->addAttribute('mode','2');
+			$hostapd = $tag->addChild('hostapd');
+
+			$hostapd->addChild('ssid_name',$this->config->modes->mode1->ssid_name);
+			$hostapd->addChild('broadcast','true');
+		}
+	}
+
+	/**
+	 * Fetch the base XML from file
+	 * @return void
+	 * @throws Exception
+	 */
+	public function readBaseXML(){
+		if(file_exists($this->filepath.$this->filename)){
+			//	Use custom error throwing for libxml
+			$previouslibxmlSetting = libxml_use_internal_errors(true);
+
+			$this->config = simplexml_load_file($this->filepath.$this->filename);
+
+			//Failed loading the XML, throw excption.
+			if (!$this->config){
+				$message = "Failed to load configuration file {$file}. Invalid XML. ";
+				foreach(libxml_get_errors() as $error) {
+					$message .= $error->message;
+				}
+
+				libxml_clear_errors();
+				throw new Exception($message);
+			}
+
+			//Set back to default error handling
+			libxml_use_internal_errors($previouslibxmlSetting);
+		}
+		else{
+			throw new Exception('XML file does not exist');
+		}
+	}
+}
