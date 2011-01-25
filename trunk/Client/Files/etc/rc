@@ -12,11 +12,8 @@ export HOME PATH
 
 echo "Starting rc script."
 
-#/sbin/devd
 #config lo0
 /sbin/ifconfig lo0 127.0.0.1
-/usr/sbin/syslogd -s
-/usr/sbin/usbd
 
 #create /var/tmp directory if it does not exist. 
 #if [ ! -d /var/tmp ]; then
