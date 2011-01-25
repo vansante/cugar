@@ -72,20 +72,17 @@ mode3_certificate:
 
 device_config_post:
   url: /getconfig
-  sf_method: post
   requirements: { cert_name: \s+, cert_name_check: \s+ }
   param: { module: deviceInterface, action: getXml, sf_format: xml }
 
 device_config_get:
   url: /getconfig/:cert_name
-  sf_method: post
   requirements: { cert_name_check: \s+ }
   param: { module: deviceInterface, action: getXml, sf_format: xml }
 
 device_error_post:
   url: /posterror
-  sf_method: post
-  requirements: { cert_name: \s+, cert_name_check: \s+ }
+  requirements: { sf_method: [post], cert_name: \s+, cert_name_check: \s+ }
   param: { module: deviceInterface, action: postError, sf_format: xml }
 
 # You can find more information about this file on the symfony website:

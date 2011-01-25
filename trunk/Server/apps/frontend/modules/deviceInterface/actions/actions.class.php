@@ -42,7 +42,7 @@ class deviceInterfaceActions extends sfActions {
         $this->forward404If($date['error_count'], 'The supplied time ('.$time.') is in an invalid format');
 
         $descr = $request->getParameter('description');
-        $this->forward404if(strlen($descr), 'Description is empty');
+        $this->forward404Unless(strlen($descr), 'Description is empty');
         
         DeviceLogTable::addLog($device, $time, $descr);
     }
