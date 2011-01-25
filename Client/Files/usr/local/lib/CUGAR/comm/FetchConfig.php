@@ -43,7 +43,7 @@ class FetchConfig extends Comm{
 	 * @return String
 	 */
 	public function fetchConfiguration(){
-		$r = new HttpRequest($this->configserver.'/getconfig/', HttpRequest::METH_POST);
+		$r = new HttpRequest($this->configserver.'/getconfig', HttpRequest::METH_POST);
 		$r->addPostFields(array('cert_name' => $this->cert_name, 'cert_name_check' => $this->encryptString($this->cert_name)));
 		
 		return $r->send()->getBody();
@@ -55,7 +55,7 @@ class FetchConfig extends Comm{
 	 * @return String
 	 */
 	public function fetch(){
-		$ch = curl_init($configserver.'/getconfig/');
+		$ch = curl_init($this->configserver.'/getconfig');
 		
 		//return the transfer as a string
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
