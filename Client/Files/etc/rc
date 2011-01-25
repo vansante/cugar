@@ -27,4 +27,8 @@ echo "Starting rc script."
 echo "Starting rc.php script."
 ./etc/rc.php
 
+#Run freebsd default rc
+echo "Starting FreeBSD rc";
+./etc/rc.freebsd
+
 exit 0
