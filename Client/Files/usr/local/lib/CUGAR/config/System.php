@@ -81,7 +81,6 @@ class System implements ConfigGenerator{
 	 * @return null
 	 */
 	private function __construct(){
-
 	}
 
 	/**
