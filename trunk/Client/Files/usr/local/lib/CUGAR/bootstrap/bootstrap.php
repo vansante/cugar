@@ -67,7 +67,7 @@ class BootStrap{
 	public function __construct(){
 		try{
 			$this->readBaseXML();
-			$this->prepSystem();
+			$this->prepConfig();
 		}
 		catch(Exception $e){
 			print_r($e);
@@ -79,7 +79,7 @@ class BootStrap{
 	 * @return void
 	 * @throws Exception
 	 */
-	public function prepSystem(){
+	public function prepConfig(){
 		if($this->config->modes->mode_selection == '3' || $this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
 			//	Mode 3, fetch server-side config
 			$fetch = new FetchConfig();

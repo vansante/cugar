@@ -44,6 +44,7 @@ class PostErrors extends Comm{
         
         //	set POST values
         $data = array('cert_name' => $this->cert_name, 'cert_name_check' => $this->encryptString($this->cert_name), 'time' => date('Y-m-d H:i:s'), 'description' => 'CANHAS error');
+        print_r($data);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         
         // $output contains the output string
