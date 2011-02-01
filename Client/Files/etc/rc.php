@@ -7,7 +7,7 @@ echo "CANHASPHP \n";
 include_once('/usr/local/lib/CUGAR/bootstrap/bootstrap.php');
 require_once('/usr/local/lib/CUGAR/comm/Comm.php');
 require_once('/usr/local/lib/CUGAR/comm/FetchConfig.php');
-error_reporting(0);
+error_reporting(E_ALL);
 $strap = new BootStrap();
 
 require_once('/usr/local/lib/CUGAR/parser/Parser.php');
