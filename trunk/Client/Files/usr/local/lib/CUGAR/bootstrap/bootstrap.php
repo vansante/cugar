@@ -65,6 +65,9 @@ class BootStrap{
 	private $filepath = '/etc/CUGAR/';
 
 	public function __construct(){
+		//			DEBUG
+		echo "Starting bootstrap \n";
+		//			DEBUG
 		try{
 			$this->readBaseXML();
 			$this->prepInterface();
@@ -73,6 +76,9 @@ class BootStrap{
 		catch(Exception $e){
 			print_r($e);
 		}
+		//			DEBUG
+		echo "Bootstrap finished \n";
+		//			DEBUG
 	}
 
 	/**
