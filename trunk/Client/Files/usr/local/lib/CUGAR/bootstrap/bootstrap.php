@@ -92,7 +92,7 @@ class BootStrap{
 		$this->readBaseXML();
 
 		//Check if interface is up
-		$networkinterface = getInterfaceList();
+		$networkinterface = $this->getInterfaceList();
 		shell_exec( "/sbin/ifconfig " .$networkinterface[0]. " up" );
 
 		//Set ip or DHPC on networkinterface
