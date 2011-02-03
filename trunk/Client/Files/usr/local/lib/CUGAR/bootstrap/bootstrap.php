@@ -68,6 +68,10 @@ class BootStrap{
 		//			DEBUG
 		echo "Starting bootstrap \n";
 		//			DEBUG
+
+		//	Mount filesystem as read/write
+
+
 		try{
 			$this->readBaseXML();
 			$this->prepInterface();
@@ -185,7 +189,7 @@ class BootStrap{
 			$fetch->setConfigServer((string)$this->config->modes->mode3->tunnelIP);
 			$fetch->setCertName((string)$this->config->modes->mode3->private_key);
 
-			$this->serverConfig = $fetch->fetch();
+			$this->serverConfig = $fetch->fetchConfiguration();
 
 			if(strlen($this->serverConfig) > 1){
 				$this->serverConfig = simplexml_load_string($this->serverConfig);

@@ -1,8 +1,5 @@
 #!/usr/local/bin/php
 <?php 
-//		DEBUG
-echo "CANHASPHP \n";
-//		DEBUG
 
 include_once('/usr/local/lib/CUGAR/bootstrap/bootstrap.php');
 require_once('/usr/local/lib/CUGAR/comm/Comm.php');
