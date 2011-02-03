@@ -20,6 +20,9 @@ echo "Starting rc script."
 #   mkdir -m 1777 /var/tmp
 #fi
 
+echo "Starting rc.initdiskless"
+sh /etc/rc.initdiskless
+
 #Run php rc script to manage networking.
 echo "Starting rc.php script."
 ./etc/rc.php
