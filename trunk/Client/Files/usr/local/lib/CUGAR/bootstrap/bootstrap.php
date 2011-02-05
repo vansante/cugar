@@ -101,61 +101,93 @@ class BootStrap{
 
 		//Set ip or DHPC on networkinterface
 		if( $this->config->hardware->address['type'] == 'static') {
-			//Set Ip
+			//Set Ip Address
 			shell_exec ( "/sbin/ifconfig " . ( string ) $networkinterface[0] . " " . ( string ) $this->config->hardware->address->ip. " netmask " . ( string )$this->config->hardware->address->subnet_mask );
+				
+			//	Set DNS servers in resolv.conf
 			$resolveconf = fopen('/etc/resolv.conf', 'w');
-			$contents = "";
-			foreach($this->config->hardware->address->dns_servers->ip as $dns) {
-				$contents .= "nameserver ".(String)$dns."\n";
+			if($resolveconf){
+				$contents = "";
+				foreach($this->config->hardware->address->dns_servers->ip as $dns) {
+					$contents .= "nameserver ".(String)$dns."\n";
+				}
+				fwrite($resolveconf, $contents);
+				fclose($resolveconf);
 			}
-			fwrite($resolveconf, $contents);
-			fclose($resolveconf);
-
+			else{
+				$error = ErrorStore::getInstance();
+				$error->addError(new SystemError(ErrorStore::$E_FATAL,'Could not open /etc/resolv.conf for writing','500'));
+			}
+				
+			//	Set default route correctly				
 			shell_exec("/sbin/route add default ".$this->config->hardware->address->default_gateway );
+
 		} else {
+			//	Make /var/etc directory if it doesn't exist, otherwise fopen will fail miserably
+			if(!is_dir('/var/etc/')){
+				mkdir('/var/etc/');
+			}
+				
 			// Set DHCP
 			$fd = fopen ( "/var/etc/dhclient_" .$networkinterface[0]. ".conf", "w" );
-			$dhclientconf = "timeout 60;\n
-                retry 1;\n
-                select-timeout 0;\n
-                initial-interval 1;\n
-                interface \"" .$networkinterface[0]. "\" {\n
-                ".$this->config->hardware->hostname."\n
-                        script \"/sbin/dhclient-script\";\n
-                }";
+			if($fd){
+				$dhclientconf = "timeout 60;\n
+	                retry 1;\n
+	                select-timeout 0;\n
+	                initial-interval 1;\n
+	                interface \"" .$networkinterface[0]. "\" {\n
+	                ".$this->config->hardware->hostname."\n
+	                        script \"/sbin/dhclient-script\";\n
+	                }";
 
-			fwrite ( $fd, $dhclientconf );
-			fclose ( $fd );
+				fwrite ( $fd, $dhclientconf );
+				fclose ( $fd );
 
-			shell_exec( "/sbin/dhclient -c /var/etc/dhclient_".$networkinterface[0].".conf ".$networkinterface[0]." >/tmp/ ".$networkinterface[0]."_output >/tmp/".$networkinterface[0]."_error_output" );
+				shell_exec( "/sbin/dhclient -c /var/etc/dhclient_".$networkinterface[0].".conf ".$networkinterface[0]." >/tmp/ ".$networkinterface[0]."_output >/tmp/".$networkinterface[0]."_error_output" );
+			}
+			else{
+				$error = ErrorStore::getInstance();
+				$error->addError(new SystemError(ErrorStore::$E_FATAL,'Could not open /var/etc/dhclient_'.$networkinterface[0].'.conf for writing','500'));
+			}
 		}
 
 		if( $this->config->modes->mode_seletion == '3' || $this->config->modes->mode_seletion == '1_3' || $this->config->modes->mode_seletion == '2_3' ){
 			//Write openvpn config
 			$openvpnfile = fopen('/usr/local/etc/openvpn/openvpn.conf', 'w');
-			$openvpncontent = "client
-			remote ".$SERVER_ADDR."
-	
-			port 1194
-			proto tcp
-			dev tun
-	
-			ca /etc/CUGAR/ca.crt
-			cert /etc/CUGAR/".$this->config->modes->mode3->public_key.".crt
-			key /etc/CUGAR/".$this->config->modes->mode3->private_key.".crt  # This file should be kept secret
-	
-			cipher AES-256-CBC   # AES
-	
-			verb 4
-			";
-			fwrite( $openvpnfile, $openvpncontent );
-			fclose($openvpnfile);
+			if($openvpnfile){
+				$openvpncontent = "client
+				remote ".$SERVER_ADDR."
+		
+				port 1194
+				proto tcp
+				dev tun
+		
+				ca /etc/CUGAR/ca.crt
+				cert /etc/CUGAR/".$this->config->modes->mode3->public_key.".crt
+				key /etc/CUGAR/".$this->config->modes->mode3->private_key.".crt  # This file should be kept secret
+		
+				cipher AES-256-CBC   # AES
+		
+				verb 4
+				";
+				fwrite( $openvpnfile, $openvpncontent );
+				fclose($openvpnfile);
 
-			//Start openvpn
-			shell_exec("/usr/local/sbin/openvpn file /usr/local/etc/openvpn/openvpn.conf");
+				//Start openvpn
+				shell_exec("/usr/local/sbin/openvpn file /usr/local/etc/openvpn/openvpn.conf");
+			}
+			else{
+				$error = ErrorStore::getInstance();
+				$error->addError(new SystemError(ErrorStore::$E_FATAL,'Could not open /usr/local/etc/openvpn.conf for writing','500'));
+			}
 		}
 	}
 
+	/**
+	 * Get interface list
+	 * 
+	 * @return Array
+	 */
 	public function getInterfaceList() {
 		$i = 0;
 		$interfaces = array();
@@ -183,22 +215,33 @@ class BootStrap{
 	 * @throws Exception
 	 */
 	public function prepConfig(){
-		if($this->config->modes->mode_selection == '3' || $this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
-			//	Mode 3, fetch server-side config
-			$fetch = new FetchConfig();
-			$fetch->setConfigServer((string)$this->config->modes->mode3->tunnelIP);
-			$fetch->setCertName((string)$this->config->modes->mode3->private_key);
-
-			$this->serverConfig = $fetch->fetch();
-
-			if(strlen($this->serverConfig) > 1){
-				$this->serverConfig = simplexml_load_string($this->serverConfig);
-				if($this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
-					$this->mergeConfiguration();
+		try{
+			if($this->config->modes->mode_selection == '3' || $this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
+				//	Mode 3, fetch server-side config
+				$fetch = new FetchConfig();
+				$fetch->setConfigServer((string)$this->config->modes->mode3->tunnelIP);
+				$fetch->setCertName((string)$this->config->modes->mode3->private_key);
+	
+				$this->serverConfig = $fetch->fetch();
+	
+				if(strlen($this->serverConfig) > 1){
+					$this->serverConfig = simplexml_load_string($this->serverConfig);
+					if($this->config->modes->mode_selection == '3' || $this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
+						//	In modes 3, 1_3 and 2_3 we need to merge the local config with the server config
+						$this->mergeConfiguration();
+					}
+					else{
+						//	In modes 1 and 2 we need to transform the local config into the actual config
+						$this->generateConfiguration();
+					}
+	
+					$this->writeConfig();
 				}
-
-				$this->writeConfig();
 			}
+		}
+		catch(Exception $e){
+			$error = ErrorStore::getInstance();
+			$error->addError($e);
 		}
 	}
 
@@ -219,6 +262,16 @@ class BootStrap{
 		}
 	}
 
+	/**
+	 * Transform sysconf.xml into proper configuration, required due to
+	 * diverging XML specs (oops)
+	 * 
+	 * @return unknown_type
+	 */
+	private function generateConfiguration(){
+		
+	}
+	
 	/**
 	 * Merge local configuration with the server-side configuration
 	 *

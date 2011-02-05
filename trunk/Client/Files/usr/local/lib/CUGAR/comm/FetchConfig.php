@@ -48,14 +48,17 @@ class FetchConfig extends Comm{
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         
         //	set POST values
-        $data = array('cert_name' => $this->cert_name, 'cert_name_check' => $this->encryptString($this->cert_name));
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        
-        
-        // $output contains the output string
-        $output = curl_exec($ch);
-        // close curl resource to free up system resources
-        curl_close($ch);  
+        $encrypted = $this->encryptString($this->cert_name);
+        if($encrypted !== false){
+	        $data = array('cert_name' => $this->cert_name, 'cert_name_check' => $encrypted);
+	        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+	        
+	        
+	        // $output contains the output string
+	        $output = curl_exec($ch);
+	        // close curl resource to free up system resources
+	        curl_close($ch);  
+        }
         return $output;
 	}
 }
