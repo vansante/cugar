@@ -74,7 +74,16 @@ class Comm{
 	protected function encryptString($cert_name){
 		$cert_name_enc = null;
         $key = file_get_contents($this->cert_dir.$cert_name);
-        $result = openssl_private_encrypt($cert_name, $cert_name_encrypted, $key);
+        if($key !== false){
+        	$result = openssl_private_encrypt($cert_name, $cert_name_encrypted, $key);
+        	if(!$result){
+        		throw new SystemError(ErrorStore::$E_FATAL,'Could not generate verification string','501');
+        	}
+        }
+        else{
+        	throw new SystemError(ErrorStore::$E_FATAL,'Could not open or find '.$this->cert_dir.$cert_name,'501');
+        }
+        
         return $cert_name_encrypted;
 	}
 }
