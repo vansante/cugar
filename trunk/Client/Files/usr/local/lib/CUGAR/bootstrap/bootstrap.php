@@ -115,7 +115,7 @@ class BootStrap{
 		} else {
 			// Set DHCP
 			$fd = fopen ( "/var/etc/dhclient_" .$networkinterface[0]. ".conf", "w" );
-			$dhclientconf .= "timeout 60;\n
+			$dhclientconf = "timeout 60;\n
                 retry 1;\n
                 select-timeout 0;\n
                 initial-interval 1;\n
@@ -189,7 +189,7 @@ class BootStrap{
 			$fetch->setConfigServer((string)$this->config->modes->mode3->tunnelIP);
 			$fetch->setCertName((string)$this->config->modes->mode3->private_key);
 
-			$this->serverConfig = $fetch->fetchConfiguration();
+			$this->serverConfig = $fetch->fetch();
 
 			if(strlen($this->serverConfig) > 1){
 				$this->serverConfig = simplexml_load_string($this->serverConfig);

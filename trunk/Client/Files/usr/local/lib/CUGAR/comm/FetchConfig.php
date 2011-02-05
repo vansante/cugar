@@ -37,15 +37,25 @@ class FetchConfig extends Comm{
 	}
 	
 	/**
-	 * fetch Configuration from the server
+	 * Fetch the configuration from the server
 	 * 
-	 * @throws HttpException
 	 * @return String
 	 */
-	public function fetchConfiguration(){
-		$r = new HttpRequest($this->configserver.'/getconfig', HttpRequest::METH_POST);
-		$r->addPostFields(array('cert_name' => $this->cert_name, 'cert_name_check' => $this->encryptString($this->cert_name)));
+	public function fetch(){
+		$ch = curl_init($this->configserver.'/getconfig');
 		
-		return $r->send()->getBody();
+		//return the transfer as a string
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        
+        //	set POST values
+        $data = array('cert_name' => $this->cert_name, 'cert_name_check' => $this->encryptString($this->cert_name));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        
+        
+        // $output contains the output string
+        $output = curl_exec($ch);
+        // close curl resource to free up system resources
+        curl_close($ch);  
+        return $output;
 	}
 }
