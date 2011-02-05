@@ -3,7 +3,7 @@
 	<modes>
 		<mode_selection>3</mode_selection>
 		<mode3>
-            <server>192.168.2.1</server>
+            <server>195.169.160.3</server>
             <tunnelIP>10.254.0.1</tunnelIP>
             <public_key>testnode.cugar.cert</public_key>
             <private_key>testnode.cugar.key</private_key>
@@ -16,13 +16,13 @@
 		<channel>7</channel>
 
 		<hostname>AP</hostname>
-		<address type="static">
-			<ip>192.168.2.3</ip>
+		<address type="dhcpd">
+			<!--  <ip>192.168.2.3</ip>
 			<subnet_mask>255.255.255.0</subnet_mask>
 			<default_gateway>192.168.2.1</default_gateway>
 			<dns_servers>
 				<ip>192.168.2.0</ip>
-			</dns_servers>
+			</dns_servers> -->
 		</address>
 	</hardware>
 </config>

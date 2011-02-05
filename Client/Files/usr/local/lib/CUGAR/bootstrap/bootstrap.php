@@ -108,7 +108,7 @@ class BootStrap{
 			foreach($this->config->hardware->address->dns_servers->ip as $dns) {
 				$contents .= "nameserver ".(String)$dns."\n";
 			}
-			fwrite($resolvconf, $contents);
+			fwrite($resolveconf, $contents);
 			fclose($resolveconf);
 
 			shell_exec("/sbin/route add default ".$this->config->hardware->address->default_gateway );
