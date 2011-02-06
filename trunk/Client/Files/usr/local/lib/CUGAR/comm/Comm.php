@@ -25,6 +25,8 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
+require_once('/usr/local/lib/CUGAR/lib/ErrorStore.php');
+
 class Comm{
 	/**
 	 * Directory where the private key resides
