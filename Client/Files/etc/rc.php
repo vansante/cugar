@@ -27,6 +27,8 @@ try{
     $xml->parse();
 }
 catch(Exception $e){
-    print_r($e);
+    print_r($e->getMessage());
+    $error = ErrorStore::getInstance();
+    $error->addError($e);
 }
 ?>

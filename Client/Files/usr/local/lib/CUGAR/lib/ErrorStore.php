@@ -25,12 +25,60 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
+/**
+ * Singleton class for error handling
+ * 
+ * Gathers all errors, warnings and notices that occur in execution and handles them appropriately depending on
+ * program needs.
+ */
 class ErrorStore{
+	/**
+	 * Reference variable for FATAL errors
+	 * 
+	 * public static for easy reference by objects throwing errors, to reduce errors
+	 * in integer assignment and ease of memory.
+	 * 
+	 * @access public
+	 * @static
+	 * @var Int
+	 */
 	public static $E_FATAL = 0;
+	
+	/**
+	 * Reference variable for WARNINGS occurring during program functions
+	 * 
+	 * public static for easy reference by objects throwing errors, to reduce errors
+	 * in integer assignment and ease of memory.
+	 * 
+	 * @access public
+	 * @static
+	 */ 
 	public static $E_WARNING = 1;
+	
+	/**
+	 * Reference variable for NOTICES occurring during program functions
+	 * 
+	 * public static for easy reference by objects throwing errors, to reduce errors
+	 * in integer assignment and ease of memory.
+	 * 
+	 * @access public
+	 * @static
+	 */
 	public static $E_NOTICE = 2;
 	
+	/**
+	 * Reference to self for singleton construct
+	 * 
+	 * @var ErrorStore
+	 */
 	private static $ref;
+	
+	/**
+	 * Path to save the error file to, should printErrorsToFile be called
+	 * 
+	 * @var String
+	 */
+	private $ERROR_PATH = '/var/log/';
 	
 	/**
 	 * Contains all ParseError objects
@@ -58,6 +106,22 @@ class ErrorStore{
 	}
 	
 	/**
+	 * Switches the error LED on the Soekris ON
+	 * 
+	 * Obviously only works if the software runs on a soekris platform with a /dev/led available.
+	 * 
+	 * @return void
+	 */
+	private function switchErrorLed(){
+		//	Check if /dev/led/error exists, we might be on a different testing platform
+		$check = shell_exec('ls /dev/led/error');
+		if($check == '/dev/led/error'){
+			//		Set led on
+			shell_exec('echo 1 > /dev/led/error');
+		}
+	}
+	
+	/**
 	 * Add error to the buffer
 	 * 
 	 * @param Error $error
@@ -65,13 +129,14 @@ class ErrorStore{
 	 */
 	public function addError($error){
 		if($error->getSeverity() == ErrorStore::$E_FATAL){
-			$this->$buffer_fatal[] = $tmp;
+			$this->switchErrorLed();
+			$this->buffer_fatal[] = $tmp;
 		}
 		elseif($error->getSeverity() == ErrorStore::$E_WARNING){
-			$this->$buffer_warning[] = $tmp;
+			$this->buffer_warning[] = $tmp;
 		}
 		elseif($error->getSeverity() == ErrorStore::$E_NOTICE){
-			$this->$buffer_notice[] = $tmp;
+			$this->buffer_notice[] = $tmp;
 		}
 	}
 	
@@ -106,13 +171,31 @@ class ErrorStore{
 	 */
 	public function printErrors($level){
 		if($level >= ErrorStore::$E_FATAL && count(ErrorStore::$buffer_fatal) > 0){
-			print_r($this->$buffer_fatal);
+			print_r($this->buffer_fatal);
 		}
 		elseif($level >= ErrorStore::$E_WARNING && count(ErrorStore::$buffer_warning) > 0){
-			print_r($this->$buffer_warning);
+			print_r($this->buffer_warning);
 		}
 		elseif($level >= ErrorStore::$E_NOTICE && count(ErrorStore::$buffer_notice) > 0){
-			print_r($this->$buffer_notice);
+			print_r($this->buffer_notice);
+		}
+	}
+	
+	/**
+	 * print all encountered errors to file
+	 * Note that the file has to be saved on the /cfg partition in NanoBSD to be persistent across
+	 * boots.
+	 * 
+	 * @return void
+	 */
+	public function printErrorsToFile($level){
+		$fp = fopen($this->ERROR_PATH.'error-'.date('y-m-d G:i:s'));
+		if($fp){
+			fwrite($fp,$this->returnErrors($level));
+			fclose($fp);
+		}
+		else{
+			$this->switchErrorLed();
 		}
 	}
 	
@@ -125,13 +208,13 @@ class ErrorStore{
 		$buffer = null;
 		
 		if($level >= ErrorStore::$E_FATAL && count(ErrorStore::$buffer_fatal) > 0){
-			$buffer .= print_r($this->$buffer_fatal);
+			$buffer .= print_r($this->buffer_fatal);
 		}
 		elseif($level >= ErrorStore::$E_WARNING && count(ErrorStore::$buffer_warning) > 0){
-			$buffer .= print_r($this->$buffer_warning);
+			$buffer .= print_r($this->buffer_warning);
 		}
 		elseif($level >= ErrorStore::$E_NOTICE && count(ErrorStore::$buffer_notice) > 0){
-			$buffer .= print_r($this->$buffer_notice);
+			$buffer .= print_r($this->buffer_notice);
 		}
 	}
 }
