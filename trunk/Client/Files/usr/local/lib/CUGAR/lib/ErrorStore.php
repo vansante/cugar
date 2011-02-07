@@ -276,12 +276,4 @@ class SystemError extends Exception{
 	public function getSeverity(){
 		return $this->severity;
 	}
-	
-	/**
-	 * Get the Error message
-	 * @return String
-	 */
-	public function getMessage(){
-		return $this->message;
-	}
 }
