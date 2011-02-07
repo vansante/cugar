@@ -86,6 +86,7 @@ class BootStrap{
 	 */
 
 	public function prepInterface(){
+		echo "preparing network service \n";
 		//Check if interface is up
 		$networkinterface = $this->getInterfaceList();
 		shell_exec( "/sbin/ifconfig " .$networkinterface[0]. " up" );
@@ -206,7 +207,7 @@ class BootStrap{
 	 * @throws Exception
 	 */
 	public function prepConfig(){
-		echo 'Preparing device configuration';
+		echo "Preparing device configuration\n";
 		if($this->config->modes->mode_selection == '3' || $this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
 			//	Mode 3, fetch server-side config
 			$fetch = new FetchConfig();
@@ -238,8 +239,8 @@ class BootStrap{
 	 * @return void
 	 */
 	private function writeConfig(){
-		echo 'Writing configuration to file';
-		$fp = fopen($filepath.'config.xml',w);
+		echo "Writing configuration to file\n";
+		$fp = fopen($this->filepath.'config.xml',w);
 
 		if($fp){
 			fwrite($fp,$this->serverConfig->asXML());
@@ -308,7 +309,7 @@ class BootStrap{
 	 * @throws Exception
 	 */
 	public function readBaseXML(){
-		echo 'Reading sysconf.xml';
+		echo "Reading sysconf.xml\n";
 		if(file_exists($this->filepath.$this->filename)){
 			//	Use custom error throwing for libxml
 			$previouslibxmlSetting = libxml_use_internal_errors(true);

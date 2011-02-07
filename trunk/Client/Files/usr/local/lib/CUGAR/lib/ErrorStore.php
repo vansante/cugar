@@ -99,10 +99,10 @@ class ErrorStore{
 	 * @return ErrorStore
 	 */
 	public static function getInstance(){
-		if($this->ref == null){
-			$this->ref = new ErrorStore();
+		if(ErrorStore::$ref == null){
+			ErrorStore::$ref = new ErrorStore();
 		}
-		return $this->ref;
+		return ErrorStore::$ref;
 	}
 	
 	/**
