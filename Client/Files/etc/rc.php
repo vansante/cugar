@@ -23,7 +23,7 @@ require_once('/usr/local/lib/CUGAR/config/System.php');
 try{
     $xml = new XMLParser();
     $xml->setErrorLevel(2);
-    $xml->loadXML('./config.xml');
+    $xml->loadXML('/etc/CUGAR/config.xml');
     $xml->parse();
 }
 catch(Exception $e){
