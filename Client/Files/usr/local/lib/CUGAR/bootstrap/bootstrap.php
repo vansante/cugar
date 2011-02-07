@@ -27,7 +27,7 @@
  */
 /**
  * Bootstrap class
- * 
+ *
  * Activates at boot to fetch the configuration and
  * to do some base configuration required for the fetching of the configuration
  */
@@ -86,9 +86,6 @@ class BootStrap{
 	 */
 
 	public function prepInterface(){
-		//Get xmlconfig
-		$this->readBaseXML();
-
 		//Check if interface is up
 		$networkinterface = $this->getInterfaceList();
 		shell_exec( "/sbin/ifconfig " .$networkinterface[0]. " up" );
@@ -97,7 +94,7 @@ class BootStrap{
 		if( $this->config->hardware->address['type'] == 'static') {
 			//Set Ip Address
 			shell_exec ( "/sbin/ifconfig " . ( string ) $networkinterface[0] . " " . ( string ) $this->config->hardware->address->ip. " netmask " . ( string )$this->config->hardware->address->subnet_mask );
-				
+
 			//	Set DNS servers in resolv.conf
 			$resolveconf = fopen('/etc/resolv.conf', 'w');
 			if($resolveconf){
@@ -112,8 +109,8 @@ class BootStrap{
 				$error = ErrorStore::getInstance();
 				throw new SystemError(ErrorStore::$E_FATAL,'Could not open /etc/resolv.conf for writing','500');
 			}
-				
-			//	Set default route correctly				
+
+			//	Set default route correctly
 			shell_exec("/sbin/route add default ".$this->config->hardware->address->default_gateway );
 
 		} else {
@@ -121,7 +118,7 @@ class BootStrap{
 			if(!is_dir('/var/etc/')){
 				mkdir('/var/etc/');
 			}
-				
+
 			// Set DHCP
 			$fd = fopen ( "/var/etc/dhclient_" .$networkinterface[0]. ".conf", "w" );
 			if($fd){
@@ -179,7 +176,7 @@ class BootStrap{
 
 	/**
 	 * Get interface list
-	 * 
+	 *
 	 * @return Array
 	 */
 	public function getInterfaceList() {
@@ -209,34 +206,30 @@ class BootStrap{
 	 * @throws Exception
 	 */
 	public function prepConfig(){
-		try{
-			if($this->config->modes->mode_selection == '3' || $this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
-				//	Mode 3, fetch server-side config
-				$fetch = new FetchConfig();
-				$fetch->setConfigServer((string)$this->config->modes->mode3->tunnelIP);
-				$fetch->setCertName((string)$this->config->modes->mode3->private_key);
-	
-				$this->serverConfig = $fetch->fetch();
-	
-				if(strlen($this->serverConfig) > 1){
-					$this->serverConfig = simplexml_load_string($this->serverConfig);
-					if($this->config->modes->mode_selection == '3' || $this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
-						//	In modes 3, 1_3 and 2_3 we need to merge the local config with the server config
-						$this->mergeConfiguration();
-					}
-					else{
-						//	In modes 1 and 2 we need to transform the local config into the actual config
-						$this->generateConfiguration();
-					}
-	
-					$this->writeConfig();
+		echo 'Preparing device configuration';
+		if($this->config->modes->mode_selection == '3' || $this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
+			//	Mode 3, fetch server-side config
+			$fetch = new FetchConfig();
+			$fetch->setConfigServer((string)$this->config->modes->mode3->tunnelIP);
+			$fetch->setCertName((string)$this->config->modes->mode3->private_key);
+
+			$this->serverConfig = $fetch->fetch();
+
+			if(strlen($this->serverConfig) > 1){
+				$this->serverConfig = simplexml_load_string($this->serverConfig);
+				if($this->config->modes->mode_selection == '3' || $this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
+					//	In modes 3, 1_3 and 2_3 we need to merge the local config with the server config
+					$this->mergeConfiguration();
 				}
+				else{
+					//	In modes 1 and 2 we need to transform the local config into the actual config
+					$this->generateConfiguration();
+				}
+
+				$this->writeConfig();
 			}
 		}
-		catch(Exception $e){
-			$error = ErrorStore::getInstance();
-			$error->addError($e);
-		}
+
 	}
 
 	/**
@@ -245,6 +238,7 @@ class BootStrap{
 	 * @return void
 	 */
 	private function writeConfig(){
+		echo 'Writing configuration to file';
 		$fp = fopen($filepath.'config.xml',w);
 
 		if($fp){
@@ -259,13 +253,13 @@ class BootStrap{
 	/**
 	 * Transform sysconf.xml into proper configuration, required due to
 	 * diverging XML specs (oops)
-	 * 
+	 *
 	 * @return unknown_type
 	 */
 	private function generateConfiguration(){
-		
+
 	}
-	
+
 	/**
 	 * Merge local configuration with the server-side configuration
 	 *
@@ -314,6 +308,7 @@ class BootStrap{
 	 * @throws Exception
 	 */
 	public function readBaseXML(){
+		echo 'Reading sysconf.xml';
 		if(file_exists($this->filepath.$this->filename)){
 			//	Use custom error throwing for libxml
 			$previouslibxmlSetting = libxml_use_internal_errors(true);
