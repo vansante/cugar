@@ -16,7 +16,7 @@
 		<channel>7</channel>
 
 		<hostname>AP</hostname>
-		<address type="dhcpd">
+		<address type="dhcp">
 			<!--  <ip>192.168.2.3</ip>
 			<subnet_mask>255.255.255.0</subnet_mask>
 			<default_gateway>192.168.2.1</default_gateway>
