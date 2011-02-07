@@ -27,6 +27,7 @@
  */
 /**
  * Bootstrap class
+ * 
  * Activates at boot to fetch the configuration and
  * to do some base configuration required for the fetching of the configuration
  */
@@ -70,16 +71,9 @@ class BootStrap{
 		//			DEBUG
 
 		//	Mount filesystem as read/write
-
-
-		try{
-			$this->readBaseXML();
-			$this->prepInterface();
-			$this->prepConfig();
-		}
-		catch(Exception $e){
-			print_r($e);
-		}
+		$this->readBaseXML();
+		$this->prepInterface();
+		$this->prepConfig();
 		//			DEBUG
 		echo "Bootstrap finished \n";
 		//			DEBUG
@@ -116,7 +110,7 @@ class BootStrap{
 			}
 			else{
 				$error = ErrorStore::getInstance();
-				$error->addError(new SystemError(ErrorStore::$E_FATAL,'Could not open /etc/resolv.conf for writing','500'));
+				throw new SystemError(ErrorStore::$E_FATAL,'Could not open /etc/resolv.conf for writing','500');
 			}
 				
 			//	Set default route correctly				
@@ -147,7 +141,7 @@ class BootStrap{
 			}
 			else{
 				$error = ErrorStore::getInstance();
-				$error->addError(new SystemError(ErrorStore::$E_FATAL,'Could not open /var/etc/dhclient_'.$networkinterface[0].'.conf for writing','500'));
+				throw new SystemError(ErrorStore::$E_FATAL,'Could not open /var/etc/dhclient_'.$networkinterface[0].'.conf for writing','500');
 			}
 		}
 
@@ -178,7 +172,7 @@ class BootStrap{
 			}
 			else{
 				$error = ErrorStore::getInstance();
-				$error->addError(new SystemError(ErrorStore::$E_FATAL,'Could not open /usr/local/etc/openvpn.conf for writing','500'));
+				throw new SystemError(ErrorStore::$E_FATAL,'Could not open /usr/local/etc/openvpn.conf for writing','500');
 			}
 		}
 	}
@@ -258,7 +252,7 @@ class BootStrap{
 			fclose($fp);
 		}
 		else{
-			throw new Exception('Could not open file for writing');
+			throw new SystemError(ErrorStore::$E_FATAL,'Could not open config file for writing','502');
 		}
 	}
 
