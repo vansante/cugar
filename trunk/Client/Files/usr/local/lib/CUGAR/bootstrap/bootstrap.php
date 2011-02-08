@@ -145,6 +145,10 @@ class BootStrap{
 
 		if( $this->config->modes->mode_selection == '3' || $this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3' ){
 			//Write openvpn config
+			if(!is_dir('/usr/local/etc/openvpn')){
+				mkdir('/usr/local/etc/openvpn');
+			}
+			
 			$openvpnfile = fopen('/usr/local/etc/openvpn/openvpn.conf', 'w');
 			if($openvpnfile){
 				$openvpncontent = "client
