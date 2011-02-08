@@ -130,17 +130,17 @@ class ErrorStore{
 	public function addError($error){
 		if(!method_exists($error,'getSeverity')){
 			$this->switchErrorLed();
-			$this->buffer_fata[] = $tmp;
+			$this->buffer_fata[] = $error;
 		}
 		elseif($error->getSeverity() == ErrorStore::$E_FATAL){
 			$this->switchErrorLed();
-			$this->buffer_fatal[] = $tmp;
+			$this->buffer_fatal[] = $error;
 		}
 		elseif($error->getSeverity() == ErrorStore::$E_WARNING){
-			$this->buffer_warning[] = $tmp;
+			$this->buffer_warning[] = $error;
 		}
 		elseif($error->getSeverity() == ErrorStore::$E_NOTICE){
-			$this->buffer_notice[] = $tmp;
+			$this->buffer_notice[] = $error;
 		}
 	}
 	
@@ -193,7 +193,7 @@ class ErrorStore{
 	 * @return void
 	 */
 	public function printErrorsToFile($level){
-		$fp = fopen($this->ERROR_PATH.'error-'.date('y-m-d G:i:s'));
+		$fp = fopen($this->ERROR_PATH.'error-'.date('y-m-d G:i:s'),'w');
 		if($fp){
 			fwrite($fp,$this->returnErrors($level));
 			fclose($fp);
