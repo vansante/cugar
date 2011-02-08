@@ -123,13 +123,13 @@ class BootStrap{
 			// Set DHCP
 			$fd = fopen ( "/var/etc/dhclient_" .$networkinterface[0]. ".conf", "w" );
 			if($fd){
-				$dhclientconf = "timeout 60;\n
-	                retry 1;\n
-	                select-timeout 0;\n
-	                initial-interval 1;\n
-	                interface \"" .$networkinterface[0]. "\" {\n
-	                ".$this->config->hardware->hostname."\n
-	                        script \"/sbin/dhclient-script\";\n
+				$dhclientconf = "timeout 60;
+	                retry 1;
+	                select-timeout 0;
+	                initial-interval 1;
+	                interface \"" .$networkinterface[0]. "\" {
+	                ".$this->config->hardware->hostname."
+	                        script \"/sbin/dhclient-script\";
 	                }";
 
 				fwrite ( $fd, $dhclientconf );
@@ -143,7 +143,7 @@ class BootStrap{
 			}
 		}
 
-		if( $this->config->modes->mode_seletion == '3' || $this->config->modes->mode_seletion == '1_3' || $this->config->modes->mode_seletion == '2_3' ){
+		if( $this->config->modes->mode_selection == '3' || $this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3' ){
 			//Write openvpn config
 			$openvpnfile = fopen('/usr/local/etc/openvpn/openvpn.conf', 'w');
 			if($openvpnfile){
@@ -160,8 +160,7 @@ class BootStrap{
 		
 				cipher AES-256-CBC   # AES
 		
-				verb 4
-				";
+				verb 4";
 				fwrite( $openvpnfile, $openvpncontent );
 				fclose($openvpnfile);
 
