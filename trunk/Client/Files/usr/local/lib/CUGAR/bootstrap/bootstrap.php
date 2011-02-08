@@ -209,6 +209,7 @@ class BootStrap{
 	public function prepConfig(){
 		echo "Preparing device configuration\n";
 		if($this->config->modes->mode_selection == '3' || $this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
+			echo "Mode 3 detected, fetching server configuration \n";
 			//	Mode 3, fetch server-side config
 			$fetch = new FetchConfig();
 			$fetch->setConfigServer((string)$this->config->modes->mode3->tunnelIP);
@@ -222,13 +223,13 @@ class BootStrap{
 					//	In modes 3, 1_3 and 2_3 we need to merge the local config with the server config
 					$this->mergeConfiguration();
 				}
-				else{
-					//	In modes 1 and 2 we need to transform the local config into the actual config
-					$this->generateConfiguration();
-				}
 
 				$this->writeConfig();
 			}
+		}
+		else{
+			//	In modes 1 and 2 we need to transform the local config into the actual config
+			$this->generateConfiguration();
 		}
 
 	}
@@ -258,7 +259,7 @@ class BootStrap{
 	 * @return unknown_type
 	 */
 	private function generateConfiguration(){
-
+			echo "Preparing SSID configuration \n";
 	}
 
 	/**
@@ -267,6 +268,7 @@ class BootStrap{
 	 * @return void
 	 */
 	private function mergeConfiguration(){
+		echo "Merging local and foreign configuration \n";
 		$this->serverConfig->hardware->addChild('hostname',$this->config->hardware->hostname);
 		$address = $this->serverConfig->hardware->addChild('address');
 		$address->addAttribute('type',$this->config->hardware->address['type']);

@@ -30,5 +30,6 @@ catch(Exception $e){
     print_r($e->getMessage());
     $error = ErrorStore::getInstance();
     $error->addError($e);
+    $error->printErrorsToFile(ErrorStore::$E_WARNING);
 }
 ?>
