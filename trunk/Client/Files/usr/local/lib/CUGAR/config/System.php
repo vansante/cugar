@@ -92,7 +92,7 @@ class System implements ConfigGenerator{
 		$i = 0;
 		$interfaces = array();
 
-		$temp = shell_exec('ifconfig');
+		$temp = Functions::shellCommand('ifconfig');
 		$temp = explode("\n",$temp);
 		
 		while($i < count($temp)){

@@ -114,10 +114,10 @@ class ErrorStore{
 	 */
 	private function switchErrorLed(){
 		//	Check if /dev/led/error exists, we might be on a different testing platform
-		$check = shell_exec('ls /dev/led/error');
+		$check = Functions::shellCommand('ls /dev/led/error');
 		if($check == '/dev/led/error'){
 			//		Set led on
-			shell_exec('echo 1 > /dev/led/error');
+			Functions::shellCommand('echo 1 > /dev/led/error');
 		}
 	}
 	

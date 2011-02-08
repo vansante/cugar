@@ -82,14 +82,14 @@ class Config {
          * @return bool Returns TRUE on success.
          */
         public function saveConfig($file = null) {
-                shell_exec('mount /cfg');
+                Functions::shellCommand('mount /cfg');
                 $file = is_null($file) ? $this->file : $file;
                 $return = $this->xml->asXML($file);
                 if(!is_dir('/cfg/CUGAR')){
-                       shell_exec('mkdir /cfg/CUGAR');
+                       Functions::shellCommand('mkdir /cfg/CUGAR');
                 }
-                shell_exec('cp -r /etc/CUGAR/* /cfg/CUGAR/');
-              	shell_exec('umount /cfg');
+                Functions::shellCommand('cp -r /etc/CUGAR/* /cfg/CUGAR/');
+              	Functions::shellCommand('umount /cfg');
                 return $return;
         }
 
