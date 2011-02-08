@@ -128,7 +128,11 @@ class ErrorStore{
 	 * @return void
 	 */
 	public function addError($error){
-		if($error->getSeverity() == ErrorStore::$E_FATAL){
+		if(!method_exists($error,'getSeverity')){
+			$this->switchErrorLed();
+			$this->buffer_fata[] = $tmp;
+		}
+		elseif($error->getSeverity() == ErrorStore::$E_FATAL){
 			$this->switchErrorLed();
 			$this->buffer_fatal[] = $tmp;
 		}
