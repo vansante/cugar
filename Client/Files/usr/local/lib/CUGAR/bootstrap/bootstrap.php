@@ -135,7 +135,7 @@ class BootStrap{
 				fwrite ( $fd, $dhclientconf );
 				fclose ( $fd );
 
-				shell_exec( "/sbin/dhclient -c /var/etc/dhclient_".$networkinterface[0].".conf ".$networkinterface[0]." >/tmp/ ".$networkinterface[0]."_output >/tmp/".$networkinterface[0]."_error_output" );
+				shell_exec( "/sbin/dhclient -c /var/etc/dhclient_".$networkinterface[0].".conf ".$networkinterface[0]."");
 			}
 			else{
 				$error = ErrorStore::getInstance();
