@@ -136,6 +136,14 @@ class BootStrap{
 				fclose ( $fd );
 
 				shell_exec( "/sbin/dhclient -c /var/etc/dhclient_".$networkinterface[0].".conf ".$networkinterface[0]."");
+				
+				$tmp = shell_exec( "/sbin/ifconfig " .$networkinterface[0]. " | /usr/bin/grep -w \"inet\" | /usr/bin/cut -d\" \" -f 2| /usr/bin/head -1" );
+				$ip = str_replace ( "\n", "", $tmp );
+				
+				if(long2ip(ip2long($ip)) != $ip){
+					throw new SystemError(ErrorStore::$E_FATAL,'Interface did not get an IP address','500');
+				}
+				
 			}
 			else{
 				$error = ErrorStore::getInstance();
