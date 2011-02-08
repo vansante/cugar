@@ -1,4 +1,5 @@
 #!/bin/sh
+set -x
 
 #It is not possible to run rc with #!/usr/local/bin/php.
 #To bypass this limitation, a second script is made that runs under php.
@@ -23,8 +24,7 @@ echo "Starting rc script."
 echo "Starting rc.initdiskless"
 sh /etc/rc.initdiskless
 
-#Run php rc script to manage networking.
-echo "Starting rc.php script."
+#Run php rc script to manage networking./sbin/dhclient -c /var/etc/dhclient_".$networkinterface[0].".conf ".$networkinterface[0]."
 ./etc/rc.php
 
 #Run freebsd default rc
