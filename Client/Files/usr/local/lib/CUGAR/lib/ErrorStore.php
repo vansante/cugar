@@ -151,13 +151,13 @@ class ErrorStore{
 	 * @return boolean
 	 */
 	public function hasErrors($level){
-		if($level >= ErrorStore::$E_FATAL && count(ErrorStore::$buffer_fatal) > 0){
+		if($level >= ErrorStore::$E_FATAL && count($this->buffer_fatal) > 0){
 			return true;
 		}
-		elseif($level >= ErrorStore::$E_WARNING && count(ErrorStore::$buffer_warning) > 0){
+		elseif($level >= ErrorStore::$E_WARNING && count($this->buffer_warning) > 0){
 			return true;
 		}
-		elseif($level >= ErrorStore::$E_NOTICE && count(ErrorStore::$buffer_notice) > 0){
+		elseif($level >= ErrorStore::$E_NOTICE && count($this->buffer_notice) > 0){
 			return true;
 		}
 		else{
@@ -174,13 +174,13 @@ class ErrorStore{
 	 * @return void
 	 */
 	public function printErrors($level){
-		if($level >= ErrorStore::$E_FATAL && count(ErrorStore::$buffer_fatal) > 0){
+		if($level >= ErrorStore::$E_FATAL && count($this->$buffer_fatal) > 0){
 			print_r($this->buffer_fatal);
 		}
-		elseif($level >= ErrorStore::$E_WARNING && count(ErrorStore::$buffer_warning) > 0){
+		elseif($level >= ErrorStore::$E_WARNING && count($this->$buffer_warning) > 0){
 			print_r($this->buffer_warning);
 		}
-		elseif($level >= ErrorStore::$E_NOTICE && count(ErrorStore::$buffer_notice) > 0){
+		elseif($level >= ErrorStore::$E_NOTICE && count($this->$buffer_notice) > 0){
 			print_r($this->buffer_notice);
 		}
 	}
@@ -211,13 +211,13 @@ class ErrorStore{
 	public function returnErrors($level){
 		$buffer = null;
 		
-		if($level >= ErrorStore::$E_FATAL && count(ErrorStore::$buffer_fatal) > 0){
+		if($level >= ErrorStore::$E_FATAL && count($this->buffer_fatal) > 0){
 			$buffer .= print_r($this->buffer_fatal);
 		}
-		elseif($level >= ErrorStore::$E_WARNING && count(ErrorStore::$buffer_warning) > 0){
+		elseif($level >= ErrorStore::$E_WARNING && count($this->buffer_warning) > 0){
 			$buffer .= print_r($this->buffer_warning);
 		}
-		elseif($level >= ErrorStore::$E_NOTICE && count(ErrorStore::$buffer_notice) > 0){
+		elseif($level >= ErrorStore::$E_NOTICE && count($this->buffer_notice) > 0){
 			$buffer .= print_r($this->buffer_notice);
 		}
 	}
