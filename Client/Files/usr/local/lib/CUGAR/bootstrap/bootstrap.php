@@ -158,9 +158,11 @@ class BootStrap{
 				proto tcp
 				dev tun
 		
+				remote-cert-tls server
+				
 				ca /etc/CUGAR/ca.crt
-				cert /etc/CUGAR/".$this->config->modes->mode3->public_key.".crt
-				key /etc/CUGAR/".$this->config->modes->mode3->private_key.".crt  # This file should be kept secret
+				cert /etc/CUGAR/".$this->config->modes->mode3->public_key."
+				key /etc/CUGAR/".$this->config->modes->mode3->private_key."  # This file should be kept secret
 		
 				cipher AES-256-CBC   # AES
 		
@@ -169,7 +171,7 @@ class BootStrap{
 				fclose($openvpnfile);
 
 				//Start openvpn
-				shell_exec("/usr/local/sbin/openvpn file /usr/local/etc/openvpn/openvpn.conf");
+				shell_exec("/usr/local/sbin/openvpn --config /usr/local/etc/openvpn/openvpn.conf");
 			}
 			else{
 				$error = ErrorStore::getInstance();
