@@ -89,12 +89,12 @@ class BootStrap{
 		echo "preparing network service \n";
 		//Check if interface is up
 		$networkinterface = $this->getInterfaceList();
-		shell_exec( "/sbin/ifconfig " .$networkinterface[0]. " up" );
+		Functions::shellCommand( "/sbin/ifconfig " .$networkinterface[0]. " up" );
 
 		//Set ip or DHPC on networkinterface
 		if( $this->config->hardware->address['type'] == 'static') {
 			//Set Ip Address
-			shell_exec ( "/sbin/ifconfig " . ( string ) $networkinterface[0] . " " . ( string ) $this->config->hardware->address->ip. " netmask " . ( string )$this->config->hardware->address->subnet_mask );
+			Functions::shellCommand( "/sbin/ifconfig " . ( string ) $networkinterface[0] . " " . ( string ) $this->config->hardware->address->ip. " netmask " . ( string )$this->config->hardware->address->subnet_mask );
 
 			//	Set DNS servers in resolv.conf
 			$resolveconf = fopen('/etc/resolv.conf', 'w');
@@ -112,7 +112,7 @@ class BootStrap{
 			}
 
 			//	Set default route correctly
-			shell_exec("/sbin/route add default ".$this->config->hardware->address->default_gateway );
+			Functions::shellCommand("/sbin/route add default ".$this->config->hardware->address->default_gateway );
 
 		} else {
 			//	Make /var/etc directory if it doesn't exist, otherwise fopen will fail miserably
@@ -135,9 +135,9 @@ class BootStrap{
 				fwrite ( $fd, $dhclientconf );
 				fclose ( $fd );
 
-				shell_exec( "/sbin/dhclient -c /var/etc/dhclient_".$networkinterface[0].".conf ".$networkinterface[0]."");
+				Functions::shellCommand( "/sbin/dhclient -c /var/etc/dhclient_".$networkinterface[0].".conf ".$networkinterface[0]."");
 				
-				$tmp = shell_exec( "/sbin/ifconfig " .$networkinterface[0]. " | /usr/bin/grep -w \"inet\" | /usr/bin/cut -d\" \" -f 2| /usr/bin/head -1" );
+				$tmp = Functions::shellCommand( "/sbin/ifconfig " .$networkinterface[0]. " | /usr/bin/grep -w \"inet\" | /usr/bin/cut -d\" \" -f 2| /usr/bin/head -1" );
 				$ip = str_replace ( "\n", "", $tmp );
 				
 				if(long2ip(ip2long($ip)) != $ip){
@@ -179,7 +179,7 @@ class BootStrap{
 				fclose($openvpnfile);
 
 				//Start openvpn
-				shell_exec("/usr/local/sbin/openvpn --config /usr/local/etc/openvpn/openvpn.conf");
+				Functions::shellCommand("/usr/local/sbin/openvpn --config /usr/local/etc/openvpn/openvpn.conf");
 			}
 			else{
 				$error = ErrorStore::getInstance();
@@ -197,7 +197,7 @@ class BootStrap{
 		$i = 0;
 		$interfaces = array();
 
-		$temp = shell_exec('ifconfig');
+		$temp = Functions::shellCommand('ifconfig');
 		$temp = explode("\n",$temp);
 
 		while($i < count($temp)){
