@@ -24,7 +24,7 @@ echo "Starting rc script."
 echo "Starting rc.initdiskless"
 sh /etc/rc.initdiskless
 
-#Run php rc script to manage networking./sbin/dhclient -c /var/etc/dhclient_".$networkinterface[0].".conf ".$networkinterface[0]."
+#Run php rc script to manage networking.
 ./etc/rc.php
 
 #Run freebsd default rc
