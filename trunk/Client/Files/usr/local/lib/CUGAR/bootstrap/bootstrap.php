@@ -152,7 +152,7 @@ class BootStrap{
 			$openvpnfile = fopen('/usr/local/etc/openvpn/openvpn.conf', 'w');
 			if($openvpnfile){
 				$openvpncontent = "client
-				remote ".$SERVER_ADDR."
+				remote ".(string)$this->config->modes->mode3->server."
 		
 				port 1194
 				proto tcp
