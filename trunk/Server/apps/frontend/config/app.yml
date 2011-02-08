@@ -2,6 +2,7 @@ all:
   certificate_dir: /home/cugar/keys
 
 
+
   sf_admin_dash:
     web_dir: /sfAdminDashPlugin
     image_dir: /sfAdminDashPlugin/images/icons/
@@ -19,6 +20,12 @@ all:
         items:
           Device log:
             url: device_log
+
+      Settings:
+        items:
+          Settings:
+            url: cs_setting
+      
       Configs:
         items:
           Configs:
