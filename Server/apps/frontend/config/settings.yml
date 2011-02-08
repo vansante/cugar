@@ -42,4 +42,4 @@ all:
     secure_action:          secure
 
 
-    enabled_modules:      [default, sfGuardAuth, sfAdminDash, sfGuardGroup, sfGuardUser, sfGuardPermission]
+    enabled_modules:      [default, sfGuardAuth, sfAdminDash, csSetting, sfGuardGroup, sfGuardUser, sfGuardPermission]

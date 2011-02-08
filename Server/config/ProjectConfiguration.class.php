@@ -10,6 +10,7 @@ class ProjectConfiguration extends sfProjectConfiguration {
             'sfDoctrinePlugin',
             'sfDoctrineGuardPlugin',
             'sfJqueryReloadedPlugin',
+            'csSettingsPlugin',
             'sfAdminDashPlugin'
         ));
     }

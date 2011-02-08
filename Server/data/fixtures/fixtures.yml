@@ -1,3 +1,37 @@
+csSetting:
+  setting_cert_key_pass:
+    name:                 cert_key_pass
+    type:                 input
+    setting_default:      PassKey042
+  setting_cert_key_size:
+    name:                 cert_key_size
+    type:                 input
+    setting_default:      '1024'
+  setting_cert_crt_expire_days:
+    name:                 cert_crt_expire_days
+    type:                 input
+    setting_default:      '3650'
+  setting_cert_key_country_code:
+    name:                 cert_key_country_code
+    type:                 input
+    setting_default:      NL
+  setting_cert_key_province_code:
+    name:                 cert_key_province_code
+    type:                 input
+    setting_default:      ZH
+  setting_cert_key_city:
+    name:                 cert_key_city
+    type:                 input
+    setting_default:      Leiden
+  setting_cert_key_organisation:
+    name:                 cert_key_organisation
+    type:                 input
+    setting_default:      CUGAR
+  setting_cert_key_email:
+    name:                 cert_key_email
+    type:                 input
+    setting_default:      rickwoelders@gmail.com
+
 sfGuardUser:
   user_admin:
     username: admin
