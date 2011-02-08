@@ -229,6 +229,9 @@ class BootStrap{
 
 				$this->writeConfig();
 			}
+			else{
+				throw new SystemError(ErrorStore::$E_FATAL,'Could not load config from server','500');
+			}
 		}
 		else{
 			//	In modes 1 and 2 we need to transform the local config into the actual config
