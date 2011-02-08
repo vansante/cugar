@@ -128,6 +128,10 @@ class ErrorStore{
 	 * @return void
 	 */
 	public function addError($error){
+		//	DEBUG
+		print_r($error);
+		//	DEBUG
+		
 		if(!method_exists($error,'getSeverity')){
 			$this->switchErrorLed();
 			$this->buffer_fata[] = $error;
