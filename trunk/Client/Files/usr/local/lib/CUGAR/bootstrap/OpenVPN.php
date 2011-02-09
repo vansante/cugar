@@ -33,7 +33,7 @@
  * which will thereafter be parsed by the application.
  *
  */
-class OpenVPN{
+class OpenVPNManager{
 	/**
 	 * Run mode, enables or disables DEBUG flags
 	 * @var Integer
@@ -74,11 +74,41 @@ class OpenVPN{
 	}
 
 	/**
+	 * Prepare OpenVPN for business
+	 * 
+	 * @return void
+	 */
+	public function prepareOpenVPN(){
+		$this->generateOpenVPNconfig();
+		$this->startOpenVPN();
+		
+		if(!$this->checkOpenVPN()){
+			throw new SystemError(ErrorStore::$E_FATAL,'OpenVPN initialization failed','507');
+		}
+	}
+	
+	/**
 	 * Starts the OpenVPN service
 	 * @return void
 	 */
 	private function startOpenVPN(){
 		Functions::shellCommand("/usr/local/sbin/openvpn --config /usr/local/etc/openvpn/openvpn.conf");
+	}
+	
+	/**
+	 * Check OpenVPN status
+	 * 
+	 * Checks OpenVPN status by
+	 * 1: Assuring that there is a tun0 interface in existence
+	 * 2: Asssuring we can ping the server
+	 * If both of these tests succeed, it returns true. If either of them fail, return false.
+	 * 
+	 * @return boolean
+	 */
+	private function checkOpenVPN(){
+		//@TODO: STUB
+		$ret = true;
+		return $ret;
 	}
 
 	/**
