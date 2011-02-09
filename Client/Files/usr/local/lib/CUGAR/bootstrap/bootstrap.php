@@ -64,19 +64,32 @@ class BootStrap{
 	 * @var String
 	 */
 	private $filepath = '/etc/CUGAR/';
+	
+	/**
+	 * Run mode
+	 * Bootstrap::RUNMODE_DEBUG | Bootstrap::RUNMODE_NORMAL
+	 * @var integer
+	 */
+	private $runmode;
+	
+	public static $RUNMODE_DEBUG = 1;
+	public static $RUNMODE_NORMAL = 0;
 
-	public function __construct(){
-		//			DEBUG
+	/**
+	 * Initialize bootstrap and set some defaults
+	 * 
+	 * @param integer $runmode	what mode to run in, toggles DEBUG flags and messages
+	 * @return void
+	 */
+	public function __construct($runmode = 0){
 		echo "Starting bootstrap \n";
-		//			DEBUG
 
 		//	Mount filesystem as read/write
 		$this->readBaseXML();
 		$this->prepInterface();
 		$this->prepConfig();
-		//			DEBUG
+		
 		echo "Bootstrap finished \n";
-		//			DEBUG
 	}
 
 	/**
