@@ -159,7 +159,33 @@ class BootStrap{
 			
 			$openvpnfile = fopen('/usr/local/etc/openvpn/openvpn.conf', 'w');
 			if($openvpnfile){
-				$openvpncontent = "client
+				$openvpncontent = "
+dev tun
+
+float
+remote ".(string)$this->config->modes->mode3->server."
+
+tls-client
+
+ns-cert-type server
+
+ca /etc/CUGAR/ca.crt
+cert /etc/CUGAR/".$this->config->modes->mode3->public_key."
+key /etc/CUGAR/".$this->config->modes->mode3->private_key."
+
+port 1194
+
+user nobody
+group nobody
+
+persist-key
+persist-tun
+
+verb 3
+				";
+				
+				
+				$openvpncontent_bak = "client
 				remote ".(string)$this->config->modes->mode3->server."
 		
 				port 1194
