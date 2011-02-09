@@ -172,7 +172,7 @@ class BootStrap{
 			
 			$openvpnfile = fopen('/usr/local/etc/openvpn/openvpn.conf', 'w');
 			if($openvpnfile){
-				$openvpncontent = "
+				$openvpncontent_bak = "
 dev tun
 
 float
@@ -198,12 +198,13 @@ verb 3
 				";
 				
 				
-				$openvpncontent_bak = "client
+				$openvpncontent = "tls-client
+				dev tun
 				remote ".(string)$this->config->modes->mode3->server."
 		
 				port 1194
 				proto tcp
-				dev tun
+				
 		
 				remote-cert-tls server
 				
