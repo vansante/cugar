@@ -101,7 +101,7 @@ class BootStrap{
 	public function prepInterface(){
 		
 		try{
-			$network = new Networking();
+			$network = new Networking($this->runmode);
 			$network->setConfiguration($this->config->hardware->address);
 			$networkready = $network->prepareInterface();
 		}
@@ -116,7 +116,7 @@ class BootStrap{
 		
 		if($networkready == true){
 			if(stristr($this->config_modes_mode_selection,'3')){
-				$openvpn = new OpenVPN();	
+				$openvpn = new OpenVPN($this->runmode);	
 			}	
 		}
 
