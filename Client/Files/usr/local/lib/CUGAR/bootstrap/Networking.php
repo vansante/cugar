@@ -198,13 +198,13 @@ class Networking{
 		}
 
 		// Set DHCP
-		$fd = fopen ( "/var/etc/dhclient_" .$networkinterface[0]. ".conf", "w" );
+		$fd = fopen ( "/var/etc/dhclient_" .$iface. ".conf", "w" );
 		if($fd){
 			$dhclientconf = "timeout 60;
 	                retry 1;
 	                select-timeout 0;
 	                initial-interval 1;
-	                interface \"" .$networkinterface[0]. "\" {
+	                interface \"" .$iface. "\" {
 	                ".$this->config->hardware->hostname."
 	                        script \"/sbin/dhclient-script\";
 	                }";
@@ -212,11 +212,11 @@ class Networking{
 			fwrite ( $fd, $dhclientconf );
 			fclose ( $fd );
 
-			Functions::shellCommand( "/sbin/dhclient -c /var/etc/dhclient_".$networkinterface[0].".conf ".$networkinterface[0]."");
+			Functions::shellCommand( "/sbin/dhclient -c /var/etc/dhclient_".$iface.".conf ".$iface."");
 		}
 		else{
 			$error = ErrorStore::getInstance();
-			throw new SystemError(ErrorStore::$E_FATAL,'Could not open /var/etc/dhclient_'.$networkinterface[0].'.conf for writing','500');
+			throw new SystemError(ErrorStore::$E_FATAL,'Could not open /var/etc/dhclient_'.$iface.'.conf for writing','500');
 		}
 	}
 

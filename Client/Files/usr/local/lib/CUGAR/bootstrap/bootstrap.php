@@ -119,43 +119,6 @@ class BootStrap{
 				$openvpn = new OpenVPN($this->runmode);	
 			}	
 		}
-
-		if( $this->config->modes->mode_selection == '3' || $this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3' ){
-			//Write openvpn config
-			if(!is_dir('/usr/local/etc/openvpn')){
-				mkdir('/usr/local/etc/openvpn');
-			}
-			
-			$openvpnfile = fopen('/usr/local/etc/openvpn/openvpn.conf', 'w');
-			if($openvpnfile){			
-				$openvpncontent = "tls-client
-				dev tun
-				remote ".(string)$this->config->modes->mode3->server."
-		
-				port 1194
-				proto tcp-client
-				
-		
-				remote-cert-tls server
-				
-				ca /etc/CUGAR/ca.crt
-				cert /etc/CUGAR/".$this->config->modes->mode3->public_key."
-				key /etc/CUGAR/".$this->config->modes->mode3->private_key."  # This file should be kept secret
-		
-				cipher AES-256-CBC   # AES
-		
-				verb 4";
-				fwrite( $openvpnfile, $openvpncontent );
-				fclose($openvpnfile);
-
-				//Start openvpn
-				Functions::shellCommand("/usr/local/sbin/openvpn --config /usr/local/etc/openvpn/openvpn.conf");
-			}
-			else{
-				$error = ErrorStore::getInstance();
-				throw new SystemError(ErrorStore::$E_FATAL,'Could not open /usr/local/etc/openvpn.conf for writing','500');
-			}
-		}
 	}
 
 	/**

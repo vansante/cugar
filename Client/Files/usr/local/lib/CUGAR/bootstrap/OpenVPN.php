@@ -27,7 +27,7 @@
  */
 /**
  * Pre-RC OpenVPN class
- * 
+ *
  * Sets up OpenVPN for use prior to the execution of RC.
  * OpenVPN creates a tunnel to our management servers and fetches the device configuration
  * which will thereafter be parsed by the application.
@@ -73,11 +73,53 @@ class OpenVPN{
 		return $ret;
 	}
 
+	/**
+	 * Starts the OpenVPN service
+	 * @return void
+	 */
 	private function startOpenVPN(){
-
+		Functions::shellCommand("/usr/local/sbin/openvpn --config /usr/local/etc/openvpn/openvpn.conf");
 	}
 
+	/**
+	 * Generate and write OpenVPN config
+	 * @throws SystemError
+	 * @return void
+	 */
 	private function generateOpenVPNconfig(){
-
+		if($this->config == null){
+			throw new SystemError(ErrorStore::$E_FATAL,'No config given to OpenVPN block','506');
+		}
+		
+		//Write openvpn config
+		if(!is_dir('/usr/local/etc/openvpn')){
+			mkdir('/usr/local/etc/openvpn');
+		}
+			
+		$openvpnfile = fopen('/usr/local/etc/openvpn/openvpn.conf', 'w');
+		if($openvpnfile){
+			$openvpncontent = "tls-client
+				dev tun
+				remote ".(string)$this->config->server."
+		
+				port 1194
+				proto tcp-client
+				
+		
+				remote-cert-tls server
+				
+				ca /etc/CUGAR/ca.crt
+				cert /etc/CUGAR/".$this->config->public_key."
+				key /etc/CUGAR/".$this->config->private_key."
+		
+				cipher AES-256-CBC   # AES
+		
+				verb 4";
+			fwrite( $openvpnfile, $openvpncontent );
+			fclose($openvpnfile);
+		}
+		else{
+			throw new SystemError(ErrorStore::$E_FATAL,'Could not open /usr/local/etc/openvpn.conf for writing','500');
+		}
 	}
 }
