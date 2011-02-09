@@ -108,7 +108,7 @@ class BootStrap{
 			$networkready = $network->prepareInterface();
 
 			if($networkready == true){
-				if(stristr($this->config_modes_mode_selection,'3')){
+				if(stristr($this->config->modes->mode_selection,'3')){
 					//	Set up OpenVPN
 					$openvpn = new OpenVPNManager($this->runmode);
 					$openvpn->setConfiguration($this->config->modes->mode3);
