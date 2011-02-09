@@ -82,10 +82,10 @@ class Networking{
 	 *
 	 * @return boolean
 	 */
-	public function checkInterface(){
+	private function checkInterface($iface){
 		$ret = true;
 		
-		$tmp = Functions::shellCommand( "/sbin/ifconfig " .$networkinterface[0]. " | /usr/bin/grep -w \"inet\" | /usr/bin/cut -d\" \" -f 2| /usr/bin/head -1" );
+		$tmp = Functions::shellCommand( "/sbin/ifconfig " .$iface. " | /usr/bin/grep -w \"inet\" | /usr/bin/cut -d\" \" -f 2| /usr/bin/head -1" );
 		$ip = str_replace ( "\n", "", $tmp );
 
 		/*
@@ -144,7 +144,7 @@ class Networking{
 			$this->enableDHCP($iface);
 		}
 		
-		if($this->checkInterface() == true){
+		if($this->checkInterface($iface) == true){
 			return true;
 		}
 		else{
