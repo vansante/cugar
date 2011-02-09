@@ -5,8 +5,10 @@ include_once('/usr/local/lib/CUGAR/bootstrap/bootstrap.php');
 require_once('/usr/local/lib/CUGAR/comm/Comm.php');
 require_once('/usr/local/lib/CUGAR/comm/FetchConfig.php');
 require_once('/usr/local/lib/CUGAR/lib/Functions.php');
+require_once('/usr/local/lib/CUGAR/bootstrap/Networking.php');
+require_once('/usr/local/lib/CUGAR/bootstrap/OpenVPN.php');
 error_reporting(E_ALL);
-$strap = new BootStrap();
+$strap = new BootStrap(Bootstrap::$RUNMODE_DEBUG);
 
 require_once('/usr/local/lib/CUGAR/parser/Parser.php');
 require_once('/usr/local/lib/CUGAR/parser/Statement.php');

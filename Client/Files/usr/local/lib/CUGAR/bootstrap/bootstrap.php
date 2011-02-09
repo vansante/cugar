@@ -99,69 +99,25 @@ class BootStrap{
 	 */
 
 	public function prepInterface(){
-		echo "preparing network service \n";
-		//Check if interface is up
-		$networkinterface = Functions::getInterfaceList();
-		Functions::shellCommand( "/sbin/ifconfig " .$networkinterface[0]. " up" );
-
-		//Set ip or DHPC on networkinterface
-		if( $this->config->hardware->address['type'] == 'static') {
-			//Set Ip Address
-			Functions::shellCommand( "/sbin/ifconfig " . ( string ) $networkinterface[0] . " " . ( string ) $this->config->hardware->address->ip. " netmask " . ( string )$this->config->hardware->address->subnet_mask );
-
-			//	Set DNS servers in resolv.conf
-			$resolveconf = fopen('/etc/resolv.conf', 'w');
-			if($resolveconf){
-				$contents = "";
-				foreach($this->config->hardware->address->dns_servers->ip as $dns) {
-					$contents .= "nameserver ".(String)$dns."\n";
-				}
-				fwrite($resolveconf, $contents);
-				fclose($resolveconf);
+		
+		try{
+			$network = new Networking();
+			$network->setConfiguration($this->config->hardware->address);
+			$networkready = $network->prepareInterface();
+		}
+		catch(SystemError $e){
+			$error = ErrorStore::getInstance();
+			$error->addError($e);
+			
+			if($this->runmode == Bootstrap::$RUNMODE_DEBUG){
+				echo $e->getMessage();
 			}
-			else{
-				$error = ErrorStore::getInstance();
-				throw new SystemError(ErrorStore::$E_FATAL,'Could not open /etc/resolv.conf for writing','500');
-			}
-
-			//	Set default route correctly
-			Functions::shellCommand("/sbin/route add default ".$this->config->hardware->address->default_gateway );
-
-		} else {
-			//	Make /var/etc directory if it doesn't exist, otherwise fopen will fail miserably
-			if(!is_dir('/var/etc/')){
-				mkdir('/var/etc/');
-			}
-
-			// Set DHCP
-			$fd = fopen ( "/var/etc/dhclient_" .$networkinterface[0]. ".conf", "w" );
-			if($fd){
-				$dhclientconf = "timeout 60;
-	                retry 1;
-	                select-timeout 0;
-	                initial-interval 1;
-	                interface \"" .$networkinterface[0]. "\" {
-	                ".$this->config->hardware->hostname."
-	                        script \"/sbin/dhclient-script\";
-	                }";
-
-				fwrite ( $fd, $dhclientconf );
-				fclose ( $fd );
-
-				Functions::shellCommand( "/sbin/dhclient -c /var/etc/dhclient_".$networkinterface[0].".conf ".$networkinterface[0]."");
-				
-				$tmp = Functions::shellCommand( "/sbin/ifconfig " .$networkinterface[0]. " | /usr/bin/grep -w \"inet\" | /usr/bin/cut -d\" \" -f 2| /usr/bin/head -1" );
-				$ip = str_replace ( "\n", "", $tmp );
-				
-				if(long2ip(ip2long($ip)) != $ip){
-					throw new SystemError(ErrorStore::$E_FATAL,'Interface did not get an IP address','500');
-				}
-				
-			}
-			else{
-				$error = ErrorStore::getInstance();
-				throw new SystemError(ErrorStore::$E_FATAL,'Could not open /var/etc/dhclient_'.$networkinterface[0].'.conf for writing','500');
-			}
+		}
+		
+		if($networkready == true){
+			if(stristr($this->config_modes_mode_selection,'3')){
+				$openvpn = new OpenVPN();	
+			}	
 		}
 
 		if( $this->config->modes->mode_selection == '3' || $this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3' ){
@@ -171,39 +127,13 @@ class BootStrap{
 			}
 			
 			$openvpnfile = fopen('/usr/local/etc/openvpn/openvpn.conf', 'w');
-			if($openvpnfile){
-				$openvpncontent_bak = "
-dev tun
-
-float
-remote ".(string)$this->config->modes->mode3->server."
-
-tls-client
-
-ns-cert-type server
-
-ca /etc/CUGAR/ca.crt
-cert /etc/CUGAR/".$this->config->modes->mode3->public_key."
-key /etc/CUGAR/".$this->config->modes->mode3->private_key."
-
-port 1194
-
-user nobody
-group nobody
-
-persist-key
-persist-tun
-
-verb 3
-				";
-				
-				
+			if($openvpnfile){			
 				$openvpncontent = "tls-client
 				dev tun
 				remote ".(string)$this->config->modes->mode3->server."
 		
 				port 1194
-				proto tcp
+				proto tcp-client
 				
 		
 				remote-cert-tls server
