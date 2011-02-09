@@ -88,7 +88,7 @@ class BootStrap{
 	public function prepInterface(){
 		echo "preparing network service \n";
 		//Check if interface is up
-		$networkinterface = $this->getInterfaceList();
+		$networkinterface = Functions::getInterfaceList();
 		Functions::shellCommand( "/sbin/ifconfig " .$networkinterface[0]. " up" );
 
 		//Set ip or DHPC on networkinterface
@@ -186,32 +186,6 @@ class BootStrap{
 				throw new SystemError(ErrorStore::$E_FATAL,'Could not open /usr/local/etc/openvpn.conf for writing','500');
 			}
 		}
-	}
-
-	/**
-	 * Get interface list
-	 *
-	 * @return Array
-	 */
-	public function getInterfaceList() {
-		$i = 0;
-		$interfaces = array();
-
-		$temp = Functions::shellCommand('ifconfig');
-		$temp = explode("\n",$temp);
-
-		while($i < count($temp)){
-			if(stristr($temp[$i],'flags')){
-				$position = strpos($temp[$i],":",0);
-				$tmp = substr($temp[$i],0,$position);
-
-				if($tmp != 'lo0'){
-					$interfaces[] = $tmp;
-				}
-			}
-			$i++;
-		}
-		return $interfaces;
 	}
 
 	/**

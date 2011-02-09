@@ -84,33 +84,6 @@ class System implements ConfigGenerator{
 	}
 
 	/**
-	 * Get a list of all hardware interfaces on the machine
-	 * 
-	 * @return Array
-	 */
-	public function getInterfaceList() {
-		$i = 0;
-		$interfaces = array();
-
-		$temp = Functions::shellCommand('ifconfig');
-		$temp = explode("\n",$temp);
-		
-		while($i < count($temp)){
-			if(stristr($temp[$i],'flags')){
-				$position = strpos($temp[$i],":",0);
-				$tmp = substr($temp[$i],0,$position);
-
-				if($tmp != 'lo0'){
-					$interfaces[] = $tmp;
-				}
-			}
-			$i++;
-		}
-		return $interfaces;
-	}
-
-
-	/**
 	 * Start parsing of System configuration items
 	 *
 	 * Function does nothing now, but provides a possible future hook
@@ -129,7 +102,7 @@ class System implements ConfigGenerator{
 	 */
 	public function endSystem(){
 		$rc = RCConfig::getInstance();
-		$interfaces = $this->getInterfaceList();
+		$interfaces = Functions::getInterfaceList();
 		$iface = $interfaces[0];
 
 		if($this->addressType == 'dhcp'){
