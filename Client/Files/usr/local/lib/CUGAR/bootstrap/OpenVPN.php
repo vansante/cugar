@@ -98,23 +98,25 @@ class OpenVPN{
 			
 		$openvpnfile = fopen('/usr/local/etc/openvpn/openvpn.conf', 'w');
 		if($openvpnfile){
-			$openvpncontent = "tls-client
-				dev tun
-				remote ".(string)$this->config->server."
-		
-				port 1194
-				proto tcp-client
-				
-		
-				remote-cert-tls server
-				
-				ca /etc/CUGAR/ca.crt
-				cert /etc/CUGAR/".$this->config->public_key."
-				key /etc/CUGAR/".$this->config->private_key."
-		
-				cipher AES-256-CBC   # AES
-		
-				verb 4";
+			$openvpncontent = "client
+remote ".(string)$this->config->server."
+
+ca /etc/CUGAR/ca.crt
+cert /etc/CUGAR/".$this->config->public_key."
+key /etc/CUGAR/".$this->config->private_key."
+
+cipher AES-256-CBC
+link-mtu 1559
+
+dev tun
+proto tcp
+port 1194
+
+auth-nocache
+script-security 2
+
+verb 4";
+			
 			fwrite( $openvpnfile, $openvpncontent );
 			fclose($openvpnfile);
 		}
