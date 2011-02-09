@@ -64,20 +64,20 @@ class BootStrap{
 	 * @var String
 	 */
 	private $filepath = '/etc/CUGAR/';
-	
+
 	/**
 	 * Run mode
 	 * Bootstrap::RUNMODE_DEBUG | Bootstrap::RUNMODE_NORMAL
 	 * @var integer
 	 */
 	private $runmode;
-	
+
 	public static $RUNMODE_DEBUG = 1;
 	public static $RUNMODE_NORMAL = 0;
 
 	/**
 	 * Initialize bootstrap and set some defaults
-	 * 
+	 *
 	 * @param integer $runmode	what mode to run in, toggles DEBUG flags and messages
 	 * @return void
 	 */
@@ -88,37 +88,42 @@ class BootStrap{
 		$this->readBaseXML();
 		$this->prepInterface();
 		$this->prepConfig();
-		
+
 		echo "Bootstrap finished \n";
 	}
 
 	/**
-	 * Prep the network interfaces for data of config file
+	 * Prep the network for retrieving the config file
 	 * @return void
-	 * @throws Exception
+	 *
+	 * @throws SystemError
 	 */
 
 	public function prepInterface(){
-		
+
 		try{
+			//	Set up networking
 			$network = new Networking($this->runmode);
 			$network->setConfiguration($this->config->hardware->address);
 			$networkready = $network->prepareInterface();
+
+			if($networkready == true){
+				if(stristr($this->config_modes_mode_selection,'3')){
+					//	Set up OpenVPN
+					$openvpn = new OpenVPNManager($this->runmode);
+					$openvpn->setConfiguration($this->config->modes->mode3);
+				}
+			}
 		}
 		catch(SystemError $e){
 			$error = ErrorStore::getInstance();
 			$error->addError($e);
-			
+				
 			if($this->runmode == Bootstrap::$RUNMODE_DEBUG){
 				echo $e->getMessage();
 			}
 		}
-		
-		if($networkready == true){
-			if(stristr($this->config_modes_mode_selection,'3')){
-				$openvpn = new OpenVPN($this->runmode);	
-			}	
-		}
+
 	}
 
 	/**
@@ -182,7 +187,7 @@ class BootStrap{
 	 * @return unknown_type
 	 */
 	private function generateConfiguration(){
-			echo "Preparing SSID configuration \n";
+		echo "Preparing SSID configuration \n";
 	}
 
 	/**
