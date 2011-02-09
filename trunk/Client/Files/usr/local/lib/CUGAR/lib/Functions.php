@@ -43,4 +43,34 @@ class Functions{
 		}
 	}
 
+	/**
+	 * Get interface list
+	 * 
+	 * Returns an array of interfaces as grepped from the ifconfig command
+	 * as such this includes ALL interfaces (other than loopback which is filtered out)
+	 * element 0 in the returned array is typically the first ethernet device (i.e. the one with
+	 * internet connectivity)
+	 *
+	 * @return Array
+	 */
+	public static function getInterfaceList() {
+		$i = 0;
+		$interfaces = array();
+
+		$temp = Functions::shellCommand('ifconfig');
+		$temp = explode("\n",$temp);
+
+		while($i < count($temp)){
+			if(stristr($temp[$i],'flags')){
+				$position = strpos($temp[$i],":",0);
+				$tmp = substr($temp[$i],0,$position);
+
+				if($tmp != 'lo0'){
+					$interfaces[] = $tmp;
+				}
+			}
+			$i++;
+		}
+		return $interfaces;
+	}
 }
