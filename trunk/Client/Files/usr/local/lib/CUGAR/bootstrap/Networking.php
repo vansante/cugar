@@ -108,7 +108,7 @@ class Networking{
 		 *  issues
 		 *  
 		 *  Possibly continuation of this test is a minor sleep command followed by a second (and perhaps a third) ping
-		 *  test for a BO3 setting, since individual packets can get lost.
+		 *  test for a BO3 setting to reduce false negatives.
 		 * 
 		 */
 		$output = Functions::shellCommand("ping -t 1 8.8.8.8 | grep received");
@@ -142,6 +142,13 @@ class Networking{
 		}
 		else{
 			$this->enableDHCP($iface);
+		}
+		
+		if($this->checkInterface() == true){
+			return true;
+		}
+		else{
+			throw new SystemError(ErrorStore::$E_FATAL,'Interface configuration failed','505');
 		}
 	}
 
