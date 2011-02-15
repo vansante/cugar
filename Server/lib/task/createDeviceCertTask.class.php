@@ -9,7 +9,7 @@ class createDeviceCertTask extends sfBaseTask {
         ));
 
         $this->addOptions(array(
-//            new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name'),
+            new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name', 'frontend'),
 //            new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
             new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
                 // add your own options here
@@ -45,6 +45,7 @@ EOF;
             "commonName" => '',
             "emailAddress" => csSettings::get('cert_key_email')
         );
+        
         $privkeypass = csSettings::get('cert_pass_key');
         $numberofdays = csSettings::get('cert_crt_expire_days');
 

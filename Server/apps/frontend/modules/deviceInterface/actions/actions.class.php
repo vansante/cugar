@@ -52,7 +52,7 @@ class deviceInterfaceActions extends sfActions {
             $this->forward404('Invalid arguments ('.$cert_name.' / '.$cert_name_encrypted.')');
         }
 
-        $cert_dir = csSetting::get('certificate_dir');
+        $cert_dir = csSettings::get('certificate_dir');
         $file = $cert_dir . DIRECTORY_SEPARATOR . str_replace('.key', '.crt', $cert_name);
 
         if (!file_exists($file)) {
