@@ -1,8 +1,14 @@
 all:
-  certificate_dir: /home/cugar/keys
 
-
-
+  csSettingsPlugin:
+    cache:
+      class: sfFileCache
+      options:
+        automatic_cleaning_factor: 0
+        cache_dir:                 %SF_TEMPLATE_CACHE_DIR%
+        lifetime:                  86400
+        prefix:                    %SF_APP_DIR%/template
+        
   sf_admin_dash:
     web_dir: /sfAdminDashPlugin
     image_dir: /sfAdminDashPlugin/images/icons/
