@@ -6,7 +6,6 @@ class createDeviceCertTask extends sfBaseTask {
         // // add your own arguments here
         $this->addArguments(array(
             new sfCommandArgument('cert_name', sfCommandArgument::REQUIRED, 'Name of the certificate'),
-            new sfCommandArgument('cert_path', sfCommandArgument::REQUIRED, 'Absolute path to the certificate directory, no trailing slash'),
         ));
 
         $this->addOptions(array(
@@ -31,7 +30,11 @@ EOF;
         // initialize the database connection
         $databaseManager = new sfDatabaseManager($this->configuration);
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
-        
+
+        $this->logSection('openssl', "Generating keys for certificate name '".$arguments['cert_name']."'");
+
+        $cert_dir = csSettings::get('certificate_dir');
+
         // Code borrowed from: http://www.php.net/manual/en/function.openssl-pkey-new.php
         $dn = array(
             "countryName" => csSettings::get('cert_key_country_code'),
@@ -45,9 +48,11 @@ EOF;
         $privkeypass = csSettings::get('cert_pass_key');
         $numberofdays = csSettings::get('cert_crt_expire_days');
 
+        $ca_cert = file_get_contents($cert_dir.DIRECTORY_SEPARATOR.'ca.crt');
+
         $privkey = openssl_pkey_new();
         $csr = openssl_csr_new($dn, $privkey);
-        $sscert = openssl_csr_sign($csr, null, $privkey, $numberofdays);
+        $sscert = openssl_csr_sign($csr, $ca_cert, $privkey, $numberofdays);
         openssl_x509_export($sscert, $publickey);
         openssl_pkey_export($privkey, $privatekey, $privkeypass);
         openssl_csr_export($csr, $csrStr);
