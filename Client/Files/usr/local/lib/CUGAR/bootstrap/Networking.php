@@ -228,7 +228,7 @@ class Networking{
 	 */
 	private function getPrimaryInterface(){
 		$networkinterface = Functions::getInterfaceList();
-		return $networkinterface[0];
+		return $networkinterface[1];
 	}
 
 	/**
