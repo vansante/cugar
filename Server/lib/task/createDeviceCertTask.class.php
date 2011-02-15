@@ -48,7 +48,12 @@ EOF;
         $privkeypass = csSettings::get('cert_pass_key');
         $numberofdays = csSettings::get('cert_crt_expire_days');
 
-        $ca_cert = file_get_contents($cert_dir.DIRECTORY_SEPARATOR.'ca.crt');
+        $ca_file = $cert_dir.DIRECTORY_SEPARATOR.'ca.crt';
+        if (!file_exists($ca_file)) {
+            $this->logSection('ca.crt', "Couldn't find certificate of authority at '".$ca_file."'");
+            return false;
+        }
+        $ca_cert = file_get_contents($ca_file);
 
         $privkey = openssl_pkey_new();
         $csr = openssl_csr_new($dn, $privkey);
@@ -60,6 +65,9 @@ EOF;
         echo $privatekey; // Will hold the exported PriKey
         echo $publickey;  // Will hold the exported PubKey
         echo $csrStr;     // Will hold the exported Certificate
+
+
+        return true;
     }
 
 }
