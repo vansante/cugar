@@ -1,6 +1,24 @@
 <?php
 class Functions{
 	/**
+	 * Static constant identifier for runmode debug
+	 * @var int
+	 */
+	public static final $RUNMODE_DEBUG = 1;
+	
+	/**
+	 * Public constant identifier for runmode normal
+	 * @final
+	 * @var unknown_type
+	 */
+	public static final $RUNMODE_NORMAL = 0;
+	
+	/**
+	 * Setting for current runmode
+	 */
+	public static $runmode;
+	
+	/**
 	 * Execute shell command
 	 *
 	 * @static
@@ -35,9 +53,9 @@ class Functions{
 			// proc_close in order to avoid a deadlock
 			$returncode = proc_close ( $process );
 
-			//	DEBUG
-			echo $command;
-			//	DEBUG
+			if(Functions::$runmode == Functions::$RUNMODE_DEBUG){
+				echo $command;
+			}
 			
 			return $output;
 		}
