@@ -8,7 +8,7 @@ require_once('/usr/local/lib/CUGAR/lib/Functions.php');
 require_once('/usr/local/lib/CUGAR/bootstrap/Networking.php');
 require_once('/usr/local/lib/CUGAR/bootstrap/OpenVPN.php');
 error_reporting(E_ALL);
-$strap = new BootStrap(Bootstrap::$RUNMODE_DEBUG);
+$strap = new BootStrap(Functions::$RUNMODE_DEBUG);
 
 require_once('/usr/local/lib/CUGAR/parser/Parser.php');
 require_once('/usr/local/lib/CUGAR/parser/Statement.php');
