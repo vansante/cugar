@@ -114,9 +114,7 @@ class BootStrap{
 			$error = ErrorStore::getInstance();
 			$error->addError($e);
 				
-			if(Functions::$runmode == Functions::$RUNMODE_DEBUG){
-				echo $e->getMessage();
-			}
+			Functions::debug($e->getMessage());
 		}
 
 	}
