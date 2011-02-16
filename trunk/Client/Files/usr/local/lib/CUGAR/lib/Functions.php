@@ -19,6 +19,22 @@ class Functions{
 	public static $runmode;
 	
 	/**
+	 * Prints debug message
+	 * 
+	 * note, only prints when Functions::$runmode is set to Functions::$RUNMODE_DEBUG
+	 * @todo expand this to possibly also pipe these messages to file, should be useful
+	 * when boot sequence actually works and debugging in terminal becomes hell.
+	 * 
+	 * @param String $message
+	 * @return void
+	 */
+	public static function debug($message){
+		if(Functions::$runmode == Functions::$RUNMODE_DEBUG){
+			echo 'DEBUG: '.$message;
+		}
+	}
+	
+	/**
 	 * Execute shell command
 	 *
 	 * @static
