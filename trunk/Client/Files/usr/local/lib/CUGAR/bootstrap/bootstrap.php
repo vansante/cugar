@@ -75,55 +75,54 @@ class BootStrap{
 		echo "Starting bootstrap \n";
 
 		Functions::$runmode = $runmode;
-		
-		//	Mount filesystem as read/write
-		$this->readBaseXML();
-		$this->prepInterface();
-		$this->prepConfig();
+		try{
+			//	Mount filesystem as read/write
+			$this->readBaseXML();
+			$this->prepInterface();
+			$this->prepConfig();
+		}
+		catch(SystemError $e){
+			$error = ErrorStore::getInstance();
+			$error->addError($e);
 
+			Functions::debug($e->getMessage());
+		}
 		echo "Bootstrap finished \n";
 	}
 
 	/**
 	 * Prep the network for retrieving the config file
-	 * 
+	 *
 	 * Sets up Networking and OpenVPN for configuration retrieval
 	 * Exceptions are thrown by the objects that undertake this task
-	 * 
+	 *
 	 * @return void
 	 * @throws SystemError
 	 */
-
 	public function prepInterface(){
-		try{
-			//	Set up networking
-			$network = new Networking();
-			$network->setConfiguration($this->config->hardware->address);
-			$networkready = $network->prepareInterface();
 
-			if($networkready == true){
-				if(stristr($this->config->modes->mode_selection,'3')){
-					//	Set up OpenVPN
-					$openvpn = new OpenVPNManager();
-					$openvpn->setConfiguration($this->config->modes->mode3);
-					$openvpn->prepareOpenVPN();
-				}
+		//	Set up networking
+		$network = new Networking();
+		$network->setConfiguration($this->config->hardware->address);
+		$networkready = $network->prepareInterface();
+
+		if($networkready == true){
+			if(stristr($this->config->modes->mode_selection,'3')){
+				//	Set up OpenVPN
+				$openvpn = new OpenVPNManager();
+				$openvpn->setConfiguration($this->config->modes->mode3);
+				$openvpn->prepareOpenVPN();
 			}
 		}
-		catch(SystemError $e){
-			$error = ErrorStore::getInstance();
-			$error->addError($e);
-				
-			Functions::debug($e->getMessage());
-		}
+
 
 	}
 
-	
+
 	/**
 	 * Prep the system for configuration
 	 * @return void
-	 * @throws Exception
+	 * @throws SystemError
 	 */
 	public function prepConfig(){
 		echo "Preparing device configuration\n";
