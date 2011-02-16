@@ -4,14 +4,13 @@ class Functions{
 	 * Static constant identifier for runmode debug
 	 * @var int
 	 */
-	public static final $RUNMODE_DEBUG = 1;
+	public static $RUNMODE_DEBUG = 1;
 	
 	/**
 	 * Public constant identifier for runmode normal
-	 * @final
 	 * @var unknown_type
 	 */
-	public static final $RUNMODE_NORMAL = 0;
+	public static $RUNMODE_NORMAL = 0;
 	
 	/**
 	 * Setting for current runmode
@@ -33,7 +32,7 @@ class Functions{
 			echo 'DEBUG: '.$message;
 		}
 	}
-	
+		
 	/**
 	 * Execute shell command
 	 *

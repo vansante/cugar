@@ -31,3 +31,12 @@
 class MergeConfiguration{
 	
 }
+
+/**
+ * Generate device-ready configuration from client configuration file
+ * Differences in syntax require this to happen
+ *
+ */
+class GenerateConfiguration{
+	
+}
