@@ -42,7 +42,7 @@ EOF;
             "localityName" => csSettings::get('cert_key_city'),
             "organizationName" => csSettings::get('cert_key_organisation'),
             "organizationalUnitName" => '',
-            "commonName" => '',
+            "commonName" => 'test',
             "emailAddress" => csSettings::get('cert_key_email')
         );
         
