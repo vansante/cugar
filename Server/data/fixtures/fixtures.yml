@@ -31,6 +31,10 @@ csSetting:
     name:                 cert_key_organisation
     type:                 input
     setting_default:      CUGAR
+  setting_cert_key_common_name:
+    name:                 cert_key_common_name
+    type:                 input
+    setting_default:      Rick Woelders
   setting_cert_key_email:
     name:                 cert_key_email
     type:                 input
