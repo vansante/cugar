@@ -54,14 +54,23 @@ EOF;
 
         $ca_file = $cert_dir.DIRECTORY_SEPARATOR.'ca.crt';
         if (!file_exists($ca_file)) {
-            $this->logSection('ca.crt', "Couldn't find certificate of authority at '".$ca_file."'");
+            $this->logSection('Error', "Couldn't find certificate of authority at '".$ca_file."'");
             return false;
         }
         $ca_cert = file_get_contents($ca_file);
 
         $privkey = openssl_pkey_new($config);
+        if ($privkey === false) {
+            $this->printOpenSSLErrors();
+        }
         $csr = openssl_csr_new($dn, $privkey, $config);
+        if ($csr === false) {
+            $this->printOpenSSLErrors();
+        }
         $sscert = openssl_csr_sign($csr, $ca_cert, $privkey, $numberofdays, $config);
+        if ($sscert === false) {
+            $this->printOpenSSLErrors();
+        }
         openssl_x509_export($sscert, $publickey);
         openssl_pkey_export($privkey, $privatekey, $privkeypass, $config);
         openssl_csr_export($csr, $csrStr);
@@ -73,5 +82,9 @@ EOF;
 
         return true;
     }
-
+    protected function printOpenSSLErrors() {
+        while ($msg = openssl_error_string()) {
+            $this->logSection('Error', "OpenSSL: ". $msg);
+        }
+    }
 }
