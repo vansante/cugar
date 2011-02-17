@@ -2,46 +2,57 @@ csSetting:
   setting_openssl_cnf_path:
     name:                 openssl_cnf_path
     type:                 input
-    setting_default:      /home/cugar/buildkeys/openssl.cnf
+    setting_group:        Certificates
+    setting_default:      '/home/cugar/buildkeys/openssl.cnf'
   setting_certificate_dir:
     name:                 certificate_dir
     type:                 input
-    setting_default:      /home/cugar/keys
+    setting_group:        Certificates
+    setting_default:      '/home/cugar/keys'
   setting_cert_key_pass:
     name:                 cert_key_pass
     type:                 input
+    setting_group:                Certificates
     setting_default:      PassKey042
   setting_cert_key_size:
     name:                 cert_key_size
     type:                 input
+    setting_group:        Certificates
     setting_default:      '1024'
   setting_cert_crt_expire_days:
     name:                 cert_crt_expire_days
     type:                 input
+    setting_group:        Certificates
     setting_default:      '3650'
   setting_cert_key_country_code:
     name:                 cert_key_country_code
     type:                 input
+    setting_group:        Certificates
     setting_default:      NL
   setting_cert_key_province_code:
     name:                 cert_key_province_code
     type:                 input
+    setting_group:        Certificates
     setting_default:      ZH
   setting_cert_key_city:
     name:                 cert_key_city
     type:                 input
+    setting_group:        Certificates
     setting_default:      Leiden
   setting_cert_key_organisation:
     name:                 cert_key_organisation
     type:                 input
+    setting_group:        Certificates
     setting_default:      CUGAR
   setting_cert_key_common_name:
     name:                 cert_key_common_name
     type:                 input
+    setting_group:        Certificates
     setting_default:      Rick Woelders
   setting_cert_key_email:
     name:                 cert_key_email
     type:                 input
+    setting_group:        Certificates
     setting_default:      rickwoelders@gmail.com
 
 sfGuardUser:
