@@ -83,7 +83,7 @@ class OpenVPNManager{
 	 * @return void
 	 */
 	private function startOpenVPN(){
-		Functions::shellCommand("/usr/local/sbin/openvpn --config /usr/local/etc/openvpn/openvpn.conf");
+		Functions::shellCommand("/usr/local/sbin/openvpn --config /usr/local/etc/openvpn/openvpn.conf 2>&1");
 	}
 	
 	/**
