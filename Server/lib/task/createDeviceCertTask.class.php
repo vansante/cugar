@@ -71,15 +71,15 @@ EOF;
 
         $privkey = openssl_pkey_new($config);
         if ($privkey === false) {
-            $this->printOpenSSLErrors();
+            $this->printOpenSSLErrors('openssl_pkey_new');
         }
         $csr = openssl_csr_new($dn, $privkey, $config);
         if ($csr === false) {
-            $this->printOpenSSLErrors();
+            $this->printOpenSSLErrors('openssl_csr_new');
         }
         $sscert = openssl_csr_sign($csr, $ca_cert, $privkey, $numberofdays, $config);
         if ($sscert === false) {
-            $this->printOpenSSLErrors();
+            $this->printOpenSSLErrors('openssl_csr_sign');
         }
         openssl_x509_export($sscert, $publickey);
         openssl_pkey_export($privkey, $privatekey, $privkeypass, $config);
@@ -92,10 +92,10 @@ EOF;
 
         return true;
     }
-    protected function printOpenSSLErrors() {
+    protected function printOpenSSLErrors($function_name) {
         while ($msg = openssl_error_string()) {
             $this->logSection('Error', "OpenSSL: ". $msg);
         }
-        throw new sfException("An OpenSSL error occured.");
+        throw new sfException("An OpenSSL error occured in '".$function_name."'");
     }
 }
