@@ -35,6 +35,14 @@ EOF;
 
         $cert_dir = csSettings::get('certificate_dir');
 
+        $openssl_cnf = csSettings::get('openssl_cnf_path');
+        if (!file_exists($openssl_cnf)) {
+            throw new sfException("Couldn't find openssl.cnf at '".$openssl_cnf."'");
+        }
+        if (!is_readable($openssl_cnf)) {
+            throw new sfException("Couldn't read openssl.cnf at '".$openssl_cnf."'");
+        }
+        
         // Code borrowed from: http://www.php.net/manual/en/function.openssl-pkey-new.php
         $dn = array(
             "countryName" => csSettings::get('cert_key_country_code'),
@@ -54,8 +62,10 @@ EOF;
 
         $ca_file = $cert_dir.DIRECTORY_SEPARATOR.'ca.crt';
         if (!file_exists($ca_file)) {
-            $this->logSection('Error', "Couldn't find certificate of authority at '".$ca_file."'");
-            return false;
+            throw new sfException("Couldn't find certificate of authority at '".$ca_file."'");
+        }
+        if (!is_readable($ca_file)) {
+            throw new sfException("Couldn't read certificate of authority at '".$ca_file."'");
         }
         $ca_cert = file_get_contents($ca_file);
 
@@ -86,5 +96,6 @@ EOF;
         while ($msg = openssl_error_string()) {
             $this->logSection('Error', "OpenSSL: ". $msg);
         }
+        throw new sfException("An OpenSSL error occured.");
     }
 }
