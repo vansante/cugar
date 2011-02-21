@@ -12,7 +12,7 @@ csSetting:
   setting_cert_key_pass:
     name:                 cert_key_pass
     type:                 input
-    setting_group:                Certificates
+    setting_group:        Certificates
     setting_default:      PassKey042
   setting_cert_key_size:
     name:                 cert_key_size
