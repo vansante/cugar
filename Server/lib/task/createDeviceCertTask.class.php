@@ -54,7 +54,10 @@ EOF;
             "emailAddress" => csSettings::get('cert_key_email')
         );
         $config = array(
-            'config' => csSettings::get('openssl_cnf_path')
+            'config' => csSettings::get('openssl_cnf_path'),
+            'private_key_bits' => 1024,
+            'private_key_type' => OPENSSL_KEYTYPE_RSA,
+            'encrypt_key' => false
         );
         
         $privkeypass = csSettings::get('cert_pass_key');
