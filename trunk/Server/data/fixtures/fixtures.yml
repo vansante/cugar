@@ -3,7 +3,7 @@ csSetting:
     name:                 openssl_cnf_path
     type:                 input
     setting_group:        Certificates
-    setting_default:      '/home/cugar/buildkeys/openssl.cnf'
+    setting_default:      '/home/cugar/buildkeys/phpopenssl.cnf'
   setting_certificate_dir:
     name:                 certificate_dir
     type:                 input
