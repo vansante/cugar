@@ -115,7 +115,6 @@ class BootStrap{
 			}
 		}
 
-
 	}
 
 
@@ -137,93 +136,25 @@ class BootStrap{
 
 			if(strlen($this->serverConfig) > 1){
 				$this->serverConfig = simplexml_load_string($this->serverConfig);
-				if($this->config->modes->mode_selection == '3' || $this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
-					//	In modes 3, 1_3 and 2_3 we need to merge the local config with the server config
-					$this->mergeConfiguration();
-				}
-
-				$this->writeConfig();
+				$merge = new MergeConfiguration();
+				$merge->setForeignConf($this->serverConfig);
+				$merge->setLocalConf($this->config);
+				$merge->mergeConfiguration();
+				$merge->writeConfiguration();
 			}
 			else{
 				throw new SystemError(ErrorStore::$E_FATAL,'Could not load config from server','500');
 			}
 		}
 		else{
+			echo "Prepping local configuration";
 			//	In modes 1 and 2 we need to transform the local config into the actual config
-			$this->generateConfiguration();
+			$genconf = new GenerateConfiguration();
+			$genconf->setLocalConf($this->config);
+			$genconf->generateConfiguration();
+			$genconf->writeConfiguration();
 		}
 
-	}
-
-	/**
-	 * Save merged configuration file to disk
-	 *
-	 * @return void
-	 */
-	private function writeConfig(){
-		echo "Writing configuration to file\n";
-		$fp = fopen($this->filepath.'config.xml',w);
-
-		if($fp){
-			fwrite($fp,$this->serverConfig->asXML());
-			fclose($fp);
-		}
-		else{
-			throw new SystemError(ErrorStore::$E_FATAL,'Could not open config file for writing','502');
-		}
-	}
-
-	/**
-	 * Transform sysconf.xml into proper configuration, required due to
-	 * diverging XML specs (oops)
-	 *
-	 * @return unknown_type
-	 */
-	private function generateConfiguration(){
-		echo "Preparing SSID configuration \n";
-	}
-
-	/**
-	 * Merge local configuration with the server-side configuration
-	 *
-	 * @return void
-	 */
-	private function mergeConfiguration(){
-		echo "Merging local and foreign configuration \n";
-		$this->serverConfig->hardware->addChild('hostname',$this->config->hardware->hostname);
-		$address = $this->serverConfig->hardware->addChild('address');
-		$address->addAttribute('type',$this->config->hardware->address['type']);
-		$address->addChild('subnet_mask',$this->config->hardware->address->subnet_mask);
-		$address->addChild('ip',$this->config->hardware->address->ip);
-		$address->addChild('default_gateway',$this->config->hardware->address->default_gateway);
-		$dns = $address->addChild('dns_servers');
-
-		foreach($this->config->hardware->address->dns_servers->ip as $ip){
-			$dns->addChild('ip',(string)$ip);
-		}
-
-		if(isset($this->config->modes->mode1)){
-			$tag = $this->serverConfig->addChild('ssid');
-			$tag->addAttribute('mode','1');
-			$hostapd = $tag->addChild('hostapd');
-
-			$hostapd->addChild('ssid_name',$this->config->modes->mode1->ssid_name);
-			$hostapd->addChild('broadcast','true');
-
-			$wpa = $hostapd->addChild('wpa');
-			$wpa->addAttribute('mode',$this->config->modes->mode1->wpa['mode']);
-			$wpa->addChild('passphrase',$this->config->modes->mode1->wpa->passphrase);
-			$wpa->addChild('strict_rekey','true');
-			$wpa->addChild('group_rekey_interval','800');
-		}
-		if(isset($this->config->modes->mode2)){
-			$tag = $this->serverConfig->addChild('ssid');
-			$tag->addAttribute('mode','2');
-			$hostapd = $tag->addChild('hostapd');
-
-			$hostapd->addChild('ssid_name',$this->config->modes->mode1->ssid_name);
-			$hostapd->addChild('broadcast','true');
-		}
 	}
 
 	/**
