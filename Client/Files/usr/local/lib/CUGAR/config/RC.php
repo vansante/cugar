@@ -29,8 +29,12 @@ class RCConfig implements ConfigGenerator{
 	 * 
 	 */
 	private function __construct(){
-		//@TODO remove on completion of debug
+		//@TODO remove on completion of debug?
 		$this->addLine("sshd_enable=\"YES\"");
+		
+		//		Static services that must be started always
+		$this->addLine("snmp_enable=\"YES\"");
+		$this->addLine("lighttpd_enable=\"YES\"");
 	}
 	
 	/**
@@ -41,6 +45,12 @@ class RCConfig implements ConfigGenerator{
 		$this->FILEPATH = $filepath;
 	}
 	
+	/**
+	 * Add a line to RC.conf 
+	 * 
+	 * @param String $line
+	 * @return void
+	 */
 	public function addLine($line){
 		$this->buffer .= $line."\n";
 	}
