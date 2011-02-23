@@ -116,20 +116,6 @@ class XMLParser{
 	 */
 	public function parse(){
 		if($this->xml['version'] == XMLParser::VERSION){
-			/*------------------ DEBUG -------------------*/
-			$ovpn = OpenVPNConfig::getInstance();
-			$ovpn->setSavePath('./output/');
-			$hostap = HostAPDConfig::getInstance();
-			$hostap->setSavePath('./output/');
-			$dhcprelay = DHCPRelayConfig::getInstance();
-			$dhcprelay->setSavePath('./output/');
-			$rc = RCConfig::getInstance();
-			$rc->setSavePath('./output/');
-			$system = System::getInstance();
-			$system->setSavePath('./output/');
-			/*------------------ DEBUG -------------------*/
-
-
 			/*	Parser cascades down through Statement classes until it has parsed everything
 			 * 	as such, over here, we only have to call the ssid class every time we encounter an ssid tag.
 			 */
