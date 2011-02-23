@@ -51,6 +51,10 @@ class FetchConfig extends Comm{
         $encrypted = $this->encryptString($this->cert_name);
         if($encrypted !== false){
 	        $data = array('cert_name' => $this->cert_name, 'cert_name_check' => $encrypted);
+	        
+	        echo 'Fetching configuration from: '.$this->configserver."/getconfig \n";
+	        Functions::debug('CERT_NAME: '.$this->cert_name.' NAME_CHECK:'.$encrypted);
+	        
 	        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 	        
 	        
