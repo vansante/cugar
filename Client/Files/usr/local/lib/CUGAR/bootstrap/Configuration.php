@@ -46,7 +46,7 @@ abstract class configManager{
 	 * as the one we made previously. If so, abort and continue the boot process as normal.
 	 * @return unknown_type
 	 */
-	abstract private function checkConfigVersion();
+	abstract protected function checkConfigVersion();
 
 	/**
 	 * Setter for $this->local_conf
@@ -143,7 +143,7 @@ class MergeConfiguration extends configManager{
 		}
 	}
 
-	private function checkConfigVersion(){
+	protected function checkConfigVersion(){
 
 	}
 
@@ -162,7 +162,7 @@ class GenerateConfiguration extends ConfigManager{
 
 	}
 
-	private function checkConfigVersion(){
+	protected function checkConfigVersion(){
 
 	}
 }
