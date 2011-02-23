@@ -216,13 +216,13 @@ class ErrorStore{
 		$buffer = null;
 		
 		if($level >= ErrorStore::$E_FATAL && count($this->buffer_fatal) > 0){
-			$buffer .= print_r($this->buffer_fatal);
+			$buffer .= print_r($this->buffer_fatal,true);
 		}
 		elseif($level >= ErrorStore::$E_WARNING && count($this->buffer_warning) > 0){
-			$buffer .= print_r($this->buffer_warning);
+			$buffer .= print_r($this->buffer_warning,true);
 		}
 		elseif($level >= ErrorStore::$E_NOTICE && count($this->buffer_notice) > 0){
-			$buffer .= print_r($this->buffer_notice);
+			$buffer .= print_r($this->buffer_notice,true);
 		}
 	}
 }
