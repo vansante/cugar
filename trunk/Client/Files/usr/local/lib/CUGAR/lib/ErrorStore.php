@@ -224,6 +224,8 @@ class ErrorStore{
 		elseif($level >= ErrorStore::$E_NOTICE && count($this->buffer_notice) > 0){
 			$buffer .= print_r($this->buffer_notice,true);
 		}
+		
+		return $buffer;
 	}
 }
 
