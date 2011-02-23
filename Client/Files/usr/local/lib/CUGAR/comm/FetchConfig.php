@@ -42,8 +42,14 @@ class FetchConfig extends Comm{
 	 * @return String
 	 */
 	public function fetch(){
-		$ch = curl_init($this->configserver.'/getconfig');
+		if(Functions::$runmode == Functions::$RUNMODE_DEBUG){
+			$filename = '/frontend_dev.php/getconfig';
+		}
+		else{
+			$filename = '/getconfig';
+		}
 		
+		$ch = curl_init($this->configserver.$filename);
 		//return the transfer as a string
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         
@@ -63,6 +69,9 @@ class FetchConfig extends Comm{
 	        // close curl resource to free up system resources
 	        curl_close($ch);  
         }
+        
+        Functions::debug('CURL OUTPUT --'.$output.'--'."\n");
+        
         return $output;
 	}
 }
