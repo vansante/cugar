@@ -87,7 +87,6 @@ class BootStrap{
 			$error->addError($e);
 			
 			$error->printErrorsToFile(ErrorStore::$E_NOTICE);
-			//Functions::debug($e->getMessage());
 		}
 		echo "Bootstrap finished \n";
 	}
