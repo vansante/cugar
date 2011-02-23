@@ -1,0 +1,5 @@
+#!/usr/local/bin/php
+<?php
+include('/usr/local/lib/cugar/shell.php);
+$shell = new CugarShell();
+?>

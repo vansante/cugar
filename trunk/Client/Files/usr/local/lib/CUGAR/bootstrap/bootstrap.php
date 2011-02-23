@@ -80,6 +80,7 @@ class BootStrap{
 			$this->readBaseXML();
 			$this->prepInterface();
 			$this->prepConfig();
+			$this->parseConfiguration();
 		}
 		catch(SystemError $e){
 			$error = ErrorStore::getInstance();
@@ -187,5 +188,16 @@ class BootStrap{
 		else{
 			throw new Exception('XML file does not exist');
 		}
+	}
+
+	/**
+	 * parse generated configuration into separate config files
+	 * @return unknown_type
+	 */
+	public function parseConfiguration(){
+		$xml = new XMLParser();
+		$xml->setErrorLevel(2);
+		$xml->loadXML('/etc/CUGAR/config.xml');
+		$xml->parse();
 	}
 }
