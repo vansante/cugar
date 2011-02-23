@@ -46,7 +46,7 @@ abstract class configManager{
 	 * as the one we made previously. If so, abort and continue the boot process as normal.
 	 * @return unknown_type
 	 */
-	abstract function checkConfigVersion();
+	abstract private function checkConfigVersion();
 
 	/**
 	 * Setter for $this->local_conf
