@@ -7,6 +7,7 @@ require_once('/usr/local/lib/CUGAR/comm/FetchConfig.php');
 require_once('/usr/local/lib/CUGAR/lib/Functions.php');
 require_once('/usr/local/lib/CUGAR/bootstrap/Networking.php');
 require_once('/usr/local/lib/CUGAR/bootstrap/OpenVPN.php');
+require_once('/usr/local/lib/CUGAR/bootstrap/Configuration.php');
 error_reporting(E_ALL);
 $strap = new BootStrap(Functions::$RUNMODE_DEBUG);
 
