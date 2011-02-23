@@ -29,7 +29,7 @@ class Functions{
 	 */
 	public static function debug($message){
 		if(Functions::$runmode == Functions::$RUNMODE_DEBUG){
-			echo 'DEBUG: '.$message;
+			echo 'DEBUG: '.$message."\n";
 		}
 	}
 

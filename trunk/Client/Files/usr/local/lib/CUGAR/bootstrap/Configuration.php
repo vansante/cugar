@@ -69,7 +69,7 @@ abstract class configManager{
 	}
 
 	/**
-	 *
+	 * Write out xml configuration to file
 	 *
 	 * @throws SystemException
 	 * @return unknown_type
