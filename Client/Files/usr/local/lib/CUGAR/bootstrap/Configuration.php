@@ -148,21 +148,3 @@ class MergeConfiguration extends configManager{
 	}
 
 }
-
-/**
- * Generate device-ready configuration from client configuration file
- * Differences in syntax require this to happen
- *
- */
-class GenerateConfiguration extends ConfigManager{
-
-	public function __construct(){}
-
-	public function generateConfiguration(){
-
-	}
-
-	protected function checkConfigVersion(){
-
-	}
-}

@@ -147,15 +147,6 @@ class BootStrap{
 				throw new SystemError(ErrorStore::$E_FATAL,'Could not load config from server','500');
 			}
 		}
-		else{
-			echo "Prepping local configuration";
-			//	In modes 1 and 2 we need to transform the local config into the actual config
-			$genconf = new GenerateConfiguration();
-			$genconf->setLocalConf($this->config);
-			$genconf->generateConfiguration();
-			$genconf->writeConfiguration();
-		}
-
 	}
 
 	/**
