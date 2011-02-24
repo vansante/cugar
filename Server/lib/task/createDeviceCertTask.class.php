@@ -32,9 +32,26 @@ EOF;
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
         $cert_name = $arguments['cert_name'];
-        $this->logSection('openssl', "Generating keys for certificate name '".$cert_name."'");
-
         $cert_dir = csSettings::get('certificate_dir');
+
+        $base_file_path = $cert_dir.DIRECTORY_SEPARATOR.$cert_name;
+
+        $file_exist_count = 0;
+        if (file_exists($base_file_path.'.crt')) {
+            $file_exists++;
+        }
+        if (file_exists($base_file_path.'.key')) {
+            $file_exists++;
+        }
+
+        if ($file_exist_count == 2) {
+            $this->logSection("openssl", "Certificates already exist");
+            return false;
+        } else if ($file_exist_count == 1) {
+            $this->logSection("openssl", "Certificates already exist");
+        }
+
+        $this->logSection("openssl", "Generating certificate '".$cert_name."'");
 
         $openssl_cnf = csSettings::get('openssl_cnf_path');
         if (!file_exists($openssl_cnf)) {
@@ -93,15 +110,15 @@ EOF;
             $this->printOpenSSLErrors('openssl_csr_sign');
         }
         // save files to disk
-        openssl_x509_export_to_file($sscert, $cert_dir.DIRECTORY_SEPARATOR.$cert_name.'.crt');
-        openssl_pkey_export_to_file($privkey, $cert_dir.DIRECTORY_SEPARATOR.$cert_name.'.key', $privkeypass, $config);
-        openssl_csr_export_to_file($csr, $cert_dir.DIRECTORY_SEPARATOR.$cert_name.'.pem');
+        openssl_x509_export_to_file($sscert, $base_file_path.'.crt');
+        openssl_pkey_export_to_file($privkey, $base_file_path.'.key', $privkeypass, $config);
+        openssl_csr_export_to_file($csr, $base_file_path.'.csr');
 
         return true;
     }
     protected function printOpenSSLErrors($function_name) {
         while ($msg = openssl_error_string()) {
-            $this->logSection('Error', "OpenSSL: ". $msg);
+            $this->logSection("Error", "OpenSSL: ". $msg);
         }
         throw new sfException("An OpenSSL error occured in '".$function_name."'");
     }
