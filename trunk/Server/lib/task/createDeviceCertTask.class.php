@@ -31,7 +31,8 @@ EOF;
         $databaseManager = new sfDatabaseManager($this->configuration);
         $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
 
-        $this->logSection('openssl', "Generating keys for certificate name '".$arguments['cert_name']."'");
+        $cert_name = $arguments['cert_name'];
+        $this->logSection('openssl', "Generating keys for certificate name '".$cert_name."'");
 
         $cert_dir = csSettings::get('certificate_dir');
 
@@ -91,14 +92,10 @@ EOF;
         if ($sscert === false) {
             $this->printOpenSSLErrors('openssl_csr_sign');
         }
-        openssl_x509_export($sscert, $publickey);
-        openssl_pkey_export($privkey, $privatekey, $privkeypass, $config);
-        openssl_csr_export($csr, $csrStr);
-
-        echo $privatekey; // Will hold the exported PriKey
-        echo $publickey;  // Will hold the exported PubKey
-        echo $csrStr;     // Will hold the exported Certificate
-
+        // save files to disk
+        openssl_x509_export_to_file($sscert, $cert_dir.DIRECTORY_SEPARATOR.$cert_name.'.crt');
+        openssl_pkey_export_to_file($privkey, $cert_dir.DIRECTORY_SEPARATOR.$cert_name.'.key', $privkeypass, $config);
+        openssl_csr_export_to_file($csr, $cert_dir.DIRECTORY_SEPARATOR.$cert_name.'.pem');
 
         return true;
     }
