@@ -70,7 +70,14 @@ EOF;
         if (!is_readable($ca_file)) {
             throw new sfException("Couldn't read certificate of authority at '".$ca_file."'");
         }
-        $ca_cert = file_get_contents($ca_file);
+        $ca_key_file = $cert_dir.DIRECTORY_SEPARATOR.'ca.key';
+        if (!file_exists($ca_key_file)) {
+            throw new sfException("Couldn't find certificate of authority at '".$ca_key_file."'");
+        }
+        if (!is_readable($ca_key_file)) {
+            throw new sfException("Couldn't read certificate of authority at '".$ca_key_file."'");
+        }
+        $ca_key = file_get_contents($ca_key_file);
 
         $privkey = openssl_pkey_new($config);
         if ($privkey === false) {
@@ -80,7 +87,7 @@ EOF;
         if ($csr === false) {
             $this->printOpenSSLErrors('openssl_csr_new');
         }
-        $sscert = openssl_csr_sign($csr, $ca_cert, $privkey, $numberofdays, $config);
+        $sscert = openssl_csr_sign($csr, $ca_cert, $ca_key, $numberofdays, $config);
         if ($sscert === false) {
             $this->printOpenSSLErrors('openssl_csr_sign');
         }
