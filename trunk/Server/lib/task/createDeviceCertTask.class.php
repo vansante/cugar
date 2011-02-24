@@ -104,9 +104,9 @@ EOF;
             $this->printOpenSSLErrors('openssl_csr_new');
         }
 //        $sscert = openssl_csr_sign($csr, $ca_cert, $ca_key, $numberofdays, $config);
-        $cacert = $ca_file;
-        $privkey = array($ca_key_file, csSettings::get('ca_cert_key_pass'));
-        $sscert = openssl_csr_sign($csrdata, $ca_file, $privkey, $numberofdays, $config);
+        $cacert = 'file://'.$ca_file;
+        $ca_privkey = array('file://'.$ca_key_file, csSettings::get('ca_cert_key_pass'));
+        $sscert = openssl_csr_sign($csrdata, $cacert, $ca_privkey, $numberofdays, $config);
         if ($sscert === false) {
             $this->printOpenSSLErrors('openssl_csr_sign');
         }
