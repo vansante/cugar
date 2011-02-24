@@ -59,7 +59,7 @@ abstract class configManager{
 			$this->local_conf = $local_conf;
 		}
 		else{
-			throw new SystemError('Local configuration is empty');
+			throw new SystemError(ErrorStore::$E_FATAL,'Local configuration is empty',602);
 		}
 	}
 
@@ -74,7 +74,7 @@ abstract class configManager{
 			$this->server_conf = $server_conf;
 		}
 		else{
-			throw new SystemError('Server configuration is empty');
+			throw new SystemError(ErrorStore::$E_FATAL,'Server configuration is empty',601);
 		}
 	}
 
@@ -120,16 +120,16 @@ class MergeConfiguration extends configManager{
 		$this->server_conf->hardware->addChild('hostname',$this->config->hardware->hostname);
 		$address = $this->server_conf->hardware->addChild('address');
 		$address->addAttribute('type',$this->config->hardware->address['type']);
-		$address->addChild('subnet_mask',$this->config->hardware->address->subnet_mask);
-		$address->addChild('ip',$this->config->hardware->address->ip);
-		$address->addChild('default_gateway',$this->config->hardware->address->default_gateway);
+		$address->addChild('subnet_mask',$this->local_conf->hardware->address->subnet_mask);
+		$address->addChild('ip',$this->local_conf->hardware->address->ip);
+		$address->addChild('default_gateway',$this->local_conf->hardware->address->default_gateway);
 		$dns = $address->addChild('dns_servers');
 
-		foreach($this->config->hardware->address->dns_servers->ip as $ip){
+		foreach($this->local_conf->hardware->address->dns_servers->ip as $ip){
 			$dns->addChild('ip',(string)$ip);
 		}
 
-		if(isset($this->config->modes->mode1)){
+		if(isset($this->local_conf->modes->mode1)){
 			$tag = $this->server_conf->addChild('ssid');
 			$tag->addAttribute('mode','1');
 			$hostapd = $tag->addChild('hostapd');
