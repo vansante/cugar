@@ -4,7 +4,7 @@
 		<mode_selection>3</mode_selection>
 		<mode3>
             <server>195.169.160.3</server>
-            <tunnelIP>10.254.0.1</tunnelIP>
+            <tunnelIP>195.169.160.3</tunnelIP>
             <public_key>testnode.cugar.org.crt</public_key>
             <private_key>testnode.cugar.org.key</private_key>
             <certificate>ca.cert</certificate>
