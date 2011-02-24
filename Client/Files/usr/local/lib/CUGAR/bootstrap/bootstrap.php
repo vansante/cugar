@@ -148,11 +148,16 @@ class BootStrap{
 					throw new SystemError(ErrorStore::$E_FATAL,'error loading remote xml','999');
 				}
 				else{
-					$merge = new MergeConfiguration();
-					$merge->setForeignConf($this->serverConfig);
-					$merge->setLocalConf($this->config);
-					$merge->mergeConfiguration();
-					$merge->writeConfiguration();
+					if(!isset($this->serverconfig['message'])){
+						$merge = new MergeConfiguration();
+						$merge->setForeignConf($this->serverConfig);
+						$merge->setLocalConf($this->config);
+						$merge->mergeConfiguration();
+						$merge->writeConfiguration();
+					}
+					else{
+						throw new SystemError(ErrorStore::$E_FATAL,$this->serverconfig->asXML(),'1004');
+					}
 				}
 			}
 			else{
