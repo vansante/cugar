@@ -117,9 +117,9 @@ class MergeConfiguration extends configManager{
 	 */
 	public function mergeConfiguration(){
 		echo "Merging local and foreign configuration \n";
-		$this->server_conf->hardware->addChild('hostname',$this->config->hardware->hostname);
+		$this->server_conf->hardware->addChild('hostname',$this->local_conf->hardware->hostname);
 		$address = $this->server_conf->hardware->addChild('address');
-		$address->addAttribute('type',$this->config->hardware->address['type']);
+		$address->addAttribute('type',$this->local_conf->hardware->address['type']);
 		$address->addChild('subnet_mask',$this->local_conf->hardware->address->subnet_mask);
 		$address->addChild('ip',$this->local_conf->hardware->address->ip);
 		$address->addChild('default_gateway',$this->local_conf->hardware->address->default_gateway);
