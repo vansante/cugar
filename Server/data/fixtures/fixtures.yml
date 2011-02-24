@@ -8,7 +8,7 @@ csSetting:
     name:                 certificate_dir
     type:                 input
     setting_group:        Certificates
-    setting_default:      '/home/cugar/keys'
+    setting_default:      '/home/cugar/buildkeys/keys'
   setting_cert_key_pass:
     name:                 cert_key_pass
     type:                 input
