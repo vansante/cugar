@@ -72,7 +72,7 @@ abstract class Statement{
 			require_once('./parser/'.$classname.'.php');
 		}
 		else{
-			throw new SystemError('Could not load file '.$classname.'.php');
+			throw new SystemError(ErrorStore::$E_FATAL,'Could not load file '.$classname.'.php',404);
 		}
 	}
 	
@@ -96,7 +96,7 @@ abstract class Statement{
 				}
 			}
 			else{
-				throw new SystemError('Could not find class '.$name);	
+				throw new SystemError(ErrorStore::$E_FATAL,'Could not find class '.$name,404);	
 			}
 		}
 	}
