@@ -9,6 +9,11 @@ csSetting:
     type:                 input
     setting_group:        Certificates
     setting_default:      '/home/cugar/buildkeys/keys'
+  setting_ca_cert_key_pass:
+    name:                 ca_cert_key_pass
+    type:                 input
+    setting_group:        Certificates
+    setting_default:      PassKey042
   setting_cert_key_pass:
     name:                 cert_key_pass
     type:                 input

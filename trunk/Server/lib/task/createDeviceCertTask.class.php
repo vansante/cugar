@@ -38,17 +38,15 @@ EOF;
 
         $file_exist_count = 0;
         if (file_exists($base_file_path.'.crt')) {
-            $file_exists++;
+            $file_exist_count++;
         }
         if (file_exists($base_file_path.'.key')) {
-            $file_exists++;
+            $file_exist_count++;
         }
 
-        if ($file_exist_count == 2) {
+        if ($file_exist_count > 0) {
             $this->logSection("openssl", "Certificates already exist");
             return false;
-        } else if ($file_exist_count == 1) {
-            $this->logSection("openssl", "Certificates already exist");
         }
 
         $this->logSection("openssl", "Generating certificate '".$cert_name."'");
@@ -61,26 +59,6 @@ EOF;
             throw new sfException("Couldn't read openssl.cnf at '".$openssl_cnf."'");
         }
         
-        // Code borrowed from: http://www.php.net/manual/en/function.openssl-pkey-new.php
-        $dn = array(
-            "countryName" => csSettings::get('cert_key_country_code'),
-            "stateOrProvinceName" => csSettings::get('cert_key_province_code'),
-            "localityName" => csSettings::get('cert_key_city'),
-            "organizationName" => csSettings::get('cert_key_organisation'),
-            "organizationalUnitName" => csSettings::get('cert_key_organisation_unit'),
-            "commonName" => $cert_name,
-            "emailAddress" => csSettings::get('cert_key_email')
-        );
-        $config = array(
-            'config' => csSettings::get('openssl_cnf_path'),
-            'private_key_bits' => 1024,
-            'private_key_type' => OPENSSL_KEYTYPE_RSA,
-            'encrypt_key' => false
-        );
-        
-        $privkeypass = csSettings::get('cert_pass_key');
-        $numberofdays = csSettings::get('cert_crt_expire_days');
-
         $ca_file = $cert_dir.DIRECTORY_SEPARATOR.'ca.crt';
         if (!file_exists($ca_file)) {
             throw new sfException("Couldn't find certificate of authority at '".$ca_file."'");
@@ -97,6 +75,26 @@ EOF;
         }
         $ca_key = file_get_contents($ca_key_file);
 
+        // Code borrowed from: http://www.php.net/manual/en/function.openssl-pkey-new.php
+        $dn = array(
+            "countryName" => csSettings::get('cert_key_country_code'),
+            "stateOrProvinceName" => csSettings::get('cert_key_province_code'),
+            "localityName" => csSettings::get('cert_key_city'),
+            "organizationName" => csSettings::get('cert_key_organisation'),
+            "organizationalUnitName" => csSettings::get('cert_key_organisation_unit'),
+            "commonName" => $cert_name,
+            "emailAddress" => csSettings::get('cert_key_email')
+        );
+        $config = array(
+            'config' => csSettings::get('openssl_cnf_path'),
+            'private_key_bits' => 1024,
+            'private_key_type' => OPENSSL_KEYTYPE_RSA,
+            'encrypt_key' => false
+        );
+
+        $privkeypass = csSettings::get('cert_pass_key');
+        $numberofdays = csSettings::get('cert_crt_expire_days');
+
         $privkey = openssl_pkey_new($config);
         if ($privkey === false) {
             $this->printOpenSSLErrors('openssl_pkey_new');
@@ -105,7 +103,10 @@ EOF;
         if ($csr === false) {
             $this->printOpenSSLErrors('openssl_csr_new');
         }
-        $sscert = openssl_csr_sign($csr, $ca_cert, $ca_key, $numberofdays, $config);
+//        $sscert = openssl_csr_sign($csr, $ca_cert, $ca_key, $numberofdays, $config);
+        $cacert = $ca_file;
+        $privkey = array($ca_key_file, csSettings::get('ca_cert_key_pass'));
+        $sscert = openssl_csr_sign($csrdata, $ca_file, $privkey, $numberofdays, $config);
         if ($sscert === false) {
             $this->printOpenSSLErrors('openssl_csr_sign');
         }
