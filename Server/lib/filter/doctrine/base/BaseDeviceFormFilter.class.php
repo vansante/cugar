@@ -13,15 +13,13 @@ abstract class BaseDeviceFormFilter extends BaseFormFilterDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'name'             => new sfWidgetFormFilterInput(array('with_empty' => false)),
-      'config_id'        => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Config'), 'add_empty' => true)),
-      'certificate_name' => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'name'      => new sfWidgetFormFilterInput(array('with_empty' => false)),
+      'config_id' => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Config'), 'add_empty' => true)),
     ));
 
     $this->setValidators(array(
-      'name'             => new sfValidatorPass(array('required' => false)),
-      'config_id'        => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Config'), 'column' => 'id')),
-      'certificate_name' => new sfValidatorPass(array('required' => false)),
+      'name'      => new sfValidatorPass(array('required' => false)),
+      'config_id' => new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Config'), 'column' => 'id')),
     ));
 
     $this->widgetSchema->setNameFormat('device_filters[%s]');
@@ -41,10 +39,9 @@ abstract class BaseDeviceFormFilter extends BaseFormFilterDoctrine
   public function getFields()
   {
     return array(
-      'id'               => 'Number',
-      'name'             => 'Text',
-      'config_id'        => 'ForeignKey',
-      'certificate_name' => 'Text',
+      'id'        => 'Number',
+      'name'      => 'Text',
+      'config_id' => 'ForeignKey',
     );
   }
 }

@@ -13,12 +13,12 @@ Config:
 Device:
   columns:
     id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
-    name: { type: string(50), minlength: 1, notnull: true }
+    name: { type: string(50), minlength: 5, notnull: true }
     config_id: { type: integer(4), unsigned: true, notnull: true }
-    certificate_name: { type: string(50), minlength: 5, notnull: true }
   indexes:
     cert_name:
-      fields: [certificate_name]
+      fields: [name]
+      unique: true
   relations:
     Config:
       class: Config

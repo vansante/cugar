@@ -132,9 +132,8 @@ Config:
 
 Device:
   Device_Test1:
-    name: test.cugar.org
+    name: testnode.cugar.org
     Config: Config_Test1
-    certificate_name: test.cugar.org
 
 DhcpServer:
   Dhcp_Test1:
