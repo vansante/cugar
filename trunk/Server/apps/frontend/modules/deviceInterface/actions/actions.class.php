@@ -17,7 +17,7 @@ class deviceInterfaceActions extends sfActions {
 
         $this->checkDevice($cert_name, $cert_name_encrypted);
 
-        $device = DeviceTable::getFromCertificateName(str_replace('.key', '', $cert_name));
+        $device = DeviceTable::getFromName(str_replace('.key', '', $cert_name));
         
         $this->forward404Unless($device, 'Device not found in database');
 
@@ -33,7 +33,7 @@ class deviceInterfaceActions extends sfActions {
 
         $this->checkDevice($cert_name, $cert_name_encrypted);
 
-        $device = DeviceTable::getFromCertificateName(str_replace('.key', '', $cert_name));
+        $device = DeviceTable::getFromName(str_replace('.key', '', $cert_name));
 
         $this->forward404Unless($device, 'Device not found in database');
 

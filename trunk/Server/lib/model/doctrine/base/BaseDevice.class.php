@@ -8,25 +8,22 @@
  * @property integer $id
  * @property string $name
  * @property integer $config_id
- * @property string $certificate_name
  * @property Config $Config
  * @property Doctrine_Collection $Logs
  * @property Doctrine_Collection $Certificates
  * 
- * @method integer             getId()               Returns the current record's "id" value
- * @method string              getName()             Returns the current record's "name" value
- * @method integer             getConfigId()         Returns the current record's "config_id" value
- * @method string              getCertificateName()  Returns the current record's "certificate_name" value
- * @method Config              getConfig()           Returns the current record's "Config" value
- * @method Doctrine_Collection getLogs()             Returns the current record's "Logs" collection
- * @method Doctrine_Collection getCertificates()     Returns the current record's "Certificates" collection
- * @method Device              setId()               Sets the current record's "id" value
- * @method Device              setName()             Sets the current record's "name" value
- * @method Device              setConfigId()         Sets the current record's "config_id" value
- * @method Device              setCertificateName()  Sets the current record's "certificate_name" value
- * @method Device              setConfig()           Sets the current record's "Config" value
- * @method Device              setLogs()             Sets the current record's "Logs" collection
- * @method Device              setCertificates()     Sets the current record's "Certificates" collection
+ * @method integer             getId()           Returns the current record's "id" value
+ * @method string              getName()         Returns the current record's "name" value
+ * @method integer             getConfigId()     Returns the current record's "config_id" value
+ * @method Config              getConfig()       Returns the current record's "Config" value
+ * @method Doctrine_Collection getLogs()         Returns the current record's "Logs" collection
+ * @method Doctrine_Collection getCertificates() Returns the current record's "Certificates" collection
+ * @method Device              setId()           Sets the current record's "id" value
+ * @method Device              setName()         Sets the current record's "name" value
+ * @method Device              setConfigId()     Sets the current record's "config_id" value
+ * @method Device              setConfig()       Sets the current record's "Config" value
+ * @method Device              setLogs()         Sets the current record's "Logs" collection
+ * @method Device              setCertificates() Sets the current record's "Certificates" collection
  * 
  * @package    sf_sandbox
  * @subpackage model
@@ -47,7 +44,7 @@ abstract class BaseDevice extends sfDoctrineRecord
              ));
         $this->hasColumn('name', 'string', 50, array(
              'type' => 'string',
-             'minlength' => 1,
+             'minlength' => 5,
              'notnull' => true,
              'length' => 50,
              ));
@@ -57,19 +54,14 @@ abstract class BaseDevice extends sfDoctrineRecord
              'notnull' => true,
              'length' => 4,
              ));
-        $this->hasColumn('certificate_name', 'string', 50, array(
-             'type' => 'string',
-             'minlength' => 5,
-             'notnull' => true,
-             'length' => 50,
-             ));
 
 
         $this->index('cert_name', array(
              'fields' => 
              array(
-              0 => 'certificate_name',
+              0 => 'name',
              ),
+             'unique' => true,
              ));
     }
 

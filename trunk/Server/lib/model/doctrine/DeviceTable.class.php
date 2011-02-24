@@ -16,10 +16,10 @@ class DeviceTable extends Doctrine_Table {
         return Doctrine_Core::getTable('Device');
     }
 
-    public static function getFromCertificateName($cert_name) {
+    public static function getFromName($name) {
         return Doctrine_Query::create()
             ->from('Device d')
-            ->where('d.certificate_name = ?', $cert_name)
+            ->where('d.name = ?', $name)
             ->fetchOne();
     }
 
