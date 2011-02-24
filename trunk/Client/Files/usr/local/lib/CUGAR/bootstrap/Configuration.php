@@ -31,13 +31,13 @@ abstract class configManager{
 	 * Local configuration from the device
 	 * @var SimpleXMLElement
 	 */
-	private $local_conf;
+	protected $local_conf;
 
 	/**
 	 * Configuration fetched from the server
 	 * @var SimpleXMLElement
 	 */
-	private $server_conf;
+	protected $server_conf;
 
 	/**
 	 * Check configuration for changes
@@ -55,7 +55,12 @@ abstract class configManager{
 	 * @return void
 	 */
 	public function setLocalConf($local_conf){
-		$this->local_conf = $local_conf;
+		if(!empty($local_conf)){
+			$this->local_conf = $local_conf;
+		}
+		else{
+			throw new SystemError('Local configuration is empty');
+		}
 	}
 
 	/**
@@ -65,7 +70,12 @@ abstract class configManager{
 	 * @return void
 	 */
 	public function setForeignConf($server_conf){
-		$this->server_conf = $server_conf;
+		if(!empty($server_conf)){
+			$this->server_conf = $server_conf;
+		}
+		else{
+			throw new SystemError('Server configuration is empty');
+		}
 	}
 
 	/**

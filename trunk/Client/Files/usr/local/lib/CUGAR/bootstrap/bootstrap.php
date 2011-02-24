@@ -85,7 +85,7 @@ class BootStrap{
 		catch(SystemError $e){
 			$error = ErrorStore::getInstance();
 			$error->addError($e);
-			
+				
 			$error->printErrorsToFile(ErrorStore::$E_NOTICE);
 		}
 		echo "Bootstrap finished \n";
@@ -136,12 +136,24 @@ class BootStrap{
 			$this->serverConfig = $fetch->fetch();
 
 			if(strlen($this->serverConfig) > 1){
+				libxml_use_internal_errors (true);
 				$this->serverConfig = simplexml_load_string($this->serverConfig);
-				$merge = new MergeConfiguration();
-				$merge->setForeignConf($this->serverConfig);
-				$merge->setLocalConf($this->config);
-				$merge->mergeConfiguration();
-				$merge->writeConfiguration();
+
+				if(count(libxml_get_errors()) > 0){
+					foreach(libxml_get_errors() as $error){
+						$errorstore = ErrorStore::getInstance();
+						$errorstore->addError(new SystemError(ErrorStore::$E_WARNING,print_r($error),'666'));
+					}
+					libxml_clear_errors();
+					throw new SystemError(ErrorStore::$E_FATAL,'error loading remote xml','999');
+				}
+				else{
+					$merge = new MergeConfiguration();
+					$merge->setForeignConf($this->serverConfig);
+					$merge->setLocalConf($this->config);
+					$merge->mergeConfiguration();
+					$merge->writeConfiguration();
+				}
 			}
 			else{
 				throw new SystemError(ErrorStore::$E_FATAL,'Could not load config from server','500');
