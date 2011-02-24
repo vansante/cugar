@@ -86,7 +86,7 @@ abstract class configManager{
 	 */
 	public function writeConfiguration(){
 		echo "Writing configuration to file\n";
-		$fp = fopen('/etc/CUGAR/config.xml',w);
+		$fp = fopen('/etc/CUGAR/config.xml','w');
 
 		if($fp){
 			fwrite($fp,$this->server_conf->asXML());
