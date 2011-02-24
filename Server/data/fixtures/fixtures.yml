@@ -44,11 +44,11 @@ csSetting:
     type:                 input
     setting_group:        Certificates
     setting_default:      CUGAR
-  setting_cert_key_common_name:
-    name:                 cert_key_common_name
+  setting_cert_key_organisation_unit:
+    name:                 cert_key_organisation_unit
     type:                 input
     setting_group:        Certificates
-    setting_default:      Rick Woelders
+    setting_default:      CUGAR Unit
   setting_cert_key_email:
     name:                 cert_key_email
     type:                 input

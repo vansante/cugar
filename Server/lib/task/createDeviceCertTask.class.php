@@ -67,8 +67,8 @@ EOF;
             "stateOrProvinceName" => csSettings::get('cert_key_province_code'),
             "localityName" => csSettings::get('cert_key_city'),
             "organizationName" => csSettings::get('cert_key_organisation'),
-            "organizationalUnitName" => 'CUGAR',
-            "commonName" => csSettings::get('cert_key_common_name'),
+            "organizationalUnitName" => csSettings::get('cert_key_organisation_unit'),
+            "commonName" => $cert_name,
             "emailAddress" => csSettings::get('cert_key_email')
         );
         $config = array(
