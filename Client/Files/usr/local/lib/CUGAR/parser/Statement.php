@@ -68,8 +68,8 @@ abstract class Statement{
 	 * @return void
 	 */
 	protected function loadClass($classname){
-		if(file_exists('./parser/'.$classname.'.php')){
-			require_once('./parser/'.$classname.'.php');
+		if(file_exists('/usr/local/lib/CUGAR/parser/'.$classname.'.php')){
+			require_once('/usr/local/lib/CUGAR/parser/'.$classname.'.php');
 		}
 		else{
 			throw new SystemError(ErrorStore::$E_FATAL,'Could not load file '.$classname.'.php',404);
