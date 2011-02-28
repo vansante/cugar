@@ -302,29 +302,29 @@ verb ".$this->verbosity."\n";
 	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#writeConfig()
 	 */
 	public function writeConfig(){
-		if(!is_dir($this->FILEPATH."openvpn".$this->tunnelcount."/")){
-			mkdir($this->FILEPATH."openvpn".$this->tunnelcount."/");
+		if(!is_dir(OpenVPN::$FILEPATH."openvpn".$this->tunnelcount."/")){
+			mkdir(OpenVPN::$FILEPATH."openvpn".$this->tunnelcount."/");
 		}
 		
-		$fp = fopen($this->FILEPATH."openvpn".$this->tunnelcount."/".$this->keyname,'w');
+		$fp = fopen(OpenVPN::$FILEPATH."openvpn".$this->tunnelcount."/".$this->keyname,'w');
 		if($fp){
 			fwrite($fp,$this->key);
 			fclose($fp);
 		}
 
-		$fp = fopen($this->FILEPATH."openvpn".$this->tunnelcount."/".$this->certname,'w');
+		$fp = fopen(OpenVPN::$FILEPATH."openvpn".$this->tunnelcount."/".$this->certname,'w');
 		if($fp){
 			fwrite($fp,$this->cert);
 			fclose($fp);
 		}
 
-		$fp = fopen($this->FILEPATH."openvpn".$this->tunnelcount."/".$this->caname,'w');
+		$fp = fopen(OpenVPN::$FILEPATH."openvpn".$this->tunnelcount."/".$this->caname,'w');
 		if($fp){
 			fwrite($fp,$this->ca);
 			fclose($fp);
 		}
 
-		$fp = fopen($this->FILEPATH."openvpn".$this->tunnelcount."/".$this->filename.$this->tunnelcount,'w');
+		$fp = fopen(OpenVPN::$FILEPATH."openvpn".$this->tunnelcount."/".$this->filename.$this->tunnelcount,'w');
 		if($fp){
 			fwrite($fp,$this->buffer);
 			fclose($fp);
