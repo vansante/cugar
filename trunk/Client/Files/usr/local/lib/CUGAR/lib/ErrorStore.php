@@ -204,6 +204,20 @@ class ErrorStore{
 	}
 	
 	/**
+	 * Post all our errors to the configuration server for logging
+	 * 
+	 * @param error level $level
+	 * @return void
+	 * @throws SystemError
+	 */
+	public function postErrors($level){
+		require_once('/usr/local/lib/CUGAR/comm/PostErrors.php');
+		$post = new PostErrors();
+		$post->setData($this->returnErrors($level));
+		$post->post();
+	}
+	
+	/**
 	 * return all encountered errors as string
 	 * 
 	 * @return String

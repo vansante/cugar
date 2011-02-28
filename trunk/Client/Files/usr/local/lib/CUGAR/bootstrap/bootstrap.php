@@ -32,38 +32,11 @@
  * to do some base configuration required for the fetching of the configuration
  */
 class BootStrap{
-
 	/**
-	 * Base XML config
-	 *
-	 * Configuration of system settings that are to be injected into
-	 * the server side config XML if mode 3 is enabled
-	 *
+	 * Local configuration
 	 * @var SimpleXMLElement
 	 */
 	private $config;
-
-	/**
-	 * Server-side XML configuration
-	 *
-	 * Configuration fetched from the server, local configuration will
-	 * be merged into this if a server configuration exists.
-	 *
-	 * @var SimpleXMLElement
-	 */
-	private $serverConfig;
-
-	/**
-	 * Filename of the base system config file
-	 * @var String
-	 */
-	private $filename = 'sysconf.xml';
-
-	/**
-	 * Filepath to the base system config file
-	 * @var String
-	 */
-	private $filepath = '/etc/CUGAR/';
 
 	/**
 	 * Initialize bootstrap and set some defaults
@@ -77,7 +50,10 @@ class BootStrap{
 		Functions::$runmode = $runmode;
 		try{
 			//	Mount filesystem as read/write
-			$this->readBaseXML();
+			$conf = Configuration::get();
+			$conf->readLocalConfiguration();
+			$this->config = $conf->getLocalConfiguration();
+				
 			$this->prepInterface();
 			$this->prepConfig();
 			$this->parseConfiguration();
@@ -85,7 +61,7 @@ class BootStrap{
 		catch(SystemError $e){
 			$error = ErrorStore::getInstance();
 			$error->addError($e);
-				
+
 			$error->printErrorsToFile(ErrorStore::$E_NOTICE);
 		}
 		echo "Bootstrap finished \n";
@@ -136,65 +112,21 @@ class BootStrap{
 			$this->serverConfig = $fetch->fetch();
 
 			if(strlen($this->serverConfig) > 1){
-				libxml_use_internal_errors (true);
-				$this->serverConfig = simplexml_load_string($this->serverConfig);
 
-				if(count(libxml_get_errors()) > 0){
-					foreach(libxml_get_errors() as $error){
-						$errorstore = ErrorStore::getInstance();
-						$errorstore->addError(new SystemError(ErrorStore::$E_WARNING,print_r($error),'666'));
-					}
-					libxml_clear_errors();
-					throw new SystemError(ErrorStore::$E_FATAL,'error loading remote xml','999');
+				if(!isset($this->serverconfig['message'])){
+					$merge = new MergeConfiguration();
+					$merge->setForeignConf($this->serverConfig);
+					$merge->setLocalConf($this->config);
+					$merge->mergeConfiguration();
+					$merge->writeConfiguration();
 				}
 				else{
-					if(!isset($this->serverconfig['message'])){
-						$merge = new MergeConfiguration();
-						$merge->setForeignConf($this->serverConfig);
-						$merge->setLocalConf($this->config);
-						$merge->mergeConfiguration();
-						$merge->writeConfiguration();
-					}
-					else{
-						throw new SystemError(ErrorStore::$E_FATAL,$this->serverconfig->asXML(),'1004');
-					}
+					throw new SystemError(ErrorStore::$E_FATAL,$this->serverconfig->asXML(),'1004');
 				}
 			}
 			else{
 				throw new SystemError(ErrorStore::$E_FATAL,'Could not load config from server','500');
 			}
-		}
-	}
-
-	/**
-	 * Fetch the base XML from file
-	 * @return void
-	 * @throws Exception
-	 */
-	public function readBaseXML(){
-		echo "Reading sysconf.xml\n";
-		if(file_exists($this->filepath.$this->filename)){
-			//	Use custom error throwing for libxml
-			$previouslibxmlSetting = libxml_use_internal_errors(true);
-
-			$this->config = simplexml_load_file($this->filepath.$this->filename);
-
-			//Failed loading the XML, throw excption.
-			if (!$this->config){
-				$message = "Failed to load configuration file {$file}. Invalid XML. ";
-				foreach(libxml_get_errors() as $error) {
-					$message .= $error->message;
-				}
-
-				libxml_clear_errors();
-				throw new Exception($message);
-			}
-
-			//Set back to default error handling
-			libxml_use_internal_errors($previouslibxmlSetting);
-		}
-		else{
-			throw new Exception('XML file does not exist');
 		}
 	}
 
