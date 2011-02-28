@@ -20,7 +20,7 @@ require_once('/usr/local/lib/CUGAR/config/OpenVPN.php');
 require_once('/usr/local/lib/CUGAR/config/Portal.php');
 require_once('/usr/local/lib/CUGAR/config/RC.php');
 require_once('/usr/local/lib/CUGAR/config/System.php');
-
+require_once('/usr/local/lib/CUGAR/lib/Config.php');
 
 error_reporting(E_ALL);
 $strap = new BootStrap(Functions::$RUNMODE_DEBUG);
