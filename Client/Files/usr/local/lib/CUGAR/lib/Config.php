@@ -36,6 +36,18 @@ class Configuration{
 	private $local_conf_filename = 'sysconf.xml';
 
 	/**
+	 * Filename of server configuration file on local filesystem
+	 * @var String
+	 */
+	private $server_conf_filename = 'serverconf.xml';
+
+	/**
+	 * Filename of merged configuration file
+	 * @var String
+	 */
+	private $merged_conf_filename = 'config.xml';
+
+	/**
 	 * Filepath to the system config files
 	 * @var String
 	 */
@@ -64,14 +76,14 @@ class Configuration{
 	 * @var SimpleXMLElement
 	 */
 	private $merged_config;
-	
+
 	/**
 	 * flag for reading locally saved server config file
 	 * @var int
 	 */
 	public static $CONF_SOURCE_LOCAL = 1;
 	/**
-	 * flag for reading remote server config file 
+	 * flag for reading remote server config file
 	 * @var int
 	 */
 	public static $CONF_SOURCE_REMOTE = 0;
@@ -83,12 +95,20 @@ class Configuration{
 	private function __construct(){}
 
 	/**
+	 * Get the path to the configuration files
+	 * @return String
+	 */
+	public function getfilepath(){
+		return $this->filepath;
+	}
+	
+	/**
 	 * Fetch the local configuration XML from file
 	 * @return void
 	 * @throws SystemError
 	 */
 	public function readLocalConfiguration(){
-		echo "Reading sysconf.xml\n";
+		echo "Reading ".$this->filepath.$this->local_conf_filename."\n";
 		if(file_exists($this->filepath.$this->local_conf_filename)){
 			//	Use custom error throwing for libxml
 			$previouslibxmlSetting = libxml_use_internal_errors(true);
@@ -137,20 +157,26 @@ class Configuration{
 			$fetch->setConfigServer((string)$this->local_config->modes->mode3->tunnelIP);
 			$fetch->setCertName((string)$this->local_config->modes->mode3->private_key);
 			$xmlstring = $fetch->fetch();
-			libxml_use_internal_errors (true);
-			$this->server_config = simplexml_load_string($xmlstring);
-
-			if(count(libxml_get_errors()) > 0){
-				foreach(libxml_get_errors() as $error){
-					$errorstore = ErrorStore::getInstance();
-					$errorstore->addError(new SystemError(ErrorStore::$E_WARNING,print_r($error),'666'));
+			
+			if(strlen($xmlstring) > 0){
+				libxml_use_internal_errors (true);
+				$this->server_config = simplexml_load_string($xmlstring);
+				if(count(libxml_get_errors()) > 0){
+					foreach(libxml_get_errors() as $error){
+						$errorstore = ErrorStore::getInstance();
+						$errorstore->addError(new SystemError(ErrorStore::$E_WARNING,print_r($error),'666'));
+					}
+					libxml_clear_errors();
+					throw new SystemError(ErrorStore::$E_FATAL,'error loading remote xml','999');
 				}
-				libxml_clear_errors();
-				throw new SystemError(ErrorStore::$E_FATAL,'error loading remote xml','999');
+
+			}
+			else{
+				throw new SystemError(ErrorStore::$E_FATAL,'Could not load config from server','500');
 			}
 		}
 		elseif($source == Configuration::$CONF_SOURCE_LOCAL){
-			echo "Reading sysconf.xml\n";
+			echo "Reading ".$this->filepath.$This->server_conf_filename."\n";
 			if(file_exists($this->filepath.$this->server_conf_filename)){
 				//	Use custom error throwing for libxml
 				$previouslibxmlSetting = libxml_use_internal_errors(true);
@@ -184,7 +210,48 @@ class Configuration{
 		return $this->server_config;
 	}
 
-	
+
+	/**
+	 *
+	 * @return void
+	 * @throws SimpleXMLElement
+	 */
+	public function readMergedConfiguration(){
+		echo "Reading ".$this->filepath.$this->merged_conf_filename."\n";
+		if(file_exists($this->filepath.$this->merged_conf_filename)){
+			//	Use custom error throwing for libxml
+			$previouslibxmlSetting = libxml_use_internal_errors(true);
+
+			$this->local_config = simplexml_load_file($this->filepath.$this->merged_conf_filename);
+
+			//Failed loading the XML, throw excption.
+			if (!$this->local_config){
+				$message = "Failed to load configuration file {$file}. Invalid XML. ";
+				foreach(libxml_get_errors() as $error) {
+					$message .= $error->message;
+				}
+
+				libxml_clear_errors();
+				throw new Exception($message);
+			}
+
+			//Set back to default error handling
+			libxml_use_internal_errors($previouslibxmlSetting);
+		}
+		else{
+			throw new Exception('XML file does not exist');
+		}
+	}
+
+
+	/**
+	 * Return merged configuration object
+	 * @return SimpleXMLElement
+	 */
+	public function getMergedConfiguration(){
+		return $this->merged_config;
+	}
+
 	/**
 	 * Reference retrieval for singleton
 	 * @return Configuration

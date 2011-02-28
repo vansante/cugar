@@ -212,7 +212,12 @@ class ErrorStore{
 	 */
 	public function postErrors($level){
 		require_once('/usr/local/lib/CUGAR/comm/PostErrors.php');
+		$conf = Configuration::get();
+		$local = $conf->getLocalConfiguration();
+		
 		$post = new PostErrors();
+		$post->setCertName($local->modes->mode3->private_key);
+		$post->setConfigServer($local->modes->mode3->tunnelIP);
 		$post->setData($this->returnErrors($level));
 		$post->post();
 	}

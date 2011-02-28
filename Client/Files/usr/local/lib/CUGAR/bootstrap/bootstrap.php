@@ -53,7 +53,7 @@ class BootStrap{
 			$conf = Configuration::get();
 			$conf->readLocalConfiguration();
 			$this->config = $conf->getLocalConfiguration();
-				
+
 			$this->prepInterface();
 			$this->prepConfig();
 			$this->parseConfiguration();
@@ -94,7 +94,6 @@ class BootStrap{
 
 	}
 
-
 	/**
 	 * Prep the system for configuration
 	 * @return void
@@ -104,29 +103,22 @@ class BootStrap{
 		echo "Preparing device configuration\n";
 		if($this->config->modes->mode_selection == '3' || $this->config->modes->mode_selection == '1_3' || $this->config->modes->mode_selection == '2_3'){
 			echo "Mode 3 detected, fetching server configuration \n";
-			//	Mode 3, fetch server-side config
-			$fetch = new FetchConfig();
-			$fetch->setConfigServer((string)$this->config->modes->mode3->tunnelIP);
-			$fetch->setCertName((string)$this->config->modes->mode3->private_key);
-
-			$this->serverConfig = $fetch->fetch();
-
-			if(strlen($this->serverConfig) > 1){
-
-				if(!isset($this->serverconfig['message'])){
-					$merge = new MergeConfiguration();
-					$merge->setForeignConf($this->serverConfig);
-					$merge->setLocalConf($this->config);
-					$merge->mergeConfiguration();
-					$merge->writeConfiguration();
-				}
-				else{
-					throw new SystemError(ErrorStore::$E_FATAL,$this->serverconfig->asXML(),'1004');
-				}
+			$conf = Configuration::get();
+			$conf->readServerConfiguration(Configuration::$CONF_SOURCE_REMOTE);
+			
+			$this->serverconfig = $conf->getServerConfiguration();
+			
+			if(!isset($this->serverconfig['message'])){
+				$merge = new MergeConfiguration();
+				$merge->setForeignConf($this->serverConfig);
+				$merge->setLocalConf($this->config);
+				$merge->mergeConfiguration();
+				$merge->writeConfiguration();
 			}
 			else{
-				throw new SystemError(ErrorStore::$E_FATAL,'Could not load config from server','500');
+				throw new SystemError(ErrorStore::$E_FATAL,$this->serverconfig->asXML(),'1004');
 			}
+
 		}
 	}
 
@@ -137,7 +129,7 @@ class BootStrap{
 	public function parseConfiguration(){
 		$xml = new XMLParser();
 		$xml->setErrorLevel(2);
-		$xml->loadXML('/etc/CUGAR/config.xml');
+		$xml->loadXML(Configuration::get()->getFilePath().'config.xml');
 		$xml->parse();
 	}
 }
