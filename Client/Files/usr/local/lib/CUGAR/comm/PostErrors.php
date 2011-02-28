@@ -26,9 +26,24 @@
  POSSIBILITY OF SUCH DAMAGE.
  */
 class PostErrors extends Comm{
+	/**
+	 * Error data to post
+	 * @var String
+	 */
+	private $data;
 	
 	public function __construct(){
 		
+	}
+	
+	/**
+	 * set error data to POST
+	 * 
+	 * @param String $data
+	 * @return void
+	 */
+	public function setData($data){
+		$this->data = $data;
 	}
 	
 	/**
@@ -37,21 +52,25 @@ class PostErrors extends Comm{
 	 * @return String
 	 */
 	public function post(){
-		$ch = curl_init($this->configserver.'/posterror/');
-		
-		//return the transfer as a string
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        
-        //	set POST values
-        $data = array('cert_name' => $this->cert_name, 'cert_name_check' => $this->encryptString($this->cert_name), 'time' => date('Y-m-d H:i:s'), 'description' => 'CANHAS error');
-        print_r($data);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        
-        // $output contains the output string
-        $output = curl_exec($ch);
-        // close curl resource to free up system resources
-        curl_close($ch);  
-        return $output;
+		if($data != null){
+			$ch = curl_init($this->configserver.'/posterror/');
+			
+			//return the transfer as a string
+	        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	        
+	        //	set POST values
+	        $data = array('cert_name' => $this->cert_name, 'cert_name_check' => $this->encryptString($this->cert_name), 'time' => date('Y-m-d H:i:s'), 'description' => $this->data);
+	        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+	        
+	        // $output contains the output string
+	        $output = curl_exec($ch);
+	        // close curl resource to free up system resources
+	        curl_close($ch);  
+	        return true;
+		}
+		else{
+			return false;
+		}
 	}
 }
 ?>
