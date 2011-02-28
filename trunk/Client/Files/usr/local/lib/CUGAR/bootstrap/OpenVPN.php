@@ -83,7 +83,7 @@ class OpenVPNManager{
 	 * @return void
 	 */
 	private function startOpenVPN(){
-		Functions::shellCommand("/usr/local/sbin/openvpn --config /usr/local/etc/openvpn/openvpn.conf --daemon >/dev/null 2>&1 &");
+		Functions::shellCommand("/usr/local/sbin/openvpn --config /etc/openvpn/openvpn.conf --daemon >/dev/null 2>&1 &");
 	}
 	
 	/**
@@ -113,11 +113,11 @@ class OpenVPNManager{
 		}
 		
 		//Write openvpn config
-		if(!is_dir('/usr/local/etc/openvpn')){
-			mkdir('/usr/local/etc/openvpn');
+		if(!is_dir('/etc/openvpn')){
+			mkdir('/etc/openvpn');
 		}
 			
-		$openvpnfile = fopen('/usr/local/etc/openvpn/openvpn.conf', 'w');
+		$openvpnfile = fopen('/etc/openvpn/openvpn.conf', 'w');
 		if($openvpnfile){
 			$openvpncontent = "client
 remote ".(string)$this->config->server."
@@ -142,7 +142,7 @@ verb 4";
 			fclose($openvpnfile);
 		}
 		else{
-			throw new SystemError(ErrorStore::$E_FATAL,'Could not open /usr/local/etc/openvpn.conf for writing','500');
+			throw new SystemError(ErrorStore::$E_FATAL,'Could not open /etc/openvpn.conf for writing','500');
 		}
 	}
 }
