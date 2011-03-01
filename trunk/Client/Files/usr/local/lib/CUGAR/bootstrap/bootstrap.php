@@ -112,7 +112,7 @@ class BootStrap{
 			$conf = Configuration::get();
 			$conf->readServerConfiguration(Configuration::$CONF_SOURCE_REMOTE);
 			
-			$this->serverconfig = $conf->getServerConfiguration();
+			$this->serverConfig = $conf->getServerConfiguration();
 			
 			if(!isset($this->serverconfig['message'])){
 				$merge = new MergeConfiguration();
