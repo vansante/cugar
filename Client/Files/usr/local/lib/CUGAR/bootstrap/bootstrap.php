@@ -37,6 +37,12 @@ class BootStrap{
 	 * @var SimpleXMLElement
 	 */
 	private $config;
+	
+	/**
+	 * Server configuration
+	 * @var SimpleXMLElement
+	 */
+	private $serverConfig;
 
 	/**
 	 * Initialize bootstrap and set some defaults

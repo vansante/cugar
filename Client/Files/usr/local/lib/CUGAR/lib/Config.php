@@ -174,6 +174,8 @@ class Configuration{
 			else{
 				throw new SystemError(ErrorStore::$E_FATAL,'Could not load config from server','500');
 			}
+			
+			Functions::debug(print_r($this->server_config));
 		}
 		elseif($source == Configuration::$CONF_SOURCE_LOCAL){
 			echo "Reading ".$this->filepath.$This->server_conf_filename."\n";
