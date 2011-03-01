@@ -195,14 +195,15 @@ class System implements ConfigGenerator{
 	}
 
 	public function writeConfig(){
-		$fp = fopen($this->FILEPATH.$this->FILENAME,'w');
-		if($fp){
-			foreach($this->dns_servers as $server){
-				$this->buffer .= "nameserver ".$server."\n";
+		if(count($this->dns_servers) > 0){
+			$fp = fopen($this->FILEPATH.$this->FILENAME,'w');
+			if($fp){
+				foreach($this->dns_servers as $server){
+					$this->buffer .= "nameserver ".$server."\n";
+				}
+				fwrite($fp,$this->buffer);
+				fclose($fp);
 			}
-			fwrite($fp,$this->buffer);
-			fclose($fp);
 		}
-
 	}
 }
