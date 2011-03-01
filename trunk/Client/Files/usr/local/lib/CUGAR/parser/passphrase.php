@@ -52,12 +52,14 @@ class passphrase extends Statement{
 	 */
 	public function validate($options){
 		$errorstore = ErrorStore::getInstance();
-		$tmp = str_split($options);
-		foreach($tmp as $char){
-			if( ord($char) < 32 && ord($char) > 126 ){
-				$error = new ParseError('invalid passphrase option, accepts ASCII only',ErrorStore::$E_NOTICE,$options);
-				$errorstore->addError($error);
-				break;
+		if(strlen((string)$options) > 8 && strlen((string)$options) < 64){
+			$tmp = str_split($options);
+			foreach($tmp as $char){
+				if( ord($char) < 32 && ord($char) > 126 ){
+					$error = new ParseError('invalid passphrase option, accepts ASCII only',ErrorStore::$E_NOTICE,$options);
+					$errorstore->addError($error);
+					break;
+				}
 			}
 		}
 	}
