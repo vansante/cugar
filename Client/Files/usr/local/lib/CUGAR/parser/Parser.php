@@ -140,9 +140,16 @@ class XMLParser{
 				 *	TODO: Somehow figure out which of these are actually ACTIVE since
 				 *	mode3 / mode2 configurations are not guaranteed to exist
 				 */
+				$hostap = HostAPDConfig::getInstance();
 				$hostap->writeConfig();
+				
+				$dhcprelay = DHCPRelayConfig::getInstance();
 				$dhcprelay->writeConfig();
+				
+				$rc = RCConfig::getInstance();
 				$rc->writeConfig();
+				
+				$system = System::getInstance();
 				$system->writeConfig();
 				echo 'parsing complete';
 			}
