@@ -120,13 +120,15 @@ class MergeConfiguration extends configManager{
 		$this->server_conf->hardware->addChild('hostname',$this->local_conf->hardware->hostname);
 		$address = $this->server_conf->hardware->addChild('address');
 		$address->addAttribute('type',$this->local_conf->hardware->address['type']);
-		$address->addChild('subnet_mask',$this->local_conf->hardware->address->subnet_mask);
-		$address->addChild('ip',$this->local_conf->hardware->address->ip);
-		$address->addChild('default_gateway',$this->local_conf->hardware->address->default_gateway);
-		$dns = $address->addChild('dns_servers');
-
-		foreach($this->local_conf->hardware->address->dns_servers->ip as $ip){
-			$dns->addChild('ip',(string)$ip);
+		if($this->local_conf->hardware->address['type'] == 'static'){
+			$address->addChild('subnet_mask',$this->local_conf->hardware->address->subnet_mask);
+			$address->addChild('ip',$this->local_conf->hardware->address->ip);
+			$address->addChild('default_gateway',$this->local_conf->hardware->address->default_gateway);
+			$dns = $address->addChild('dns_servers');
+	
+			foreach($this->local_conf->hardware->address->dns_servers->ip as $ip){
+				$dns->addChild('ip',(string)$ip);
+			}
 		}
 
 		if(isset($this->local_conf->modes->mode1)){
