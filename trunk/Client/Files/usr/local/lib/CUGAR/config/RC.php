@@ -35,6 +35,8 @@ class RCConfig implements ConfigGenerator{
 		//		Static services that must be started always
 		$this->addLine("snmp_enable=\"YES\"");
 		$this->addLine("lighttpd_enable=\"YES\"");
+		$this->addLine("ntpdate_enable=\"YES\"");
+		$this->addLine('ntpdate_hosts="nl.pool.ntp.org"');
 	}
 	
 	/**
