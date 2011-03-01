@@ -52,7 +52,7 @@ class PostErrors extends Comm{
 	 * @return String
 	 */
 	public function post(){
-		if($data != null){
+		if($this->data != null){
 			$ch = curl_init($this->configserver.'/posterror/');
 			
 			//return the transfer as a string

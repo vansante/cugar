@@ -111,7 +111,7 @@ abstract class Statement{
 		$errorstore = ErrorStore::getInstance();
 		foreach($options->children() as $child){
 			if(!in_array($child->getName(),$this->expectedtags)){
-				$error = new ParseError('unexpected child node '.$child->getName(),ErrorStore::$E_FATAL,$options);	
+				$error = new ParseError('unexpected child node '.$child->getName(),ErrorStore::$E_WARNING,$options);	
 				$errorstore->addError($error);
 			}
 		}

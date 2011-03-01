@@ -130,6 +130,7 @@ class XMLParser{
 					$errorstore->printErrors($this->options['errorlevel']);
 				}
 				else{
+					$errorstore->printErrorsToFile($this->options['errorlevel']);
 					$errorstore->postErrors($this->options['errorlevel']);
 				}
 			}
