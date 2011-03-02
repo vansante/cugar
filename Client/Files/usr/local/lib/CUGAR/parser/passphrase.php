@@ -63,7 +63,7 @@ class passphrase extends Statement{
 			}
 		}
 		else{
-			throw new ParseError('invalid passphrase expected length between 8 and 64',ErrorStore::$E_FATAL,$options);
+		 	$error = new ParseError('invalid passphrase expected length between 8 and 64',ErrorStore::$E_FATAL,$options);
 			$errorstore->addError($error);
 		}
 	}
