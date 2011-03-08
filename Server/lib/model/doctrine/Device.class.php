@@ -15,4 +15,12 @@ class Device extends BaseDevice {
     public function __toString() {
         return $this->name;
     }
+
+    protected function  postInsert($event) {
+        $cert = new OpenSSLCertificate($this->name);
+
+        if (!$cert->exists()) {
+            return $cert->generateNew();
+        }
+    }
 }
