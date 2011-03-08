@@ -129,7 +129,7 @@ class XMLConfig {
         $wpa->setAttribute('mode', $ssid_obj->wpa_mode);
         $this->createTextNode('group_rekey_interval', $ssid_obj->group_rekey_interval, $wpa);
         $this->createTextNode('strict_rekey', $ssid_obj->strict_rekey ? 'true' : 'false', $wpa);
-        $this->createTextNode('passphrase', $ssid_obj->passphrase ? 'true' : 'false', $wpa);
+        $this->createTextNode('passphrase', $ssid_obj->passphrase, $wpa);
         
         return $ssid;
     }
