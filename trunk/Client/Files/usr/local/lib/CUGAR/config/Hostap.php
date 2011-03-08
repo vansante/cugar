@@ -338,6 +338,8 @@ logger_stdout_level=2";
 			$bridgeConfigBuffer .= "ifconfig_bridge0=\"addm ".$this->bridges[$i][1]." addm ".$array[0]." up\" \n";
 			$i++;
 		}
+		$rc->addLine("cloned_interfaces=\"".$bridgeBuffer."\"");
+		$rc->addLine($bridgeConfigBuffer);
 		
 		$fp = fopen($this->FILEPATH.$this->FILENAME,'w');
 		if($fp){
