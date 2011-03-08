@@ -235,7 +235,7 @@ final class HostAPDConfig implements ConfigGenerator{
 
 	private function parseBuffer(){
 		$rc = RCConfig::getInstance();
-		$this->filebuffer .= "interface=wlan".$this->ssid_count;
+		$this->filebuffer .= "interface=wlan".$this->ssid_count."\n";
 		$this->filebuffer .= "driver=bsd\n";
 		$this->filebuffer .= "logger_syslog=-1\n";
 		$this->filebuffer .= "logger_syslog_level=2\n";
