@@ -156,6 +156,12 @@ logger_stdout_level=2";
 	private $rad_auth_sharedsecret;
 
 	private $ap_count;
+	
+	/**
+	 * Array of bridges to make
+	 * @var Array
+	 */
+	private $bridges;
 
 	/**
 	 * Get singleton instance
@@ -178,7 +184,7 @@ logger_stdout_level=2";
 	 */
 	public function getHardwareAddress(){
 		if($this->ssid_count > 0){
-			return 'wlan0_'.$this->ssid_count;
+			return 'wlan'.$this->ssid_count;
 		}
 		else{
 			return 'wlan0';
@@ -234,7 +240,7 @@ logger_stdout_level=2";
 				$this->filebuffer .= "hw_mode=".$this->hw_mode."\n";
 			}
 			else{
-				//$this->filebuffer .= "ieee80211n=1\n";
+				$this->filebuffer .= "ieee80211n=1\n";
 				//@TODO N is currently very very broken
 			}
 			
@@ -269,6 +275,7 @@ logger_stdout_level=2";
 			$this->filebuffer .= "radius_retry_primary_interval=".$this->rad_retry_interval."\n";
 		}
 		if($this->ssid_mode == 1){
+			//		Mode 1 SSID, check WPA setting
 			if($this->wpa_mode == 'wpa'){
 				$this->filebuffer .= "wpa=0\n";
 				$this->filebuffer .= "wpa_passphrase=".$this->wpa_passphrase."\n";
@@ -285,6 +292,10 @@ logger_stdout_level=2";
 				$this->filebuffer .= "wpa_group_rekey=".$this->wpa_group_rekey_interval."\n";
 				$this->filebuffer .= "wpa_strict_rekey=".$this->wpa_strict_rekey."\n";
 			}
+			//		For mode1, also set up the bridge between wlan0_x and primary ethernet interface
+			$bridgeindex = count($this->bridges);
+			$this->bridges[$bridgeindex][0] = "Bridge".$bridgeindex;
+			$this->bridges[$bridgeindex][1] = "wlan".$this->ssid_count;
 		}
 	}
 
@@ -313,6 +324,20 @@ logger_stdout_level=2";
 			$i++;
 		}
 		$rc->addLine('wlans_ath0="'.$wanbuffer.'"');
+		
+		$bridgeBuffer = null;
+		$bridgeConfigBuffer = null;
+		
+		$i = 0;
+		while($i < count($this->bridges)){
+			if($i > 0){
+				$bridgeBuffer .= " ";
+			}
+			$bridgeBuffer .= $this->bridges[$i][0];
+			$array = Functions::getInterfaceList();
+			$bridgeConfigBuffer .= "ifconfig_bridge0=\"addm ".$this->bridges[$i][1]." addm ".$array[0]." up\" \n";
+			$i++;
+		}
 		
 		$fp = fopen($this->FILEPATH.$this->FILENAME,'w');
 		if($fp){
