@@ -18,7 +18,7 @@ Device:
   indexes:
     cert_name:
       fields: [name]
-      unique: true
+      type: unique
   relations:
     Config:
       class: Config

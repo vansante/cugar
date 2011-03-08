@@ -61,7 +61,7 @@ abstract class BaseDevice extends sfDoctrineRecord
              array(
               0 => 'name',
              ),
-             'unique' => true,
+             'type' => 'unique',
              ));
     }
 
