@@ -9,7 +9,7 @@ class OpenSSLCertificate {
     }
 
     public function exists() {
-        $base_file_path = $cert_dir.DIRECTORY_SEPARATOR.$cert_name;
+        $base_file_path = csSettings::get('certificate_dir').DIRECTORY_SEPARATOR.$this->name;
 
         $file_exist_count = 0;
         if (file_exists($base_file_path.'.crt')) {
