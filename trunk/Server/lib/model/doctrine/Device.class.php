@@ -16,7 +16,7 @@ class Device extends BaseDevice {
         return $this->name;
     }
 
-    protected function  postInsert($event) {
+    public function postInsert($event) {
         $cert = new OpenSSLCertificate($this->name);
 
         if (!$cert->exists()) {
