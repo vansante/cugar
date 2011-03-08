@@ -26,6 +26,10 @@ abstract class BaseDeviceForm extends BaseFormDoctrine
       'config_id' => new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Config'))),
     ));
 
+    $this->validatorSchema->setPostValidator(
+      new sfValidatorDoctrineUnique(array('model' => 'Device', 'column' => array('name')))
+    );
+
     $this->widgetSchema->setNameFormat('device[%s]');
 
     $this->errorSchema = new sfValidatorErrorSchema($this->validatorSchema);
