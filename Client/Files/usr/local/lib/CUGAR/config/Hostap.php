@@ -236,11 +236,11 @@ final class HostAPDConfig implements ConfigGenerator{
 	private function parseBuffer(){
 		$rc = RCConfig::getInstance();
 		$this->filebuffer .= "interface=wlan".$this->ssid_count;
-		$this->filebuffer .= "driver=bsd";
-		$this->filebuffer .= "logger_syslog=-1";
-		$this->filebuffer .= "logger_syslog_level=2";
-		$this->filebuffer .= "logger_stdout=-1";
-		$this->filebuffer .= "logger_stdout_level=2";
+		$this->filebuffer .= "driver=bsd\n";
+		$this->filebuffer .= "logger_syslog=-1\n";
+		$this->filebuffer .= "logger_syslog_level=2\n";
+		$this->filebuffer .= "logger_stdout=-1\n";
+		$this->filebuffer .= "logger_stdout_level=2\n";
 		$this->filebuffer .= "ssid=".$this->ssid_name."\n";
 		$this->filebuffer .= "channel=".$this->hw_channel."\n";
 		if($this->hw_mode != 'n'){
