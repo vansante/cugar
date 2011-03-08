@@ -48,12 +48,7 @@ final class HostAPDConfig implements ConfigGenerator{
 	 * Buffer for config file contents
 	 * @var String
 	 */
-	private $filebuffer = "interface=wlan0
-driver=bsd
-logger_syslog=-1
-logger_syslog_level=2
-logger_stdout=-1
-logger_stdout_level=2";
+	private $filebuffer = "";
 
 	/**
 	 * Path to save the config file to
@@ -156,7 +151,7 @@ logger_stdout_level=2";
 	private $rad_auth_sharedsecret;
 
 	private $ap_count;
-	
+
 	/**
 	 * Array of bridges to make
 	 * @var Array
@@ -222,42 +217,45 @@ logger_stdout_level=2";
 		$rad_auth_port = null;
 		$rad_auth_sharedsecret = null;
 
-		$this->filebuffer .= "\n############ NEW SSID ##########\n";
+		$this->filebuffer = "\n############ NEW SSID ##########\n";
 	}
 
 	public function finishSSID(){
 		// Parse SSID spec and write to file buffer
 		$this->parseBuffer();
+
+		$fp = fopen($this->FILEPATH.$this->FILENAME.$this->ssid_count,'w');
+		if($fp){
+			fwrite($fp,$this->filebuffer);
+			fclose($fp);
+		}
+
 		$this->ssid_count++;;
 	}
 
 	private function parseBuffer(){
 		$rc = RCConfig::getInstance();
-		if($this->ssid_count == 0){
-			$this->filebuffer .= "ssid=".$this->ssid_name."\n";
-			$this->filebuffer .= "channel=".$this->hw_channel."\n";
-			if($this->hw_mode != 'n'){
-				$this->filebuffer .= "hw_mode=".$this->hw_mode."\n";
-			}
-			else{
-				$this->filebuffer .= "ieee80211n=1\n";
-				//@TODO N is currently very very broken
-			}
-			
-			$this->filebuffer .= "macaddr_acl=0\n";
-				
-			$this->filebuffer .= "ignore_broadcast_ssid=".(int)$this->broadcast_ssid."\n";
-			$rc->addLine('hostapd_enable="YES"');
-			$rc->addLine('create_args_wlan0="wlanmode hostap bssid"');
+		$this->filebuffer .= "interface=wlan".$this->ssid_count;
+		$this->filebuffer .= "driver=bsd";
+		$this->filebuffer .= "logger_syslog=-1";
+		$this->filebuffer .= "logger_syslog_level=2";
+		$this->filebuffer .= "logger_stdout=-1";
+		$this->filebuffer .= "logger_stdout_level=2";
+		$this->filebuffer .= "ssid=".$this->ssid_name."\n";
+		$this->filebuffer .= "channel=".$this->hw_channel."\n";
+		if($this->hw_mode != 'n'){
+			$this->filebuffer .= "hw_mode=".$this->hw_mode."\n";
 		}
 		else{
-			$this->filebuffer .="bss=wlan".$this->ssid_count."\n";
-			$this->filebuffer .= "ssid=".$this->ssid_name."\n";
-			$this->filebuffer .= "macaddr_acl=0\n";
-			$this->filebuffer .= "ignore_broadcast_ssid=".(int)$this->broadcast_ssid."\n";
-		
-			$rc->addLine('create_args_wlan'.$this->ssid_count.'="wlanmode hostap bssid"');
+			$this->filebuffer .= "ieee80211n=1\n";
+			//@TODO N is currently very very broken
 		}
+			
+		$this->filebuffer .= "macaddr_acl=0\n";
+
+		$this->filebuffer .= "ignore_broadcast_ssid=".(int)$this->broadcast_ssid."\n";
+		$rc->addLine('hostapd_enable="YES"');
+		$rc->addLine('create_args_wlan'.$this->ssid_count.'="wlanmode hostap ssid '.$this->ssid_name.'"');
 
 		if($this->ssid_mode == 3){
 			$this->filebuffer .= "ieee8021x=1\n";
@@ -320,14 +318,14 @@ logger_stdout_level=2";
 				$wanbuffer .= " ";
 			}
 			$wanbuffer .= "wlan".$i."";
-			
+				
 			$i++;
 		}
 		$rc->addLine('wlans_ath0="'.$wanbuffer.'"');
-		
+
 		$bridgeBuffer = null;
 		$bridgeConfigBuffer = null;
-		
+
 		$i = 0;
 		while($i < count($this->bridges)){
 			if($i > 0){
@@ -340,12 +338,6 @@ logger_stdout_level=2";
 		}
 		$rc->addLine("cloned_interfaces=\"".$bridgeBuffer."\"");
 		$rc->addLine($bridgeConfigBuffer);
-		
-		$fp = fopen($this->FILEPATH.$this->FILENAME,'w');
-		if($fp){
-			fwrite($fp,$this->filebuffer);
-			fclose($fp);
-		}
 	}
 
 	/**
