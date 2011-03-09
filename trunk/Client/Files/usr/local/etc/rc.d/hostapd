@@ -1,0 +1,9 @@
+#!/bin/sh
+#		HostAPD starting script renovated default
+#		FreeBSD rc script so we have multiple instances
+
+for file in `ls /etc/ | grep hostapd.conf`
+do
+        echo "$file exists"
+        /usr/sbin/hostapd -P "/var/run/$file.pid" -B "/etc/$file"
+done
