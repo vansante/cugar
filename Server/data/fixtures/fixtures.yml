@@ -106,10 +106,10 @@ Config:
         retry_interval: 30
         own_ip: 127.0.0.1
         nas_identifier: blaat
-        radius_auth_ip: 10.8.0.1
+        radius_auth_ip: 10.253.0.1
         radius_auth_port: 1812
         radius_auth_shared_secret: s33kr1t
-        radius_acct_ip: 10.8.0.1
+        radius_acct_ip: 10.253.0.1
         radius_acct_port: 1813
         radius_acct_shared_secret: s33kr1t
         radius_acct_interim_interval: 33
