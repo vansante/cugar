@@ -53,9 +53,10 @@ abstract class BaseMode1 extends Ssid
              'default' => 'wpa2',
              'notnull' => true,
              ));
-        $this->hasColumn('passphrase', 'string', 255, array(
+        $this->hasColumn('passphrase', 'string', 64, array(
              'type' => 'string',
-             'length' => 255,
+             'minlength' => 8,
+             'length' => 64,
              ));
         $this->hasColumn('group_rekey_interval', 'integer', 4, array(
              'type' => 'integer',

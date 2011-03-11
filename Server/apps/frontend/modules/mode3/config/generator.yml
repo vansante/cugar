@@ -20,7 +20,14 @@ generator:
         title: List of Mode 3 SSIDs
         display: [id, =name, _config, vlan, broadcast, radius_auth_ip, radius_acct_ip, vpn_auth_server, vpn_data_server, _dhcp_servers]
       filter:  ~
-      form:    ~
+      form:
+        display:
+          Config:                         [config_id]
+          SSID settings:                  [name, broadcast, vlan]
+          Radius authentication server:   [retry_interval, own_ip, nas_identifier, radius_auth_ip, radius_auth_port, radius_auth_shared_secret]
+          Radius accounting server:       [radius_acct_ip, radius_acct_port, radius_acct_shared_secret, radius_acct_interim_interval]
+          VPN tunnel for authentication:  [vpn_auth_server, vpn_auth_port, vpn_auth_cipher, vpn_auth_compression]
+          VPN tunnel for data (optional): [vpn_data_server, vpn_data_port, vpn_data_cipher, vpn_data_compression]
       edit:
         title: Edit Mode 3 SSID
       new:

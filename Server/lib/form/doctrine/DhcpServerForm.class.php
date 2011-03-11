@@ -13,7 +13,7 @@ class DhcpServerForm extends BaseDhcpServerForm {
     public function configure() {
         $this->widgetSchema->setLabels(array(
             'mode3_id' => 'Mode 3 SSID config',
-            'ip' => 'Server IP'
+            'ip' => 'Server IP address'
         ));
     }
 

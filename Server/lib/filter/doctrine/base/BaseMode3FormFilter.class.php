@@ -17,9 +17,6 @@ abstract class BaseMode3FormFilter extends RadiusSsidFormFilter
     $this->widgetSchema   ['config_id'] = new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Config'), 'add_empty' => true));
     $this->validatorSchema['config_id'] = new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Config'), 'column' => 'id'));
 
-    $this->widgetSchema   ['dhcp_hw_interface'] = new sfWidgetFormFilterInput(array('with_empty' => false));
-    $this->validatorSchema['dhcp_hw_interface'] = new sfValidatorPass(array('required' => false));
-
     $this->widgetSchema   ['vpn_auth_server'] = new sfWidgetFormFilterInput(array('with_empty' => false));
     $this->validatorSchema['vpn_auth_server'] = new sfValidatorPass(array('required' => false));
 
@@ -56,7 +53,6 @@ abstract class BaseMode3FormFilter extends RadiusSsidFormFilter
   {
     return array_merge(parent::getFields(), array(
       'config_id' => 'ForeignKey',
-      'dhcp_hw_interface' => 'Text',
       'vpn_auth_server' => 'Text',
       'vpn_auth_port' => 'Number',
       'vpn_auth_cipher' => 'Enum',

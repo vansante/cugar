@@ -72,10 +72,10 @@ RadiusSsid:
     own_ip: { type: string(15), ip: true, notnull: true }
     nas_identifier: { type: string(48), notnull: true, minlength: 1 }
     radius_auth_ip: { type: string(15), ip: true, notnull: true }
-    radius_auth_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
+    radius_auth_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535], default: 1812 }
     radius_auth_shared_secret: { type: string(255), notnull: true, minlength: 1}
     radius_acct_ip: { type: string(15), ip: true, notnull: true }
-    radius_acct_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
+    radius_acct_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535], default: 1813 }
     radius_acct_shared_secret: { type: string(255), notnull: true, minlength: 1}
     radius_acct_interim_interval: { type: integer(3), unsigned: true, notnull: true, range: [1], default: 600 }
 
@@ -90,7 +90,7 @@ Mode1:
       values: [wpa, wpa2, off]
       default: wpa2
       notnull: true
-    passphrase: { type: string(255) }
+    passphrase: { type: string(64), minlength: 8 }
     group_rekey_interval: { type: integer(4), notnull: true, default: 600 }
     strict_rekey: { type: boolean, notnull: true, default: true }
   relations:
@@ -122,8 +122,7 @@ Mode3:
     extends:       RadiusSsid
   columns:
     config_id: { type: integer(4), unsigned: true, notnull: true }
-    dhcp_hw_interface: {type: string(5), notnull: true, minlength: 3 }
-    vpn_auth_server: { type: string(255), notnull: true, minlength: 4 }
+    vpn_auth_server: { type: string(255), ip: true, notnull: true }
     vpn_auth_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
     vpn_auth_cipher:
       type: enum
@@ -131,7 +130,7 @@ Mode3:
       default: AES-128-CBC
       notnull: true
     vpn_auth_compression: { type: boolean, notnull: true, default: false }
-    vpn_data_server: { type: string(255), minlength: 4 }
+    vpn_data_server: { type: string(255), ip: true, notnull: false }
     vpn_data_port: { type: integer(3), unsigned: true, range: [1, 65535] }
     vpn_data_cipher:
       type: enum

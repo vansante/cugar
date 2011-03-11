@@ -20,7 +20,11 @@ generator:
         title: List of Mode 1 SSIDs
         display: [id, =name, _config, vlan, broadcast, group_rekey_interval, strict_rekey]
       filter:  ~
-      form:    ~
+      form:
+        display:
+          Config:           [config_id]
+          SSID settings:    [name, broadcast, vlan]
+          WPA settings:     [wpa_mode, passphrase, group_rekey_interval, strict_rekey]
       edit:
         title: Edit Mode 1 SSID
       new:

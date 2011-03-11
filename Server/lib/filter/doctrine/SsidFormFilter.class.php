@@ -13,7 +13,7 @@ class SsidFormFilter extends BaseSsidFormFilter {
     public function configure() {
 
         $this->useFields(array(
-            'config_id', 'name', 'vlan', 'broadcast'
+            'config_id', 'name', 'broadcast', 'vlan'
         ));
     }
 

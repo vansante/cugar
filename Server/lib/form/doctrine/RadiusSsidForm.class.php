@@ -17,15 +17,15 @@ class RadiusSsidForm extends BaseRadiusSsidForm {
         parent::configure();
 
         $this->widgetSchema->setLabels(array(
-            'own_ip' => 'Radius own IP address',
-            'nas_identifier' => 'Radius NAS identifier',
-            'radius_auth_ip' => 'Authentication radius server IP',
-            'radius_auth_port' => 'Authentication radius server port',
-            'radius_auth_shared_secret' => 'Authentication radius server shared secret',
-            'radius_acct_ip' => 'Accounting radius server IP',
-            'radius_acct_port' => 'Accounting radius server port',
-            'radius_acct_shared_secret' => 'Accounting radius server shared secret',
-            'radius_acct_interim_interval' => 'Accounting radius server interim interval',
+            'own_ip' => 'Own IP address',
+            'nas_identifier' => 'NAS identifier',
+            'radius_auth_ip' => 'Server IP address',
+            'radius_auth_port' => 'Server port',
+            'radius_auth_shared_secret' => 'Shared secret',
+            'radius_acct_ip' => 'Server IP address',
+            'radius_acct_port' => 'Server port',
+            'radius_acct_shared_secret' => 'Shared secret',
+            'radius_acct_interim_interval' => 'Interim interval',
         ));
     }
 

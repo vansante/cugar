@@ -23,7 +23,7 @@ abstract class BaseMode1Form extends SsidForm
     $this->validatorSchema['wpa_mode'] = new sfValidatorChoice(array('choices' => array(0 => 'wpa', 1 => 'wpa2', 2 => 'off'), 'required' => false));
 
     $this->widgetSchema   ['passphrase'] = new sfWidgetFormInputText();
-    $this->validatorSchema['passphrase'] = new sfValidatorString(array('max_length' => 255, 'required' => false));
+    $this->validatorSchema['passphrase'] = new sfValidatorString(array('max_length' => 64, 'min_length' => 8, 'required' => false));
 
     $this->widgetSchema   ['group_rekey_interval'] = new sfWidgetFormInputText();
     $this->validatorSchema['group_rekey_interval'] = new sfValidatorInteger(array('required' => false));
