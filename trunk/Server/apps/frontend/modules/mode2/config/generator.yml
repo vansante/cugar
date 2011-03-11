@@ -18,7 +18,7 @@ generator:
       fields:  ~
       list:
         title: List of Mode 2 SSIDs
-        display: [id, =name, _config, vlan, broadcast, group_rekey_interval, strict_rekey]
+        display: [id, =name, _config, vlan, broadcast]
       filter:  ~
       form:    ~
       edit:
