@@ -168,7 +168,7 @@ Mode3Certificate:
       AAOBgQAUy58VXpqTv/CUhQEj8510/LYFTAOkQmkRvkr4xvBlRi/8UHTVpTzfFpxx
       KJIVTr7JKV3wZrI8NW0tSpROgC/EtlEI1y80RZuYhlZT9dDtl/z0Z4AbGbyYXDwK
       Rjw+aiuc5HBQGvzUDDutxaQGMdx0f38zDENeEn9xF09fU1w35Q==
-	  -----END CERTIFICATE-----
+      -----END CERTIFICATE-----
     private_key_name: eduroam-node.key
     private_key: |
       -----BEGIN RSA PRIVATE KEY-----
