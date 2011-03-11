@@ -31,8 +31,11 @@ class Mode1 extends BaseMode1 {
 
     public function preSave($event) {
 
-        if ($this->wpa_mode == 'off') {
-            $this->passphrase = null;
+        if ($this->passphrase == '') {
+            $this->vpn_data_server = null;
+        }
+        if (!$this->group_rekey_interval) {
+            $this->group_rekey_interval = null;
         }
     }
 }
