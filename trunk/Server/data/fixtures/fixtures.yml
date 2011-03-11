@@ -148,6 +148,7 @@ Mode3Certificate:
     Device: Device_Test1
     public_key_name: eduroam-node.crt
     public_key: |
+      -----BEGIN CERTIFICATE-----
       MIIDgTCCAuqgAwIBAgIBETANBgkqhkiG9w0BAQUFADBuMQswCQYDVQQGEwJOTDEL
       MAkGA1UECBMCSEgxDzANBgNVBAcTBkxlaWRlbjETMBEGA1UEChMKSG90c3BvdFZQ
       TjENMAsGA1UEAxMEU1dBTjEdMBsGCSqGSIb3DQEJARYOcndAdmlhbm9kZS5uZXQw
@@ -167,9 +168,10 @@ Mode3Certificate:
       AAOBgQAUy58VXpqTv/CUhQEj8510/LYFTAOkQmkRvkr4xvBlRi/8UHTVpTzfFpxx
       KJIVTr7JKV3wZrI8NW0tSpROgC/EtlEI1y80RZuYhlZT9dDtl/z0Z4AbGbyYXDwK
       Rjw+aiuc5HBQGvzUDDutxaQGMdx0f38zDENeEn9xF09fU1w35Q==
-
+	  -----END CERTIFICATE-----
     private_key_name: eduroam-node.key
     private_key: |
+      -----BEGIN CERTIFICATE-----
       MIICXgIBAAKBgQDlQdxWewJr/dZpkBPKdhETkNilqYIei6a6MPsWy9nIaKK2+RRQ
       zMk3RrsYAZjgetNw5D69NQfhutMmcTo6p/II2tBxR1nkecVpSvp47D7WfKk37xQd
       47omrwgZeJopTEWIXZtSr4a2tJK67GRP4CQ2tLvZLFwvvRsNea55lvkDQQIDAQAB
@@ -183,8 +185,9 @@ Mode3Certificate:
       jGUWc8DN9lzhspNn+q34ZslYZh4ToTbmpY50xCiGBiTDo+afcUNhxKsgnZqEAjAa
       bmoP0TvSws8bbC6hh17/AkEArffh0nxl0JdpPUEC9VLLVvuAz3kFNvpyYbaD4bFH
       kyY/DfAilqceS8xFyBtyZ29F54ZENSR8KPBra4EWrw0Nxw==
-
+	  -----END CERTIFICATE-----
     cert_of_authority: |
+      -----BEGIN CERTIFICATE-----
       MIIDLjCCApegAwIBAgIJAPgqmdr92BigMA0GCSqGSIb3DQEBBQUAMG4xCzAJBgNV
       BAYTAk5MMQswCQYDVQQIEwJISDEPMA0GA1UEBxMGTGVpZGVuMRMwEQYDVQQKEwpI
       b3RzcG90VlBOMQ0wCwYDVQQDEwRTV0FOMR0wGwYJKoZIhvcNAQkBFg5yd0B2aWFu
@@ -203,3 +206,4 @@ Mode3Certificate:
       lhYK8Q9KbKRN4abe4vs7ObGRCWcCEBYc7SSG8NSpCxAMTsIARa/bMtmOzqaFrmZS
       dME5GBRI19/6qTmTme2x3nXUbz8TjJkHI4BTz6+lkGif8gBS+9M9FO8YPtg+mIeX
       to8=
+      -----END CERTIFICATE-----
