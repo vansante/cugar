@@ -19,11 +19,8 @@ abstract class BaseMode3Form extends RadiusSsidForm
     $this->widgetSchema   ['config_id'] = new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Config'), 'add_empty' => false));
     $this->validatorSchema['config_id'] = new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Config')));
 
-    $this->widgetSchema   ['dhcp_hw_interface'] = new sfWidgetFormInputText();
-    $this->validatorSchema['dhcp_hw_interface'] = new sfValidatorString(array('max_length' => 5, 'min_length' => 3));
-
     $this->widgetSchema   ['vpn_auth_server'] = new sfWidgetFormInputText();
-    $this->validatorSchema['vpn_auth_server'] = new sfValidatorString(array('max_length' => 255, 'min_length' => 4));
+    $this->validatorSchema['vpn_auth_server'] = new sfValidatorString(array('max_length' => 255));
 
     $this->widgetSchema   ['vpn_auth_port'] = new sfWidgetFormInputText();
     $this->validatorSchema['vpn_auth_port'] = new sfValidatorInteger();
@@ -35,7 +32,7 @@ abstract class BaseMode3Form extends RadiusSsidForm
     $this->validatorSchema['vpn_auth_compression'] = new sfValidatorBoolean(array('required' => false));
 
     $this->widgetSchema   ['vpn_data_server'] = new sfWidgetFormInputText();
-    $this->validatorSchema['vpn_data_server'] = new sfValidatorString(array('max_length' => 255, 'min_length' => 4, 'required' => false));
+    $this->validatorSchema['vpn_data_server'] = new sfValidatorString(array('max_length' => 255, 'required' => false));
 
     $this->widgetSchema   ['vpn_data_port'] = new sfWidgetFormInputText();
     $this->validatorSchema['vpn_data_port'] = new sfValidatorInteger(array('required' => false));

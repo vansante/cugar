@@ -82,6 +82,7 @@ abstract class BaseRadiusSsid extends Ssid
               0 => 1,
               1 => 65535,
              ),
+             'default' => 1812,
              'length' => 3,
              ));
         $this->hasColumn('radius_auth_shared_secret', 'string', 255, array(
@@ -105,6 +106,7 @@ abstract class BaseRadiusSsid extends Ssid
               0 => 1,
               1 => 65535,
              ),
+             'default' => 1813,
              'length' => 3,
              ));
         $this->hasColumn('radius_acct_shared_secret', 'string', 255, array(

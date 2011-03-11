@@ -29,7 +29,7 @@ abstract class BaseRadiusSsidForm extends SsidForm
     $this->validatorSchema['radius_auth_ip'] = new sfValidatorString(array('max_length' => 15));
 
     $this->widgetSchema   ['radius_auth_port'] = new sfWidgetFormInputText();
-    $this->validatorSchema['radius_auth_port'] = new sfValidatorInteger();
+    $this->validatorSchema['radius_auth_port'] = new sfValidatorInteger(array('required' => false));
 
     $this->widgetSchema   ['radius_auth_shared_secret'] = new sfWidgetFormInputText();
     $this->validatorSchema['radius_auth_shared_secret'] = new sfValidatorString(array('max_length' => 255, 'min_length' => 1));
@@ -38,7 +38,7 @@ abstract class BaseRadiusSsidForm extends SsidForm
     $this->validatorSchema['radius_acct_ip'] = new sfValidatorString(array('max_length' => 15));
 
     $this->widgetSchema   ['radius_acct_port'] = new sfWidgetFormInputText();
-    $this->validatorSchema['radius_acct_port'] = new sfValidatorInteger();
+    $this->validatorSchema['radius_acct_port'] = new sfValidatorInteger(array('required' => false));
 
     $this->widgetSchema   ['radius_acct_shared_secret'] = new sfWidgetFormInputText();
     $this->validatorSchema['radius_acct_shared_secret'] = new sfValidatorString(array('max_length' => 255, 'min_length' => 1));

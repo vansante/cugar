@@ -62,7 +62,6 @@ class XMLConfig {
 
             $dhcp_relay = $doc->createElement('dhcp_relay');
             $ssid->appendChild($dhcp_relay);
-            $this->createTextNode('hw_interface', $mode3->dhcp_hw_interface, $dhcp_relay);
 
             $servers = $doc->createElement('servers');
             $dhcp_relay->appendChild($servers);
@@ -95,13 +94,15 @@ class XMLConfig {
             $this->createTextNode('cipher', $mode3->vpn_auth_cipher, $auth);
             $this->createTextNode('compression', $mode3->vpn_auth_compression ? 'true' : 'false', $auth);
 
-            $data = $doc->createElement('tunnel');
-            $data->setAttribute('type', 'data');
-            $openvpn->appendChild($data);
-            $this->createTextNode('server', $mode3->vpn_data_server, $data);
-            $this->createTextNode('port', $mode3->vpn_data_port, $data);
-            $this->createTextNode('cipher', $mode3->vpn_data_cipher, $data);
-            $this->createTextNode('compression', $mode3->vpn_data_compression ? 'true' : 'false', $data);
+            if ($mode3->vpn_data_server) {
+                $data = $doc->createElement('tunnel');
+                $data->setAttribute('type', 'data');
+                $openvpn->appendChild($data);
+                $this->createTextNode('server', $mode3->vpn_data_server, $data);
+                $this->createTextNode('port', $mode3->vpn_data_port, $data);
+                $this->createTextNode('cipher', $mode3->vpn_data_cipher, $data);
+                $this->createTextNode('compression', $mode3->vpn_data_compression ? 'true' : 'false', $data);
+            }
         }
 
         return $doc->saveXML();

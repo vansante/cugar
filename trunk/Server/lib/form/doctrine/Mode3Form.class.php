@@ -14,16 +14,16 @@ class Mode3Form extends BaseMode3Form {
         parent::configure();
 
         $this->widgetSchema->setLabels(array(
-            'dhcp_hw_interface' => 'DHCP hardware interface',
-            'vpn_auth_server' => 'VPN authentication tunnel server',
-            'vpn_auth_port' => 'VPN authentication tunnel port',
-            'vpn_auth_cipher' => 'VPN authentication tunnel cipher',
-            'vpn_auth_compression' => 'VPN authentication tunnel compression',
-            'vpn_data_server' => 'VPN data tunnel server',
-            'vpn_data_port' => 'VPN data tunnel port',
-            'vpn_data_cipher' => 'VPN data tunnel cipher',
-            'vpn_data_compression' => 'VPN data tunnel compression',
+            'vpn_auth_server' => 'Server IP address',
+            'vpn_auth_port' => 'Server port',
+            'vpn_auth_cipher' => 'Encryption cipher',
+            'vpn_auth_compression' => 'Use compression',
+            'vpn_data_server' => 'Server IP address',
+            'vpn_data_port' => 'Server port',
+            'vpn_data_cipher' => 'Encryption cipher',
+            'vpn_data_compression' => 'Use compression',
         ));
-    }
 
+        $this->setWidget('vpn_data_server', new sfWidgetFormFilterInput());
+    }
 }
