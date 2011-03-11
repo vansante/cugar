@@ -14,7 +14,6 @@ class SsidForm extends BaseSsidForm {
         $this->widgetSchema->setLabels(array(
             'name' => 'SSID name',
             'vlan' => 'VLAN id',
-            'wpa_mode' => 'WPA mode',
             'broadcast' => 'Broadcast SSID',
         ));
     }
