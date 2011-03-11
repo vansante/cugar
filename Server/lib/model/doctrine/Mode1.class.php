@@ -12,7 +12,27 @@
  */
 class Mode1 extends BaseMode1 {
 
+    public function  validate() {
+        $errorStack = $this->getErrorStack();
+
+        if ($this->wpa_mode != 'off') {
+            if (strlen($this->passphrase) < 8) {
+                $errorStack->add('passphrase', "Please supply a passphrase of 8 - 64 characters");
+            }
+            if (!$this->group_rekey_interval) {
+                $errorStack->add('group_rekey_interval', "Please supply a group_rekey_interval");
+            }
+        }
+    }
+
     public function __toString() {
         return $this->name;
+    }
+
+    public function preSave($event) {
+
+        if ($this->wpa_mode == 'off') {
+            $this->passphrase = null;
+        }
     }
 }

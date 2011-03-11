@@ -24,6 +24,5 @@ class Mode3Form extends BaseMode3Form {
             'vpn_data_compression' => 'Use compression',
         ));
 
-        $this->setWidget('vpn_data_server', new sfWidgetFormFilterInput());
     }
 }
