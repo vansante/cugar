@@ -106,14 +106,12 @@ abstract class BaseMode3 extends RadiusSsid
              ));
         $this->hasColumn('vpn_data_server', 'string', 255, array(
              'type' => 'string',
-             'notnull' => true,
              'minlength' => 4,
              'length' => 255,
              ));
         $this->hasColumn('vpn_data_port', 'integer', 3, array(
              'type' => 'integer',
              'unsigned' => true,
-             'notnull' => true,
              'range' => 
              array(
               0 => 1,
@@ -132,11 +130,9 @@ abstract class BaseMode3 extends RadiusSsid
               4 => 'BF-CBC',
              ),
              'default' => 'AES-128-CBC',
-             'notnull' => true,
              ));
         $this->hasColumn('vpn_data_compression', 'boolean', null, array(
              'type' => 'boolean',
-             'notnull' => true,
              'default' => false,
              ));
     }

@@ -20,7 +20,7 @@ class Device extends BaseDevice {
         $cert = new OpenSSLCertificate($this->name);
 
         if (!$cert->exists()) {
-            return $cert->generateNew();
+//            return $cert->generateNew();
         }
     }
 }

@@ -32,10 +32,10 @@ abstract class BaseMode3FormFilter extends RadiusSsidFormFilter
     $this->widgetSchema   ['vpn_auth_compression'] = new sfWidgetFormChoice(array('choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no')));
     $this->validatorSchema['vpn_auth_compression'] = new sfValidatorChoice(array('required' => false, 'choices' => array('', 1, 0)));
 
-    $this->widgetSchema   ['vpn_data_server'] = new sfWidgetFormFilterInput(array('with_empty' => false));
+    $this->widgetSchema   ['vpn_data_server'] = new sfWidgetFormFilterInput();
     $this->validatorSchema['vpn_data_server'] = new sfValidatorPass(array('required' => false));
 
-    $this->widgetSchema   ['vpn_data_port'] = new sfWidgetFormFilterInput(array('with_empty' => false));
+    $this->widgetSchema   ['vpn_data_port'] = new sfWidgetFormFilterInput();
     $this->validatorSchema['vpn_data_port'] = new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false)));
 
     $this->widgetSchema   ['vpn_data_cipher'] = new sfWidgetFormChoice(array('choices' => array('' => '', 'DES-CBC' => 'DES-CBC', 'AES-128-CBC' => 'AES-128-CBC', 'AES-192-CBC' => 'AES-192-CBC', 'AES-256-CBC' => 'AES-256-CBC', 'BF-CBC' => 'BF-CBC')));

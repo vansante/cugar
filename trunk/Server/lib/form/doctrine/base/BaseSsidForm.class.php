@@ -15,25 +15,17 @@ abstract class BaseSsidForm extends BaseFormDoctrine
   public function setup()
   {
     $this->setWidgets(array(
-      'id'                   => new sfWidgetFormInputHidden(),
-      'name'                 => new sfWidgetFormInputText(),
-      'wpa_mode'             => new sfWidgetFormChoice(array('choices' => array('wpa' => 'wpa', 'wpa2' => 'wpa2', 'off' => 'off'))),
-      'vlan'                 => new sfWidgetFormInputText(),
-      'broadcast'            => new sfWidgetFormInputCheckbox(),
-      'passphrase'           => new sfWidgetFormInputText(),
-      'group_rekey_interval' => new sfWidgetFormInputText(),
-      'strict_rekey'         => new sfWidgetFormInputCheckbox(),
+      'id'        => new sfWidgetFormInputHidden(),
+      'name'      => new sfWidgetFormInputText(),
+      'vlan'      => new sfWidgetFormInputText(),
+      'broadcast' => new sfWidgetFormInputCheckbox(),
     ));
 
     $this->setValidators(array(
-      'id'                   => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
-      'name'                 => new sfValidatorRegex(array('max_length' => 32, 'min_length' => 1, 'pattern' => '/^[a-zA-Z0-9_]+$/')),
-      'wpa_mode'             => new sfValidatorChoice(array('choices' => array(0 => 'wpa', 1 => 'wpa2', 2 => 'off'), 'required' => false)),
-      'vlan'                 => new sfValidatorInteger(array('required' => false)),
-      'broadcast'            => new sfValidatorBoolean(array('required' => false)),
-      'passphrase'           => new sfValidatorString(array('max_length' => 255, 'required' => false)),
-      'group_rekey_interval' => new sfValidatorInteger(array('required' => false)),
-      'strict_rekey'         => new sfValidatorBoolean(array('required' => false)),
+      'id'        => new sfValidatorChoice(array('choices' => array($this->getObject()->get('id')), 'empty_value' => $this->getObject()->get('id'), 'required' => false)),
+      'name'      => new sfValidatorRegex(array('max_length' => 32, 'min_length' => 1, 'pattern' => '/^[a-zA-Z0-9_]+$/')),
+      'vlan'      => new sfValidatorInteger(array('required' => false)),
+      'broadcast' => new sfValidatorBoolean(array('required' => false)),
     ));
 
     $this->widgetSchema->setNameFormat('ssid[%s]');
