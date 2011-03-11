@@ -117,11 +117,11 @@ Config:
         vpn_auth_server: 195.169.160.2
         vpn_auth_port: 1194
         vpn_auth_cipher: AES-256-CBC
-        vpn_auth_compression: true
+        vpn_auth_compression: false
         vpn_data_server: 195.169.160.2
         vpn_data_port: 1195
         vpn_data_cipher: AES-128-CBC
-        vpn_data_compression: true
+        vpn_data_compression: false
 
   Config_Test2:
     name: Test Blabla
