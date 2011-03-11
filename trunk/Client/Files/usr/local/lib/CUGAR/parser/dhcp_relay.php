@@ -56,11 +56,6 @@ class dhcp_relay extends Statement{
 			$error = new ParseError('no servers tag found',ErrorStore::$E_FATAL,$options);
 			$errorstore->addError($error);
 		}
-		if(!isset($options->hw_interface)){
-			$error = new ParseError('no hw_interface tag found',ErrorStore::$E_FATAL,$options);
-			$errorstore->addError($error);
-		}
-		
 		$this->checkChildNodes($options);
 	}
 }

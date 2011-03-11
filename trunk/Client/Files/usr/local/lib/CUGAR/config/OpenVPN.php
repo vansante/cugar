@@ -56,7 +56,7 @@ class OpenVPNConfig implements ConfigGenerator{
 	 * Name of file to write to.
 	 * @var unknown_type
 	 */
-	private $filename = 'openvpn.conf';
+	private $filename = 'openvpn';
 
 	/**
 	 * tunnel type (data / auth)
@@ -325,7 +325,7 @@ verb ".$this->verbosity."\n";
 			fclose($fp);
 		}
 
-		$fp = fopen(OpenVPNConfig::$FILEPATH."openvpn".$this->tunnelcount."/".$this->filename.$this->tunnelcount,'w');
+		$fp = fopen(OpenVPNConfig::$FILEPATH."openvpn".$this->tunnelcount."/".$this->filename.$this->tunnelcount.'.conf','w');
 		if($fp){
 			fwrite($fp,$this->buffer);
 			fclose($fp);
