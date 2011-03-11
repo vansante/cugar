@@ -272,7 +272,7 @@ ca /etc/openvpn".$this->tunnelcount."/".$this->caname."
 cert /etc/openvpn".$this->tunnelcount."/".$this->certname."
 key /etc/openvpn".$this->tunnelcount."/".$this->keyname."
 
-proto tcp
+proto tcp-client
 port ".$this->port."
 cipher ".$this->cipher."
 
