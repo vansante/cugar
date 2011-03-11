@@ -109,14 +109,14 @@ Config:
         passphrase: Passw0rd
         group_rekey_interval: 500
         strict_rekey: false
-        retry_interval: 23
+        retry_interval: 30
         own_ip: 127.0.0.1
         nas_identifier: blaat
         dhcp_hw_interface: eth1
-        radius_auth_ip: 195.169.160.2
+        radius_auth_ip: 10.8.0.1
         radius_auth_port: 1812
         radius_auth_shared_secret: s33kr1t
-        radius_acct_ip: 195.169.160.2
+        radius_acct_ip: 10.8.0.1
         radius_acct_port: 1813
         radius_acct_shared_secret: s33kr1t
         radius_acct_interim_interval: 33
