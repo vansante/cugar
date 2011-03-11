@@ -29,6 +29,6 @@ sh /etc/rc.initdiskless
 
 #Run freebsd default rc
 echo "Starting FreeBSD rc";
-#./etc/rc.freebsd
+./etc/rc.freebsd
 
 exit 0
