@@ -124,11 +124,11 @@ class XMLConfig {
             $this->createTextNode('vlan_id', $ssid_obj->vlan, $vlan);
         }
 
-        $wpa = $this->doc->createElement('wpa');
-        $hostapd->appendChild($wpa);
-        $wpa->setAttribute('mode', $ssid_obj->wpa_mode);
-
         if ($mode == 1) {
+            $wpa = $this->doc->createElement('wpa');
+            $hostapd->appendChild($wpa);
+            $wpa->setAttribute('mode', $ssid_obj->wpa_mode);
+            
             $this->createTextNode('group_rekey_interval', $ssid_obj->group_rekey_interval, $wpa);
             $this->createTextNode('strict_rekey', $ssid_obj->strict_rekey ? 'true' : 'false', $wpa);
             $this->createTextNode('passphrase', $ssid_obj->passphrase, $wpa);
