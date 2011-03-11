@@ -15,4 +15,17 @@ class Mode3 extends BaseMode3 {
     public function __toString() {
         return $this->name;
     }
+
+    public function preSave($event) {
+
+        if ($this->vpn_data_server == '') {
+            $this->vpn_data_server = null;
+        }
+        if ($this->vpn_data_port == '') {
+            $this->vpn_data_port = null;
+        }
+        if ($this->vpn_data_cipher == '') {
+            $this->vpn_data_cipher = null;
+        }
+    }
 }

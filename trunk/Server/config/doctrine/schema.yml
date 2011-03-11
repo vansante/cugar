@@ -90,8 +90,8 @@ Mode1:
       values: [wpa, wpa2, off]
       default: wpa2
       notnull: true
-    passphrase: { type: string(64), minlength: 8 }
-    group_rekey_interval: { type: integer(4), notnull: true, default: 600 }
+    passphrase: { type: string(64), minlength: 8, default: null }
+    group_rekey_interval: { type: integer(4), default: 600 }
     strict_rekey: { type: boolean, notnull: true, default: true }
   relations:
     Config:
@@ -130,8 +130,8 @@ Mode3:
       default: AES-128-CBC
       notnull: true
     vpn_auth_compression: { type: boolean, notnull: true, default: false }
-    vpn_data_server: { type: string(255), ip: true, notnull: false }
-    vpn_data_port: { type: integer(3), unsigned: true, range: [1, 65535] }
+    vpn_data_server: { type: string(255), ip: true, notnull: false, default: null }
+    vpn_data_port: { type: integer(3), unsigned: true, range: [1, 65535], default: null }
     vpn_data_cipher:
       type: enum
       values: [DES-CBC, AES-128-CBC, AES-192-CBC, AES-256-CBC, BF-CBC]
