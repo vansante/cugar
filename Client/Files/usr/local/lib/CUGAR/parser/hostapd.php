@@ -69,7 +69,7 @@ class hostapd extends Statement{
 			$error = new ParseError('no vlan tag found',ErrorStore::$E_NOTICE,$options);
 			$errorstore->addError($error);
 		}
-		if($this->parse_options['mode'] != 2 && !isset($options->wpa)){
+		if($this->parse_options['mode'] == 1 && !isset($options->wpa)){
 			$error = new ParseError('no wpa tag found',ErrorStore::$E_FATAL,$options);
 			$errorstore->addError($error);
 		}
