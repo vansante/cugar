@@ -7,29 +7,17 @@
  * 
  * @property integer $id
  * @property string $name
- * @property enum $wpa_mode
  * @property integer $vlan
  * @property boolean $broadcast
- * @property string $passphrase
- * @property integer $group_rekey_interval
- * @property boolean $strict_rekey
  * 
- * @method integer getId()                   Returns the current record's "id" value
- * @method string  getName()                 Returns the current record's "name" value
- * @method enum    getWpaMode()              Returns the current record's "wpa_mode" value
- * @method integer getVlan()                 Returns the current record's "vlan" value
- * @method boolean getBroadcast()            Returns the current record's "broadcast" value
- * @method string  getPassphrase()           Returns the current record's "passphrase" value
- * @method integer getGroupRekeyInterval()   Returns the current record's "group_rekey_interval" value
- * @method boolean getStrictRekey()          Returns the current record's "strict_rekey" value
- * @method Ssid    setId()                   Sets the current record's "id" value
- * @method Ssid    setName()                 Sets the current record's "name" value
- * @method Ssid    setWpaMode()              Sets the current record's "wpa_mode" value
- * @method Ssid    setVlan()                 Sets the current record's "vlan" value
- * @method Ssid    setBroadcast()            Sets the current record's "broadcast" value
- * @method Ssid    setPassphrase()           Sets the current record's "passphrase" value
- * @method Ssid    setGroupRekeyInterval()   Sets the current record's "group_rekey_interval" value
- * @method Ssid    setStrictRekey()          Sets the current record's "strict_rekey" value
+ * @method integer getId()        Returns the current record's "id" value
+ * @method string  getName()      Returns the current record's "name" value
+ * @method integer getVlan()      Returns the current record's "vlan" value
+ * @method boolean getBroadcast() Returns the current record's "broadcast" value
+ * @method Ssid    setId()        Sets the current record's "id" value
+ * @method Ssid    setName()      Sets the current record's "name" value
+ * @method Ssid    setVlan()      Sets the current record's "vlan" value
+ * @method Ssid    setBroadcast() Sets the current record's "broadcast" value
  * 
  * @package    sf_sandbox
  * @subpackage model
@@ -56,20 +44,8 @@ abstract class BaseSsid extends sfDoctrineRecord
              'regexp' => '/^[a-zA-Z0-9_]+$/',
              'length' => 32,
              ));
-        $this->hasColumn('wpa_mode', 'enum', null, array(
-             'type' => 'enum',
-             'values' => 
-             array(
-              0 => 'wpa',
-              1 => 'wpa2',
-              2 => 'off',
-             ),
-             'default' => 'wpa2',
-             'notnull' => true,
-             ));
         $this->hasColumn('vlan', 'integer', 2, array(
              'type' => 'integer',
-             'notnull' => false,
              'range' => 
              array(
               0 => 1,
@@ -78,21 +54,6 @@ abstract class BaseSsid extends sfDoctrineRecord
              'length' => 2,
              ));
         $this->hasColumn('broadcast', 'boolean', null, array(
-             'type' => 'boolean',
-             'notnull' => true,
-             'default' => true,
-             ));
-        $this->hasColumn('passphrase', 'string', 255, array(
-             'type' => 'string',
-             'length' => 255,
-             ));
-        $this->hasColumn('group_rekey_interval', 'integer', 4, array(
-             'type' => 'integer',
-             'notnull' => true,
-             'default' => 600,
-             'length' => 4,
-             ));
-        $this->hasColumn('strict_rekey', 'boolean', null, array(
              'type' => 'boolean',
              'notnull' => true,
              'default' => true,

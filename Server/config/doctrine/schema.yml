@@ -60,21 +60,8 @@ Ssid:
   columns:
     id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
     name: { type: string(32), notnull: true, minlength: 1, nospace: true, regexp: '/^[a-zA-Z0-9_]+$/' }
-#    mode:
-#      type: enum
-#      values: [1, 2, 3]
-#      default: 1
-#      notnull: true
-    wpa_mode:
-      type: enum
-      values: [wpa, wpa2, off]
-      default: wpa2
-      notnull: true
-    vlan: { type: integer(2), notnull: false, range: [1, 4096] }
+    vlan: { type: integer(2), range: [1, 4096] }
     broadcast: { type: boolean, notnull: true, default: true }
-    passphrase: { type: string(255) }
-    group_rekey_interval: { type: integer(4), notnull: true, default: 600 }
-    strict_rekey: { type: boolean, notnull: true, default: true }
 
 RadiusSsid:
   inheritance:
@@ -98,6 +85,14 @@ Mode1:
     extends:       Ssid
   columns:
     config_id: { type: integer(4), unsigned: true, notnull: true }
+    wpa_mode:
+      type: enum
+      values: [wpa, wpa2, off]
+      default: wpa2
+      notnull: true
+    passphrase: { type: string(255) }
+    group_rekey_interval: { type: integer(4), notnull: true, default: 600 }
+    strict_rekey: { type: boolean, notnull: true, default: true }
   relations:
     Config:
       class: Config
@@ -136,14 +131,13 @@ Mode3:
       default: AES-128-CBC
       notnull: true
     vpn_auth_compression: { type: boolean, notnull: true, default: false }
-    vpn_data_server: { type: string(255), notnull: true, minlength: 4 }
-    vpn_data_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
+    vpn_data_server: { type: string(255), minlength: 4 }
+    vpn_data_port: { type: integer(3), unsigned: true, range: [1, 65535] }
     vpn_data_cipher:
       type: enum
       values: [DES-CBC, AES-128-CBC, AES-192-CBC, AES-256-CBC, BF-CBC]
       default: AES-128-CBC
-      notnull: true
-    vpn_data_compression: { type: boolean, notnull: true, default: false }
+    vpn_data_compression: { type: boolean, default: false }
   relations:
     Config:
       class: Config
