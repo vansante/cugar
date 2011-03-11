@@ -185,7 +185,7 @@ Mode3Certificate:
       jGUWc8DN9lzhspNn+q34ZslYZh4ToTbmpY50xCiGBiTDo+afcUNhxKsgnZqEAjAa
       bmoP0TvSws8bbC6hh17/AkEArffh0nxl0JdpPUEC9VLLVvuAz3kFNvpyYbaD4bFH
       kyY/DfAilqceS8xFyBtyZ29F54ZENSR8KPBra4EWrw0Nxw==
-	  -----END RSA PRIVATE KEY-----
+      -----END RSA PRIVATE KEY-----
     cert_of_authority: |
       -----BEGIN CERTIFICATE-----
       MIIDLjCCApegAwIBAgIJAPgqmdr92BigMA0GCSqGSIb3DQEBBQUAMG4xCzAJBgNV
