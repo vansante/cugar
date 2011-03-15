@@ -258,6 +258,9 @@ final class HostAPDConfig implements ConfigGenerator{
 		$rc->addLine('create_args_wlan'.$this->ssid_count.'="wlanmode hostap ssid '.$this->ssid_name.'"');
 
 		if($this->ssid_mode == 3){
+			$this->filebuffer .= "wpa=1";
+			$this->filebuffer .= "wpa_key_mgmt=WPA-EAP";
+			$this->filebuffer .= "wpa_pairwise=TKIP CCMP";
 			$this->filebuffer .= "ieee8021x=1\n";
 			$this->filebuffer .= "eapol_version=2\n";
 			$this->filebuffer .= "eap_reauth_period=3600\n";
