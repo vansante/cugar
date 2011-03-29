@@ -5,5 +5,5 @@
 for file in `ls /etc/ | grep hostapd.conf`
 do
         echo "$file exists"
-        /usr/sbin/hostapd -P "/var/run/$file.pid" -B "/etc/$file"
+        /usr/local/sbin/hostapd -P "/var/run/$file.pid" -B "/etc/$file"
 done
