@@ -24,7 +24,7 @@ generator:
         display:
           Config:                         [config_id]
           SSID settings:                  [name, broadcast, vlan]
-          Radius authentication server:   [retry_interval, own_ip, nas_identifier, radius_auth_ip, radius_auth_port, radius_auth_shared_secret]
+          Radius authentication server:   [radius_auth_ip, radius_auth_port, radius_auth_shared_secret, retry_interval, own_ip, nas_identifier]
           Radius accounting server:       [radius_acct_ip, radius_acct_port, radius_acct_shared_secret, radius_acct_interim_interval]
           VPN tunnel for authentication:  [vpn_auth_server, vpn_auth_port, vpn_auth_cipher, vpn_auth_compression]
           VPN tunnel for data (optional): [vpn_data_server, vpn_data_port, vpn_data_cipher, vpn_data_compression]

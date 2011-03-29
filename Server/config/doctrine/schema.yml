@@ -77,7 +77,7 @@ RadiusSsid:
     radius_acct_ip: { type: string(15), ip: true, notnull: true }
     radius_acct_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535], default: 1813 }
     radius_acct_shared_secret: { type: string(255), notnull: true, minlength: 1}
-    radius_acct_interim_interval: { type: integer(3), unsigned: true, notnull: true, range: [1], default: 600 }
+    radius_acct_interim_interval: { type: integer(3), unsigned: true, notnull: true, range: [60, 600], default: 600 }
 
 Mode1:
   inheritance:
