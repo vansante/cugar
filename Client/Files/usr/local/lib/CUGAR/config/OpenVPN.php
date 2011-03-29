@@ -264,22 +264,21 @@ class OpenVPNConfig implements ConfigGenerator{
 	 * @return void
 	 */
 	public function endTunnel(){
+		$this->buffer .= "client\n";
+		$this->buffer .= "remote ".$this->server."\n\n";
+		$this->buffer .= "cipher ".$this->cipher."\n";
+		$this->buffer .= "link-mtu 1559\n\n";
 		$this->buffer .= "dev tun\n
-remote ".$this->server."
-tls-client
 
+proto tcp-client
+port ".$this->port."
+		
 ca /etc/openvpn".$this->tunnelcount."/".$this->caname."
 cert /etc/openvpn".$this->tunnelcount."/".$this->certname."
 key /etc/openvpn".$this->tunnelcount."/".$this->keyname."
 
-proto tcp-client
-port ".$this->port."
-cipher ".$this->cipher."
-
 user nobody
 group nobody
-persist-key
-persist-tun
 verb ".$this->verbosity."\n";
 
 		if($this->compression){
