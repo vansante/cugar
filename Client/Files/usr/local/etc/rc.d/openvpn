@@ -1,9 +1,10 @@
 #!/bin/sh
 #		HostAPD starting script renovated default
 #		FreeBSD rc script so we have multiple instances
+echo "Starting OpenVPN Daemons"
 
 for file in `ls /etc/ | grep openvpn`
 do
         echo "$file configuration exists"
-        /usr/sbin/openvpn --config "/etc/$file/$file.conf" --daemon
+        /usr/local/sbin/openvpn --config "/etc/$file/$file.conf" --daemon
 done
