@@ -268,7 +268,7 @@ class OpenVPNConfig implements ConfigGenerator{
 		$this->buffer .= "remote ".$this->server."\n\n";
 		$this->buffer .= "cipher ".$this->cipher."\n";
 		$this->buffer .= "link-mtu 1559\n\n";
-		$this->buffer .= "dev tun\n
+		$this->buffer .= "dev tap\n
 
 proto tcp-client
 port ".$this->port."

@@ -113,11 +113,11 @@ class OpenVPNManager{
 		}
 		
 		//Write openvpn config
-		if(!is_dir('/etc/openvpn')){
-			mkdir('/etc/openvpn');
+		if(!is_dir('/etc/configtunnel')){
+			mkdir('/etc/configtunnel');
 		}
 			
-		$openvpnfile = fopen('/etc/openvpn/openvpn.conf', 'w');
+		$openvpnfile = fopen('/etc/configtunnel/openvpn.conf', 'w');
 		if($openvpnfile){
 			$openvpncontent = "client
 remote ".(string)$this->config->server."
