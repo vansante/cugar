@@ -12,7 +12,12 @@
     <dl>
         <dt><label for="basic_settings_password">New password</label></dt>
         <dd>
-            <input type="text" size="40" name="basic_settings_password" id="basic_settings_password"/>
+            <input type="password" size="40" name="basic_settings_password" id="basic_settings_password"/>
+        </dd>
+
+        <dt><label for="basic_settings_password2">New password (repeat)</label></dt>
+        <dd>
+            <input type="password" size="40" name="basic_settings_password2" id="basic_settings_password2"/>
         </dd>
     </dl>
 
@@ -95,6 +100,7 @@
 
 <div class="help_pool">
     <div class="help" id="help_basic_settings_password">Set a new password for these management pages</div>
+    <div class="help" id="help_basic_settings_password2">Repeat the password for verification</div>
     <div class="help" id="help_basic_settings_hostname">Hostname for the accesspoint, without the domain part. e.g. "accesspoint"</div>
     <div class="help" id="help_basic_settings_type">Choose the type of IP configuration you want to use</div>
     <div class="help" id="help_basic_settings_static_ipaddr">Enter the IP address of the interface in the following format: xxx.xxx.xxx.xxx</div>
