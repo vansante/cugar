@@ -23,7 +23,7 @@ abstract class BaseMode1FormFilter extends SsidFormFilter
     $this->widgetSchema   ['passphrase'] = new sfWidgetFormFilterInput();
     $this->validatorSchema['passphrase'] = new sfValidatorPass(array('required' => false));
 
-    $this->widgetSchema   ['group_rekey_interval'] = new sfWidgetFormFilterInput(array('with_empty' => false));
+    $this->widgetSchema   ['group_rekey_interval'] = new sfWidgetFormFilterInput();
     $this->validatorSchema['group_rekey_interval'] = new sfValidatorSchemaFilter('text', new sfValidatorInteger(array('required' => false)));
 
     $this->widgetSchema   ['strict_rekey'] = new sfWidgetFormChoice(array('choices' => array('' => 'yes or no', 1 => 'yes', 0 => 'no')));

@@ -40,7 +40,7 @@
  * @package    sf_sandbox
  * @subpackage model
  * @author     Your name here
- * @version    SVN: $Id: Builder.php 7691 2011-02-04 15:43:29Z jwage $
+ * @version    SVN: $Id: Builder.php 7490 2010-03-29 19:53:27Z jwage $
  */
 abstract class BaseRadiusSsid extends Ssid
 {
@@ -121,7 +121,8 @@ abstract class BaseRadiusSsid extends Ssid
              'notnull' => true,
              'range' => 
              array(
-              0 => 1,
+              0 => 60,
+              1 => 600,
              ),
              'default' => 600,
              'length' => 3,
