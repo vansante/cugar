@@ -255,8 +255,16 @@ final class HostAPDConfig implements ConfigGenerator{
 
 		$this->filebuffer .= "ignore_broadcast_ssid=".(int)$this->broadcast_ssid."\n";
 		$rc->addLine('hostapd_enable="YES"');
-		$rc->addLine('create_args_wlan'.$this->ssid_count.'="wlanmode hostap ssid '.$this->ssid_name.'"');
-
+		
+		if($this->ssid_mode == 3){
+			//	Set a different MTU when it's a mode 3 SSID because the TAP interface has an MTU of 1468 for some reason
+			$mtu = 1468;
+		}
+		else{
+			$mtu = 1500;
+		}
+		
+		$rc->addLine('create_args_wlan'.$this->ssid_count.'="wlanmode hostap ssid '.$this->ssid_name.' mtu '.$mtu.'"');
 		if($this->ssid_mode == 3){
 			$this->filebuffer .= "wpa=1\n";
 			$this->filebuffer .= "wpa_key_mgmt=WPA-EAP\n";
@@ -274,6 +282,13 @@ final class HostAPDConfig implements ConfigGenerator{
 			$this->filebuffer .= "acct_server_shared_secret=".$this->rad_acct_sharedsecret."\n";
 			$this->filebuffer .= "radius_acct_interim_interval=".$this->rad_acct_interim_interval."\n";
 			$this->filebuffer .= "radius_retry_primary_interval=".$this->rad_retry_interval."\n";
+			
+			$bridgeindex = count($this->bridges);
+			$this->bridges[$bridgeindex][0] = "bridge".$bridgeindex;
+			$this->bridges[$bridgeindex][1] = "wlan".$this->ssid_count;
+			$ovpn_config = OpenVPNConfig::getInstance();
+			$openvpncount = $ovpn_config->getTunnelCount();
+			$this->bridges[$bridgeindex][2] = "tap".$openvpncount;
 		}
 		if($this->ssid_mode == 1){
 			//		Mode 1 SSID, check WPA setting
@@ -335,8 +350,15 @@ final class HostAPDConfig implements ConfigGenerator{
 				$bridgeBuffer .= " ";
 			}
 			$bridgeBuffer .= $this->bridges[$i][0];
-			$array = Functions::getInterfaceList();
-			$bridgeConfigBuffer .= "ifconfig_bridge0=\"addm ".$this->bridges[$i][1]." addm ".$array[0]." up\" \n";
+			if(!isset($this->bridges[$i][2])){
+				$array = Functions::getInterfaceList();
+				//	Bridge has default second member (primary ethernet interface)
+				$bridgeConfigBuffer .= "ifconfig_bridge".$i."=\"addm ".$this->bridges[$i][1]." addm ".$array[0]." up\" \n";
+			}
+			else{
+				//	Bridge has a different specified second member (mode 3 bridge)
+				$bridgeConfigBuffer .= "ifconfig_bridge".$i."=\"addm ".$this->bridges[$i][1]." addm ".$this->bridges[$i][2]." up \" \n";
+			}
 			$i++;
 		}
 		$rc->addLine("cloned_interfaces=\"".$bridgeBuffer."\"");
