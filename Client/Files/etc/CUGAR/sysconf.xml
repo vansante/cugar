@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
+	<device>
+		<password>21232f297a57a5a743894a0e4a801fc3</password>
+	</device>
 	<modes>
 		<mode_selection>3</mode_selection>
 		<mode3>

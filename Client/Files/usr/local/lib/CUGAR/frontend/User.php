@@ -25,40 +25,72 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
-require_once('/usr/local/lib/CUGAR/frontend/config.php');
-require_once('/usr/local/lib/CUGAR/frontend/User.php');
-
-class Server{
-	private $DEBUG = 0;
-	private $lib_path = '/usr/local/lib/CUGAR/frontend/';
-	private $config_file = '/etc/CUGAR/sysconf.xml';
-	
+class User{
+	/**
+	 * Configuration Object
+	 * @var Config
+	 */
 	private $config;
-	
-	public function __construct(){
-		$this->config = new Config($this->config_file);
-		
-		if($this->DEBUG == 1){
-			print_r($_POST);
+
+	/**
+	 *
+	 */
+	public function __construct($config){
+		session_start();
+		$this->config = $config;
+	}
+
+	/**
+	 * Check if user is authenticated
+	 * @return boolean
+	 */
+	public function is_authenticated(){
+		if(isset($_POST['username'])){
+			if($this->authenticate()){
+				return true;
+			}
+			else{
+				return false;
+			}
 		}
-		$user = new User($this->config);
-		
-		if($user->is_authenticated()){
-			
+		else{
+			if(isset($_SESSION['username']) && $_SESSION['ip'] == $_SERVER['REMOTE_ADDR']){
+				return true;
+			}
+			else{
+				$this->logout();
+				return false;
+			}
 		}
 	}
-	
-	public function parseRequest(){
-		switch($_POST['module']){
-			case 'settings':
-				include($this->lib_path.'settings.inc.php');
-				new Settings($config);
-				break;
-			case 'mode':
-				include($this->lib_path.'mode.inc.php');
-				break;			
+
+	/**
+	 * Check user authentication
+	 * @return boolean
+	 */
+	public function authenticate(){
+		if(isset($_POST['password'])){
+			$pass = md5($_POST['password']);
+			$device_settings = $this->config->getElement('device');
+			if($device_settings->password == $pass){
+				session_register('ip',$_SERVER['REMOTE_ADDR']);
+				session_register('username','admin');
+				session_register('uid',1000);
+				return true;
+			}
+			else{
+				return false;
+			}
 		}
+	}
+
+	/**
+	 * Destroy the users session
+	 */
+	public function logout(){
+		$_SESSION['ip'] = '';
+		$_SESSION['username'] = '';
+		$_SESSION['uid'] = '';
+		session_destroy();
 	}
 }
-
-new Server();
