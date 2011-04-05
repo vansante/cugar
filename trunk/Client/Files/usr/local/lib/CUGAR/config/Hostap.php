@@ -304,7 +304,7 @@ final class HostAPDConfig implements ConfigGenerator{
 			//		For mode1, also set up the bridge between wlan0_x and primary ethernet interface
 			$bridgeindex = count($this->bridges);
 			$this->bridges[$bridgeindex][0] = "bridge".$bridgeindex;
-			$this->bridges[$bridgeindex][1] = "wlan".$this->ssid_count;
+			$this->bridges[$bridgeindex][1] = "wlan".($this->ssid_count - 1);
 		}
 	}
 
