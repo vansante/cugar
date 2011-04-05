@@ -29,6 +29,7 @@ sh /etc/rc.initdiskless
 
 #Run freebsd default rc
 echo "Starting FreeBSD rc";
+./usr/local/etc/rc.d/openvpn
 ./etc/rc.freebsd
 
 exit 0
