@@ -127,7 +127,6 @@ cert /etc/CUGAR/".$this->config->public_key."
 key /etc/CUGAR/".$this->config->private_key."
 
 cipher AES-256-CBC
-link-mtu 1559
 
 dev tun
 proto tcp

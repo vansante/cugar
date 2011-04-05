@@ -31,7 +31,7 @@ class RCConfig implements ConfigGenerator{
 	private function __construct(){
 		//@TODO remove on completion of debug?
 		$this->addLine("sshd_enable=\"YES\"");
-		
+		$this->addLine("gateway_enable=\"YES\"");
 		//		Static services that must be started always
 		$this->addLine("snmp_enable=\"YES\"");
 		$this->addLine("lighttpd_enable=\"YES\"");
