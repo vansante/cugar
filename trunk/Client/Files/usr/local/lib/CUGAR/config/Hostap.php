@@ -256,15 +256,8 @@ final class HostAPDConfig implements ConfigGenerator{
 		$this->filebuffer .= "ignore_broadcast_ssid=".(int)$this->broadcast_ssid."\n";
 		$rc->addLine('hostapd_enable="YES"');
 		
-		if($this->ssid_mode == 3){
-			//	Set a different MTU when it's a mode 3 SSID because the TAP interface has an MTU of 1468 for some reason
-			$mtu = 1468;
-		}
-		else{
-			$mtu = 1500;
-		}
+		$rc->addLine('create_args_wlan'.$this->ssid_count.'="wlanmode hostap ssid '.$this->ssid_name.'"');
 		
-		$rc->addLine('create_args_wlan'.$this->ssid_count.'="wlanmode hostap ssid '.$this->ssid_name.' mtu '.$mtu.'"');
 		if($this->ssid_mode == 3){
 			$this->filebuffer .= "wpa=1\n";
 			$this->filebuffer .= "wpa_key_mgmt=WPA-EAP\n";
