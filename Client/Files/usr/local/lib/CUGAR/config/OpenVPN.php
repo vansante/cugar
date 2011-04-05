@@ -224,6 +224,19 @@ class OpenVPNConfig implements ConfigGenerator{
 	}
 
 	/**
+	 * Returns tunnelcount value
+	 *
+	 * used by HostAP configuration to find out what tap interface
+	 * to bridge the wlan interface to.
+	 *
+	 * @access public
+	 * @return Integer
+	 */
+	public function getTunnelCount(){
+		return $this->tunnelcount;
+	}
+
+	/**
 	 * Set the server
 	 * @param String $server
 	 */
@@ -305,7 +318,7 @@ verb ".$this->verbosity."\n";
 		if(!is_dir(OpenVPNConfig::$FILEPATH."openvpn".$this->tunnelcount."/")){
 			mkdir(OpenVPNConfig::$FILEPATH."openvpn".$this->tunnelcount."/");
 		}
-		
+
 		$fp = fopen(OpenVPNConfig::$FILEPATH."openvpn".$this->tunnelcount."/".$this->keyname,'w');
 		if($fp){
 			fwrite($fp,$this->key);
