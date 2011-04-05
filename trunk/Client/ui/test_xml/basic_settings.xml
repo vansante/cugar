@@ -13,6 +13,6 @@
         <hardware>
             <mode>b/g/n</mode>
             <channel>0</channel>
-		</hardware>
+        </hardware>
     </basic_settings>
 </reply>

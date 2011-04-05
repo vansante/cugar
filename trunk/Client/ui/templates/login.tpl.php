@@ -27,9 +27,6 @@
                     <div class="form-error" id="login_form_error">
                     </div>
                     <dl>
-                        <dt><label for="username_field">Username:</label></dt>
-                        <dd><input type="text" class="text" name="user" id="username_field"/></dd>
-
                         <dt><label for="username_field">Password:</label></dt>
                         <dd><input type="password" class="text" name="password" id="password_field"/></dd>
 

@@ -7,6 +7,17 @@
     <input type="hidden" name="module" value="settings"/>
     <input type="hidden" name="page" value="save" id="basic_settings_form_page"/>
 
+    <h3>Security</h3>
+    
+    <dl>
+        <dt><label for="basic_settings_password">New password</label></dt>
+        <dd>
+            <input type="text" size="40" name="basic_settings_password" id="basic_settings_password"/>
+        </dd>
+    </dl>
+
+    <p style="clear: both;"></p>
+    
     <h3>Internet settings</h3>
 
     <dl>
@@ -49,7 +60,6 @@
                 </dd>
             </dl>
         </dd>
-
     </dl>
 
     <p style="clear: both;"></p>
@@ -84,6 +94,7 @@
 </form>
 
 <div class="help_pool">
+    <div class="help" id="help_basic_settings_password">Set a new password for these management pages</div>
     <div class="help" id="help_basic_settings_hostname">Hostname for the accesspoint, without the domain part. e.g. "accesspoint"</div>
     <div class="help" id="help_basic_settings_type">Choose the type of IP configuration you want to use</div>
     <div class="help" id="help_basic_settings_static_ipaddr">Enter the IP address of the interface in the following format: xxx.xxx.xxx.xxx</div>
