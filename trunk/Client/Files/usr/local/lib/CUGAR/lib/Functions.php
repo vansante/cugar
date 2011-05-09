@@ -16,6 +16,12 @@ class Functions{
 	 * Setting for current runmode
 	 */
 	public static $runmode;
+	
+	/**
+	 * Software version
+	 * @var String
+	 */
+	public static $VERSION = '0.0';
 
 	/**
 	 * Prints debug message
