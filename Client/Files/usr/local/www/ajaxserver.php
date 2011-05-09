@@ -27,6 +27,7 @@
  */
 require_once('/usr/local/lib/CUGAR/frontend/config.php');
 require_once('/usr/local/lib/CUGAR/frontend/User.php');
+require_once('/usr/local/lib/CUGAR/lib/Functions.php');
 
 class Server{
 	private $DEBUG = 0;
