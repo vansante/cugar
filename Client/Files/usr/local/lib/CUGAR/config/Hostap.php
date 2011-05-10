@@ -302,10 +302,10 @@ final class HostAPDConfig implements ConfigGenerator{
 				$this->filebuffer .= "wpa_group_rekey=".$this->wpa_group_rekey_interval."\n";
 				$this->filebuffer .= "wpa_strict_rekey=".$this->wpa_strict_rekey."\n";
 			}
-			//		For mode1, also set up the bridge between wlan0_x and primary ethernet interface
+			//		For mode1, also set up the bridge between wlanx and primary ethernet interface
 			$bridgeindex = count($this->bridges);
 			$this->bridges[$bridgeindex][0] = "bridge".$bridgeindex;
-			$this->bridges[$bridgeindex][1] = "wlan".($this->ssid_count - 1);
+			$this->bridges[$bridgeindex][1] = "wlan".$this->ssid_count;
 		}
 	}
 
