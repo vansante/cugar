@@ -219,8 +219,8 @@ class Networking{
 	 */
 	private function getPrimaryInterface(){
 		$networkinterface = Functions::getInterfaceList();
-		Functions::debug('Using network interface: '.$networkinterface[1]."\n");
-		return $networkinterface[1];
+		Functions::debug('Using network interface: '.$networkinterface[0]."\n");
+		return $networkinterface[0];
 	}
 
 	/**
