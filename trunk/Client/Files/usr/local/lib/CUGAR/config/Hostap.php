@@ -248,6 +248,7 @@ final class HostAPDConfig implements ConfigGenerator{
 		}
 		else{
 			$this->filebuffer .= "ieee80211n=1\n";
+			$this->filebuffer .= "ht_capab=[HT40+][SHORT-GI-40][DSSS_CCK-40]\n";
 			//@TODO N is currently very very broken
 		}
 			
