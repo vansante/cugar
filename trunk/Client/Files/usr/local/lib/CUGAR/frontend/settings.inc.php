@@ -27,14 +27,16 @@
  */
 class settings{
 	private $config;
+	private $buffer;
 	
 	/**
 	 * 
-	 * 
-	 * @param Config $config
+	 * @param $config
+	 * @param $buffer
 	 */
-	public function __construct($config){
+	public function __construct($config,$buffer){
 		$this->config = $config;
+		$this->buffer = $buffer;
 		$this->parse();
 	}
 	
@@ -53,11 +55,33 @@ class settings{
 	/**
 	 * save updated configuration received from AJAX frontend
 	 */
-	private function saveconfig(){
+	private function saveconfig(){	
+		$password = $this->config->getElement('device');
+		if(!empty($_POST['basic_settings_password'])){
+			if($_POST['basic_settings_password'] == $_POST['basic_settings_password2']){
+				$password->password = md5($_POST['basic_settings_password']);
+			}
+			else{
+				$this->buffer->addFormError('basic_settings_password2','The new passwords are not equal');
+			}
+		}
+		
 		$current = $this->config->getElement('hardware');
 		$current->hostname = $_POST['basic_settings_hostname'];
-		$current->mode = $_POST['basic_settings_wl_mode'];
-		$current->channel = $_POST['basic_settings_wl_channel'];
+		
+		if(in_array($_POST['basic_settings_wl_mode'],DEFINES::$basic_settings_wl_modes)){
+			$current->mode = $_POST['basic_settings_wl_mode'];
+		}
+		else{
+			$this->buffer->addFormError('basic_settings_wl_mode','Invalid wireless mode');
+		}
+		
+		if($_POST['basic_settings_wl_channel'] >= 1 && $_POST['basic_settings_wl_channel'] <= 13){
+			$current->channel = $_POST['basic_settings_wl_channel'];
+		}
+		else{
+			$this->buffer->addFormError('basic_settings_wl_channel','Invalid wireless channel');
+		}
 		
 		/*	Delete Address node and children because of the differences in child nodes for
 		 *	different settings 
@@ -66,18 +90,47 @@ class settings{
 		$address = $current->addChild('address');
 		$address->addAttribute('type',$_POST['basic_settings_type']);
 		if($_POST['basic_settings_type'] == 'static'){
-			$address->addChild('ip',$_POST['basic_settings_static_ipaddr']);
-			$address->addChild('subnet_mask',$_POST['basic_settings_static_subnet_mask']);
-			$address->addChild('default_gateway',$_POST['basic_settings_static_default_gateway']);
+			if(filter_var($_POST['basic_settings_static_ipaddr'], FILTER_VALIDATE_IP)){
+				$address->addChild('ip',$_POST['basic_settings_static_ipaddr']);
+			}
+			else{
+				$this->buffer->addFormError('basic_settings_static_ipaddr','Invalid IP address');
+			}
 			
-			$dns = $address->addChild('dns_servers');
-			$dns->addChild('ip',$_POST['basic_settings_static_dns_server_1']);
-			if(!empty($_POST['basic_settings_static_dns_server_2'])){
-				$dns->addChild('ip',$_POST['basic_settings_static_dns_server_2']);
+			if(filter_var($_POST['basic_settings_static_subnet_mask'], FILTER_VALIDATE_IP)){
+				$address->addChild('subnet_mask',$_POST['basic_settings_static_subnet_mask']);
+			}
+			else{
+				$this->buffer->addFormError('basic_settings_static_subnet_mask','Invalid subnet mask');
+			}
+			
+			if(filter_var($_POST['basic_settings_static_default_gateway'], FILTER_VALIDATE_IP)){
+				$address->addChild('default_gateway',$_POST['basic_settings_static_default_gateway']);
+			}
+			else{
+				$this->buffer->addFormError('basic_settings_static_default_gateway','Invalid default gateway');
+			}
+			
+			if(filter_var($_POST['basic_settings_static_dns_server_1'], FILTER_VALIDATE_IP) && filter_var($_POST['basic_settings_static_dns_server_1'], FILTER_VALIDATE_IP)){
+				$dns = $address->addChild('dns_servers');
+				$dns->addChild('ip',$_POST['basic_settings_static_dns_server_1']);
+				if(!empty($_POST['basic_settings_static_dns_server_2'])){
+					$dns->addChild('ip',$_POST['basic_settings_static_dns_server_2']);
+				}
+			}
+			else{
+				if(filter_var($_POST['basic_settings_'], FILTER_VALIDATE_IP)){
+					$this->buffer->addFormError('basic_settings_static_dns_server_1','Invalid DNS server');
+				}
+				if(filter_var($_POST['basic_settings_static_dns_server_2'], FILTER_VALIDATE_IP)){
+					$this->buffer->addFormError('basic_settings_static_dns_server_2','Invalid DNS server');
+				}
 			}
 		}
 		
-		$this->config->saveConfig();
+		if(!$this->buffer->hasErrors()){
+			$this->config->saveConfig();
+		}
 	}
 	
 	/**
