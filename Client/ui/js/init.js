@@ -262,7 +262,6 @@ cg.displayError = function(message, title, error_element) {
 };
 cg.processReply = function(data, error_element, successFn, errorFn) {
     var json = $.xml2json(data);
-
     if (json && json.action && json.action.toLowerCase() == 'ok') {
         if (json.message) {
             cg.alert('Server notice', json.message);
@@ -280,25 +279,25 @@ cg.processReply = function(data, error_element, successFn, errorFn) {
             }
             return false;
         }
-        if (json.message) {
-            if ($.isArray(json.message)) {
+        if (json.error) {
+            if ($.isArray(json.error)) {
                 var msg = '<ul>'
-                $.each(json.message, function(i, message){
-                    msg += '<li>'+message.text[0]+'</li>';
+                $.each(json.error, function(i, error){
+                    msg += '<li>'+error.message+'</li>';
                 });
                 msg += '</ul>';
                 cg.displayError(msg, 'An exception occurred', error_element);
             } else {
-                cg.displayError(json.message.text[0], 'An exception occurred', error_element);
+                cg.displayError(json.error.message, 'An exception occurred', error_element);
             }
         }
         if (json.formfield) {
             if ($.isArray(json.formfield)) {
                 $.each(json.formfield, function(i, formfield){
-                    cg.markFieldInvalid(formfield.id);
+                    cg.markFieldInvalid(formfield.id, formfield.message);
                 });
             } else {
-                cg.markFieldInvalid(json.formfield.id);
+                cg.markFieldInvalid(json.formfield.id, formfield.message);
             }
         }
         if (!json.message && !json.formfield) {
@@ -313,8 +312,13 @@ cg.processReply = function(data, error_element, successFn, errorFn) {
     }
     return false;
 };
-cg.markFieldInvalid = function(field_id) {
+cg.markFieldInvalid = function(field_id, message) {
     $('#'+field_id).addClass('formfield-error');
+
+    var msgEl = $('<div class="formfield-message" id="'+field_id+'_message">'+message+'</div>');
+    var fieldEl = $('#'+field_id);
+    msgEl.insertAfter(fieldEl);
+    
 };
 cg.resetForm = function(form_id) {
     $('#'+form_id+'_error').hide();
@@ -344,6 +348,13 @@ cg.resetForm = function(form_id) {
         select.val('');
         select.trigger('change');
     });
+    $('#'+form_id+' select').each(function(i, select){
+        select = $(select);
+        select.removeClass('formfield-error');
+        select.val('');
+        select.trigger('change');
+    });
+    $('#'+form_id+' div.formfield-message').remove();
 };
 cg.alert = function(title, message) {
     $('<div><p>'+message+'</p></div>').dialog({

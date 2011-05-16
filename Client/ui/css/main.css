@@ -72,8 +72,6 @@ ul.menu_submenu, ul.menu_submenu li{
     text-decoration:none;
     border-radius:4px;
     border:1px solid transparent;
-    -moz-border-radius:4px;
-    -webkit-border-radius:4px;
 }
 #menu li a:hover{
     background:#DEEDF7;
@@ -143,8 +141,6 @@ form dl dd dl.form_sub, dl.form dd dl.form_sub{
     padding:2px 5px;
     margin-bottom:3px;
     border-radius:8px;
-    -moz-border-radius:8px;
-    -webkit-border-radius:8px;
 }
 form dl dd dl dt, dl.form dd dl dt{
     border:0;
@@ -189,7 +185,12 @@ form dl.form_sub dd, dl.form dl.form_sub dd {
     line-height:1.3;
 }
 .formfield-error {
-    border:2px solid #ad1414;
+    border: 2px solid #ad1414;
+}
+.formfield-message {
+    margin: 5px 0;
+    padding: 2px;
+    border: 2px solid #ad1414;
     background-color: #f5d2d2;
 }
 .form-error h3 {
@@ -228,8 +229,6 @@ form dl.form_sub dd, dl.form dl.form_sub dd {
     margin: 10px 0 3px 0px;
     clear: both;
     border-radius:4px;
-    -moz-border-radius:4px;
-    -webkit-border-radius:4px;
 }
 .help_hover {
     display:none;
@@ -243,8 +242,6 @@ form dl.form_sub dd, dl.form dl.form_sub dd {
     min-height: 30px;
     z-index: 1005;
     border-radius:4px;
-    -moz-border-radius:4px;
-    -webkit-border-radius:4px;
 }
 .help_anchor {
     padding-left: 16px;
@@ -280,8 +277,6 @@ div.ajax-form-loader {
     border: 3px solid #3BAAE3;
     line-height: 32px;
     border-radius:4px;
-    -moz-border-radius:4px;
-    -webkit-border-radius:4px;
 }
 
 div.ajax-form-loader img {
