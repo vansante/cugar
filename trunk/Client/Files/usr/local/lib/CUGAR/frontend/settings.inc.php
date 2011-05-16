@@ -35,6 +35,7 @@ class settings{
 	 */
 	public function __construct($config){
 		$this->config = $config;
+		$this->parse();
 	}
 	
 	/**
