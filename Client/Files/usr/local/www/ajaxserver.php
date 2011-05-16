@@ -29,6 +29,8 @@ session_start();
 require_once('/usr/local/lib/CUGAR/frontend/config.php');
 require_once('/usr/local/lib/CUGAR/frontend/User.php');
 require_once('/usr/local/lib/CUGAR/lib/Functions.php');
+require_once('/usr/local/lib/CUGAR/frontend/defines.php');
+require_once('/usr/local/lib/CUGAR/frontend/outputbuffer.php');
 
 class Server{
 	private $DEBUG = 0;
@@ -46,7 +48,12 @@ class Server{
 		$user = new User($this->config);
 		
 		if($user->is_authenticated()){
-			$this->parseRequest();
+			if($_POST['page'] == 'logout'){
+				$user->logout();
+			}
+			else{
+				$this->parseRequest();
+			}
 		}
 		else{
 			$user->authenticate();
@@ -54,15 +61,19 @@ class Server{
 	}
 	
 	public function parseRequest(){
+		$buffer = new outputBuffer();
+		
 		switch($_POST['module']){
 			case 'settings':
 				include($this->lib_path.'settings.inc.php');
-				new settings($this->config);
+				new settings($this->config,$buffer);
 				break;
 			case 'mode':
 				include($this->lib_path.'mode.inc.php');
 				break;			
 		}
+		
+		$buffer->returnOutput();
 	}
 }
 
