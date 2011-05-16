@@ -14,8 +14,8 @@ cg.mode.load = function() {
         url: 'test_xml/modes.xml',
         module: 'modes',
         page: 'get',
-        error_element: [$('#mode_mode1_form_error'), $('#mode_mode2_form_error'), $('#mode_mode3_form_error')],
-        content_id: ['cp_mode_mode1', 'cp_mode_mode2', 'cp_mode_mode3'],
+        error_element: [$('#mode_selection_form_error'), $('#mode_mode1_form_error'), $('#mode_mode2_form_error'), $('#mode_mode3_form_error')],
+        content_id: ['cp_mode_selection', 'cp_mode_mode1', 'cp_mode_mode2', 'cp_mode_mode3'],
         successFn: function(json) {
             cg.data.mode_selection = json.modes;
             cg.data.mode1 = json.modes.mode1;
