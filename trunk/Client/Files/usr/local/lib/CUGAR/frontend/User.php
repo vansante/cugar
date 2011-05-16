@@ -64,9 +64,9 @@ class User{
 			$pass = md5($_POST['password']);
 			$device_settings = $this->config->getElement('device');
 			if((string)$device_settings->password == $pass){
-				session_register('ip',$_SERVER['REMOTE_ADDR']);
-				session_register('username','admin');
-				session_register('uid',1000);
+				$_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
+				$_SESSION['username'] = 'admin';
+				$_SESSION['uid'] = 1000;
 				echo '<reply action="login-ok" />';
 			}
 			else{
