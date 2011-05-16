@@ -25,7 +25,6 @@ if (empty($_SESSION['uid'])) {
 
     if ($debug) {
         $_SESSION['uid'] = 1;
-        $_SESSION['group'] = 'ROOT';
     }
 } else {
     $menu = array(
