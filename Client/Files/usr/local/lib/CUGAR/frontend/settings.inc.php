@@ -41,7 +41,7 @@ class settings{
 	 * Handle request made by AJAX frontend
 	 */
 	public function parse(){
-		if($_POST['page'] == 'getconfig'){
+		if($_POST['page'] == 'get'){
 			$this->getconfig();
 		}
 		if($_POST['page'] == 'save'){
