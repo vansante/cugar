@@ -53,15 +53,6 @@ class User{
 				return false;
 			}
 		}
-		else{
-			if(isset($_SESSION['username']) && $_SESSION['ip'] == $_SERVER['REMOTE_ADDR']){
-				return true;
-			}
-			else{
-				$this->logout();
-				return false;
-			}
-		}
 	}
 
 	/**
@@ -76,11 +67,14 @@ class User{
 				session_register('ip',$_SERVER['REMOTE_ADDR']);
 				session_register('username','admin');
 				session_register('uid',1000);
-				return true;
+				echo '<reply action="login-ok" />';
 			}
 			else{
-				return false;
+				echo '<reply action="login-error"><message type="error">Invalid password</message></reply>';
 			}
+		}
+		else{
+			echo '<reply action="login-error"><message type="error">Login required.</message></reply>';
 		}
 	}
 
