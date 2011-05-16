@@ -25,6 +25,7 @@
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
  */
+session_start();
 require_once('/usr/local/lib/CUGAR/frontend/config.php');
 require_once('/usr/local/lib/CUGAR/frontend/User.php');
 require_once('/usr/local/lib/CUGAR/lib/Functions.php');

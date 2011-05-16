@@ -63,7 +63,7 @@ class User{
 		if(isset($_POST['password'])){
 			$pass = md5($_POST['password']);
 			$device_settings = $this->config->getElement('device');
-			if($device_settings->password == $pass){
+			if((string)$device_settings->password == $pass){
 				session_register('ip',$_SERVER['REMOTE_ADDR']);
 				session_register('username','admin');
 				session_register('uid',1000);
