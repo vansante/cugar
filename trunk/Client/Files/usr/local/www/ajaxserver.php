@@ -47,6 +47,9 @@ class Server{
 		if($user->is_authenticated()){
 			
 		}
+		else{
+			$user->authenticate();
+		}
 	}
 	
 	public function parseRequest(){
