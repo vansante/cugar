@@ -46,7 +46,7 @@ class Server{
 		$user = new User($this->config);
 		
 		if($user->is_authenticated()){
-			
+			$this->parseRequest();
 		}
 		else{
 			$user->authenticate();
