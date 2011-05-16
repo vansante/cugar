@@ -57,7 +57,7 @@ class Server{
 		switch($_POST['module']){
 			case 'settings':
 				include($this->lib_path.'settings.inc.php');
-				new Settings($config);
+				new settings($config);
 				break;
 			case 'mode':
 				include($this->lib_path.'mode.inc.php');
