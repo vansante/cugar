@@ -12,6 +12,7 @@ cg.mode.load = function() {
 
     cg.doAction({
         url: 'test_xml/modes.xml',
+//        url: 'test_xml/reply_notok.xml',
         module: 'modes',
         page: 'get',
         error_element: [$('#mode_selection_form_error'), $('#mode_mode1_form_error'), $('#mode_mode2_form_error'), $('#mode_mode3_form_error')],

@@ -1,3 +1,7 @@
 <reply action="error">
-    <message type="error">Errormessage</message>
+    <error><message>Errormessage lalala</message></error>
+    <error><message>Errormessage 222</message></error>
+
+    <formfield id="basic_settings_password"><message>Hey, youre doing it wrong you stupid fool</message></formfield>
+    <formfield id="blaat"><message>blaat</message></formfield>
 </reply>

@@ -20,6 +20,7 @@ cg.basic.settings.load = function() {
 
     cg.doAction({
         url: 'test_xml/basic_settings.xml',
+//        url: 'test_xml/reply_notok.xml',
         module: 'settings',
         page: 'get',
         error_element: $('#basic_settings_form_error'),
