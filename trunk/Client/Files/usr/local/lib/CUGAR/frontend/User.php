@@ -45,13 +45,11 @@ class User{
 	 * @return boolean
 	 */
 	public function is_authenticated(){
-		if(isset($_POST['username'])){
-			if($this->authenticate()){
-				return true;
-			}
-			else{
-				return false;
-			}
+		if(isset($_SESSION['uid']) && $_SESSION['ip'] == $_SERVER['REMOTE_ADDR']){
+			return true;
+		}
+		else{
+			return false;
 		}
 	}
 
@@ -65,7 +63,6 @@ class User{
 			$device_settings = $this->config->getElement('device');
 			if((string)$device_settings->password == $pass){
 				$_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
-				$_SESSION['username'] = 'admin';
 				$_SESSION['uid'] = 1000;
 				echo '<reply action="login-ok" />';
 			}
