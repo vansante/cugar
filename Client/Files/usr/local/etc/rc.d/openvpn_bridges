@@ -26,11 +26,14 @@ openvpn_bridges_start() {
         eval "bridge = ovpn_mode3_bridge${!i}_bridge"
         eval "tap = ovpn_mode3_bridge${!i}_tap"
         eval "wlan = ovpn_mode3_bridge${!i}_wlan"
+
+        echo "Starting bridge $bridge"
+
         # openvpn --mktun --dev $t
         # ifconfig_bridge1="addm wlan0 addm tap0 up"
 
         openvpn --mktun --dev $tap
-        ifconfig bridge1 addm $wlan addm $tap up
+        ifconfig $bridge addm $wlan addm $tap up
     done
 }
 run_rc_command "$1"
