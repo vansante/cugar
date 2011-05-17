@@ -136,26 +136,23 @@ class settings{
 	/**
 	 * return basic settings from the current sysconf.xml
 	 */
+	
 	private function getconfig(){
 		$current = $this->config->getElement('hardware');
-		echo '<reply action="ok"><basic_settings>';
-		echo '<hostname>'.(string)$current->hostname.'</hostname>';
-		echo '<type>'.(string)$current->address['type'].'</type>';
+		
+		$this->buffer->createNode('hostname',(string)$current->hostname);
+		$this->buffer->createNode('type',(string)$current->address['type']);
 		if($current->address['type'] == 'static'){
-			echo '<static>';
-			echo '<ipaddr>'.(string)$current->address->ip.'</ipaddr>';
-			echo '<subnetmask>'.(string)$current->address->subnetmask.'</subnmetmask>';
-			echo '<default_gateway>'.$current->address->default_gateway.'</default_gateway>';
-			echo '<dns_server1>'.(string)$current->address->dns_servers->ip[0].'</dns_server1>';
-			if(isset($current->address->dns_servers->ip[1])){
-				echo '<dns_server2>'.(string)$current->address->dns_servers->ip[1].'</dns_server2>';
-			}
-			echo '</static>';
+			$static = $this->buffer->createNode('static',null);
+			$this->buffer->createNode('ipaddr',(string)$current->address->ip,$static);
+			$this->buffer->createNode('subnetmask',(string)$current->address->subnetmask,$static);
+			$this->buffer->createNode('default_gateway',(string)$current->address->default_gateway,$static);
+			$this->buffer->createNode('dns_server1',(string)$current->address->dns_servers->ip[0],$static);
+			$this->buffer->createNode('dns_server2',(string)$current->address->dns_servers->ip[1],$static);
 		}
-		echo '<hardware>';
-		echo '<mode>'.(string)$current->mode.'</mode>';
-		echo '<channel>'.(string)$current->channel.'</channel>';
-		echo '</hardware>';
-		echo '</basic_settings></reply>';
+		
+		$hardware = $this->buffer->createNode('hardware',null);
+		$this->buffer->createNode('mode',(string)$current->mode,$hardware);
+		$this->buffer->createNode('channel',(string)$current->channel,$hardware);
 	}
 }
