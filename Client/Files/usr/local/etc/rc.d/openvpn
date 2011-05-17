@@ -1,8 +1,11 @@
 #!/bin/sh
-# PROVIDE: openvpn
-# REQUIRE: openvpn_bridges
+#
 #   HostAPD starting script renovated default
 #   FreeBSD rc script so we have multiple instances
+
+# PROVIDE: openvpn
+# REQUIRE: openvpn_bridges
+
 . /etc/rc.subr
 
 name="openvpn"
