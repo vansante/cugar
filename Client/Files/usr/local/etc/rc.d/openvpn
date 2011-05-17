@@ -1,10 +1,26 @@
 #!/bin/sh
-#		HostAPD starting script renovated default
-#		FreeBSD rc script so we have multiple instances
-echo "Starting OpenVPN Daemons"
+# PROVIDE: openvpn
+# REQUIRE: openvpn_bridges
+#   HostAPD starting script renovated default
+#   FreeBSD rc script so we have multiple instances
+. /etc/rc.subr
 
-for file in `ls /etc/ | grep openvpn`
-do
-        echo "$file configuration exists"
-        /usr/local/sbin/openvpn --config "/etc/$file/$file.conf" --daemon
-done
+name="openvpn"
+rcvar=`set_rcvar`
+start_cmd="${name}_start"
+stop_cmd=":"
+
+load_rc_config $name
+
+eval "${rcvar}=\${${rcvar}:-'NO'}"
+
+openvpn_start() {
+    echo "Starting OpenVPN Daemons"
+
+    for file in `ls /etc/ | grep openvpn`
+    do
+            echo "$file configuration exists"
+            /usr/local/sbin/openvpn --config "/etc/$file/$file.conf" --daemon
+    done
+}
+run_rc_command "$1"
