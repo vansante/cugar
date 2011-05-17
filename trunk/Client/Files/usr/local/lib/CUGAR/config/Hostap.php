@@ -1,563 +1,563 @@
 <?php
+
 /*
- All rights reserved.
- Copyright (C) 2010-2011 CUGAR
- All rights reserved.
+  All rights reserved.
+  Copyright (C) 2010-2011 CUGAR
+  All rights reserved.
 
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions are met:
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
 
- 1. Redistributions of source code must retain the above copyright notice,
- this list of conditions and the following disclaimer.
+  1. Redistributions of source code must retain the above copyright notice,
+  this list of conditions and the following disclaimer.
 
- 2. Redistributions in binary form must reproduce the above copyright
- notice, this list of conditions and the following disclaimer in the
- documentation and/or other materials provided with the distribution.
+  2. Redistributions in binary form must reproduce the above copyright
+  notice, this list of conditions and the following disclaimer in the
+  documentation and/or other materials provided with the distribution.
 
- THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
- INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
- AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
- AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
- OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- POSSIBILITY OF SUCH DAMAGE.
+  THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+  AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+  AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+  OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  POSSIBILITY OF SUCH DAMAGE.
  */
 
 /**
  * Generates HostAP configuration from the XML
  *
  */
-final class HostAPDConfig implements ConfigGenerator{
-	/**
-	 * Reference to self-instance for singleton
-	 * @var HostAP
-	 * @static
-	 */
-	private static $self;
+final class HostAPDConfig implements ConfigGenerator {
 
-	/**
-	 *
-	 * @var unknown_type
-	 */
-	private $ssid_count;
+    /**
+     * Reference to self-instance for singleton
+     * @var HostAP
+     * @static
+     */
+    private static $self;
+    /**
+     *
+     * @var unknown_type
+     */
+    private $ssid_count;
+    /**
+     * Buffer for config file contents
+     * @var String
+     */
+    private $filebuffer = "";
+    /**
+     * Path to save the config file to
+     * @var String
+     */
+    private $FILEPATH = "/etc/";
+    /**
+     * Filename of the config file
+     * @var String
+     */
+    private $FILENAME = "hostapd.conf";
+    /**
+     * CUGAR mode the SSID runs in, used only to determine what values to ignore
+     * when parsing the config block
+     * @var Integer
+     */
+    private $ssid_mode;
+    /**
+     * SSID name for current configuration block
+     *
+     * Upon completion of the ssid block, this option is parsed into file format and loaded
+     * into $filebuffer
+     *
+     * @var string
+     */
+    private $ssid_name;
+    /**
+     * Hardware mode the AP should run in
+     *
+     * 802.11a / 802.11b / 802.11g (a/b/g)
+     * @TODO N support momentarily suspended until suitable configuration can be tested
+     *
+     * @var char
+     */
+    private $hw_mode;
+    /**
+     * Radio channel to broadcast on
+     *
+     * @var int
+     */
+    private $hw_channel;
+    /**
+     * Determines whether we should broadcast this (B)SSID actively or not.
+     *
+     * @var string true | false
+     */
+    private $broadcast_ssid;
+    /**
+     * vlan tag for outgoing traffic
+     *
+     * @var integer
+     */
+    private $vlan_id;
+    /**
+     * Do we want strict rekeying or not
+     *
+     * @var string true | false
+     */
+    private $wpa_strict_rekey;
+    /**
+     * Passphrase to use for WPA / WPA2 auth on this (B)SSID
+     * @var string
+     */
+    private $wpa_passphrase;
+    /**
+     * Rekeying interval when using WPA/WPA2
+     *
+     * @var integer
+     */
+    private $wpa_group_rekey_interval;
+    /**
+     * WPA mode setting
+     *
+     * @var string
+     */
+    private $wpa_mode;
+    private $rad_own_ip;
+    private $rad_nas_identifier;
+    private $rad_retry_interval;
+    private $rad_acct_ip;
+    private $rad_acct_port;
+    private $rad_acct_sharedsecret;
+    private $rad_acct_interim_interval;
+    private $rad_auth_ip;
+    private $rad_auth_port;
+    private $rad_auth_sharedsecret;
+    private $ap_count;
+    /**
+     * Array of bridges to make
+     * @var Array
+     */
+    private $bridges;
+    /**
+     * Array of open vpn bridges
+     * @var Array
+     */
+    private $ovpn_bridges;
 
-	/**
-	 * Buffer for config file contents
-	 * @var String
-	 */
-	private $filebuffer = "";
+    /**
+     * Get singleton instance
+     * @static
+     * @return HostAPDConfig
+     */
+    public static function getInstance() {
+        if (HostAPDConfig::$self == null) {
+            HostAPDConfig::$self = new HostAPDConfig();
+        }
+        return HostAPDConfig::$self;
+    }
 
-	/**
-	 * Path to save the config file to
-	 * @var String
-	 */
-	private $FILEPATH = "/etc/";
+    /**
+     * Get the hardware interface for the current SSID
+     * the hardware interface is required by dhcp_relay and to set up
+     * the bridge with the openvpn interface or ethernet interface
+     *
+     * @return unknown_type
+     */
+    public function getHardwareAddress() {
+        if ($this->ssid_count > 0) {
+            return 'wlan' . $this->ssid_count;
+        } else {
+            return 'wlan0';
+        }
+    }
 
-	/**
-	 * Filename of the config file
-	 * @var String
-	 */
-	private $FILENAME = "hostapd.conf";
+    /**
+     * Private constructor because this is a singleton.
+     * @return unknown_type
+     */
+    private function __construct() {
+        $this->ssid_count = 0;
+    }
 
-	/**
-	 * CUGAR mode the SSID runs in, used only to determine what values to ignore
-	 * when parsing the config block
-	 * @var Integer
-	 */
-	private $ssid_mode;
+    /**
+     *
+     */
+    public function newSSID() {
+        //	Reset object for new SSID spec
+        $ssid_name = null;
+        $broadcast_ssid = null;
+        $vlan_id = null;
+        $wpa_strict_rekey = null;
+        $wpa_passphrase = null;
+        $wpa_group_rekey_interval = null;
+        $wpa_mode = null;
+        $rad_own_ip = null;
+        $rad_nas_identifier = null;
+        $rad_retry_interval = null;
+        $rad_acct_ip = null;
+        $rad_acct_port = null;
+        $rad_acct_sharedsecret = null;
+        $rad_acct_interim_interval = null;
+        $rad_auth_ip = null;
+        $rad_auth_port = null;
+        $rad_auth_sharedsecret = null;
 
-	/**
-	 * SSID name for current configuration block
-	 *
-	 * Upon completion of the ssid block, this option is parsed into file format and loaded
-	 * into $filebuffer
-	 *
-	 * @var string
-	 */
-	private $ssid_name;
+        $this->filebuffer = "\n############ NEW SSID ##########\n";
+    }
 
-	/**
-	 * Hardware mode the AP should run in
-	 *
-	 * 802.11a / 802.11b / 802.11g (a/b/g)
-	 * @TODO N support momentarily suspended until suitable configuration can be tested
-	 *
-	 * @var char
-	 */
-	private $hw_mode;
+    public function finishSSID() {
+        // Parse SSID spec and write to file buffer
+        $this->parseBuffer();
 
-	/**
-	 * Radio channel to broadcast on
-	 *
-	 * @var int
-	 */
-	private $hw_channel;
+        $fp = fopen($this->FILEPATH . $this->FILENAME . $this->ssid_count, 'w');
+        if ($fp) {
+            fwrite($fp, $this->filebuffer);
+            fclose($fp);
+        }
 
-	/**
-	 * Determines whether we should broadcast this (B)SSID actively or not.
-	 *
-	 * @var string true | false
-	 */
-	private $broadcast_ssid;
+        $this->ssid_count++;
+        ;
+    }
 
-	/**
-	 * vlan tag for outgoing traffic
-	 *
-	 * @var integer
-	 */
-	private $vlan_id;
+    private function parseBuffer() {
+        $rc = RCConfig::getInstance();
+        $this->filebuffer .= "interface=wlan" . $this->ssid_count . "\n";
+        $this->filebuffer .= "driver=bsd\n";
+        $this->filebuffer .= "logger_syslog=-1\n";
+        $this->filebuffer .= "logger_syslog_level=2\n";
+        $this->filebuffer .= "logger_stdout=-1\n";
+        $this->filebuffer .= "logger_stdout_level=2\n";
+        $this->filebuffer .= "ssid=" . $this->ssid_name . "\n";
+        $this->filebuffer .= "channel=" . $this->hw_channel . "\n";
+        if ($this->hw_mode != 'n') {
+            $this->filebuffer .= "hw_mode=" . $this->hw_mode . "\n";
+        } else {
+            $this->filebuffer .= "ieee80211n=1\n";
+            $this->filebuffer .= "ht_capab=[HT40+][SHORT-GI-40][DSSS_CCK-40]\n";
+            //@TODO N is currently very very broken
+        }
 
-	/**
-	 * Do we want strict rekeying or not
-	 *
-	 * @var string true | false
-	 */
-	private $wpa_strict_rekey;
+        $this->filebuffer .= "macaddr_acl=0\n";
 
-	/**
-	 * Passphrase to use for WPA / WPA2 auth on this (B)SSID
-	 * @var string
-	 */
-	private $wpa_passphrase;
+        $this->filebuffer .= "ignore_broadcast_ssid=" . (int) $this->broadcast_ssid . "\n";
+        $rc->addLine('hostapd_enable="YES"');
 
-	/**
-	 * Rekeying interval when using WPA/WPA2
-	 *
-	 * @var integer
-	 */
-	private $wpa_group_rekey_interval;
+        $rc->addLine('create_args_wlan' . $this->ssid_count . '="wlanmode hostap ssid ' . $this->ssid_name . '"');
 
-	/**
-	 * WPA mode setting
-	 *
-	 * @var string
-	 */
-	private $wpa_mode;
+        if ($this->ssid_mode == 3) {
+            $this->filebuffer .= "wpa=2\n";
+            $this->filebuffer .= "wpa_key_mgmt=WPA-EAP\n";
+            $this->filebuffer .= "wpa_pairwise=TKIP CCMP\n\n";
+            $this->filebuffer .= "ieee8021x=1\n";
+            $this->filebuffer .= "eapol_version=2\n";
+            $this->filebuffer .= "eap_reauth_period=3600\n\n";
+            $this->filebuffer .= "own_ip_addr=" . $this->rad_own_ip . "\n";
+            $this->filebuffer .= "nas_identifier=" . $this->rad_nas_identifier . "\n";
+            $this->filebuffer .= "auth_server_addr=" . $this->rad_auth_ip . "\n";
+            $this->filebuffer .= "auth_server_port=" . $this->rad_auth_port . "\n";
+            $this->filebuffer .= "auth_server_shared_secret=" . $this->rad_auth_sharedsecret . "\n";
+            $this->filebuffer .= "acct_server_addr=" . $this->rad_acct_ip . "\n";
+            $this->filebuffer .= "acct_server_port=" . $this->rad_acct_port . "\n";
+            $this->filebuffer .= "acct_server_shared_secret=" . $this->rad_acct_sharedsecret . "\n";
+            $this->filebuffer .= "radius_acct_interim_interval=" . $this->rad_acct_interim_interval . "\n";
+            $this->filebuffer .= "radius_retry_primary_interval=" . $this->rad_retry_interval . "\n";
 
-	private $rad_own_ip;
-	private $rad_nas_identifier;
-	private $rad_retry_interval;
+            $bridge_count = count($this->bridges);
+            $ovpn_config = OpenVPNConfig::getInstance();
+            $openvpn_count = $ovpn_config->getTunnelCount();
 
-	private $rad_acct_ip;
-	private $rad_acct_port;
-	private $rad_acct_sharedsecret;
-	private $rad_acct_interim_interval;
+            $this->ovpn_bridges[] = array(
+                'tap' => 'tap'.$openvpn_count,
+                'wlan' => 'wlan'.$this->ssid_count
+            );
+        }
+        if ($this->ssid_mode == 1) {
+            //		Mode 1 SSID, check WPA setting
+            if ($this->wpa_mode == 'wpa') {
+                $this->filebuffer .= "wpa=0\n";
+                $this->filebuffer .= "wpa_passphrase=" . $this->wpa_passphrase . "\n";
+                $this->filebuffer .= "wpa_key_mgmt=WPA-PSK\n";
+                $this->filebuffer .= "wpa_pairwise=TKIP CCMP\n";
+                $this->filebuffer .= "wpa_group_rekey=" . $this->wpa_group_rekey_interval . "\n";
+                $this->filebuffer .= "wpa_strict_rekey=" . $this->wpa_strict_rekey . "\n";
+            } elseif ($this->wpa_mode == 'wpa2') {
+                $this->filebuffer .= "wpa=1\n";
+                $this->filebuffer .= "wpa_passphrase=" . $this->wpa_passphrase . "\n";
+                $this->filebuffer .= "wpa_key_mgmt=WPA-PSK\n";
+                $this->filebuffer .= "rsn_pairwise=CCMP\n";
+                $this->filebuffer .= "wpa_group_rekey=" . $this->wpa_group_rekey_interval . "\n";
+                $this->filebuffer .= "wpa_strict_rekey=" . $this->wpa_strict_rekey . "\n";
+            }
+            //		For mode1, also set up the bridge between wlanx and primary ethernet interface
+            $bridgeindex = count($this->bridges);
+            $this->bridges[$bridgeindex][0] = "bridge" . $bridgeindex;
+            $this->bridges[$bridgeindex][1] = "wlan" . $this->ssid_count;
+        }
+    }
 
-	private $rad_auth_ip;
-	private $rad_auth_port;
-	private $rad_auth_sharedsecret;
+    /**
+     * (non-PHPdoc)
+     * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#setSavePath()
+     */
+    public function setSavePath($filepath) {
+        $this->FILEPATH = $filepath;
+    }
 
-	private $ap_count;
+    /**
+     * (non-PHPdoc)
+     * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#writeConfig()
+     */
+    public function writeConfig() {
+        $rc = RCConfig::getInstance();
+        $i = 0;
+        $wanbuffer = null;
+        while ($i < $this->ap_count) {
+            if ($i > 0) {
+                $wanbuffer .= " ";
+            }
+            $wanbuffer .= "wlan" . $i . "";
 
-	/**
-	 * Array of bridges to make
-	 * @var Array
-	 */
-	private $bridges;
+            $i++;
+        }
+        $rc->addLine('wlans_ath0="' . $wanbuffer . '"');
 
-	/**
-	 * Get singleton instance
-	 * @static
-	 * @return HostAPDConfig
-	 */
-	public static function getInstance(){
-		if(HostAPDConfig::$self == null){
-			HostAPDConfig::$self = new HostAPDConfig();
-		}
-		return HostAPDConfig::$self;
-	}
+        $bridgeBuffer = null;
+        $bridgeConfigBuffer = null;
 
-	/**
-	 * Get the hardware interface for the current SSID
-	 * the hardware interface is required by dhcp_relay and to set up
-	 * the bridge with the openvpn interface or ethernet interface
-	 *
-	 * @return unknown_type
-	 */
-	public function getHardwareAddress(){
-		if($this->ssid_count > 0){
-			return 'wlan'.$this->ssid_count;
-		}
-		else{
-			return 'wlan0';
-		}
-	}
+        $i = 0;
+        while ($i < count($this->bridges)) {
+            if ($i > 0) {
+                $bridgeBuffer .= " ";
+            }
+            $bridgeBuffer .= $this->bridges[$i][0];
+            if (!isset($this->bridges[$i][2])) {
+                $array = Functions::getInterfaceList();
+                //	Bridge has default second member (primary ethernet interface)
+                $bridgeConfigBuffer .= "ifconfig_bridge" . $i . "=\"addm " . $this->bridges[$i][1] . " addm " . $array[0] . " up\" \n";
+            } else {
+                //	Bridge has a different specified second member (mode 3 bridge)
+                $bridgeConfigBuffer .= "ifconfig_bridge" . $i . "=\"addm " . $this->bridges[$i][1] . " addm " . $this->bridges[$i][2] . " up \" \n";
+            }
+            $i++;
+        }
+        $rc->addLine("cloned_interfaces=\"" . $bridgeBuffer . "\"");
+        $rc->addLine($bridgeConfigBuffer);
 
-	/**
-	 * Private constructor because this is a singleton.
-	 * @return unknown_type
-	 */
-	private function __construct(){
-		$this->ssid_count = 0;
-	}
+        $j = 0;
+        foreach ($this->ovpn_bridges as $bridge) {
+            // openvpn --mktun --dev $t
+            // ifconfig_bridge1="addm wlan0 addm tap0 up"
+            if (count($bridge) > 0) {
+                $rc->addLine('ovpn_mode3_bridge'.$j.'_bridge="bridge'.$i.'"');
+                $rc->addLine('ovpn_mode3_bridge'.$j.'_tap="'.$bridge['tap'].'"');
+                $rc->addLine('ovpn_mode3_bridge'.$j.'_wlan="'.$bridge['wlan'].'"');
+                $i++;
+                $j++;
+            }
+        }
+        $rc->addLine('ovpn_mode3_bridge_count="'.$j.'"');
+    }
 
-	/**
-	 *
-	 */
-	public function newSSID(){
-		//	Reset object for new SSID spec
-		$ssid_name = null;
-		$broadcast_ssid = null;
-		$vlan_id = null;
-		$wpa_strict_rekey = null;
-		$wpa_passphrase = null;
-		$wpa_group_rekey_interval = null;
-		$wpa_mode = null;
-		$rad_own_ip = null;
-		$rad_nas_identifier = null;
-		$rad_retry_interval = null;
-		$rad_acct_ip = null;
-		$rad_acct_port = null;
-		$rad_acct_sharedsecret = null;
-		$rad_acct_interim_interval = null;
-		$rad_auth_ip = null;
-		$rad_auth_port = null;
-		$rad_auth_sharedsecret = null;
+    /**
+     * Set SSID's CUGAR mode
+     *
+     * @param Integer $mode
+     * @return void
+     */
+    public function setSsidMode($mode) {
+        $this->ssid_mode = $mode;
+    }
 
-		$this->filebuffer = "\n############ NEW SSID ##########\n";
-	}
+    /**
+     * set total number of access points
+     *
+     * @param unknown_type $number
+     * @return unknown_type
+     */
+    public function setApNumber($number) {
+        $this->ap_count = $number;
+    }
 
-	public function finishSSID(){
-		// Parse SSID spec and write to file buffer
-		$this->parseBuffer();
+    /**
+     * Set SSID name
+     *
+     * @param String $name
+     * @return void
+     */
+    public function setSsidName($name) {
+        $this->ssid_name = $name;
+    }
 
-		$fp = fopen($this->FILEPATH.$this->FILENAME.$this->ssid_count,'w');
-		if($fp){
-			fwrite($fp,$this->filebuffer);
-			fclose($fp);
-		}
+    /**
+     * Set operational mode (a/b/g)
+     *
+     * @param char $mode
+     * @return void
+     */
+    public function setMode($mode) {
+        $this->hw_mode = $mode;
+    }
 
-		$this->ssid_count++;;
-	}
+    /**
+     * Set the radio channel to operate on
+     *
+     * @param integer $channel
+     * @return void
+     */
+    public function setChannel($channel) {
+        $this->hw_channel = $channel;
+    }
 
-	private function parseBuffer(){
-		$rc = RCConfig::getInstance();
-		$this->filebuffer .= "interface=wlan".$this->ssid_count."\n";
-		$this->filebuffer .= "driver=bsd\n";
-		$this->filebuffer .= "logger_syslog=-1\n";
-		$this->filebuffer .= "logger_syslog_level=2\n";
-		$this->filebuffer .= "logger_stdout=-1\n";
-		$this->filebuffer .= "logger_stdout_level=2\n";
-		$this->filebuffer .= "ssid=".$this->ssid_name."\n";
-		$this->filebuffer .= "channel=".$this->hw_channel."\n";
-		if($this->hw_mode != 'n'){
-			$this->filebuffer .= "hw_mode=".$this->hw_mode."\n";
-		}
-		else{
-			$this->filebuffer .= "ieee80211n=1\n";
-			$this->filebuffer .= "ht_capab=[HT40+][SHORT-GI-40][DSSS_CCK-40]\n";
-			//@TODO N is currently very very broken
-		}
-			
-		$this->filebuffer .= "macaddr_acl=0\n";
+    /**
+     * Set whether to broadcast the (B)SSID or not
+     *
+     * @param String $broadcast
+     * @return void
+     */
+    public function setBroadcast($broadcast) {
+        if ($broadcast == 'false') {
+            $this->broadcast_ssid = 1;
+        } else {
+            $this->broadcast_ssid = 0;
+        }
+    }
 
-		$this->filebuffer .= "ignore_broadcast_ssid=".(int)$this->broadcast_ssid."\n";
-		$rc->addLine('hostapd_enable="YES"');
-		
-		$rc->addLine('create_args_wlan'.$this->ssid_count.'="wlanmode hostap ssid '.$this->ssid_name.'"');
-		
-		if($this->ssid_mode == 3){
-			$this->filebuffer .= "wpa=2\n";
-			$this->filebuffer .= "wpa_key_mgmt=WPA-EAP\n";
-			$this->filebuffer .= "wpa_pairwise=TKIP CCMP\n\n";
-			$this->filebuffer .= "ieee8021x=1\n";
-			$this->filebuffer .= "eapol_version=2\n";
-			$this->filebuffer .= "eap_reauth_period=3600\n\n";
-			$this->filebuffer .= "own_ip_addr=".$this->rad_own_ip."\n";
-			$this->filebuffer .= "nas_identifier=".$this->rad_nas_identifier."\n";
-			$this->filebuffer .= "auth_server_addr=".$this->rad_auth_ip."\n";
-			$this->filebuffer .= "auth_server_port=".$this->rad_auth_port."\n";
-			$this->filebuffer .= "auth_server_shared_secret=".$this->rad_auth_sharedsecret."\n";
-			$this->filebuffer .= "acct_server_addr=".$this->rad_acct_ip."\n";
-			$this->filebuffer .= "acct_server_port=".$this->rad_acct_port."\n";
-			$this->filebuffer .= "acct_server_shared_secret=".$this->rad_acct_sharedsecret."\n";
-			$this->filebuffer .= "radius_acct_interim_interval=".$this->rad_acct_interim_interval."\n";
-			$this->filebuffer .= "radius_retry_primary_interval=".$this->rad_retry_interval."\n";
-			
-			$bridgeindex = count($this->bridges);
-			$this->bridges[$bridgeindex][0] = "bridge".$bridgeindex;
-			$this->bridges[$bridgeindex][1] = "wlan".$this->ssid_count;
-			$ovpn_config = OpenVPNConfig::getInstance();
-			$openvpncount = $ovpn_config->getTunnelCount();
-			$this->bridges[$bridgeindex][2] = "tap".$openvpncount;
-		}
-		if($this->ssid_mode == 1){
-			//		Mode 1 SSID, check WPA setting
-			if($this->wpa_mode == 'wpa'){
-				$this->filebuffer .= "wpa=0\n";
-				$this->filebuffer .= "wpa_passphrase=".$this->wpa_passphrase."\n";
-				$this->filebuffer .= "wpa_key_mgmt=WPA-PSK\n";
-				$this->filebuffer .= "wpa_pairwise=TKIP CCMP\n";
-				$this->filebuffer .= "wpa_group_rekey=".$this->wpa_group_rekey_interval."\n";
-				$this->filebuffer .= "wpa_strict_rekey=".$this->wpa_strict_rekey."\n";
-			}
-			elseif($this->wpa_mode == 'wpa2'){
-				$this->filebuffer .= "wpa=1\n";
-				$this->filebuffer .= "wpa_passphrase=".$this->wpa_passphrase."\n";
-				$this->filebuffer .= "wpa_key_mgmt=WPA-PSK\n";
-				$this->filebuffer .= "rsn_pairwise=CCMP\n";
-				$this->filebuffer .= "wpa_group_rekey=".$this->wpa_group_rekey_interval."\n";
-				$this->filebuffer .= "wpa_strict_rekey=".$this->wpa_strict_rekey."\n";
-			}
-			//		For mode1, also set up the bridge between wlanx and primary ethernet interface
-			$bridgeindex = count($this->bridges);
-			$this->bridges[$bridgeindex][0] = "bridge".$bridgeindex;
-			$this->bridges[$bridgeindex][1] = "wlan".$this->ssid_count;
-		}
-	}
+    /**
+     * Set the VLAN id incoming traffic should be tagged with
+     *
+     * @param integer $vlan_id
+     * @return void
+     */
+    public function setVlan($vlan_id) {
+        $this->vlan_id = $vlan_id;
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#setSavePath()
-	 */
-	public function setSavePath($filepath){
-		$this->FILEPATH = $filepath;
-	}
+    /**
+     * set WPA / WPA2 Strict Rekeying option
+     *
+     * @param String $strict_rekey
+     * @return void
+     */
+    public function setWpaStrictReKey($strict_rekey) {
+        if ($strict_rekey == 'true') {
+            $this->wpa_strict_rekey = 1;
+        } else {
+            $this->wpa_strict_rekey = 0;
+        }
+    }
 
-	/**
-	 * (non-PHPdoc)
-	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#writeConfig()
-	 */
-	public function writeConfig(){
-		$rc = RCConfig::getInstance();
-		$i = 0;
-		$wanbuffer = null;
-		while($i < $this->ap_count){
-			if($i > 0){
-				$wanbuffer .= " ";
-			}
-			$wanbuffer .= "wlan".$i."";
-				
-			$i++;
-		}
-		$rc->addLine('wlans_ath0="'.$wanbuffer.'"');
+    /**
+     * Set WPA mode
+     * @param String $mode
+     * @return void
+     */
+    public function setWpaMode($mode) {
+        $this->wpa_mode = $mode;
+    }
 
-		$bridgeBuffer = null;
-		$bridgeConfigBuffer = null;
+    /**
+     * Set WPA / WPA2 Passphrase
+     *
+     * @param String $passphrase
+     * @return void
+     */
+    public function setWpaPassphrase($passphrase) {
+        $this->wpa_passphrase = $passphrase;
+    }
 
-		$i = 0;
-		while($i < count($this->bridges)){
-			if($i > 0){
-				$bridgeBuffer .= " ";
-			}
-			$bridgeBuffer .= $this->bridges[$i][0];
-			if(!isset($this->bridges[$i][2])){
-				$array = Functions::getInterfaceList();
-				//	Bridge has default second member (primary ethernet interface)
-				$bridgeConfigBuffer .= "ifconfig_bridge".$i."=\"addm ".$this->bridges[$i][1]." addm ".$array[0]." up\" \n";
-			}
-			else{
-				//	Bridge has a different specified second member (mode 3 bridge)
-				$bridgeConfigBuffer .= "ifconfig_bridge".$i."=\"addm ".$this->bridges[$i][1]." addm ".$this->bridges[$i][2]." up \" \n";
-			}
-			$i++;
-		}
-		$rc->addLine("cloned_interfaces=\"".$bridgeBuffer."\"");
-		$rc->addLine($bridgeConfigBuffer);
-	}
+    /**
+     * Set group rekey interval (seconds) for WPA/WPA2
+     *
+     * @param int $interval
+     * @return void
+     */
+    public function setWpaGroupRekeyInterval($interval) {
+        $this->wpa_group_rekey_interval = $interval;
+    }
 
-	/**
-	 * Set SSID's CUGAR mode
-	 *
-	 * @param Integer $mode
-	 * @return void
-	 */
-	public function setSsidMode($mode){
-		$this->ssid_mode = $mode;
-	}
+    /*
+     *
+      private $rad_auth_ip
+      private $rad_auth_port;
+      private $rad_auth_sharedsecret;
+     */
 
-	/**
-	 * set total number of access points
-	 *
-	 * @param unknown_type $number
-	 * @return unknown_type
-	 */
-	public function setApNumber($number){
-		$this->ap_count = $number;
-	}
+    /**
+     * set radius own IP
+     * @param IP $ip
+     */
+    public function setRadiusOwnIp($ip) {
+        $this->rad_own_ip = $ip;
+    }
 
-	/**
-	 * Set SSID name
-	 *
-	 * @param String $name
-	 * @return void
-	 */
-	public function setSsidName($name){
-		$this->ssid_name = $name;
-	}
+    /**
+     * set Radius Retry interval
+     * @param Integer $interval
+     */
+    public function setRadiusRetryInterval($interval) {
+        $this->rad_retry_interval = $interval;
+    }
 
-	/**
-	 * Set operational mode (a/b/g)
-	 *
-	 * @param char $mode
-	 * @return void
-	 */
-	public function setMode($mode){
-		$this->hw_mode = $mode;
-	}
+    /**
+     * Set NAS identifier
+     * @param String $nasid
+     */
+    public function setRadiusNasIdentifier($nasid) {
+        $this->rad_nas_identifier = $nasid;
+    }
 
-	/**
-	 * Set the radio channel to operate on
-	 *
-	 * @param integer $channel
-	 * @return void
-	 */
-	public function setChannel($channel){
-		$this->hw_channel = $channel;
-	}
+    /**
+     * set IP of authorization server
+     * @param IP $ip
+     */
+    public function setRadiusAuthIp($ip) {
+        $this->rad_auth_ip = $ip;
+    }
 
-	/**
-	 * Set whether to broadcast the (B)SSID or not
-	 *
-	 * @param String $broadcast
-	 * @return void
-	 */
-	public function setBroadcast($broadcast){
-		if($broadcast == 'false'){
-			$this->broadcast_ssid = 1;
-		}
-		else{
-			$this->broadcast_ssid = 0;
-		}
-	}
+    /**
+     * set Port of authorization server
+     * @param Integer $port
+     */
+    public function setRadiusAuthPort($port) {
+        $this->rad_auth_port = $port;
+    }
 
-	/**
-	 * Set the VLAN id incoming traffic should be tagged with
-	 *
-	 * @param integer $vlan_id
-	 * @return void
-	 */
-	public function setVlan($vlan_id){
-		$this->vlan_id = $vlan_id;
-	}
+    /**
+     * set Shared secret of authorization server
+     * @param String $secret
+     */
+    public function setRadiusAuthSharedSecret($secret) {
+        $this->rad_auth_sharedsecret = $secret;
+    }
 
-	/**
-	 * set WPA / WPA2 Strict Rekeying option
-	 *
-	 * @param String $strict_rekey
-	 * @return void
-	 */
-	public function setWpaStrictReKey($strict_rekey){
-		if($strict_rekey == 'true'){
-			$this->wpa_strict_rekey = 1;
-		}
-		else{
-			$this->wpa_strict_rekey = 0;
-		}
-	}
+    /**
+     * set IP of accounting server
+     * @param IP $ip
+     */
+    public function setRadiusAcctIp($ip) {
+        $this->rad_acct_ip = $ip;
+    }
 
-	/**
-	 * Set WPA mode
-	 * @param String $mode
-	 * @return void
-	 */
-	public function setWpaMode($mode){
-		$this->wpa_mode = $mode;
-	}
+    /**
+     * set Port of accounting server
+     * @param Integer $port
+     */
+    public function setRadiusAcctPort($port) {
+        $this->rad_acct_port = $port;
+    }
 
-	/**
-	 * Set WPA / WPA2 Passphrase
-	 *
-	 * @param String $passphrase
-	 * @return void
-	 */
-	public function setWpaPassphrase($passphrase){
-		$this->wpa_passphrase = $passphrase;
-	}
+    public function setRadiusAcctInterval($interval) {
+        $this->rad_acct_interim_interval = $interval;
+    }
 
-	/**
-	 * Set group rekey interval (seconds) for WPA/WPA2
-	 *
-	 * @param int $interval
-	 * @return void
-	 */
-	public function setWpaGroupRekeyInterval($interval){
-		$this->wpa_group_rekey_interval = $interval;
-	}
+    /**
+     * set Shared secret of accounting server
+     * @param String $secret
+     */
+    public function setRadiusAcctSharedSecret($secret) {
+        $this->rad_acct_sharedsecret = $secret;
+    }
 
-	/*
-	 *
-	 private $rad_auth_ip
-	 private $rad_auth_port;
-	 private $rad_auth_sharedsecret;
-	 */
-
-	/**
-	 * set radius own IP
-	 * @param IP $ip
-	 */
-	public function setRadiusOwnIp($ip){
-		$this->rad_own_ip = $ip;
-	}
-
-	/**
-	 * set Radius Retry interval
-	 * @param Integer $interval
-	 */
-	public function setRadiusRetryInterval($interval){
-		$this->rad_retry_interval = $interval;
-	}
-
-	/**
-	 * Set NAS identifier
-	 * @param String $nasid
-	 */
-	public function setRadiusNasIdentifier($nasid){
-		$this->rad_nas_identifier = $nasid;
-	}
-
-	/**
-	 * set IP of authorization server
-	 * @param IP $ip
-	 */
-	public function setRadiusAuthIp($ip){
-		$this->rad_auth_ip = $ip;
-	}
-
-	/**
-	 * set Port of authorization server
-	 * @param Integer $port
-	 */
-	public function setRadiusAuthPort($port){
-		$this->rad_auth_port = $port;
-	}
-
-	/**
-	 * set Shared secret of authorization server
-	 * @param String $secret
-	 */
-	public function setRadiusAuthSharedSecret($secret){
-		$this->rad_auth_sharedsecret = $secret;
-	}
-
-	/**
-	 * set IP of accounting server
-	 * @param IP $ip
-	 */
-	public function setRadiusAcctIp($ip){
-		$this->rad_acct_ip = $ip;
-	}
-
-	/**
-	 * set Port of accounting server
-	 * @param Integer $port
-	 */
-	public function setRadiusAcctPort($port){
-		$this->rad_acct_port = $port;
-	}
-
-	public function setRadiusAcctInterval($interval){
-		$this->rad_acct_interim_interval = $interval;
-	}
-
-	/**
-	 * set Shared secret of accounting server
-	 * @param String $secret
-	 */
-	public function setRadiusAcctSharedSecret($secret){
-		$this->rad_acct_sharedsecret = $secret;
-	}
 }
