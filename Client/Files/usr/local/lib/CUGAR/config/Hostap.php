@@ -245,7 +245,8 @@ final class HostAPDConfig implements ConfigGenerator {
 		$rc->addLine('hostapd_enable="YES"');
 
 		$mac_addr = $this->generateMacAddress();
-		$rc->addLine('create_args_wlan' . $this->ssid_count . '="wlanmode hostap ssid ' . $this->ssid_name . ' link '.$mac_addr.'"');
+		$rc->addLine('create_args_wlan' . $this->ssid_count . '="wlanmode hostap ssid ' . $this->ssid_name . '"');
+		$rc->addLine('ifconfig_wlan'.$this->ssid_count.'="link '.$mac_addr.'"');
 
 		if ($this->ssid_mode == 3) {
 			$this->filebuffer .= "wpa=2\n";
