@@ -269,8 +269,8 @@ final class HostAPDConfig implements ConfigGenerator {
 			$ovpn_config = OpenVPNConfig::getInstance();
 			$openvpn_count = $ovpn_config->getTunnelCount();
 
-			$this->ovpn_bridges[] = array(
-                'tap' => 'tap'.$openvpn_count,
+            $this->ovpn_bridges[] = array(
+                'tap' => 'tap'.count($this->ovpn_bridges),
                 'wlan' => 'wlan'.$this->ssid_count
 			);
 		}
