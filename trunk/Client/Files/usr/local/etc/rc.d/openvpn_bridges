@@ -1,9 +1,12 @@
 #!/bin/sh
+#
+#   HostAPD starting script renovated default
+#   FreeBSD rc script so we have multiple instances
+
 # PROVIDE: openvpn_bridges
 # REQUIRE: netif
 # BEFORE: openvpn
-#   HostAPD starting script renovated default
-#   FreeBSD rc script so we have multiple instances
+
 . /etc/rc.subr
 
 name="openvpn_bridges"
@@ -20,20 +23,28 @@ openvpn_bridges_start() {
 
     count=${ovpn_mode3_bridge_count:-0}
 
-    for i in 0 .. count
+    i=0
+    while [ $i -le $((count-1)) ]
     do
-
-        eval "bridge = ovpn_mode3_bridge${!i}_bridge"
-        eval "tap = ovpn_mode3_bridge${!i}_tap"
-        eval "wlan = ovpn_mode3_bridge${!i}_wlan"
+        bridge_var="ovpn_mode3_bridge${i}_bridge"
+        eval "bridge=\$$bridge_var"
+        tap_var="ovpn_mode3_bridge${i}_tap"
+        eval "tap=\$$tap_var"
+        wlan_var="ovpn_mode3_bridge${i}_wlan"
+        eval "wlan=\$$wlan_var"
 
         echo "Starting bridge $bridge"
 
         # openvpn --mktun --dev $t
         # ifconfig_bridge1="addm wlan0 addm tap0 up"
 
-        openvpn --mktun --dev $tap
+        # openvpn --mktun --dev $tap
+        ifconfig $tap create
+        ifconfig $bridge create
         ifconfig $bridge addm $wlan addm $tap up
+
+        i=$((i+1))
     done
+
 }
 run_rc_command "$1"
