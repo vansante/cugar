@@ -280,7 +280,7 @@ class OpenVPNConfig implements ConfigGenerator{
 		$this->buffer .= "client\n";
 		$this->buffer .= "remote ".$this->server."\n\n";
 		$this->buffer .= "cipher ".$this->cipher."\n";
-		$this->buffer .= "dev tap\n
+		$this->buffer .= "dev tap".$this->tunnelcount."\n
 
 proto tcp-client
 port ".$this->port."
