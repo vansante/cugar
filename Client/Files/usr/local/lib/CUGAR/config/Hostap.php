@@ -242,7 +242,6 @@ final class HostAPDConfig implements ConfigGenerator {
 		$this->filebuffer .= "macaddr_acl=0\n";
 
 		$this->filebuffer .= "ignore_broadcast_ssid=" . (int) $this->broadcast_ssid . "\n";
-		$rc->addLine('hostapd_enable="YES"');
 
 		$mac_addr = $this->generateMacAddress();
 		$rc->addLine('create_args_wlan' . $this->ssid_count . '="wlanmode hostap ssid ' . $this->ssid_name . '"');

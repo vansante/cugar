@@ -39,6 +39,7 @@ class RCConfig implements ConfigGenerator{
 		$this->addLine('ntpdate_hosts="nl.pool.ntp.org"');
 		$this->addLine("openvpn_enable=\"YES\"");
 		$this->addLine("openvpn_bridges_enable=\"YES\"");
+		$this->addLine('hostapd_enable="YES"');
 	}
 	
 	/**
