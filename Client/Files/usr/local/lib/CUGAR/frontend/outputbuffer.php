@@ -59,4 +59,32 @@ class outputBuffer{
 		
 		echo $this->buffer->asXML();
 	}
+	
+	
+	/**
+	 * Add an XML node to the buffer
+	 * 
+	 * @param unknown_type $name
+	 * @param unknown_type $text
+	 * @param unknown_type $parent
+	 */
+    public function createNode($name, $content, $parent = null) {
+    	if($parent = null){
+    		if($content == null){
+    			$node = $this->buffer->reply->addChild($name);
+    		}
+    		else{
+				$node = $this->buffer->reply->addChild($name,$content);
+    		}
+    	}
+    	else{
+    		if($content == null){
+    			$node = $parent->addChild($name);
+    		}
+    		else{
+    			$node = $parent->addChild($name,$content);
+    		}
+    	}
+        return $node;
+    }
 }
