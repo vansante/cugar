@@ -25,15 +25,6 @@ device:
     column:               id
     with_wildcard_routes: true
 
-dhcp_server:
-  class: sfDoctrineRouteCollection
-  options:
-    model:                DhcpServer
-    module:               dhcp_server
-    prefix_path:          /dhcp_server
-    column:               id
-    with_wildcard_routes: true
-
 mode1:
   class: sfDoctrineRouteCollection
   options:
