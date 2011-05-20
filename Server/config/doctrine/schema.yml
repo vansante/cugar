@@ -41,21 +41,6 @@ DeviceLog:
       foreignAlias: Logs
       type: one
 
-DhcpServer:
-  columns:
-    id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }
-    mode3_id: { type: integer(4), unsigned: true, notnull: true}
-    ip:
-      type: string(15)
-      ip: true
-  relations:
-    Mode3:
-      class: Mode3
-      local: mode3_id
-      foreign: id
-      foreignAlias: DhcpServers
-      type: one
-
 Ssid:
   columns:
     id: { type: integer(4), unsigned: true, autoincrement: true, primary: true }

@@ -60,15 +60,6 @@ class XMLConfig {
             $hostapd = $ssid->getElementsByTagName('hostapd')->item(0);
             $this->generateRadiusConf($mode3, $hostapd);
 
-            $dhcp_relay = $doc->createElement('dhcp_relay');
-            $ssid->appendChild($dhcp_relay);
-
-            $servers = $doc->createElement('servers');
-            $dhcp_relay->appendChild($servers);
-            foreach ($mode3->DhcpServers as $server) {
-                $this->createTextNode('ip', $server->ip, $servers);
-            }
-
             $openvpn = $doc->createElement('openvpn');
             $ssid->appendChild($openvpn);
 

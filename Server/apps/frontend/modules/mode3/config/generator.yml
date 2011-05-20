@@ -18,7 +18,7 @@ generator:
       fields:  ~
       list:
         title: List of Mode 3 SSIDs
-        display: [id, =name, _config, vlan, broadcast, radius_auth_ip, radius_acct_ip, vpn_auth_server, vpn_data_server, _dhcp_servers]
+        display: [id, =name, _config, vlan, broadcast, radius_auth_ip, radius_acct_ip, vpn_auth_server, vpn_data_server]
       filter:  ~
       form:
         display:
