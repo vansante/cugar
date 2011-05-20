@@ -77,7 +77,7 @@ Config:
     wireless_mode: G
     Mode1s:
       Mode1_test1:
-        name: HOI_ANDRE
+        name: Mode1_AP
         vlan: 5
         passphrase: Passw0rd
         group_rekey_interval: 500
@@ -85,7 +85,7 @@ Config:
 
     Mode2s:
       Mode2_test1:
-        name: HotMode2AP
+        name: Mode2_AP
         vlan: 97
         retry_interval: 23
         own_ip: 10.0.21.32
@@ -132,14 +132,6 @@ Device:
   Device_Test1:
     name: testnode.cugar.org
     Config: Config_Test1
-
-DhcpServer:
-  Dhcp_Test1:
-    Mode3: Mode3_Test1
-    ip: 145.124.133.53
-  Dhcp_Test2:
-    Mode3: Mode3_Test1
-    ip: 145.34.235.42
 
 Mode3Certificate:
   Certificate_Config_Test1_Device_test:

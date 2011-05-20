@@ -1,1 +1,0 @@
-<?php echo link_to($dhcpserver->Mode3->__toString(), 'mode3_edit', $dhcpserver->Mode3) ?> 

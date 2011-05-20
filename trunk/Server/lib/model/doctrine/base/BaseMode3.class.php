@@ -15,7 +15,6 @@
  * @property enum $vpn_data_cipher
  * @property boolean $vpn_data_compression
  * @property Config $Config
- * @property Doctrine_Collection $DhcpServers
  * @property Doctrine_Collection $Certificates
  * 
  * @method integer             getConfigId()             Returns the current record's "config_id" value
@@ -28,7 +27,6 @@
  * @method enum                getVpnDataCipher()        Returns the current record's "vpn_data_cipher" value
  * @method boolean             getVpnDataCompression()   Returns the current record's "vpn_data_compression" value
  * @method Config              getConfig()               Returns the current record's "Config" value
- * @method Doctrine_Collection getDhcpServers()          Returns the current record's "DhcpServers" collection
  * @method Doctrine_Collection getCertificates()         Returns the current record's "Certificates" collection
  * @method Mode3               setConfigId()             Sets the current record's "config_id" value
  * @method Mode3               setVpnAuthServer()        Sets the current record's "vpn_auth_server" value
@@ -40,7 +38,6 @@
  * @method Mode3               setVpnDataCipher()        Sets the current record's "vpn_data_cipher" value
  * @method Mode3               setVpnDataCompression()   Sets the current record's "vpn_data_compression" value
  * @method Mode3               setConfig()               Sets the current record's "Config" value
- * @method Mode3               setDhcpServers()          Sets the current record's "DhcpServers" collection
  * @method Mode3               setCertificates()         Sets the current record's "Certificates" collection
  * 
  * @package    sf_sandbox
@@ -135,10 +132,6 @@ abstract class BaseMode3 extends RadiusSsid
         $this->hasOne('Config', array(
              'local' => 'config_id',
              'foreign' => 'id'));
-
-        $this->hasMany('DhcpServer as DhcpServers', array(
-             'local' => 'id',
-             'foreign' => 'mode3_id'));
 
         $this->hasMany('Mode3Certificate as Certificates', array(
              'local' => 'id',

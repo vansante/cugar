@@ -46,8 +46,6 @@ all:
             url: mode3
       Mode 3:
         items:
-          DHCP servers:
-            url: dhcp_server
           Device certificates:
             url: mode3_certificate
       Device Management:
@@ -58,8 +56,8 @@ all:
         items:
           Users:
             url: sf_guard_user
-          Groups:
-            url: sf_guard_group
-          Permissions:
-            url: sf_guard_permission
+#          Groups:
+#            url: sf_guard_group
+#          Permissions:
+#            url: sf_guard_permission
 
