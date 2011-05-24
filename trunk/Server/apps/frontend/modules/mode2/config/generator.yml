@@ -24,6 +24,7 @@ generator:
         display:
           Config:                       [config_id]
           SSID settings:                [name, broadcast, vlan]
+          Captive webpage:              [portal_file]
           Radius authentication server: [retry_interval, own_ip, nas_identifier, radius_auth_ip, radius_auth_port, radius_auth_shared_secret]
           Radius accounting server:     [radius_acct_ip, radius_acct_port, radius_acct_shared_secret, radius_acct_interim_interval]
       edit:
