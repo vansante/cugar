@@ -70,6 +70,7 @@ class Server{
 				break;
 			case 'mode':
 				include($this->lib_path.'mode.inc.php');
+				new Mode($this->config,$buffer);
 				break;			
 		}
 		
