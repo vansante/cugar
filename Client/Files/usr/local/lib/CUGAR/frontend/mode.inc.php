@@ -29,12 +29,15 @@
 class Mode {
 	private $config;
 	
+	private $outputbuffer;
+	
 	/*
 	 * @param Mode mode
 	 * 
 	 */
-	public function __construct( $config ) {
+	public function __construct( $config, $buffer ) {
 		$this->config = $config;
+		$this->outputbuffer = $buffer;
 	}
 	
 	/**
