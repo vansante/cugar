@@ -102,10 +102,10 @@ class Networking{
 		 *  test for a BO3 setting to reduce false negatives.
 		 * 
 		 */
-		$output = Functions::shellCommand("ping -t 1 8.8.8.8 | grep received");
-		if($output[23] == '0'){
-			$ret = false;
-		}
+//		$output = Functions::shellCommand("ping -t 1 8.8.8.8 | grep received");
+//		if($output[23] == '0'){
+//			$ret = false;
+//		}
 		
 		return $ret;
 	}
@@ -214,13 +214,14 @@ class Networking{
 
 	/**
 	 * Returns the primary interface's hardware identifier
+	 * Primary interface is the SECOND interface, first interface is the management interface.
 	 *
 	 * @return String
 	 */
 	private function getPrimaryInterface(){
 		$networkinterface = Functions::getInterfaceList();
-		Functions::debug('Using network interface: '.$networkinterface[0]."\n");
-		return $networkinterface[0];
+		Functions::debug('Using network interface: '.$networkinterface[1]."\n");
+		return $networkinterface[1];
 	}
 
 	/**
