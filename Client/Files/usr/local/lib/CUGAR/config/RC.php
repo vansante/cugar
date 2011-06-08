@@ -33,7 +33,8 @@ class RCConfig implements ConfigGenerator{
 		$this->addLine("sshd_enable=\"YES\"");
 		$this->addLine("gateway_enable=\"YES\"");
 		//		Static services that must be started always
-		$this->addLine("snmp_enable=\"YES\"");
+		$this->addLine("snmpd_enable=\"YES\"");
+		$this->addLine("snmpd_conffile=\"/etc/snmpd.conf\"");
 		$this->addLine("lighttpd_enable=\"YES\"");
 		$this->addLine("ntpdate_enable=\"YES\"");
 		$this->addLine('ntpdate_hosts="nl.pool.ntp.org"');
