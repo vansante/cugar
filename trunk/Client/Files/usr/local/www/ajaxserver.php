@@ -38,6 +38,7 @@ class Server{
 	private $config_file = '/etc/CUGAR/sysconf.xml';
 	
 	private $config;
+	private $user;
 	
 	public function __construct(){
 		$this->config = new Config($this->config_file);
@@ -45,35 +46,34 @@ class Server{
 		if($this->DEBUG == 1){
 			print_r($_POST);
 		}
-		$user = new User($this->config);
+		$this->user = new User($this->config);
 		
-		if($user->is_authenticated()){
-			if($_POST['page'] == 'logout'){
-				$user->logout();
-			}
-			else{
-				$this->parseRequest();
-			}
+		if($this->user->is_authenticated()){
+			$this->parseRequest();
 		}
 		else{
-			$user->authenticate();
+			$this->user->authenticate();
 		}
 	}
 	
 	public function parseRequest(){
 		$buffer = new outputBuffer();
 		
-		switch($_POST['module']){
-			case 'settings':
-				include($this->lib_path.'settings.inc.php');
-				new settings($this->config,$buffer);
-				break;
-			case 'modes':
-				include($this->lib_path.'mode.inc.php');
-				new Mode($this->config,$buffer);
-				break;			
+		if($_POST['page'] == 'logout'){
+			$this->user->logout();
 		}
-		
+		else{
+			switch($_POST['module']){
+				case 'settings':
+					include($this->lib_path.'settings.inc.php');
+					new settings($this->config,$buffer);
+					break;
+				case 'modes':
+					include($this->lib_path.'mode.inc.php');
+					new Mode($this->config,$buffer);
+					break;			
+			}
+		}
 		$buffer->returnOutput();
 	}
 }
