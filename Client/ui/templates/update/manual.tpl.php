@@ -26,6 +26,11 @@
     <p style="clear: both;"></p>
 </form>
 
+<div class="help_pool">
+    <div class="help" id="help_update_manual_image">Please select the firmware image file you wish to flash the device with</div>
+</div>
+
+
 <script type="text/javascript">
     $(function() {
         $('#update_manual_form').submit(function(){

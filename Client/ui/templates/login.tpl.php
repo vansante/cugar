@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-        <title>Generic Proxy - Login</title>
+        <title>CUGAR - Login</title>
 
         <style type="text/css" media="screen">
             @import url(css/jquery-ui.css);
