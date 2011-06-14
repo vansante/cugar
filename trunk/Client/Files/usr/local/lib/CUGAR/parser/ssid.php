@@ -41,7 +41,7 @@ class ssid extends Statement {
      */
     public function __construct($parse_opt) {
         $this->parse_options = $parse_opt;
-        $this->expectedtags = Array('hostapd', 'openvpn', 'portal');
+        $this->expectedtags = Array('hostapd', 'openvpn', 'portal','traffic_mode');
     }
 
     /**
@@ -82,6 +82,10 @@ class ssid extends Statement {
                 if (!isset($options->openvpn)) {
                     $error = new ParseError('no openvpn tag found', ErrorStore::$E_FATAL, $options);
                     $errorstore->addError($error);
+                }
+                if(!isset($options->traffic_mode)){
+                	$error = new ParseError('no Traffic mode tag found');
+                	$errorstore->addError($error);
                 }
             }
 

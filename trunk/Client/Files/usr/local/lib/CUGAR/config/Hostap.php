@@ -135,6 +135,7 @@ final class HostAPDConfig implements ConfigGenerator {
 	private $rad_auth_port;
 	private $rad_auth_sharedsecret;
 	private $ap_count;
+	private $traffic_mode;
 	/**
 	 * Array of bridges to make
 	 * @var Array
@@ -186,23 +187,24 @@ final class HostAPDConfig implements ConfigGenerator {
 	 */
 	public function newSSID() {
 		//	Reset object for new SSID spec
-		$ssid_name = null;
-		$broadcast_ssid = null;
-		$vlan_id = null;
-		$wpa_strict_rekey = null;
-		$wpa_passphrase = null;
-		$wpa_group_rekey_interval = null;
-		$wpa_mode = null;
-		$rad_own_ip = null;
-		$rad_nas_identifier = null;
-		$rad_retry_interval = null;
-		$rad_acct_ip = null;
-		$rad_acct_port = null;
-		$rad_acct_sharedsecret = null;
-		$rad_acct_interim_interval = null;
-		$rad_auth_ip = null;
-		$rad_auth_port = null;
-		$rad_auth_sharedsecret = null;
+		$this->ssid_name = null;
+		$this->broadcast_ssid = null;
+		$this->vlan_id = null;
+		$this->wpa_strict_rekey = null;
+		$this->wpa_passphrase = null;
+		$this->wpa_group_rekey_interval = null;
+		$this->wpa_mode = null;
+		$this->rad_own_ip = null;
+		$this->rad_nas_identifier = null;
+		$this->rad_retry_interval = null;
+		$this->rad_acct_ip = null;
+		$this->rad_acct_port = null;
+		$this->rad_acct_sharedsecret = null;
+		$this->rad_acct_interim_interval = null;
+		$this->rad_auth_ip = null;
+		$this->rad_auth_port = null;
+		$this->rad_auth_sharedsecret = null;
+		$this->traffic_mode = null;
 
 		$this->filebuffer = "\n############ NEW SSID ##########\n";
 	}
@@ -269,10 +271,28 @@ final class HostAPDConfig implements ConfigGenerator {
 			$ovpn_config = OpenVPNConfig::getInstance();
 			$openvpn_count = $ovpn_config->getTunnelCount();
 
-            $this->ovpn_bridges[] = array(
-                'tap' => 'tap'.count($this->ovpn_bridges),
-                'wlan' => 'wlan'.$this->ssid_count
-			);
+			if($this->traffic_mode == 'tunnel_to_data_tunnel'){
+				//	Route traffic through a separate data tunnel
+	            $this->ovpn_bridges[] = array(
+	                'tap' => 'tap'.count($this->ovpn_bridges),
+	                'wlan' => 'wlan'.$this->ssid_count
+				);
+			}
+			elseif($this->traffic_mode == 'tunnel_to_auth_tunnel'){
+				//	Route traffic through auth tunnel
+	            $this->ovpn_bridges[] = array(
+	                'tap' => 'tap'.count($this->ovpn_bridges),
+	                'wlan' => 'wlan'.$this->ssid_count
+				);
+			}
+			elseif($this->traffic_mode == 'no_tunneling'){
+				$iface = Functions::getInterfaceList();
+				//	Route traffic through ethernet interface
+	            $this->ovpn_bridges[] = array(
+	                'tap' => $iface[1],
+	                'wlan' => 'wlan'.$this->ssid_count
+				);
+			}
 		}
 		if ($this->ssid_mode == 1) {
 			//		Mode 1 SSID, check WPA setting
