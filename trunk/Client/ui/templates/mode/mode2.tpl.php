@@ -16,19 +16,47 @@
         <dd>
             <input name="mode_mode2_ssid" type="text" id="mode_mode2_ssid" />
         </dd>
+     </dl>
 
-        <dt><label for="mode_mode2_encryption">Wireless encryption</label></dt>
+    <p style="clear: both;"></p>
+
+    <h3>Radius authentication server</h3>
+
+    <dl>
+        <dt><label for="mode_mode2_radius_auth_ip">IP address</label></dt>
         <dd>
-            <select name="mode_mode2_encryption" id="mode_mode2_encryption">
-                <option value="wpa">WPA</option>
-                <option value="wpa2">WPA2</option>
-                <option value="none">None</option>
-            </select>
+            <input name="mode_mode2_radius_auth_ip" type="text" id="mode_mode2_radius_auth_ip" />
         </dd>
 
-        <dt><label for="mode_mode2_passphrase">Passphrase</label></dt>
+        <dt><label for="mode_mode2_radius_auth_port">Port</label></dt>
         <dd>
-            <input name="mode_mode2_passphrase" type="text" id="mode_mode2_passphrase" />
+            <input name="mode_mode2_radius_auth_port" type="text" id="mode_mode2_radius_auth_port" />
+        </dd>
+
+        <dt><label for="mode_mode2_radius_auth_shared_secret">Shared secret</label></dt>
+        <dd>
+            <input name="mode_mode2_radius_auth_shared_secret" type="text" id="mode_mode2_radius_auth_shared_secret" />
+        </dd>
+    </dl>
+
+    <p style="clear: both;"></p>
+
+    <h3>Radius accounting server</h3>
+
+    <dl>
+        <dt><label for="mode_mode2_radius_acct_ip">IP address</label></dt>
+        <dd>
+            <input name="mode_mode2_radius_acct_ip" type="text" id="mode_mode2_radius_acct_ip" />
+        </dd>
+
+        <dt><label for="mode_mode2_radius_acct_port">Port</label></dt>
+        <dd>
+            <input name="mode_mode2_radius_acct_port" type="text" id="mode_mode2_radius_acct_port" />
+        </dd>
+
+        <dt><label for="mode_mode2_radius_acct_shared_secret">Shared secret</label></dt>
+        <dd>
+            <input name="mode_mode2_radius_acct_shared_secret" type="text" id="mode_mode2_radius_acct_shared_secret" />
         </dd>
     </dl>
 
@@ -37,8 +65,8 @@
     <h3>Captive portal settings</h3>
 
     <dl>
-        <dt>Portal page mode</dt>
-        <dd>
+        <dt class="mode_mode2_portalmode"><label for="mode_mode2_url">Portal page mode</label></dt>
+        <dd class="mode_mode2_portalmode">
             <input name="mode_mode2_portalmode" type="radio" id="mode_mode2_portalmode_url" value="url"/>
             <label for="mode_mode2_portalmode_url">URL on external server</label>
             <br/>
@@ -51,8 +79,8 @@
             <input name="mode_mode2_url" type="text" size="40" id="mode_mode2_url" />
         </dd>
 
-        <dt class="mode_mode2_local"><label for="mode_mode2_localfile">HTML page(s) (in ZIP file)</label></dt>
-        <dd class="mode_mode2_local">
+        <dt class="mode_mode2_localfile"><label for="mode_mode2_localfile">HTML page(s) (in ZIP file)</label></dt>
+        <dd class="mode_mode2_localfile">
             <input name="mode_mode2_localfile" type="file" id="mode_mode2_localfile" />
         </dd>
 
@@ -105,10 +133,15 @@
 
 <div class="help_pool">
     <div class="help" id="help_mode_mode2_ssid">Please enter the SSID that the accesspoint should broadcast</div>
-    <div class="help" id="help_mode_mode2_encryption">Please select which encryption type the accesspoint should use</div>
-    <div class="help" id="help_mode_mode2_passphrase">Please enter the passphrase used for authentication with the accesspoint</div>
-    <div class="help" id="help_mode_mode2_portal_url">Please enter url that should be used as your homepage upon connecting with the accesspoint</div>
-    <div class="help" id="help_mode_mode2_portal_localfile">Please supply a zipfile with all the files necessary for your homepage</div>
+    <div class="help" id="help_mode_mode2_radius_auth_ip">Please enter the IP address the authentication radius server should use</div>
+    <div class="help" id="help_mode_mode2_radius_auth_port">Please enter the port the authentication radius server should use</div>
+    <div class="help" id="help_mode_mode2_radius_auth_shared_secret">Please enter the shared secret the authentication radius server should use</div>
+    <div class="help" id="help_mode_mode2_radius_acct_ip">Please enter the IP address the accounting radius server should use</div>
+    <div class="help" id="help_mode_mode2_radius_acct_port">Please enter the port the accounting radius server should use</div>
+    <div class="help" id="help_mode_mode2_radius_acct_shared_secret">Please enter the shared secret the accounting radius server should use</div>
+    <div class="help" id="help_mode_mode2_url">Please enter url that should be used as your homepage upon connecting with the accesspoint</div>
+    <div class="help" id="help_mode_mode2_portalmode">Please select the portal website mode</div>
+    <div class="help" id="help_mode_mode2_localfile">Please supply a zip file with all the files necessary for your homepage</div>
     <div class="help" id="help_mode_mode2_whitelist_item">Please enter a whitelist item in the form of an URL (google.com), an IP address (xxx.xxx.xxx.xxx) or a subnet (xxx.xxx.xxx.xxx/xx)</div>
 </div>
 <script type="text/javascript">
