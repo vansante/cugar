@@ -107,6 +107,11 @@ Mode3:
     extends:       RadiusSsid
   columns:
     config_id: { type: integer(4), unsigned: true, notnull: true }
+    traffic_mode:
+      type: enum
+      values: [no_tunneling, tunnel_to_data_tunnel, tunnel_to_auth_tunnel]
+      default: tunnel_to_data_tunnel
+      notnull: true
     vpn_auth_server: { type: string(255), ip: true, notnull: true }
     vpn_auth_port: { type: integer(3), unsigned: true, notnull: true, range: [1, 65535] }
     vpn_auth_cipher:
@@ -115,13 +120,13 @@ Mode3:
       default: AES-128-CBC
       notnull: true
     vpn_auth_compression: { type: boolean, notnull: true, default: false }
-    vpn_data_server: { type: string(255), ip: true, notnull: false, default: null }
+    vpn_data_server: { type: string(255), ip: true, default: null }
     vpn_data_port: { type: integer(3), unsigned: true, range: [1, 65535], default: null }
     vpn_data_cipher:
       type: enum
       values: [DES-CBC, AES-128-CBC, AES-192-CBC, AES-256-CBC, BF-CBC]
       default: AES-128-CBC
-    vpn_data_compression: { type: boolean, default: false }
+    vpn_data_compression: { type: boolean, notnull: true, default: false }
   relations:
     Config:
       class: Config

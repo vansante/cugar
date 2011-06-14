@@ -15,6 +15,19 @@ class Mode3 extends BaseMode3 {
     public function validate() {
         $errorStack = $this->getErrorStack();
 
+        $enums = $this->getTable()->getEnumValues('vpn_auth_cipher');
+        if(!in_array($this->vpn_auth_cipher, $enums)){
+            $errorStack->add('vpn_auth_cipher', 'The given value ('.$this->vpn_auth_cipher.') is not in the enum list');
+        }
+        $enums = $this->getTable()->getEnumValues('vpn_data_cipher');
+        if(!in_array($this->vpn_data_cipher, $enums)){
+            $errorStack->add('vpn_data_cipher', 'The given value ('.$this->vpn_data_cipher.') is not in the enum list');
+        }
+        $enums = $this->getTable()->getEnumValues('traffic_mode');
+        if(!in_array($this->traffic_mode, $enums)){
+            $errorStack->add('traffic_mode', 'The given value ('.$this->traffic_mode.') is not in the enum list');
+        }
+
         if ($this->vpn_data_server) {
             if (!$this->vpn_data_port) {
                 $errorStack->add('passphrase', "Please supply a data vpn server port");
@@ -23,6 +36,16 @@ class Mode3 extends BaseMode3 {
 
         if ($this->vpn_auth_server. ':'.$this->vpn_auth_port == $this->vpn_data_server. ':'.$this->vpn_data_port) {
             $errorStack->add('vpn_data_server', "The VPN data tunnel cannot be identical to the VPN authentication server.");
+        }
+
+        if ($this->traffic_mode == 'tunnel_to_data_tunnel') {
+            if (!$this->vpn_data_server) {
+                $errorStack->add('vpn_data_server', "You must set the VPN data server IP for this traffic mode");
+            }
+            if (!$this->vpn_data_port) {
+                $errorStack->add('vpn_data_port', "You must set the VPN data server port for this traffic mode");
+            }
+
         }
     }
 

@@ -57,6 +57,8 @@ class XMLConfig {
         foreach ($this->config->Mode3s as $mode3) {
             $ssid = $this->generateSsidConf($mode3, $root, 3);
 
+            $this->createTextNode('traffic_mode', $mode3->traffic_mode, $ssid);
+
             $hostapd = $ssid->getElementsByTagName('hostapd')->item(0);
             $this->generateRadiusConf($mode3, $hostapd);
 
@@ -85,7 +87,7 @@ class XMLConfig {
             $this->createTextNode('cipher', $mode3->vpn_auth_cipher, $auth);
             $this->createTextNode('compression', $mode3->vpn_auth_compression ? 'true' : 'false', $auth);
 
-            if ($mode3->vpn_data_server) {
+            if ($mode3->traffic_mode == 'tunnel_to_data_tunnel') {
                 $data = $doc->createElement('tunnel');
                 $data->setAttribute('type', 'data');
                 $openvpn->appendChild($data);
