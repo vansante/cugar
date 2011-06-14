@@ -68,7 +68,7 @@ class Server{
 				include($this->lib_path.'settings.inc.php');
 				new settings($this->config,$buffer);
 				break;
-			case 'mode':
+			case 'modes':
 				include($this->lib_path.'mode.inc.php');
 				new Mode($this->config,$buffer);
 				break;			
