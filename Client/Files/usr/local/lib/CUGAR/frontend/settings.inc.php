@@ -139,11 +139,11 @@ class settings{
 	
 	private function getconfig(){
 		$current = $this->config->getElement('hardware');
-		
-		$this->buffer->createNode('hostname',(string)$current->hostname);
-		$this->buffer->createNode('type',(string)$current->address['type']);
+		$settings = $this->buffer->createNode('basic_settings',null);
+		$this->buffer->createNode('hostname',(string)$current->hostname,$settings);
+		$this->buffer->createNode('type',(string)$current->address['type'],$settings);
 		if($current->address['type'] == 'static'){
-			$static = $this->buffer->createNode('static',null);
+			$static = $this->buffer->createNode('static',null,$settings);
 			$this->buffer->createNode('ipaddr',(string)$current->address->ip,$static);
 			$this->buffer->createNode('subnetmask',(string)$current->address->subnetmask,$static);
 			$this->buffer->createNode('default_gateway',(string)$current->address->default_gateway,$static);
@@ -151,7 +151,7 @@ class settings{
 			$this->buffer->createNode('dns_server2',(string)$current->address->dns_servers->ip[1],$static);
 		}
 		
-		$hardware = $this->buffer->createNode('hardware',null);
+		$hardware = $this->buffer->createNode('hardware',null,$settings);
 		$this->buffer->createNode('mode',(string)$current->mode,$hardware);
 		$this->buffer->createNode('channel',(string)$current->channel,$hardware);
 	}

@@ -29,7 +29,7 @@
 class Mode {
 	private $config;
 	
-	private $outputbuffer;
+	private $buffer;
 	
 	/*
 	 * @param Mode mode
@@ -37,14 +37,15 @@ class Mode {
 	 */
 	public function __construct( $config, $buffer ) {
 		$this->config = $config;
-		$this->outputbuffer = $buffer;
+		$this->buffer = $buffer;
+		$this->parse();
 	}
 	
 	/**
 	 * Handle request made by AJAX frontend
 	 */
 	public function parse(){
-		if($_POST['page'] == 'getconfig'){
+		if($_POST['page'] == 'get'){
 			$this->getconfig();
 		}
 		if($_POST['page'] == 'save'){
@@ -57,61 +58,53 @@ class Mode {
 	 */
 	private function getconfig() {
 		$current = $this->config->getElement('modes');
-		echo '<reply action="ok"><modes>';
-		echo '<mode_selection>'.(string)$current->mode_selection.'</mode_selection>';
+		$mode = $this->buffer->createNode('mode_selection',null,$current);
+
+		$this->buffer->createNode('mode_selection',(string)$current->mode_selection,$mode);
+		
 		if( (string)$current->mode_selection == "1" ) {
-			echo "<mode1>";
-			echo "<ssid_name>".(string)$current->ssid_name."</ssid_name>";
-			echo "<wpa mode='".(string)$current->wpa."'>";
-			echo "<passphrase>".(string)$current->passphrase."</passphrase>";
-			echo "</wpa>";
-			echo "</mode1>";
+			$mode1 = $this->buffer->createNode('mode1',null,$mode);
+			$this->buffer->createNode('ssid_name',(string)$current->mode1->ssid_name,$mode1);
+			$this->buffer->createNode('wpa_mode',(string)$current->mode1->wpa,$mode1);
+			$this->buffer->createNode('passphrase',(string)$current->mode1->passphrase,$mode1);
 		} elseif( (string)$current->mode_selection == "2" ) {
-			echo "<mode2>";
-			echo "<ssid_name>".(string)$current->ssid_name."</ssid_name>";
-			echo "<portal>";
-			echo "<mode></mode>";
-			echo "<url>".(string)$current->url."</url>";
-			echo "<files>".(string)$current->files."</files>";
-			echo "</portal>";
-			echo "</mode2>";
+			//	 Infamous mode 2, it does not work.
+			$mode2 = $this->buffer->createNode('mode2',null,$mode);
+			$this->buffer->createNode('ssid_name',(string)$current->mode2->ssid_name,$mode2);
+			$this->buffer->createNode('portal',null,$mode2);
+			$this->buffer->createNode('portalmode',(string)$current->mode2->mode,$mode2);
+			if((string)$current->mode2->mode == 'url'){
+				$this->buffer->createNode('url',(string)$current->url);
+			}
+			elseif((string)$current->mode2->mode == 'local'){
+				$this->buffer->createNode('files',(string)$current->files);
+			}
 		} elseif( (string)$current->mode_selection == "3" ) {
-			echo "<mode3>";
-			echo "<server>".(string)$current->server."</server>";
-            echo "<public_key>".(string)$current->public_key."</public_key>";
-            echo "<private_key>".(string)$current->private_key."</private_key>";
-            echo "<certificate>".(string)$current->certificate."</certificate>";
-			echo "</mode3>";
+			$mode3 = $this->buffer->createNode('mode3',null,$mode);
+			$this->buffer->createNode('server',(string)$current->mode3->server,$mode3);
 		} elseif( (string)$current->mode_selection == "1_2" ) {
-			echo "<mode1>";
-			echo "<ssid_name>".(string)$current->ssid_name."</ssid_name>";
-			echo "<wpa mode='".(string)$current->wpa."'>";
-			echo "<passphrase>".(string)$current->passphrase."</passphrase>";
-			echo "</wpa>";
-			echo "</mode1>";
-			echo "<mode2>";
-			echo "<ssid_name>".(string)$current->ssid_name."</ssid_name>";
-			echo "<portal>";
-			echo "<mode></mode>";
-			echo "<url>".(string)$current->url."</url>";
-			echo "<files>".(string)$current->files."</files>";
-			echo "</portal>";
-			echo "</mode2>";
+			$mode1 = $this->buffer->createNode('mode1',null,$mode);
+			$this->buffer->createNode('ssid_name',(string)$current->mode1->ssid_name,$mode1);
+			$this->buffer->createNode('wpa_mode',(string)$current->mode1->wpa,$mode1);
+			$this->buffer->createNode('passphrase',(string)$current->mode1->passphrase,$mode1);
+			$mode2 = $this->buffer->createNode('mode2',null,$mode);
+			$this->buffer->createNode('ssid_name',(string)$current->mode2->ssid_name,$mode2);
+			$this->buffer->createNode('portal',null,$mode2);
+			$this->buffer->createNode('portalmode',(string)$current->mode2->mode,$mode2);
+			if((string)$current->mode2->mode == 'url'){
+				$this->buffer->createNode('url',(string)$current->url);
+			}
+			elseif((string)$current->mode2->mode == 'local'){
+				$this->buffer->createNode('files',(string)$current->files);
+			}
 		}elseif( (string)$current->mode_selection == "1_3" ) {
-			echo "<mode1>";
-			echo "<ssid_name>".(string)$current->ssid_name."</ssid_name>";
-			echo "<wpa mode='".(string)$current->wpa."'>";
-			echo "<passphrase>".(string)$current->passphrase."</passphrase>";
-			echo "</wpa>";
-			echo "</mode1>";
-			echo "<mode3>";
-			echo "<server>".(string)$current->server."</server>";
-            echo "<public_key>".(string)$current->public_key."</public_key>";
-            echo "<private_key>".(string)$current->private_key."</private_key>";
-            echo "<certificate>".(string)$current->certificate."</certificate>";
-			echo "</mode3>";
+			$mode1 = $this->buffer->createNode('mode1',null,$mode);
+			$this->buffer->createNode('ssid_name',(string)$current->mode1->ssid_name,$mode1);
+			$this->buffer->createNode('wpa_mode',(string)$current->mode1->wpa,$mode1);
+			$this->buffer->createNode('passphrase',(string)$current->mode1->passphrase,$mode1);
+			$mode3 = $this->buffer->createNode('mode3',null,$mode);
+			$this->buffer->createNode('server',(string)$current->mode3->server,$mode3);
 		}
-		echo '</<modes></reply>';
 	}
 	
 	/**

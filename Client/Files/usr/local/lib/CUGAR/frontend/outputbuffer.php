@@ -13,7 +13,7 @@ class outputBuffer{
 	private $errors;
 	
 	public function outputBuffer(){
-		$this->buffer = new SimpleXMLElement('reply');
+		$this->buffer = new SimpleXMLElement('<reply></reply>');
 		$this->buffer->addAttribute('action','');
 	}
 	
@@ -69,12 +69,12 @@ class outputBuffer{
 	 * @param unknown_type $parent
 	 */
     public function createNode($name, $content, $parent = null) {
-    	if($parent = null){
+    	if($parent == null){
     		if($content == null){
-    			$node = $this->buffer->reply->addChild($name);
+    			$node = $this->buffer->addChild($name);
     		}
     		else{
-				$node = $this->buffer->reply->addChild($name,$content);
+			$node = $this->buffer->addChild($name,$content);
     		}
     	}
     	else{

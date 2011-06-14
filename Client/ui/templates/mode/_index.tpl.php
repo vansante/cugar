@@ -19,21 +19,23 @@ cg.mode.load = function() {
         content_id: ['cp_mode_selection', 'cp_mode_mode1', 'cp_mode_mode2', 'cp_mode_mode3'],
         successFn: function(json) {
             cg.data.mode_selection = json.modes;
+
             cg.data.mode1 = json.modes.mode1;
             cg.data.mode2 = json.modes.mode2;
             cg.data.mode3 = json.modes.mode3;
-            
-            var items = json.modes.mode2.portal.whitelist.item;
-            if (items) {
-                if ($.isArray(items)) {
-                    $.each(items, function(i, item) {
-                        cg.data.mode2_whitelist[item.value] = item.value;
-                    });
-                } else {
-                    cg.data.mode2_whitelist[items.value] = items.value;
-                }
-            }
 
+            if (json.modes.mode2 && json.modes.mode2.portal && json.modes.mode2.portal.whitelist) {
+	        var items = json.modes.mode2.portal.whitelist.item;
+	        if (items) {
+	            if ($.isArray(items)) {
+	                $.each(items, function(i, item) {
+	                    cg.data.mode2_whitelist[item.value] = item.value;
+	                });
+	            } else {
+	                cg.data.mode2_whitelist[items.value] = items.value;
+	            }
+                }
+	    }
             cg.mode.loadAllForms();
         }
     });
