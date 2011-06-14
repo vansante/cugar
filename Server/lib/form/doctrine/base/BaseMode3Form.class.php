@@ -19,6 +19,9 @@ abstract class BaseMode3Form extends RadiusSsidForm
     $this->widgetSchema   ['config_id'] = new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Config'), 'add_empty' => false));
     $this->validatorSchema['config_id'] = new sfValidatorDoctrineChoice(array('model' => $this->getRelatedModelName('Config')));
 
+    $this->widgetSchema   ['traffic_mode'] = new sfWidgetFormChoice(array('choices' => array('no_tunneling' => 'no_tunneling', 'tunnel_to_data_tunnel' => 'tunnel_to_data_tunnel', 'tunnel_to_auth_tunnel' => 'tunnel_to_auth_tunnel')));
+    $this->validatorSchema['traffic_mode'] = new sfValidatorChoice(array('choices' => array(0 => 'no_tunneling', 1 => 'tunnel_to_data_tunnel', 2 => 'tunnel_to_auth_tunnel'), 'required' => false));
+
     $this->widgetSchema   ['vpn_auth_server'] = new sfWidgetFormInputText();
     $this->validatorSchema['vpn_auth_server'] = new sfValidatorString(array('max_length' => 255));
 

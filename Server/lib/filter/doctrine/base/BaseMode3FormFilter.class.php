@@ -17,6 +17,9 @@ abstract class BaseMode3FormFilter extends RadiusSsidFormFilter
     $this->widgetSchema   ['config_id'] = new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Config'), 'add_empty' => true));
     $this->validatorSchema['config_id'] = new sfValidatorDoctrineChoice(array('required' => false, 'model' => $this->getRelatedModelName('Config'), 'column' => 'id'));
 
+    $this->widgetSchema   ['traffic_mode'] = new sfWidgetFormChoice(array('choices' => array('' => '', 'no_tunneling' => 'no_tunneling', 'tunnel_to_data_tunnel' => 'tunnel_to_data_tunnel', 'tunnel_to_auth_tunnel' => 'tunnel_to_auth_tunnel')));
+    $this->validatorSchema['traffic_mode'] = new sfValidatorChoice(array('required' => false, 'choices' => array('no_tunneling' => 'no_tunneling', 'tunnel_to_data_tunnel' => 'tunnel_to_data_tunnel', 'tunnel_to_auth_tunnel' => 'tunnel_to_auth_tunnel')));
+
     $this->widgetSchema   ['vpn_auth_server'] = new sfWidgetFormFilterInput(array('with_empty' => false));
     $this->validatorSchema['vpn_auth_server'] = new sfValidatorPass(array('required' => false));
 
@@ -53,6 +56,7 @@ abstract class BaseMode3FormFilter extends RadiusSsidFormFilter
   {
     return array_merge(parent::getFields(), array(
       'config_id' => 'ForeignKey',
+      'traffic_mode' => 'Enum',
       'vpn_auth_server' => 'Text',
       'vpn_auth_port' => 'Number',
       'vpn_auth_cipher' => 'Enum',
