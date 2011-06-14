@@ -47,6 +47,7 @@
 cg.mode.mode3.loadForm = function() {
     var data = cg.data.mode3;
     cg.resetForm('mode_mode3_form');
+    console.log('dfdfdf');
 
     $('#mode_mode3_server').val(data.server);
 };

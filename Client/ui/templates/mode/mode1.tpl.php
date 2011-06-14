@@ -44,6 +44,9 @@
 <script type="text/javascript">
 cg.mode.mode1.loadForm = function() {
     var data = cg.data.mode1;
+    if (!data) {
+        return;
+    }
     cg.resetForm('mode_mode1_form');
 
     $('#mode_mode1_ssid').val(data.ssid_name);
