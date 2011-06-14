@@ -14,14 +14,14 @@ generator:
 
     config:
       actions:
-        _new: { label: "Create a new mode 3 device certificate" }
+        _new: { label: "Create a new mode 3 device VPN certificate" }
       fields:  ~
       list:
-        title: List of mode 3 device certificates
+        title: List of mode 3 VPN device certificates
         display: [id, _mode3, _device]
       filter:  ~
       form:    ~
       edit:
-        title: Edit mode 3 device certificate
+        title: Edit mode 3 device VPN certificate
       new:
-        title: Create mode 3 device certificate
+        title: Create mode 3 device VPN certificate
