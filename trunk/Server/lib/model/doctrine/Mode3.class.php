@@ -12,13 +12,17 @@
  */
 class Mode3 extends BaseMode3 {
 
-    public function  validate() {
+    public function validate() {
         $errorStack = $this->getErrorStack();
 
         if ($this->vpn_data_server) {
             if (!$this->vpn_data_port) {
                 $errorStack->add('passphrase', "Please supply a data vpn server port");
             }
+        }
+
+        if ($this->vpn_auth_server. ':'.$this->vpn_auth_port == $this->vpn_data_server. ':'.$this->vpn_data_port) {
+            $errorStack->add('vpn_data_server', "The VPN data tunnel cannot be identical to the VPN authentication server.");
         }
     }
 
@@ -27,7 +31,6 @@ class Mode3 extends BaseMode3 {
     }
 
     public function preSave($event) {
-
         if ($this->vpn_data_server == '') {
             $this->vpn_data_server = null;
         }

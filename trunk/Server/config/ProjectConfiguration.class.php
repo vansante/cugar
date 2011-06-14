@@ -14,4 +14,10 @@ class ProjectConfiguration extends sfProjectConfiguration {
             'sfAdminDashPlugin'
         ));
     }
+
+    public function configureDoctrine(Doctrine_Manager $manager) {
+        $manager->setAttribute(Doctrine::ATTR_USE_DQL_CALLBACKS, true);
+        $manager->setAttribute(Doctrine::ATTR_USE_NATIVE_ENUM, true);
+        $manager->setAttribute(Doctrine::ATTR_VALIDATE, Doctrine::VALIDATE_ALL);
+    }
 }
