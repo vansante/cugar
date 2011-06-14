@@ -163,6 +163,9 @@ $(function() {
 
 cg.mode.mode2.loadForm = function() {
     var data = cg.data.mode2;
+    if (!data) {
+        return;
+    }
     cg.resetForm('mode_mode2_form');
 
     $('#mode_mode2_ssid').val(data.ssid_name);
@@ -192,6 +195,9 @@ cg.mode.mode2.whitelist = {};
 
 //Load the whitelist table
 cg.mode.mode2.whitelist.loadTable = function() {
+    if (!cg.data.mode2_whitelist) {
+        return;
+    }
     //Clear the current table data to (re)load it
     $('#mode_mode2_whitelist_tbody').empty();
     $.each(cg.data.mode2_whitelist, function(i, item) {
