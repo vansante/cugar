@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<config version="0.1">
+	<update_server>http://www.updateserver.com</update_server>
+	<hardware>
+		<mode>G</mode>
+		<channel>10</channel>
+		<hostname>AP</hostname>
+		<address type="dhcp" />
+	</hardware>
+	<ssid mode="1">
+		<hostapd>
+			<ssid_name>Mode1_AP</ssid_name>
+			<broadcast>true</broadcast>
+			<vlan enable="true">
+				<vlan_id>5</vlan_id>
+			</vlan>
+			<wpa mode="wpa2">
+				<group_rekey_interval>500</group_rekey_interval>
+				<strict_rekey>false</strict_rekey>
+				<passphrase>Passw0rd</passphrase>
+			</wpa>
+		</hostapd>
+	</ssid>
+	<ssid mode="2">
+		<hostapd>
+			<ssid_name>Mode2_AP</ssid_name>
+			<broadcast>true</broadcast>
+			<vlan enable="true">
+				<vlan_id>97</vlan_id>
+			</vlan>
+		</hostapd>
+		<portal>
+			<remote_file>/uploads/portal/randomfilename.tar.gz</remote_file>
+			<radius>
+				<own_ip>10.0.21.32</own_ip>
+				<nas_identifier>blaat</nas_identifier>
+				<auth_server>
+					<ip>212.123.175.104</ip>
+					<port>783</port>
+					<shared_secret>WOEI!</shared_secret>
+				</auth_server>
+				<acct_server>
+					<ip>123.221.123.121</ip>
+					<port>7433</port>
+					<shared_secret>WOEI!</shared_secret>
+					<interim_interval>120</interim_interval>
+				</acct_server>
+			</radius>
+		</portal>
+	</ssid>
+	<ssid mode="3">
+		<hostapd>
+			<ssid_name>Mode3_AP</ssid_name>
+			<broadcast>true</broadcast>
+			<vlan enable="true">
+				<vlan_id>23</vlan_id>
+			</vlan>
+			<radius>
+				<own_ip>127.0.0.1</own_ip>
+				<nas_identifier>blaat</nas_identifier>
+				<auth_server>
+					<ip>10.253.0.1</ip>
+					<port>1812</port>
+					<shared_secret>s33kr1t</shared_secret>
+				</auth_server>
+				<acct_server>
+					<ip>10.253.0.1</ip>
+					<port>1813</port>
+					<shared_secret>s33kr1t</shared_secret>
+					<interim_interval>90</interim_interval>
+				</acct_server>
+			</radius>
+		</hostapd>
+		<traffic_mode>tunnel_to_auth_tunnel</traffic_mode>
+		<openvpn>
+			<certificates>
+				<cert name="eduroam-node.crt">-----BEGIN CERTIFICATE-----
+					MIIDgTCCAuqgAwIBAgIBETANBgkqhkiG9w0BAQUFADBuMQswCQYDVQQGEwJOTDEL
+					MAkGA1UECBMCSEgxDzANBgNVBAcTBkxlaWRlbjETMBEGA1UEChMKSG90c3BvdFZQ
+					TjENMAsGA1UEAxMEU1dBTjEdMBsGCSqGSIb3DQEJARYOcndAdmlhbm9kZS5uZXQw
+					HhcNMTEwMzExMTAxMTA1WhcNMjEwMzA4MTAxMTA1WjB5MQswCQYDVQQGEwJOTDEL
+					MAkGA1UECBMCQ0ExDzANBgNVBAcTBkxlaWRlbjEOMAwGA1UEChMFQ1VHQVIxFTAT
+					BgNVBAMTDGVkdXJvYW0tbm9kZTElMCMGCSqGSIb3DQEJARYWcmlja3dvZWxkZXJz
+					QGdtYWlsLmNvbTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA5UHcVnsCa/3W
+					aZATynYRE5DYpamCHoumujD7FsvZyGiitvkUUMzJN0a7GAGY4HrTcOQ+vTUH4brT
+					JnE6OqfyCNrQcUdZ5HnFaUr6eOw+1nypN+8UHeO6Jq8IGXiaKUxFiF2bUq+GtrSS
+					uuxkT+AkNrS72SxcL70bDXmueZb5A0ECAwEAAaOCASIwggEeMAkGA1UdEwQCMAAw
+					LQYJYIZIAYb4QgENBCAWHkVhc3ktUlNBIEdlbmVyYXRlZCBDZXJ0aWZpY2F0ZTAd
+					BgNVHQ4EFgQUs263keJnTfkgN3VGRmgFPqoTz7cwgaAGA1UdIwSBmDCBlYAU8O+N
+					tv1fqZ16mOakZJ5R8DxYGdGhcqRwMG4xCzAJBgNVBAYTAk5MMQswCQYDVQQIEwJI
+					SDEPMA0GA1UEBxMGTGVpZGVuMRMwEQYDVQQKEwpIb3RzcG90VlBOMQ0wCwYDVQQD
+					EwRTV0FOMR0wGwYJKoZIhvcNAQkBFg5yd0B2aWFub2RlLm5ldIIJAPgqmdr92Big
+					MBMGA1UdJQQMMAoGCCsGAQUFBwMCMAsGA1UdDwQEAwIHgDANBgkqhkiG9w0BAQUF
+					AAOBgQAUy58VXpqTv/CUhQEj8510/LYFTAOkQmkRvkr4xvBlRi/8UHTVpTzfFpxx
+					KJIVTr7JKV3wZrI8NW0tSpROgC/EtlEI1y80RZuYhlZT9dDtl/z0Z4AbGbyYXDwK
+					Rjw+aiuc5HBQGvzUDDutxaQGMdx0f38zDENeEn9xF09fU1w35Q==
+					-----END CERTIFICATE-----
+</cert>
+				<key name="eduroam-node.key">-----BEGIN RSA PRIVATE KEY-----
+					MIICXgIBAAKBgQDlQdxWewJr/dZpkBPKdhETkNilqYIei6a6MPsWy9nIaKK2+RRQ
+					zMk3RrsYAZjgetNw5D69NQfhutMmcTo6p/II2tBxR1nkecVpSvp47D7WfKk37xQd
+					47omrwgZeJopTEWIXZtSr4a2tJK67GRP4CQ2tLvZLFwvvRsNea55lvkDQQIDAQAB
+					AoGASd+lHoDY0O+krbNtjSnqasGb7hXnBey+NvUdk8TwUnHVLNyqPTcgB53VH/Ez
+					z/IEPDZwOQvjlEtdSt/lgY0oojGvJo9wDjZ4/S+CfAJEXhIgBV1/gAOy42g8j9Fy
+					OXWNqe2Hjf3AaY7TA5pejAhYOyNEhz2OBwyFbtcbCEEmoFkCQQDygg7AkRsX52km
+					VkyZIp/UGG/ebiQN3vVxHWysGwGNUSo5KCHvuHpU0O2IpiJaqHzt6pRBxwXWMcIO
+					fpa8XgqDAkEA8gMT6wEo7KEgT1Dl+0qQuLxUyYcw56QSGRbfWVVxgESyYNmOtLiL
+					kQoks8wQrwLlcov+8fAMwNEnlBblyQqf6wJBAK18ZVlVdXBwWETY0AttPbHZmY4i
+					dSCHNEcrqaal20Jhojcpgr2f18P9gzCSyVjZ2CXL/yvfWUmWZyE/Zk5zaEkCQQCU
+					jGUWc8DN9lzhspNn+q34ZslYZh4ToTbmpY50xCiGBiTDo+afcUNhxKsgnZqEAjAa
+					bmoP0TvSws8bbC6hh17/AkEArffh0nxl0JdpPUEC9VLLVvuAz3kFNvpyYbaD4bFH
+					kyY/DfAilqceS8xFyBtyZ29F54ZENSR8KPBra4EWrw0Nxw==
+					-----END RSA PRIVATE KEY-----
+</key>
+				<ca>-----BEGIN CERTIFICATE-----
+					MIIDLjCCApegAwIBAgIJAPgqmdr92BigMA0GCSqGSIb3DQEBBQUAMG4xCzAJBgNV
+					BAYTAk5MMQswCQYDVQQIEwJISDEPMA0GA1UEBxMGTGVpZGVuMRMwEQYDVQQKEwpI
+					b3RzcG90VlBOMQ0wCwYDVQQDEwRTV0FOMR0wGwYJKoZIhvcNAQkBFg5yd0B2aWFu
+					b2RlLm5ldDAeFw0wOTA2MjQwOTAzNTVaFw0xOTA2MjIwOTAzNTVaMG4xCzAJBgNV
+					BAYTAk5MMQswCQYDVQQIEwJISDEPMA0GA1UEBxMGTGVpZGVuMRMwEQYDVQQKEwpI
+					b3RzcG90VlBOMQ0wCwYDVQQDEwRTV0FOMR0wGwYJKoZIhvcNAQkBFg5yd0B2aWFu
+					b2RlLm5ldDCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAqaYjPiu9Xu7+c/wO
+					16qfRTCwFrXXoXtXVn72bRuhoWXDCMYnv6DyS/mrKTkNIis4THcuENWHRZW2O2pq
+					oZnYLhkl/EKptH5LZBA3Mrb3YDni44IsB7jcNa5TSQ79HUxmc2zbrvpBM0KYT2Xz
+					fKmRkLKNGoA8iEHXLr41lEcdUo8CAwEAAaOB0zCB0DAdBgNVHQ4EFgQU8O+Ntv1f
+					qZ16mOakZJ5R8DxYGdEwgaAGA1UdIwSBmDCBlYAU8O+Ntv1fqZ16mOakZJ5R8DxY
+					GdGhcqRwMG4xCzAJBgNVBAYTAk5MMQswCQYDVQQIEwJISDEPMA0GA1UEBxMGTGVp
+					ZGVuMRMwEQYDVQQKEwpIb3RzcG90VlBOMQ0wCwYDVQQDEwRTV0FOMR0wGwYJKoZI
+					hvcNAQkBFg5yd0B2aWFub2RlLm5ldIIJAPgqmdr92BigMAwGA1UdEwQFMAMBAf8w
+					DQYJKoZIhvcNAQEFBQADgYEAX1G9ECJUqxVUoW3prz/Aoc+mvvU83NK/joeFiDRX
+					lhYK8Q9KbKRN4abe4vs7ObGRCWcCEBYc7SSG8NSpCxAMTsIARa/bMtmOzqaFrmZS
+					dME5GBRI19/6qTmTme2x3nXUbz8TjJkHI4BTz6+lkGif8gBS+9M9FO8YPtg+mIeX
+					to8=
+					-----END CERTIFICATE-----
+</ca>
+			</certificates>
+			<tunnel type="auth">
+				<server>195.169.160.2</server>
+				<port>1195</port>
+				<cipher>AES-256-CBC</cipher>
+				<compression>false</compression>
+			</tunnel>
+		</openvpn>
+	</ssid>
+</config>
