@@ -20,10 +20,10 @@ eval "${rcvar}=\${${rcvar}:-'NO'}"
 openvpn_start() {
     echo "Starting OpenVPN Daemons"
 
-    for file in `ls /etc/ | grep openvpn`
+    for file in `ls /etc/ | grep openvpn.conf`
     do
             echo "$file configuration exists"
-            /usr/local/sbin/openvpn --config "/etc/$file/$file" --daemon
+            /usr/local/sbin/openvpn --config "/etc/$file/$file.conf" --daemon
     done
 }
 run_rc_command "$1"
