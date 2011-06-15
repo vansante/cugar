@@ -23,7 +23,7 @@ openvpn_start() {
     for file in `ls /etc/ | grep openvpn`
     do
             echo "$file configuration exists"
-            /usr/local/sbin/openvpn --config "/etc/$file/$file.conf" --daemon
+            /usr/local/sbin/openvpn --config "/etc/$file/$file" --daemon
     done
 }
 run_rc_command "$1"
