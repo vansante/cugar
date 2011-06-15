@@ -43,6 +43,8 @@ class traffic_mode extends Statement{
 	 */
 	public function interpret($options){
 		$this->validate($options);
+		$instance = HostAPDConfig::getInstance();
+		$instance->setTrafficMode((string)$options);
 		$this->parseChildren($options);
 	}
 	

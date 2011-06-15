@@ -135,6 +135,13 @@ final class HostAPDConfig implements ConfigGenerator {
 	private $rad_auth_port;
 	private $rad_auth_sharedsecret;
 	private $ap_count;
+	
+	/**
+	 * Traffic mode setting
+	 * Determines what tunnel we should bridge to.
+	 * 
+	 * @var String
+	 */
 	private $traffic_mode;
 	/**
 	 * Array of bridges to make
@@ -431,6 +438,14 @@ final class HostAPDConfig implements ConfigGenerator {
 	 */
 	public function setChannel($channel) {
 		$this->hw_channel = $channel;
+	}
+	
+	/**
+	 * Set the traffic mode
+	 * @param String $trafficmode
+	 */
+	public function setTrafficMode($trafficmode){
+		$this->traffic_mode = $trafficmode;
 	}
 
 	/**
