@@ -271,21 +271,21 @@ final class HostAPDConfig implements ConfigGenerator {
 			$ovpn_config = OpenVPNConfig::getInstance();
 			$openvpn_count = $ovpn_config->getTunnelCount();
 
-			if($this->traffic_mode == 'tunnel_to_data_tunnel'){
+			if((string)$this->traffic_mode == 'tunnel_to_data_tunnel'){
 				//	Route traffic through a separate data tunnel
 	            $this->ovpn_bridges[] = array(
 	                'tap' => 'tap'.count($this->ovpn_bridges),
 	                'wlan' => 'wlan'.$this->ssid_count
 				);
 			}
-			elseif($this->traffic_mode == 'tunnel_to_auth_tunnel'){
+			elseif((string)$this->traffic_mode == 'tunnel_to_auth_tunnel'){
 				//	Route traffic through auth tunnel
 	            $this->ovpn_bridges[] = array(
 	                'tap' => 'tap'.count($this->ovpn_bridges),
 	                'wlan' => 'wlan'.$this->ssid_count
 				);
 			}
-			elseif($this->traffic_mode == 'no_tunneling'){
+			elseif((string)$this->traffic_mode == 'no_tunneling'){
 				$iface = Functions::getInterfaceList();
 				//	Route traffic through ethernet interface
 	            $this->ovpn_bridges[] = array(
@@ -367,15 +367,17 @@ final class HostAPDConfig implements ConfigGenerator {
 		$rc->addLine($bridgeConfigBuffer);
 
 		$j = 0;
-		foreach ($this->ovpn_bridges as $bridge) {
-			// openvpn --mktun --dev $t
-			// ifconfig_bridge1="addm wlan0 addm tap0 up"
-			if (count($bridge) > 0) {
-				$rc->addLine('ovpn_mode3_bridge'.$j.'_bridge="bridge'.$i.'"');
-				$rc->addLine('ovpn_mode3_bridge'.$j.'_tap="'.$bridge['tap'].'"');
-				$rc->addLine('ovpn_mode3_bridge'.$j.'_wlan="'.$bridge['wlan'].'"');
-				$i++;
-				$j++;
+		if(is_array($this->openvpn_bridges)){
+			foreach ($this->ovpn_bridges as $bridge) {
+				// openvpn --mktun --dev $t
+				// ifconfig_bridge1="addm wlan0 addm tap0 up"
+				if (count($bridge) > 0) {
+					$rc->addLine('ovpn_mode3_bridge'.$j.'_bridge="bridge'.$i.'"');
+					$rc->addLine('ovpn_mode3_bridge'.$j.'_tap="'.$bridge['tap'].'"');
+					$rc->addLine('ovpn_mode3_bridge'.$j.'_wlan="'.$bridge['wlan'].'"');
+					$i++;
+					$j++;
+				}
 			}
 		}
 		$rc->addLine('ovpn_mode3_bridge_count="'.$j.'"');
