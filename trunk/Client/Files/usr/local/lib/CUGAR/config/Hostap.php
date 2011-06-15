@@ -367,7 +367,7 @@ final class HostAPDConfig implements ConfigGenerator {
 		$rc->addLine($bridgeConfigBuffer);
 
 		$j = 0;
-		if(is_array($this->openvpn_bridges)){
+		if(is_array($this->ovpn_bridges)){
 			foreach ($this->ovpn_bridges as $bridge) {
 				// openvpn --mktun --dev $t
 				// ifconfig_bridge1="addm wlan0 addm tap0 up"
