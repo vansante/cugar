@@ -35,10 +35,18 @@ class PortalConfig implements ConfigGenerator{
 	private static $self;
 	
 	private $buffer;
-	private $FILEPATH = "/etc/";
+	private $FILEPATH = "/usr/local/etc/chilli";
 	private $FILENAME = "chillispot.conf";
 	
-/**
+	private $HTML_FILEPATH = "/var/www";
+	
+	/**
+	 * The remote file that contains the captive portal HTML 
+	 * @var String
+	 */
+	private $remote_file = null;
+	
+	/**
 	 * Get singleton instance
 	 * @static
 	 * @return PortalConfig
@@ -55,7 +63,9 @@ class PortalConfig implements ConfigGenerator{
 	 * @return unknown_type
 	 */
 	private function __construct(){
-	
+		if(!is_dir($this->HTML_FILEPATH)){
+			mkdir($this->HTML_FILEPATH);
+		}
 	}
 	
 	/**
@@ -66,11 +76,19 @@ class PortalConfig implements ConfigGenerator{
 		$this->FILEPATH = $filepath;
 	}
 	
+	public function setRemoteFile($remoteFile){
+		$this->remote_file = $remoteFile;
+	}
+	
 	/**
 	 * (non-PHPdoc)
 	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#writeConfig()
 	 */
 	public function writeConfig(){
+		//		Fetch remote file!
+		
+		//		
+		
 		$fp = fopen($this->FILEPATH,'w');
 		if($fp){
 			fwrite($fp,$this->buffer);
