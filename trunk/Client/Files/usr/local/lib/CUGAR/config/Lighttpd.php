@@ -69,12 +69,7 @@ server.modules              =   ("mod_access", "mod_accesslog", "mod_fastcgi", "
 
 ## a static document-root, for virtual-hosting take look at the
 ## server.virtual-* options
-#server.document-root        = "/usr/local/www"
-
-simple-vhost.server-root = "/var/www"
-simple-vhost.default-host = "mgmt"
-simple-vhost.document-root = ""
-
+server.document-root        = "/usr/local/www/mgmt"
 
 ## where to send error-messages to
 server.errorlog             = "/var/log/lighttpd.error.log"
@@ -176,7 +171,14 @@ cgi.assign                 = ( ".cgi" => "" )
 
 CONFIGFILE;
     }
-    
+
+    public function addVirtualHost($ip, $directory) {
+        $this->buffer .= '
+$HTTP["socket"] == "'.$ip.':80" {
+    server.document-root = "/var/www/'.$directory.'"
+}';
+    }
+
     /**
      * (non-PHPdoc)
      * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#setSavePath()
