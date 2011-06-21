@@ -14,6 +14,9 @@ class LighttpdConfig implements ConfigGenerator {
     private $FILEPATH = "/etc/";
     private $FILENAME = "lighttpd.conf";
 
+
+    private $mgmt_ip;
+
     /**
      * Get singleton instance
      * @static
@@ -24,6 +27,22 @@ class LighttpdConfig implements ConfigGenerator {
             LighttpdConfig::$self = new LighttpdConfig();
         }
         return LighttpdConfig::$self;
+    }
+
+    /**
+     * Set management IP
+     * @param $management_ip
+     */
+    public function setMgmtIP($ip) {
+        $this->mgmt_ip = $ip;
+    }
+
+    /**
+     * Get management IP
+     * @return string
+     */
+    public function getMgmtIP() {
+        return $this->mgmt_ip;
     }
 
     /**
@@ -127,6 +146,7 @@ url.access-deny             = ( "~", ".inc" )
 ######### Options that are good to be but not neccesary to be changed #######
 
 ## bind to port (default: 80)
+server.bind                = "{$this->mgmt_ip}"
 server.port                = 80
 
 ## error-handler for status 404
