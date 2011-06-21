@@ -143,9 +143,6 @@ class XMLParser{
 				$hostap = HostAPDConfig::getInstance();
 				$hostap->writeConfig();
 				
-				$dhcprelay = DHCPRelayConfig::getInstance();
-				$dhcprelay->writeConfig();
-				
 				$rc = RCConfig::getInstance();
 				$rc->writeConfig();
 				

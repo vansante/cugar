@@ -43,11 +43,7 @@ class ip extends Statement{
 	public function interpret($options){
 		$this->validate($options);
 		
-		if($this->parse_options['conf_block'] == 'dhcp_relay'){
-			$ref = DHCPRelayConfig::getInstance();
-			$ref->addServer((string)$options);
-		}
-		elseif($this->parse_options['conf_block'] == 'hostapd'){
+		if($this->parse_options['conf_block'] == 'hostapd'){
 			$ref = HostAPDConfig::getInstance();
 			if($this->parse_options['radius_server_type'] == 'auth'){
 				$ref->setRadiusAuthIp((string)$options);

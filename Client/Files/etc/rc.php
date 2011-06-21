@@ -14,7 +14,6 @@ require_once('/usr/local/lib/CUGAR/parser/config.php');
 require_once('/usr/local/lib/CUGAR/lib/ErrorStore.php');
 require_once('/usr/local/lib/CUGAR/exceptions.php');
 require_once('/usr/local/lib/CUGAR/config/ConfigGenerator.php');
-require_once('/usr/local/lib/CUGAR/config/DHCPRelay.php');
 require_once('/usr/local/lib/CUGAR/config/Hostap.php');
 require_once('/usr/local/lib/CUGAR/config/OpenVPN.php');
 require_once('/usr/local/lib/CUGAR/config/Portal.php');
