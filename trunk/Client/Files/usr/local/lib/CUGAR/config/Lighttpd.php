@@ -1,3 +1,37 @@
+<?php
+
+/**
+ * RC class
+ *
+ * Manages rc.conf contents, other configuration classes will insert their rc.conf lines
+ * through this class to maintain consistency.
+ *
+ */
+class LighttpdConfig implements ConfigGenerator {
+
+    public static $self;
+    private $buffer;
+    private $FILEPATH = "/etc/";
+    private $FILENAME = "lighttpd.conf";
+
+    /**
+     * Get singleton instance
+     * @static
+     * @return RCConfig
+     */
+    public static function getInstance() {
+        if (LighttpdConfig::$self == null) {
+            LighttpdConfig::$self = new LighttpdConfig();
+        }
+        return LighttpdConfig::$self;
+    }
+
+    /**
+     *
+     */
+    private function __construct() {
+        $this->buffer = <<<"CONFIGFILE"
+
 #
 # lighttpd configuration file
 #
@@ -139,3 +173,38 @@ fastcgi.server = ( ".php" =>
 
 #### CGI module
 cgi.assign                 = ( ".cgi" => "" )
+
+CONFIGFILE;
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#setSavePath()
+     */
+    public function setSavePath($filepath) {
+        $this->FILEPATH = $filepath;
+    }
+
+    /**
+     * Add a line to RC.conf
+     *
+     * @param String $line
+     * @return void
+     */
+    public function addLine($line) {
+        $this->buffer .= $line . "\n";
+    }
+
+    /**
+     * (non-PHPdoc)
+     * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#writeConfig()
+     */
+    public function writeConfig() {
+        $fp = fopen($this->FILEPATH . $this->FILENAME, 'w');
+        if ($fp) {
+            fwrite($fp, $this->buffer);
+            fclose($fp);
+        }
+    }
+
+}
