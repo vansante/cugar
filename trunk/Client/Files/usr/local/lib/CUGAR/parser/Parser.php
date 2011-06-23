@@ -148,6 +148,9 @@ class XMLParser{
 				
 				$system = System::getInstance();
 				$system->writeConfig();
+				
+				$firewall = FirewallConfig::getInstance();
+				$firewall->writeConfig();
 				echo 'parsing complete';
 			}
 		}

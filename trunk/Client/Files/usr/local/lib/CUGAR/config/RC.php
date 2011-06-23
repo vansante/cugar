@@ -30,6 +30,8 @@ class RCConfig implements ConfigGenerator{
 	 */
 	private function __construct(){
 		//@TODO remove on completion of debug?
+		$this->addLine("firewall_enable=\"YES\""); 
+		$this->addLine("firewall_type=\"/etc/ipfw.rules\"");
 		$this->addLine("sshd_enable=\"YES\"");
 		$this->addLine("gateway_enable=\"YES\"");
 		//		Static services that must be started always
