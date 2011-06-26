@@ -171,7 +171,7 @@ final class HostAPDConfig implements ConfigGenerator {
 	 * the hardware interface is required by dhcp_relay and to set up
 	 * the bridge with the openvpn interface or ethernet interface
 	 *
-	 * @return unknown_type
+	 * @return void
 	 */
 	public function getHardwareAddress() {
 		if ($this->ssid_count > 0) {
@@ -183,12 +183,28 @@ final class HostAPDConfig implements ConfigGenerator {
 
 	/**
 	 * Private constructor because this is a singleton.
-	 * @return unknown_type
+	 * @return void
 	 */
 	private function __construct() {
 		$this->ssid_count = 0;
 	}
 
+	/**
+	 * Get the Wlan interface number
+	 * @return integer
+	 */
+	public function getWlanNumber(){
+		return $this->ssid_count;
+	}
+	
+	/**
+	 * get the SSID for the currently configuring instance
+	 * @return string
+	 */
+	public function getSSID(){
+		return $this->ssid_name;
+	}
+	
 	/**
 	 *
 	 */
@@ -227,7 +243,6 @@ final class HostAPDConfig implements ConfigGenerator {
 		}
 
 		$this->ssid_count++;
-		;
 	}
 
 	private function parseBuffer() {
@@ -301,7 +316,7 @@ final class HostAPDConfig implements ConfigGenerator {
 				);
 			}
 		}
-		if ($this->ssid_mode == 1) {
+		if ($this->ssid_mode == 1 || $this->ssid_mode = 2) {
 			//		Mode 1 SSID, check WPA setting
 			if ($this->wpa_mode == 'wpa') {
 				$this->filebuffer .= "wpa=0\n";

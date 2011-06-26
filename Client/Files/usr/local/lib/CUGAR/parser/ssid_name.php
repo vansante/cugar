@@ -46,6 +46,12 @@ class ssid_name extends Statement{
 		//	Validation apparently succeeded, set the option in the hostAP config
 		$inst = HostAPDConfig::getInstance();
 		$inst->setSsidName((string)$options);
+		
+		if($this->parse_options['mode'] == 2){
+			//	Also send the SSID to the hotspot configuration
+			$hp = PortalConfig::getInstance();
+			$hp->setSSID((string)$options);
+		}
 	}
 
 	/**

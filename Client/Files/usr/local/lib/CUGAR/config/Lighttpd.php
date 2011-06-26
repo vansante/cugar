@@ -49,7 +49,7 @@ class LighttpdConfig implements ConfigGenerator {
      *
      */
     private function __construct() {
-        $this->buffer = <<<"CONFIGFILE"
+        $this->buffer = <<<CONFIGFILE
 
 #
 # lighttpd configuration file
@@ -190,11 +190,18 @@ fastcgi.server = ( ".php" =>
 cgi.assign                 = ( ".cgi" => "" )
 
 CONFIGFILE;
-    }
+	}
 
-    public function addVirtualHost($ip, $directory) {
+	/**
+	 * Add a new virtual host definition
+	 * 
+	 * @param IP $ip
+	 * @param integer $port
+	 * @param string $directory
+	 */
+    public function addVirtualHost($ip, $port, $directory) {
         $this->buffer .= '
-$HTTP["socket"] == "'.$ip.':80" {
+$HTTP["socket"] == "'.$ip.':'.$port.'" {
     server.document-root = "/var/www/'.$directory.'"
 }';
     }
@@ -205,16 +212,6 @@ $HTTP["socket"] == "'.$ip.':80" {
      */
     public function setSavePath($filepath) {
         $this->FILEPATH = $filepath;
-    }
-
-    /**
-     * Add a line to RC.conf
-     *
-     * @param String $line
-     * @return void
-     */
-    public function addLine($line) {
-        $this->buffer .= $line . "\n";
     }
 
     /**

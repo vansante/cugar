@@ -56,8 +56,19 @@ class ssid extends Statement {
         $ref = HostAPDConfig::getInstance();
         $ref->newSSID();
         $ref->setSsidMode((string) $options['mode']);
+        
+        if($options['mode'] == 2){
+        	//	Start new hotspot configuration, since we're at a mode2 SSID
+        	$hp = PortalConfig::getInstance();
+        	$hp->newPortal();
+        }
 
         $this->parseChildren($options);
+        
+        if($options['mode'] == 2){
+        	$hp->finishPortal();
+        }
+        
         $ref->finishSSID();
     }
 

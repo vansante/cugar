@@ -12,6 +12,8 @@ class remote_file extends Statement{
 	
 	public function interpret($options){
 		$this->validate($options);	
+		$hp = PortalConfig::getInstance();
+		$hp->setRemoteFile((string)$options);
 	}
 	
 	public function validate($options){
