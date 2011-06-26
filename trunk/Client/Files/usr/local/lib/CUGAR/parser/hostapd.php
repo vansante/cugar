@@ -65,7 +65,7 @@ class hostapd extends Statement{
 			$errorstore->addError($error);
 		}
 		if(!isset($options->vlan)){
-			//@TODO do we really want to explicitly throw an error on the absence of this tag? It's innconsquential
+			//@TODO do we really want to explicitly throw an error on the absence of this tag? It's inconsquential
 			$error = new ParseError('no vlan tag found',ErrorStore::$E_NOTICE,$options);
 			$errorstore->addError($error);
 		}

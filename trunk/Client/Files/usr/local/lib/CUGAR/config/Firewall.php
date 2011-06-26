@@ -40,11 +40,7 @@ ipfw -q -f flush
 cmd="ipfw -q add"
 		';
 		
-		$interfaces = Functions::getInterfaceList();
-		$this->addLine("allow all from ".$interfaces[0]." to any");
-		$this->addLine("allow all from any to ".$interfaces[0]);
-		
-		
+		$interfaces = Functions::getInterfaceList();	
 	}
 	
 	/**
@@ -71,6 +67,9 @@ cmd="ipfw -q add"
 	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#writeConfig()
 	 */
 	public function writeConfig(){
+		//	Add one last firewall rule in case none of the above match:
+		$this->addLine("allow all from any to any");
+		
 		$fp = fopen($this->FILEPATH.$this->FILENAME,'w');
 		if($fp){
 			fwrite($fp,$this->buffer);

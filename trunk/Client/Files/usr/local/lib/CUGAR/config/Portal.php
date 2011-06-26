@@ -35,8 +35,10 @@ class PortalConfig implements ConfigGenerator{
 	private static $self;
 	
 	private $buffer;
-	private $FILEPATH = "/usr/local/etc/chilli";
-	private $FILENAME = "chillispot.conf";
+	private $FILEPATH = "/etc/";
+	private $FILENAME_MAIN = "main.conf";
+	private $FILENAME_LOCAL = "local.conf";
+	private $FILENAME_HS = "hs.conf";
 	
 	private $HTML_FILEPATH = "/var/www";
 	
@@ -45,6 +47,25 @@ class PortalConfig implements ConfigGenerator{
 	 * @var String
 	 */
 	private $remote_file = null;
+	
+	/**
+	 * Wlan interface the hotspot listens on
+	 * @var String
+	 */
+	private $wlan_if;
+	
+	/**
+	 * SSID name of the hotspot, used in directory names
+	 * @var String
+	 */
+	private $ssid;
+	
+	/**
+	 * Port number used by the lighttpd daemon internally
+	 * incremented automatically
+	 * @var integer
+	 */
+	private $PORT_NUMBER = 3990;
 	
 	/**
 	 * Get singleton instance
@@ -69,6 +90,50 @@ class PortalConfig implements ConfigGenerator{
 	}
 	
 	/**
+	 * Clear the buffers for a new Captive Portal definition
+	 */
+	public function newPortal(){
+		$this->wlan_if = null;
+		$this->ssid = null;
+		$this->remote_file = null;
+	}
+	
+	/**
+	 * Finish up the captive portal definition
+	 */
+	public function finishPortal(){
+		$this->parseBuffer();
+		$this->writeConfig();
+		$http = LighttpdConfig::getInstance();
+		$http = 
+		$this->PORT_NUMBER++;
+	}
+	
+	/**
+	 * Set the SSID for the hotspot
+	 * @param String $ssid
+	 */
+	public function setSSID($ssid){
+		$this->ssid = $ssid;
+	}
+	
+	/**
+	 * Set WLAN interface
+	 * @param String $wlan_if
+	 */
+	public function setWlanInterface($wlan_if){
+		$this->wlan_if = $wlan_if;
+	}
+	
+	/**
+	 * Set the remote filename with this hotspot's HTML
+	 * @param unknown_type $remoteFileName
+	 */
+	public function setRemoteFile($remoteFileName){
+		$this->remote_file = $remoteFileName;
+	}
+	
+	/**
 	 * (non-PHPdoc)
 	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#setSavePath()
 	 */
@@ -76,8 +141,8 @@ class PortalConfig implements ConfigGenerator{
 		$this->FILEPATH = $filepath;
 	}
 	
-	public function setRemoteFile($remoteFile){
-		$this->remote_file = $remoteFile;
+	public function parseBuffer(){
+		
 	}
 	
 	/**
@@ -85,11 +150,23 @@ class PortalConfig implements ConfigGenerator{
 	 * @see Files/usr/local/lib/CUGAR/config/ConfigGenerator#writeConfig()
 	 */
 	public function writeConfig(){
-		//		Fetch remote file!
+		//		@TODO: Fetch remote file!
+		$this->remote_file;
+		//		Extract remote file into directory
 		
-		//		
+		//	Append rules to firewall because the application is too stupid to do it
+		$fw = FirewallConfig::getInstance();
+		$fw->addLine("pass tcp from any to any ".$this->portnumber." via ".$this->wlan_if);
+		$fw->addLine("pass tcp from any to any 80 via ".$this->wlan_if." setup");
+		$fw->addLine("pass tcp from any to any 443 via ".$this->wlan_if." setup");
+		$fw->addLine("pass udp from any to any 53 via ".$this->wlan_if." keep-state");
+		$fw->addLine("deny all from any to any via ".$this->wlan_if);
 		
-		$fp = fopen($this->FILEPATH,'w');
+		Functions::shellCommand("touch ".$this->FILEPATH."hotspot_".$this->ssid."/".$this->FILENAME_LOCAL);
+		Functions::shellCommand("touch ".$this->FILEPATH."hotspot_".$this->ssid."/".$this->FILENAME_HS);
+		
+		//	Write out CoovaChilli configuration
+		$fp = fopen($this->FILEPATH."hotspot_".$this->ssid."/".$this->FILENAME_MAIN,'w');
 		if($fp){
 			fwrite($fp,$this->buffer);
 			fclose($fp);
