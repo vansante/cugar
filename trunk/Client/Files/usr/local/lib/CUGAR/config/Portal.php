@@ -162,6 +162,8 @@ class PortalConfig implements ConfigGenerator{
 		$fw->addLine("pass udp from any to any 53 via ".$this->wlan_if." keep-state");
 		$fw->addLine("deny all from any to any via ".$this->wlan_if);
 		
+		
+		Functions::shellCommand("mkdir ".$this->FILEPATH."hotspot_".$this->ssid);
 		Functions::shellCommand("touch ".$this->FILEPATH."hotspot_".$this->ssid."/".$this->FILENAME_LOCAL);
 		Functions::shellCommand("touch ".$this->FILEPATH."hotspot_".$this->ssid."/".$this->FILENAME_HS);
 		

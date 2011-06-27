@@ -311,13 +311,13 @@ final class HostAPDConfig implements ConfigGenerator {
 				$iface = Functions::getInterfaceList();
 				//	Route traffic through ethernet interface
 	            $this->ovpn_bridges[] = array(
-	                'tap' => $iface[1],
+	                'tap' => $iface[0],
 	                'wlan' => 'wlan'.$this->ssid_count
 				);
 			}
 		}
 		if ($this->ssid_mode == 1 || $this->ssid_mode = 2) {
-			//		Mode 1 SSID, check WPA setting
+			//		Mode 1/2 SSID, check WPA setting
 			if ($this->wpa_mode == 'wpa') {
 				$this->filebuffer .= "wpa=0\n";
 				$this->filebuffer .= "wpa_passphrase=" . $this->wpa_passphrase . "\n";
@@ -333,7 +333,7 @@ final class HostAPDConfig implements ConfigGenerator {
 				$this->filebuffer .= "wpa_group_rekey=" . $this->wpa_group_rekey_interval . "\n";
 				$this->filebuffer .= "wpa_strict_rekey=" . $this->wpa_strict_rekey . "\n";
 			}
-			//		For mode1, also set up the bridge between wlanx and primary ethernet interface
+			//		For mode1/2, also set up the bridge between wlanx and primary ethernet interface
 			$bridgeindex = count($this->bridges);
 			$this->bridges[$bridgeindex][0] = "bridge" . $bridgeindex;
 			$this->bridges[$bridgeindex][1] = "wlan" . $this->ssid_count;
