@@ -20,6 +20,7 @@ require_once('/usr/local/lib/CUGAR/config/Portal.php');
 require_once('/usr/local/lib/CUGAR/config/RC.php');
 require_once('/usr/local/lib/CUGAR/config/System.php');
 require_once('/usr/local/lib/CUGAR/config/Firewall.php');
+require_once('/usr/local/lib/CUGAR/config/Lighttpd.php');
 require_once('/usr/local/lib/CUGAR/lib/Config.php');
 
 error_reporting(E_ALL);
