@@ -96,6 +96,10 @@ class PortalConfig implements ConfigGenerator{
 		$this->wlan_if = null;
 		$this->ssid = null;
 		$this->remote_file = null;
+		
+		$hp = HostAPDConfig::getInstance();
+		
+		$this->wlan_if = "wlan".$hp->getWlanNumber();
 	}
 	
 	/**
